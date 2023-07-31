@@ -13,7 +13,7 @@
 |--|--|--|--| 
 |[FE-김다예](https://github.com/kimdaye77)|[FE-박지성](https://github.com/jijiseong)|[BE-김종원](https://github.com/tank3a)|[BE-이용재](https://github.com/dydwo0740)|
 
-## 그라운드 룰
+## 👇🏻 그라운드 룰
 ### Check In/Out
 - 10:00 까지 모든 준비(노트북 세팅등 작업을 시작할 준비, 스크럼 시작전 코멘트 준비 등) 가 완료된 상태로 프로젝트 룸에서 대기합니다.
 - 12:30 부터 14:00 까지 점심 식사및 휴식을 취합니다.
@@ -35,7 +35,7 @@
 - 도메인 네임 규칙 지켜서 개발하도록 합니다.'
 
 
-## Convention
+## 📝 Convention
 
 ### Commit Convention
 
@@ -57,7 +57,7 @@
     - `ADD`: assets, data 파일 추가하는 경우
     - `STYLE`: 코드 포맷팅, 세미콜론 누락, UI 디자인 변경 &rarr; 코드 변경이 없는 경우
 
-## 협업 전략
+## 😄 협업 전략
 ### branch 전략
 - Git Flow 전략 응용
 
