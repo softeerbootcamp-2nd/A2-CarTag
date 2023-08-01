@@ -64,7 +64,7 @@ export const BodyKrMedium4 = styled.span`
   letter-spacing: -0.036px;
 `;
 export const BodyKrMedium5 = styled.span`
-  font-family: 'Hyndai Sans Text Medium';
+  font-family: 'Hyundai Sans Text Medium';
   font-size: 10px;
   line-height: 18px;
   letter-spacing: -0.036px;
@@ -94,7 +94,7 @@ export const BodyKrRegular4 = styled.span`
   letter-spacing: -0.036px;
 `;
 export const BodyKrRegular5 = styled.span`
-  font-family: 'Hyndai Sans Text Regular';
+  font-family: 'Hyundai Sans Text Regular';
   font-size: 10px;
   line-height: 18px;
   letter-spacing: -0.036px;
