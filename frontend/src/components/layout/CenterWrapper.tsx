@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 
-interface IPageWrapper extends React.HTMLAttributes<HTMLDivElement> {}
-export default function PageWrapper({ ...props }: IPageWrapper) {
+interface ICenterWrapper extends React.HTMLAttributes<HTMLDivElement> {}
+export default function CenterWrapper({ ...props }: ICenterWrapper) {
   return <Wrapper {...props}></Wrapper>;
 }
 
