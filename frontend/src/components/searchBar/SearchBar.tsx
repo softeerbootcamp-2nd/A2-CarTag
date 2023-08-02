@@ -1,12 +1,15 @@
 import { styled } from 'styled-components';
 import { BodyKrRegular4 } from '../../styles/typefaces';
+import { SearchIcon } from '../icons/Icons';
 
 interface SearchBarProps extends React.HTMLAttributes<HTMLInputElement> {}
 export default function SearchBar({ ...props }: SearchBarProps) {
   return (
     <Wrapper>
       <Input {...props} />
-      <Button>돋보기</Button>
+      <Button>
+        <SearchIcon width={18} height={18} />
+      </Button>
     </Wrapper>
   );
 }

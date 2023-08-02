@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { css, styled } from 'styled-components';
 import { PATH } from '../../../utils/url';
 import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../../styles/typefaces';
+import { CancelIcon } from '../../icons/Icons';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
   active: 'true' | 'false';
@@ -47,7 +48,8 @@ export default function NavBar() {
       </Body>
 
       <CancelButton>
-        종료 <CloseImg src="/images/closeIcon.png" alt="" />
+        <span>종료</span>
+        <CancelIcon width={12} height={12} />
       </CancelButton>
     </Wrapper>
   );
@@ -121,7 +123,7 @@ const CarSelect = styled.div`
   border-left: 1px solid ${({ theme }) => theme.color.gray200};
 `;
 
-const CancelButton = styled.div`
+const CancelButton = styled.button`
   ${BodyKrRegular3}
   display: flex;
   justify-content: center;
@@ -144,8 +146,4 @@ const Underline = styled.div`
   width: 18px;
   height: 2px;
   background-color: ${({ theme }) => theme.color.primaryColor};
-`;
-const CloseImg = styled.img`
-  width: 9px;
-  height: 9px;
 `;
