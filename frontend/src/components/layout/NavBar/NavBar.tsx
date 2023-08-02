@@ -1,16 +1,16 @@
-import React, { MouseEventHandler } from 'react';
+import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { css, styled } from 'styled-components';
 import { PATH } from '../../../utils/url';
 
+interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
+  active: 'true' | 'false';
+}
 export default function NavBar() {
-  const menu = ['트림', '타입', '외장', '내장', '옵션', '완료'];
-
   const navigate = useNavigate();
   const { pathname: currentPath } = useLocation();
 
   const handleNavItemClick = (path: string) => {
-    console.log(location.pathname);
     navigate(path);
   };
 
@@ -52,10 +52,6 @@ export default function NavBar() {
   );
 }
 
-interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
-  active: 'true' | 'false';
-}
-
 function NavItem({ active, ...props }: INavItem) {
   const Highlight =
     active === 'true' ? <Underline /> : <Underline style={{ visibility: 'hidden' }} />;
@@ -88,6 +84,7 @@ const NavList = styled.ul`
   align-items: flex-end;
   margin: -10px;
 `;
+
 const Item = styled.li<{ $active: string }>`
   height: 30px;
   width: 52px;
