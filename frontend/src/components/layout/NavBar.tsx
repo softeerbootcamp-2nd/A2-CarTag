@@ -1,9 +1,10 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { css, styled } from 'styled-components';
-import { PATH } from '../../../utils/url';
-import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../../styles/typefaces';
-import { CancelIcon } from '../../icons/Icons';
+import { PATH } from '../../utils/url';
+import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../styles/typefaces';
+import { CancelIcon } from '../icons/Icons';
+import hyundaiLogo from '/images/logo.svg';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
   active: 'true' | 'false';
@@ -22,7 +23,7 @@ export default function NavBar() {
 
   return (
     <Wrapper>
-      <HyundaiLogo src="/images/logo.png" alt="" />
+      <HyundaiLogo src={hyundaiLogo} alt="" />
       <Body>
         <CarSelect>펠리세이드</CarSelect>
         <NavList>
