@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 
 interface IPageWrapper extends React.HTMLAttributes<HTMLDivElement> {}
-export function PageWrapper({ ...props }: IPageWrapper) {
+export default function PageWrapper({ ...props }: IPageWrapper) {
   return <Wrapper {...props}></Wrapper>;
 }
 
