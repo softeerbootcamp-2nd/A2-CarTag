@@ -26,7 +26,7 @@ const trimCss = css`
   height: 36px;
   ${CaptionEn2};
 `;
-export function Cta({ type, text, ...props }: ICta) {
+export default function Cta({ type, text, ...props }: ICta) {
   const [buttonText, setButtonText] = useState(text);
   const handleClick = () => {
     //TODO: click 되면 다음 페이지로 전환
@@ -40,6 +40,7 @@ export function Cta({ type, text, ...props }: ICta) {
     </>
   );
 }
+
 const CtaBtn = styled.button<ICtaBtn>`
   ${(props) => props.type === 'popup' && popupCss}
   ${(props) => props.type === 'price' && priceCss}
