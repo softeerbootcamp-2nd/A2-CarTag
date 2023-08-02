@@ -2,6 +2,12 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { css, styled } from 'styled-components';
 import { PATH } from '../../../utils/url';
+import {
+  BodyKrMedium2,
+  BodyKrMedium3,
+  BodyKrRegular3,
+  HeadingKrMedium6,
+} from '../../../styles/typefaces';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
   active: 'true' | 'false';
@@ -86,6 +92,7 @@ const NavList = styled.ul`
 `;
 
 const Item = styled.li<{ $active: string }>`
+  ${HeadingKrMedium6}
   height: 30px;
   width: 52px;
   display: flex;
@@ -109,6 +116,7 @@ const Item = styled.li<{ $active: string }>`
 `;
 
 const CarSelect = styled.div`
+  ${BodyKrMedium3}
   position: absolute;
   left: 0;
   bottom: 0;
@@ -120,6 +128,7 @@ const CarSelect = styled.div`
 `;
 
 const CancelButton = styled.div`
+  ${BodyKrRegular3}
   display: flex;
   justify-content: center;
   align-items: center;
