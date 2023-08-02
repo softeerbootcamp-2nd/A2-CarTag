@@ -94,3 +94,9 @@
 - branch 양식
   `{옵션}/{브랜치 명}` (소문자, kebab-case)
   ex) `feat/option-selection`
+
+
+<br/><br/>
+
+### ERD
+ERD가 생성되었습니다.(2023.08.02) : [Wiki 링크](https://github.com/softeerbootcamp-2nd/A2-CarTag.wiki.git)
