@@ -19,7 +19,7 @@ const overBudgetCss = css`
   }
 `;
 
-export function PriceStaticBar({ ...props }: IPriceStaticBar) {
+export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
   const lowestPrice = 3850; //단위: 만원
   const highestPrice = 4300;
   const [budget, setBudget] = useState(highestPrice);
