@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { BodyKrMedium1, BodyKrRegular4 } from '../../styles/typefaces';
+import { BodyKrRegular4 } from '../../styles/typefaces';
 
 interface SearchBarProps extends React.HTMLAttributes<HTMLInputElement> {}
 export default function SearchBar({ ...props }: SearchBarProps) {
