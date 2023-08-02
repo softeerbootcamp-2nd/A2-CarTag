@@ -22,12 +22,14 @@ const priceActiveCss = css`
 `;
 
 const optionHoverCss = css`
-  background: none;
-  background-color: ${({ theme }) => theme.color.white};
+  background: ${({ theme }) => theme.color.white};
+  border: 1px solid ${({ theme }) => theme.color.skyBlue};
+  color: ${({ theme }) => theme.color.primaryColor};
 `;
 
 const optionActiveCss = css`
   background-color: ${({ theme }) => theme.color.primaryColor100};
+  color: ${({ theme }) => theme.color.primaryColor};
 `;
 
 const Wrapper = styled.button<{ $type: 'option' | 'price'; $incative: boolean }>`
@@ -39,13 +41,6 @@ const Wrapper = styled.button<{ $type: 'option' | 'price'; $incative: boolean }>
   color: ${({ theme }) => theme.color.primaryColor};
 
   ${({ $type, $incative, theme }) => {
-    if ($incative) {
-      return css`
-        border: 1px solid ${theme.color.gray200};
-        color: ${theme.color.gray600};
-      `;
-    }
-
     if ($type === 'price') {
       return css`
         border: 1px solid ${theme.color.primaryColor};
@@ -56,10 +51,22 @@ const Wrapper = styled.button<{ $type: 'option' | 'price'; $incative: boolean }>
           ${priceActiveCss}
         }
       `;
-    } else {
+    } else if (!$incative && $type === 'option') {
       return css`
         background: ${theme.color.skyBlueCardBg};
         border: 1px solid ${theme.color.skyBlue};
+        &:hover {
+          ${optionHoverCss}
+        }
+        &:active {
+          ${optionActiveCss}
+        }
+      `;
+    } else if ($incative && $type === 'option') {
+      return css`
+        border: 1px solid ${theme.color.gray200};
+        color: ${theme.color.gray600};
+        background: ${theme.color.white};
         &:hover {
           ${optionHoverCss}
         }
