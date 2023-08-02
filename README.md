@@ -96,7 +96,7 @@
   ex) `feat/option-selection`
 
 
-<br/><br/>
+## 📁설계 문서
 
 ### ERD
 ERD가 생성되었습니다.(2023.08.02) : [Wiki 링크](https://github.com/softeerbootcamp-2nd/A2-CarTag.wiki.git)
