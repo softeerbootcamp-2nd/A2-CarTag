@@ -1,21 +1,48 @@
-import React from 'react';
+import React, { MouseEventHandler } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { css, styled } from 'styled-components';
+import { PATH } from '../../../utils/url';
 
 export default function NavBar() {
   const menu = ['트림', '타입', '외장', '내장', '옵션', '완료'];
-  const navItemComponents = menu.map((value, idx) => (
-    <NavItem key={idx} active={'true'}>
-      {value}
-    </NavItem>
-  ));
+
+  const navigate = useNavigate();
+  const { pathname: currentPath } = useLocation();
+
+  const handleNavItemClick = (path: string) => {
+    console.log(location.pathname);
+    navigate(path);
+  };
+
+  const isActive = (path: string) => {
+    return currentPath === '/' + path ? 'true' : 'false';
+  };
 
   return (
     <Wrapper>
       <HyundaiLogo src="/images/logo.png" alt="" />
-
       <Body>
         <CarSelect>펠리세이드</CarSelect>
-        <NavList>{navItemComponents}</NavList>
+        <NavList>
+          <NavItem onClick={() => handleNavItemClick(PATH.trim)} active={isActive(PATH.trim)}>
+            트림
+          </NavItem>
+          <NavItem onClick={() => handleNavItemClick(PATH.type)} active={isActive(PATH.type)}>
+            타입
+          </NavItem>
+          <NavItem onClick={() => handleNavItemClick(PATH.outside)} active={isActive(PATH.outside)}>
+            외장
+          </NavItem>
+          <NavItem onClick={() => handleNavItemClick(PATH.inside)} active={isActive(PATH.inside)}>
+            내장
+          </NavItem>
+          <NavItem onClick={() => handleNavItemClick(PATH.option)} active={isActive(PATH.option)}>
+            옵션
+          </NavItem>
+          <NavItem onClick={() => handleNavItemClick(PATH.result)} active={isActive(PATH.result)}>
+            완료
+          </NavItem>
+        </NavList>
       </Body>
 
       <CancelButton>

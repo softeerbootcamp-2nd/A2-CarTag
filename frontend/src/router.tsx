@@ -5,29 +5,31 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
-  },
-  {
-    path: '/trim',
-    element: <div>트림 선택 페이지</div>,
-  },
-  {
-    path: '/type',
-    element: <div>타입 선택 페이지</div>,
-  },
-  {
-    path: '/outside',
-    element: <div>외장 색상 선택 페이지</div>,
-  },
-  {
-    path: '/inside',
-    element: <div>내장 색상 선택 페이지</div>,
-  },
-  {
-    path: '/option',
-    element: <div>옵션 선택 페이지</div>,
-  },
-  {
-    path: '/result',
-    element: <div>결과 페이지</div>,
+    children: [
+      {
+        path: 'trim',
+        element: <div>trim 페이지</div>,
+      },
+      {
+        path: 'type',
+        element: <div>type페이지</div>,
+      },
+      {
+        path: 'outside',
+        element: <div>outside 페이지</div>,
+      },
+      {
+        path: 'inside',
+        element: <div>inside 페이지</div>,
+      },
+      {
+        path: 'option',
+        element: <div>option 페이지</div>,
+      },
+      {
+        path: 'result',
+        element: <div>result 페이지</div>,
+      },
+    ],
   },
 ]);
