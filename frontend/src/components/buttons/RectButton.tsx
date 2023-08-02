@@ -1,14 +1,18 @@
 import { css, styled } from 'styled-components';
 import { BodyKrMedium2, CaptionEn2, HeadingKrMedium5 } from '../../styles/typefaces';
-import React, { useState } from 'react';
+import React from 'react';
 import { flexCenterCss } from '../../utils/commonStyle';
-interface ICta extends React.HTMLAttributes<HTMLButtonElement> {
-  type: string;
-  text: string;
-}
-interface ICtaBtn {
+interface IRectButton extends React.HTMLAttributes<HTMLButtonElement> {
   type: string;
 }
+interface IWrapper {
+  type: string;
+}
+
+export default function RectButton({ type, ...props }: IRectButton) {
+  return <Wrapper type={type} {...props}></Wrapper>;
+}
+
 const popupCss = css`
   width: 850px;
   height: 52px;
@@ -26,22 +30,8 @@ const trimCss = css`
   height: 36px;
   ${CaptionEn2};
 `;
-export default function Cta({ type, text, ...props }: ICta) {
-  const [buttonText, setButtonText] = useState(text);
-  const handleClick = () => {
-    //TODO: click 되면 다음 페이지로 전환
-  };
 
-  return (
-    <>
-      <CtaBtn type={type} onClick={handleClick} {...props}>
-        {buttonText}
-      </CtaBtn>
-    </>
-  );
-}
-
-const CtaBtn = styled.button<ICtaBtn>`
+const Wrapper = styled.button<IWrapper>`
   ${(props) => props.type === 'popup' && popupCss}
   ${(props) => props.type === 'price' && priceCss}
   ${(props) => props.type === 'trim' && trimCss}
