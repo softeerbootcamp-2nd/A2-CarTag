@@ -88,7 +88,6 @@ const NavList = styled.ul`
 
 const Item = styled.li<{ $active: string }>`
   ${HeadingKrMedium6}
-  height: 30px;
   width: 52px;
   display: flex;
   flex-direction: column;
