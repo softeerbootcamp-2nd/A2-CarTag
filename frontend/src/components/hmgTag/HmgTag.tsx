@@ -1,8 +1,8 @@
 import { css, styled } from 'styled-components';
 import { HeadingEn5 } from '../../styles/typefaces';
 
-type sizeType = 'large' | 'medium' | 'small';
-interface IHmgTag {
+export type sizeType = 'large' | 'medium' | 'small';
+export interface IHmgTag {
   size?: sizeType;
 }
 
