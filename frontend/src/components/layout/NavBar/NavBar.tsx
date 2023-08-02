@@ -2,12 +2,7 @@ import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { css, styled } from 'styled-components';
 import { PATH } from '../../../utils/url';
-import {
-  BodyKrMedium2,
-  BodyKrMedium3,
-  BodyKrRegular3,
-  HeadingKrMedium6,
-} from '../../../styles/typefaces';
+import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../../styles/typefaces';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
   active: 'true' | 'false';
