@@ -14,7 +14,7 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
   const [percent, setPercent] = useState(50);
   const [isOverBudget, setIsOverBudget] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-
+  const balance = ((isOverBudget ? -10000 : 10000) * (budget - total)).toLocaleString();
   const getBudgetStatus = () => {
     const status = budget - total;
     status >= 0 ? setIsOverBudget(false) : setIsOverBudget(true);
@@ -29,17 +29,12 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
     getBudgetStatus();
   }, [budget]);
   return (
-    <StatusBox {...props} $isover={isOverBudget.toString()}>
+    <StatusBox {...props} $isover={isOverBudget}>
       <StatusText>
         <span className="status-title">예산 범위</span>
         <span className="status-desc">
           {isOverBudget ? '설정한 예산까지 ' : '설정한 예산보다 '}
-          <span id="price-info">
-            {isOverBudget
-              ? ((budget - total) * -10000).toLocaleString()
-              : ((budget - total) * 10000).toLocaleString()}
-            원
-          </span>
+          <span id="price-info">{balance}원</span>
           {isOverBudget ? ' 남았어요.' : ' 더 들었어요.'}
         </span>
 
@@ -92,9 +87,9 @@ const overBudgetCss = css`
   }
 `;
 
-const StatusBox = styled.div<{ $isover: string }>`
-  ${({ $isover }) => $isover === 'false' && withinBudgetCss}
-  ${({ $isover }) => $isover === 'true' && overBudgetCss}
+const StatusBox = styled.div<{ $isover: boolean }>`
+  ${({ $isover }) => !$isover && withinBudgetCss}
+  ${({ $isover }) => $isover && overBudgetCss}
   width: 343px;
   padding: 8px 16px;
   border-radius: 10px;
