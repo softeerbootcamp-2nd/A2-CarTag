@@ -1,10 +1,10 @@
 import { css, styled } from 'styled-components';
 
-interface IDefaultCardStyled extends React.HTMLAttributes<HTMLDivElement> {
+interface IDefaultCardStyle extends React.HTMLAttributes<HTMLDivElement> {
   active?: boolean;
 }
 
-export default function DefaultCardStyled({ active = false, ...props }: IDefaultCardStyled) {
+export default function DefaultCardStyle({ active = false, ...props }: IDefaultCardStyle) {
   return <Wrapper $active={active} {...props}></Wrapper>;
 }
 

@@ -6,7 +6,7 @@ import {
   HeadingKrMedium5,
   HeadingKrMedium7,
 } from '../../styles/typefaces';
-import DefaultCardStyled from '../../components/card/DefaultCardStyled';
+import DefaultCardStyle from '../../components/card/DefaultCardStyle';
 import { useState } from 'react';
 import RectButton from '../../components/buttons/RectButton';
 
@@ -64,7 +64,7 @@ const TrimSection = styled.div`
   margin-top: 16px;
 `;
 
-const TrimCard = styled(DefaultCardStyled)`
+const TrimCard = styled(DefaultCardStyle)`
   padding: 20px 16px 12px 16px;
   height: 158px;
   box-sizing: border-box;
