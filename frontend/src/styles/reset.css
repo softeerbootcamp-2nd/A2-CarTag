@@ -128,3 +128,7 @@ button {
   border: none;
   cursor: pointer;
 }
+
+input {
+  margin: 0px;
+}
