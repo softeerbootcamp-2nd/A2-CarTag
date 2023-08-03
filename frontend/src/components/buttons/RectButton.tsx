@@ -2,15 +2,18 @@ import { css, styled } from 'styled-components';
 import { BodyKrMedium2, CaptionEn2, HeadingKrMedium5 } from '../../styles/typefaces';
 import React from 'react';
 import { flexCenterCss } from '../../utils/commonStyle';
+
+type rectBtnType = 'popup' | 'price' | 'trim';
+
 interface IRectButton extends React.HTMLAttributes<HTMLButtonElement> {
-  type: string;
+  type: rectBtnType;
 }
 interface IWrapper {
-  type: string;
+  $type: rectBtnType;
 }
 
 export default function RectButton({ type, ...props }: IRectButton) {
-  return <Wrapper type={type} {...props}></Wrapper>;
+  return <Wrapper $type={type} {...props}></Wrapper>;
 }
 
 const popupCss = css`
@@ -32,9 +35,9 @@ const trimCss = css`
 `;
 
 const Wrapper = styled.button<IWrapper>`
-  ${(props) => props.type === 'popup' && popupCss}
-  ${(props) => props.type === 'price' && priceCss}
-  ${(props) => props.type === 'trim' && trimCss}
+  ${(props) => props.$type === 'popup' && popupCss}
+  ${(props) => props.$type === 'price' && priceCss}
+  ${(props) => props.$type === 'trim' && trimCss}
 
   ${flexCenterCss}
 
