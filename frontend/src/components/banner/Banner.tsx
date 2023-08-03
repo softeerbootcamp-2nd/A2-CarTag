@@ -24,8 +24,8 @@ export default function Banner({ subtitle, title, ...props }: IBanner) {
 }
 
 const BannerBg = styled.div`
-  position: absolute;
-  width: 1280px;
+  position: relative;
+  width: 100%;
   height: 360px;
   background: linear-gradient(
       180deg,
@@ -36,7 +36,7 @@ const BannerBg = styled.div`
   box-shadow: 0px 0px 8px 0px rgba(131, 133, 136, 0.2);
 `;
 const InfoWrapper = styled.div`
-  position: relative;
+  position: absolute;
   top: 72px;
 `;
 
