@@ -4,6 +4,7 @@ import CenterWrapper from '../../components/layout/CenterWrapper';
 import Banner from '../../components/banner/Banner';
 import HmgTag from '../../components/hmgTag/HmgTag';
 import { useState } from 'react';
+import { flexCenterCss } from '../../utils/commonStyle';
 
 export default function TrimBannerContainer() {
   const [selectedImgIdx, setSelectedImgIdx] = useState(1);
@@ -133,12 +134,10 @@ const ImgWrapper = styled.div<{ $selected?: boolean }>`
       `;
     }
   }}
-  justify-content: center;
 
   cursor: pointer;
   overflow: hidden;
-  display: flex;
-  align-items: center;
+  ${flexCenterCss}
 `;
 
 const Img = styled.img`
