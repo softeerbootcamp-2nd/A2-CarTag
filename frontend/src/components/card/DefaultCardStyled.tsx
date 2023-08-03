@@ -24,6 +24,7 @@ const inactiveCss = css`
 `;
 
 const Wrapper = styled.div<{ $active: boolean }>`
+  border-radius: 2px;
   ${({ $active }) => {
     if ($active) {
       return css`
