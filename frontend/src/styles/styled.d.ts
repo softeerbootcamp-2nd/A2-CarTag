@@ -34,6 +34,7 @@ interface IColor {
   //background 색상
   skyBlueCardBg: string;
   cardBg: string;
+  cardBgOpacity05: string;
   blueBg: string;
 
   //sand 계열
