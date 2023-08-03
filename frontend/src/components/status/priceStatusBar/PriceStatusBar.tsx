@@ -91,6 +91,11 @@ const overBudgetCss = css`
 const StatusBox = styled.div<{ $isover: boolean }>`
   ${({ $isover }) => !$isover && withinBudgetCss}
   ${({ $isover }) => $isover && overBudgetCss}
+  position: absolute;
+  z-index: 10;
+  top: 76px;
+  left: 50%;
+  transform: translate(-50%);
   width: 343px;
   padding: 8px 16px;
   border-radius: 10px;
