@@ -1,10 +1,10 @@
 import { css, styled } from 'styled-components';
 
-interface IDefaultCardStyled extends React.HTMLAttributes<HTMLDivElement> {
-  active: boolean;
+interface IDefaultCardStyle extends React.HTMLAttributes<HTMLDivElement> {
+  active?: boolean;
 }
 
-export default function DefaultCardStyled({ active, ...props }: IDefaultCardStyled) {
+export default function DefaultCardStyle({ active = false, ...props }: IDefaultCardStyle) {
   return <Wrapper $active={active} {...props}></Wrapper>;
 }
 
@@ -24,6 +24,7 @@ const inactiveCss = css`
 `;
 
 const Wrapper = styled.div<{ $active: boolean }>`
+  cursor: pointer;
   border-radius: 2px;
   ${({ $active }) => {
     if ($active) {
