@@ -37,6 +37,7 @@ export const theme: DefaultTheme = {
       'linear-gradient(0deg, rgba(162, 199, 231, 0.30) 0%, rgba(162, 199, 231, 0.30)  100%), #FFF',
     cardBg:
       'linear-gradient(0deg, rgba(0, 170, 210, 0.10) 0%, rgba(0, 170, 210, 0.10)  100%), #FFF',
+    cardBgOpacity05: '#A2C7E70D',
     blueBg: '#F4F5F7',
 
     //sand 계열
