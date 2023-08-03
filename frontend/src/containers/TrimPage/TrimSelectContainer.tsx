@@ -66,9 +66,9 @@ const TrimSection = styled.div`
 
 const TrimCard = styled(DefaultCardStyled)`
   padding: 20px 16px 12px 16px;
-  width: 100%;
   height: 158px;
   box-sizing: border-box;
+  width: 100%;
 `;
 
 const TrimTitle = styled.div`
@@ -82,6 +82,7 @@ const TrimDesc = styled.div`
   ${BodyKrRegular4}
 `;
 const TrimButton = styled(RectButton)`
+  width: 100%;
   margin-top: 8px;
   border-radius: 2px;
 `;
