@@ -1,5 +1,6 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
+import { TrimPage } from './pages/TrimPage';
 
 export const router = createBrowserRouter([
   {
@@ -8,7 +9,7 @@ export const router = createBrowserRouter([
     children: [
       {
         path: 'trim',
-        element: <div>trim 페이지</div>,
+        element: <TrimPage />,
       },
       {
         path: 'type',
