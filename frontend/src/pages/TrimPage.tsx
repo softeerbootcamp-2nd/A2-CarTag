@@ -1,9 +1,9 @@
-import TrimBanner from '../containers/TrimPage/TrimBanner';
+import TrimBannerContainer from '../containers/TrimPage/TrimBannerContainer';
 
 export function TrimPage() {
   return (
     <>
-      <TrimBanner />
+      <TrimBannerContainer />
     </>
   );
 }

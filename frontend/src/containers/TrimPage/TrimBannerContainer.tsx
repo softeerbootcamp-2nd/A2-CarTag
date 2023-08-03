@@ -1,10 +1,25 @@
-import { styled } from 'styled-components';
+import { css, styled } from 'styled-components';
 import { BodyKrMedium3, BodyKrRegular5, HeadingKrRegular2 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import Banner from '../../components/banner/Banner';
 import HmgTag from '../../components/hmgTag/HmgTag';
+import { useState } from 'react';
 
 export default function TrimBannerContainer() {
+  const [selectedImgIdx, setSelectedImgIdx] = useState(1);
+  const handleSelectImg = (idx: number) => {
+    setSelectedImgIdx(idx);
+  };
+
+  const images = ['/images/car.png', '/images/inner_car.png', '/images/wheel.png'];
+  const ImgSectionComponent = images.map((imgPath, idx) => {
+    return (
+      <ImgWrapper onClick={() => handleSelectImg(idx)} $selected={selectedImgIdx === idx && true}>
+        <Img src={imgPath}></Img>
+      </ImgWrapper>
+    );
+  });
+
   return (
     <Banner subtitle={'기본에 충실한 펠리세이드'} title={'Le blanc'}>
       <Container>
@@ -12,7 +27,7 @@ export default function TrimBannerContainer() {
           <HmgTag size="small" />
           <HmgTagDescription>
             해당 트림 포함된 옵션들의
-            <BlueText>실활용 데이터</BlueText>에요.
+            <BlueText> 실활용 데이터</BlueText>예요.
           </HmgTagDescription>
           <DataList>
             <Data>
@@ -30,7 +45,7 @@ export default function TrimBannerContainer() {
               </DataInfo>
             </Data>
             <Data>
-              <DataTitle>후방 교차 충돌 방지 경고</DataTitle>
+              <DataTitle>후방 교차 충돌방지 경고</DataTitle>
               <DataInfo>
                 42회
                 <DataCaption>15,000km 당</DataCaption>
@@ -38,7 +53,7 @@ export default function TrimBannerContainer() {
             </Data>
           </DataList>
         </HmgDataSection>
-        <ImgSection></ImgSection>
+        <ImgSection>{ImgSectionComponent}</ImgSection>
       </Container>
     </Banner>
   );
@@ -53,9 +68,7 @@ const Container = styled(CenterWrapper)`
 const HmgDataSection = styled.div`
   padding-top: 166px;
 `;
-const ImgSection = styled.div`
-  border: 1px solid blue;
-`;
+
 const HmgTagDescription = styled.div`
   ${BodyKrMedium3}
   margin-top: 12px;
@@ -87,4 +100,44 @@ const DataInfo = styled.div`
 const DataCaption = styled.div`
   ${BodyKrRegular5}
   color: ${({ theme }) => theme.color.gray600};
+`;
+
+const ImgSection = styled.div`
+  display: flex;
+  gap: 16px;
+`;
+const ImgWrapper = styled.div<{ $selected?: boolean }>`
+  ${({ $selected }) => {
+    if ($selected)
+      return css`
+        width: 504px;
+      `;
+    else {
+      return css`
+        width: 71px;
+        &:hover {
+          filter: brightness(0.6);
+        }
+        &:hover::after {
+          content: 'click!';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+          color: ${({ theme }) => theme.color.white};
+        }
+      `;
+    }
+  }}
+  justify-content: center;
+
+  cursor: pointer;
+  overflow: hidden;
+  display: flex;
+  align-items: center;
+`;
+
+const Img = styled.img`
+  height: auto;
+  width: 700px;
 `;
