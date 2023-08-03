@@ -1,22 +1,22 @@
 import { styled } from 'styled-components';
 import { BodyKrRegular3, HeadingKrBold1 } from '../../styles/typefaces';
-import { PageWrapper } from '../layout/PageWrapper';
+import CenterWrapper from '../layout/CenterWrapper';
 
 interface IBanner extends React.HTMLAttributes<HTMLDivElement> {
   subtitle: string;
   title: string;
 }
 
-export function Banner({ subtitle, title, ...props }: IBanner) {
+export default function Banner({ subtitle, title, ...props }: IBanner) {
   return (
     <>
       <BannerBg {...props}>
-        <PageWrapper>
+        <CenterWrapper>
           <InfoWrapper>
             <SubTitle>{subtitle}</SubTitle>
             <Title>{title}</Title>
           </InfoWrapper>
-        </PageWrapper>
+        </CenterWrapper>
         {props.children}
       </BannerBg>
     </>
