@@ -1,6 +1,7 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import { TrimPage } from './pages/TrimPage';
+import { ModelPage } from './pages/ModelPage';
 
 export const router = createBrowserRouter([
   {
@@ -13,7 +14,7 @@ export const router = createBrowserRouter([
       },
       {
         path: 'type',
-        element: <div>type페이지</div>,
+        element: <ModelPage />,
       },
       {
         path: 'outside',
