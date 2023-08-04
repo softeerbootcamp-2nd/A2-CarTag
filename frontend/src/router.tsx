@@ -1,9 +1,9 @@
 import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import { TrimPage } from './pages/TrimPage';
-import { ModelPage } from './pages/ModelPage';
 import { PATH } from './utils/url';
 import ExteriorPage from './pages/ExteriorPage';
+import { ModelTypePage } from './pages/ModelTypePage';
 
 export const router = createBrowserRouter([
   {
@@ -15,8 +15,8 @@ export const router = createBrowserRouter([
         element: <TrimPage />,
       },
       {
-        path: PATH.modelType,
-        element: <ModelPage />,
+        path: 'type',
+        element: <ModelTypePage />,
       },
       {
         path: PATH.exterior,
