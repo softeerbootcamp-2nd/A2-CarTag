@@ -2,6 +2,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from './App';
 import { TrimPage } from './pages/TrimPage';
 import { ModelPage } from './pages/ModelPage';
+import { PATH } from './utils/url';
 
 export const router = createBrowserRouter([
   {
@@ -9,27 +10,27 @@ export const router = createBrowserRouter([
     element: <App />,
     children: [
       {
-        path: 'trim',
+        path: PATH.trim,
         element: <TrimPage />,
       },
       {
-        path: 'type',
+        path: PATH.type,
         element: <ModelPage />,
       },
       {
-        path: 'outside',
+        path: PATH.exterior,
         element: <div>outside 페이지</div>,
       },
       {
-        path: 'inside',
+        path: PATH.interior,
         element: <div>inside 페이지</div>,
       },
       {
-        path: 'option',
+        path: PATH.option,
         element: <div>option 페이지</div>,
       },
       {
-        path: 'result',
+        path: PATH.result,
         element: <div>result 페이지</div>,
       },
     ],

@@ -30,13 +30,22 @@ export default function NavBar() {
           <NavItem onClick={() => handleNavItemClick(PATH.trim)} active={isActive(PATH.trim)}>
             트림
           </NavItem>
-          <NavItem onClick={() => handleNavItemClick(PATH.type)} active={isActive(PATH.type)}>
+          <NavItem
+            onClick={() => handleNavItemClick(PATH.modelType)}
+            active={isActive(PATH.modelType)}
+          >
             타입
           </NavItem>
-          <NavItem onClick={() => handleNavItemClick(PATH.outside)} active={isActive(PATH.outside)}>
+          <NavItem
+            onClick={() => handleNavItemClick(PATH.exterior)}
+            active={isActive(PATH.exterior)}
+          >
             외장
           </NavItem>
-          <NavItem onClick={() => handleNavItemClick(PATH.inside)} active={isActive(PATH.inside)}>
+          <NavItem
+            onClick={() => handleNavItemClick(PATH.interior)}
+            active={isActive(PATH.interior)}
+          >
             내장
           </NavItem>
           <NavItem onClick={() => handleNavItemClick(PATH.option)} active={isActive(PATH.option)}>
