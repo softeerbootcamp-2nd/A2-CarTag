@@ -1,67 +1,97 @@
+import { MouseEventHandler, useState } from 'react';
 import { styled } from 'styled-components';
 import Banner from '../../components/banner/Banner';
-import { DragEventHandler, useRef, useState } from 'react';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import { flexCenterCss } from '../../utils/commonStyle';
 
 export default function ExteriorBannerContainer() {
-  const [idx, setIdx] = useState(1);
+  const [imgIdx, setImgIdx] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
-  const [endX, setEndX] = useState(0);
-  const [x, setX] = useState(0);
   const [startIdx, setStartIdx] = useState(0);
 
-  const handleMousedown: React.MouseEventHandler<HTMLDivElement> = (e) => {
+  const handleMousedown: MouseEventHandler<HTMLDivElement> = ({ pageX }) => {
     setIsDragging(true);
-    setStartX(e.pageX);
-    setStartIdx(idx);
+    setStartX(pageX);
+    setStartIdx(imgIdx);
   };
-  const handleMousemove: React.MouseEventHandler<HTMLDivElement> = ({ pageX, currentTarget }) => {
+  const handleMousemove: MouseEventHandler<HTMLDivElement> = ({ pageX, currentTarget }) => {
     if (!isDragging) return;
-
     const { offsetWidth } = currentTarget;
     const moveX = startX - pageX;
-    const percent = moveX / offsetWidth; // -1 ~ 1
-    const moveIdx = Math.round(60 * percent); // -60 ~ 60
-    let resultIdx = startIdx + moveIdx; //
-
+    const percent = moveX / offsetWidth;
+    const moveIdx = Math.round(60 * percent);
+    let resultIdx = startIdx + moveIdx;
     if (resultIdx < 0) {
-      resultIdx = 60 + resultIdx;
+      resultIdx += 60;
     }
-
-    setIdx(resultIdx % 60);
-
-    setX(pageX - startX);
+    resultIdx %= 60;
+    setImgIdx(resultIdx);
   };
-  const handleMouseup: React.MouseEventHandler<HTMLDivElement> = (e) => {
+  const handleMouseup: MouseEventHandler<HTMLDivElement> = ({ pageX }) => {
     setIsDragging(false);
-    setStartX(e.pageX);
+    setStartX(pageX);
   };
 
   return (
-    <Wrapper onMouseUp={handleMouseup}>
-      <Banner subtitle={'외장색상'} title={'어비스블랙펄'}>
-        <FlexCenterWrapper>
-          <ImgWrapper onMouseMove={handleMousemove} onMouseDown={handleMousedown}>
-            <CarImg src={`/images/car360/img${idx}.png`} alt="" />
-          </ImgWrapper>
-        </FlexCenterWrapper>
-      </Banner>
-    </Wrapper>
+    <ExteriorBanner onMouseUp={handleMouseup} subtitle={'외장색상'} title={'어비스블랙펄'}>
+      <FlexCenterWrapper>
+        <ImgWrapper onMouseMove={handleMousemove} onMouseDown={handleMousedown}>
+          <CarImg src={`/images/car360/img${imgIdx}.png`} alt="" />
+          <CarShadow>
+            <DegreeCaption>360°</DegreeCaption>
+          </CarShadow>
+        </ImgWrapper>
+      </FlexCenterWrapper>
+    </ExteriorBanner>
   );
 }
 
-const Wrapper = styled.div``;
+const ExteriorBanner = styled(Banner)`
+  background: ${({ theme }) => theme.color.blueBg};
+`;
 const CarImg = styled.img`
-  width: 100%;
+  position: absolute;
+  right: 0;
+  width: 592px;
   height: auto;
   -webkit-user-drag: none;
+  z-index: 2;
 `;
 const ImgWrapper = styled.div`
-  width: 592px;
+  width: 611px;
   cursor: pointer;
+  position: relative;
+  height: 325px;
+  bottom: 0;
 `;
 const FlexCenterWrapper = styled(CenterWrapper)`
   ${flexCenterCss}
+  align-items: flex-end;
+  height: 100%;
+`;
+const CarShadow = styled.div`
+  ${flexCenterCss}
+  position: absolute;
+  bottom: 34px;
+  border: 2px solid transparent;
+  border-radius: 50%;
+  width: 611px;
+  height: 99px;
+  background-image: linear-gradient(
+      ${({ theme }) => theme.color.blueBg},
+      ${({ theme }) => theme.color.blueBg}
+    ),
+    linear-gradient(to top, #6d7786, #6d778600);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+`;
+
+const DegreeCaption = styled.span`
+  position: absolute;
+  bottom: -10px;
+  z-index: 10;
+  width: 61px;
+  text-align: center;
+  background-color: ${({ theme }) => theme.color.blueBg};
 `;
