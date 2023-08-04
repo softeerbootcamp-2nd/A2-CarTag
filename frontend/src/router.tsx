@@ -3,6 +3,7 @@ import App from './App';
 import { TrimPage } from './pages/TrimPage';
 import { ModelPage } from './pages/ModelPage';
 import { PATH } from './utils/url';
+import ExteriorPage from './pages/ExteriorPage';
 
 export const router = createBrowserRouter([
   {
@@ -14,12 +15,12 @@ export const router = createBrowserRouter([
         element: <TrimPage />,
       },
       {
-        path: PATH.type,
+        path: PATH.modelType,
         element: <ModelPage />,
       },
       {
         path: PATH.exterior,
-        element: <div>outside 페이지</div>,
+        element: <ExteriorPage />,
       },
       {
         path: PATH.interior,
