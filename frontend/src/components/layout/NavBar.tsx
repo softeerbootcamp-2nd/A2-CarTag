@@ -18,7 +18,7 @@ export default function NavBar() {
   };
 
   const isActive = (path: string) => {
-    return currentPath === '/' + path ? 'true' : 'false';
+    return currentPath === path ? 'true' : 'false';
   };
 
   return (

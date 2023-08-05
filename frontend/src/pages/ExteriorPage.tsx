@@ -1,11 +1,14 @@
-import PriceStaticBar from '../components/status/priceStatusBar/PriceStatusBar';
+import { styled } from 'styled-components';
 import ExteriorBannerContainer from '../containers/ExteriorPage/ExtreriorBannerContainer';
+import AnimatePresence from '../components/AnimationPresence';
+import PageAnimationWrapper, { IDefaultPage } from '../components/layout/PageAnimationWrapper';
 
-export default function ExteriorPage() {
+export default function ExteriorPage({ isClone }: IDefaultPage) {
   return (
-    <>
-      <PriceStaticBar></PriceStaticBar>
+    <PageAnimationWrapper isClone={isClone}>
       <ExteriorBannerContainer></ExteriorBannerContainer>
-    </>
+    </PageAnimationWrapper>
   );
 }
+
+const Wrapper = styled.div``;

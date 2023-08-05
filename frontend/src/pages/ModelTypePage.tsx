@@ -1,11 +1,15 @@
+import { styled } from 'styled-components';
+import AnimatePresence from '../components/AnimationPresence';
 import ModelBannerContainer from '../containers/ModelTypePage/ModelBannerContainer';
 import ModelSelectContainer from '../containers/ModelTypePage/ModelSelectContainer';
+import PageAnimationWrapper, { IDefaultPage } from '../components/layout/PageAnimationWrapper';
 
-export function ModelTypePage() {
+export function ModelTypePage({ isClone }: IDefaultPage) {
   return (
-    <>
+    <PageAnimationWrapper isClone={isClone}>
       <ModelBannerContainer />
       <ModelSelectContainer />
-    </>
+    </PageAnimationWrapper>
   );
 }
+const Wrapper = styled.div``;
