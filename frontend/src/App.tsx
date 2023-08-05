@@ -1,6 +1,6 @@
 import { BrowserRouter } from 'react-router-dom';
 import NavBar from './components/layout/NavBar';
-import { CustomRoutes } from './components/CustomRoutes';
+import { CustomRoutes } from './components/router/CustomRoutes';
 
 function App() {
   return (
