@@ -20,7 +20,12 @@ public class ColorService {
      * 어떤 예외를 반환할지를 고민합니다.
      */
 
-
+    public List<OuterColorDto> findOuterColorByCarId(int carId) {
+        List<ColorCarMapper> colorCars = repository.findOuterColorCarByCarId(carId).get();
+        return colorCars.stream()
+                .map(colorCar -> OuterColorDto.toDto(colorCar, repository.findColorByColorId(colorCar.getColorId()).get()))
+                .collect(Collectors.toList());
+    }
 
     public List<InnerColorDto> findInnerColorByCarId(int carId) {
         List<ColorCarMapper> colorCars = repository.findInnerColorCarByCarId(carId).get();
