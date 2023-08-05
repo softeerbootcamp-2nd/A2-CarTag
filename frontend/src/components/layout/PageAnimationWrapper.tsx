@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react';
-import { css, styled } from 'styled-components';
+import { styled } from 'styled-components';
 
 export interface IDefaultPage {
   isClone?: boolean;
@@ -33,7 +33,7 @@ export default function PageAnimationWrapper({
       animate?.commitStyles();
       return () => animate?.cancel();
     }
-  }, [location]);
+  });
 
   return <Wrapper ref={wrapperRef} $isClone={isClone} {...props}></Wrapper>;
 }

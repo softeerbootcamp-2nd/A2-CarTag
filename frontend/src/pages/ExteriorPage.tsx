@@ -1,6 +1,4 @@
-import { styled } from 'styled-components';
 import ExteriorBannerContainer from '../containers/ExteriorPage/ExtreriorBannerContainer';
-import AnimatePresence from '../components/AnimationPresence';
 import PageAnimationWrapper, { IDefaultPage } from '../components/layout/PageAnimationWrapper';
 
 export default function ExteriorPage({ isClone }: IDefaultPage) {
@@ -10,5 +8,3 @@ export default function ExteriorPage({ isClone }: IDefaultPage) {
     </PageAnimationWrapper>
   );
 }
-
-const Wrapper = styled.div``;

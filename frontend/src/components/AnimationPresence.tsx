@@ -1,5 +1,4 @@
-import React, { useCallback, useLayoutEffect, useRef, useState } from 'react';
-import { useLocation } from 'react-router-dom';
+import React, { useLayoutEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 
 interface IAnimatePresence extends React.HTMLAttributes<HTMLDivElement> {
@@ -9,7 +8,7 @@ interface IElementByKeyMap {
   [key: React.Key]: React.ReactElement;
 }
 
-export default function AnimatePresence({ children, ...props }: IAnimatePresence) {
+export default function AnimatePresence({ children }: IAnimatePresence) {
   const validChildren = getAllValidChildren(children);
   const childrenOfPreviousRender = useRef(validChildren);
   const elementByKey = useRef<IElementByKeyMap>(getElementByKeyMap(validChildren, {}));
@@ -82,7 +81,7 @@ function getElementByKeyMap(validchildren: Array<React.ReactElement>, map: IElem
 }
 
 function getAllValidChildren(elements: React.ReactNode) {
-  let validChildren: Array<React.ReactElement> = [];
+  const validChildren: Array<React.ReactElement> = [];
   React.Children.forEach(elements, (element) => {
     if (React.isValidElement(element)) {
       validChildren.push(element);
@@ -90,14 +89,4 @@ function getAllValidChildren(elements: React.ReactNode) {
   });
 
   return validChildren;
-}
-
-function getKey(element: React.ReactElement) {
-  return element.key ?? 'defaultKey';
-}
-
-function useForceRender() {
-  const [_, setCount] = useState(0);
-
-  return useCallback(() => setCount((prev) => prev + 1), []);
 }

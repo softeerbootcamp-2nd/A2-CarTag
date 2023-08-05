@@ -1,5 +1,3 @@
-import { styled } from 'styled-components';
-import AnimatePresence from '../components/AnimationPresence';
 import ModelBannerContainer from '../containers/ModelTypePage/ModelBannerContainer';
 import ModelSelectContainer from '../containers/ModelTypePage/ModelSelectContainer';
 import PageAnimationWrapper, { IDefaultPage } from '../components/layout/PageAnimationWrapper';
@@ -12,4 +10,3 @@ export function ModelTypePage({ isClone }: IDefaultPage) {
     </PageAnimationWrapper>
   );
 }
-const Wrapper = styled.div``;
