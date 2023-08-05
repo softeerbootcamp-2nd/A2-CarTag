@@ -1,10 +1,9 @@
 import ExteriorBannerContainer from '../containers/ExteriorPage/ExtreriorBannerContainer';
-import PageAnimationWrapper, { IDefaultPage } from '../components/layout/PageAnimationWrapper';
 
-export default function ExteriorPage({ isClone }: IDefaultPage) {
+export default function ExteriorPage() {
   return (
-    <PageAnimationWrapper isClone={isClone}>
+    <>
       <ExteriorBannerContainer></ExteriorBannerContainer>
-    </PageAnimationWrapper>
+    </>
   );
 }
