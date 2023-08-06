@@ -14,7 +14,6 @@ import DefaultCardStyle from '../../components/card/DefaultCardStyle';
 import { useState } from 'react';
 import HmgTag from '../../components/hmgTag/HmgTag';
 import { CheckIcon } from '../../components/icons/Icons';
-import PriceSummary from '../../components/summary/PriceSummary';
 
 export default function ModelTypelSelectContainer() {
   const [selectedTypeIdx, setSelectedTypeIdx] = useState({
@@ -43,7 +42,7 @@ export default function ModelTypelSelectContainer() {
                 active={selectedTypeIdx.powerTrain === 0}
               >
                 <ModelTypeDesc>38%의 선택</ModelTypeDesc>
-                <ModelTypeTitle>디젤 2.2</ModelTypeTitle>
+                <ModelTypeTitle>디젤 2,2</ModelTypeTitle>
                 <ModelTypePrice>
                   +0 원 <CheckIcon active={selectedTypeIdx.powerTrain === 0} />
                 </ModelTypePrice>
@@ -53,7 +52,7 @@ export default function ModelTypelSelectContainer() {
                 active={selectedTypeIdx.powerTrain === 1}
               >
                 <ModelTypeDesc>38%의 선택</ModelTypeDesc>
-                <ModelTypeTitle>디젤 2.2</ModelTypeTitle>
+                <ModelTypeTitle>디젤 2,2</ModelTypeTitle>
                 <ModelTypePrice>
                   +0 원 <CheckIcon active={selectedTypeIdx.powerTrain === 1} />
                 </ModelTypePrice>
@@ -71,7 +70,7 @@ export default function ModelTypelSelectContainer() {
                 active={selectedTypeIdx.bodyType === 0}
               >
                 <ModelTypeDesc>38%의 선택</ModelTypeDesc>
-                <ModelTypeTitle>디젤 2.2</ModelTypeTitle>
+                <ModelTypeTitle>디젤 2,2</ModelTypeTitle>
                 <ModelTypePrice>
                   +0 원 <CheckIcon active={selectedTypeIdx.bodyType === 0} />
                 </ModelTypePrice>
@@ -81,7 +80,7 @@ export default function ModelTypelSelectContainer() {
                 active={selectedTypeIdx.bodyType === 1}
               >
                 <ModelTypeDesc>38%의 선택</ModelTypeDesc>
-                <ModelTypeTitle>디젤 2.2</ModelTypeTitle>
+                <ModelTypeTitle>디젤 2,2</ModelTypeTitle>
                 <ModelTypePrice>
                   +0 원 <CheckIcon active={selectedTypeIdx.bodyType === 1} />
                 </ModelTypePrice>
@@ -99,7 +98,7 @@ export default function ModelTypelSelectContainer() {
                 active={selectedTypeIdx.drivingSystem === 0}
               >
                 <ModelTypeDesc>38%의 선택</ModelTypeDesc>
-                <ModelTypeTitle>디젤 2.2</ModelTypeTitle>
+                <ModelTypeTitle>디젤 2,2</ModelTypeTitle>
                 <ModelTypePrice>
                   +0 원 <CheckIcon active={selectedTypeIdx.drivingSystem === 0} />
                 </ModelTypePrice>
@@ -109,7 +108,7 @@ export default function ModelTypelSelectContainer() {
                 active={selectedTypeIdx.drivingSystem === 1}
               >
                 <ModelTypeDesc>38%의 선택</ModelTypeDesc>
-                <ModelTypeTitle>디젤 2.2</ModelTypeTitle>
+                <ModelTypeTitle>디젤 2,2</ModelTypeTitle>
                 <ModelTypePrice>
                   +0 원 <CheckIcon active={selectedTypeIdx.drivingSystem === 1} />
                 </ModelTypePrice>
@@ -118,31 +117,28 @@ export default function ModelTypelSelectContainer() {
           </ModelTypeSection>
         </TypeWrapper>
       </TypeSection>
-      <TypeSection>
-        <HmgDataSection>
-          <HmgTag size="small" />
-          <HmgInfoWrapper>
-            <HmgTagDescription>
-              <p>
-                <BlueText>디젤 2.2</BlueText>와 <BlueText>2WD</BlueText>의
-              </p>
-              <p>배기량과 평균연비입니다.</p>
-            </HmgTagDescription>
-            <DataList>
-              <Data>
-                <DataTitle>배기량</DataTitle>
-                <DataInfo>2,199cc</DataInfo>
-              </Data>
-              <Data className="separator" />
-              <Data>
-                <DataTitle>평균연비</DataTitle>
-                <DataInfo>12km/s</DataInfo>
-              </Data>
-            </DataList>
-          </HmgInfoWrapper>
-        </HmgDataSection>
-        <PriceSummary />
-      </TypeSection>
+      <HmgDataSection>
+        <HmgTag size="small" />
+        <HmgInfoWrapper>
+          <HmgTagDescription>
+            <p>
+              <BlueText>디젤 2.2</BlueText>와 <BlueText>2WD</BlueText>의
+            </p>
+            <p>배기량과 평균연비입니다.</p>
+          </HmgTagDescription>
+          <DataList>
+            <Data>
+              <DataTitle>배기량</DataTitle>
+              <DataInfo>2,199cc</DataInfo>
+            </Data>
+            <Data className="separator" />
+            <Data>
+              <DataTitle>평균연비</DataTitle>
+              <DataInfo>12km/s</DataInfo>
+            </Data>
+          </DataList>
+        </HmgInfoWrapper>
+      </HmgDataSection>
     </Wrapper>
   );
 }
@@ -156,8 +152,6 @@ const Title = styled.div`
 const TypeSection = styled.div`
   display: flex;
   justify-content: space-between;
-  /* margin-top: 34px; */
-  padding: 16px 0px;
 `;
 const TypeWrapper = styled.div``;
 const TypeTitle = styled.div`
@@ -199,6 +193,7 @@ const ModelTypeDesc = styled.div`
 `;
 
 const HmgDataSection = styled.div`
+  margin-top: 34px;
   padding: 0px 48px;
   width: 677px;
   height: 114px;
