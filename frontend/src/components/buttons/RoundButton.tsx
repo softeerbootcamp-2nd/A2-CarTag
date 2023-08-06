@@ -1,6 +1,5 @@
 import { css, styled } from 'styled-components';
 import { BodyKrRegular3 } from '../../styles/typefaces';
-import { flexCenterCss } from '../../utils/commonStyle';
 
 interface IRoundButton extends React.HTMLAttributes<HTMLButtonElement> {
   type: 'option' | 'price';
@@ -8,7 +7,7 @@ interface IRoundButton extends React.HTMLAttributes<HTMLButtonElement> {
 }
 
 export default function RoundButton({ type, inactive = false, ...props }: IRoundButton) {
-  return <Wrapper $inactive={inactive} $type={type} {...props}></Wrapper>;
+  return <Wrapper $incative={inactive} $type={type} {...props}></Wrapper>;
 }
 
 const priceHoverCss = css`
@@ -33,51 +32,47 @@ const optionActiveCss = css`
   color: ${({ theme }) => theme.color.primaryColor};
 `;
 
-const priceButtonStyles = css`
-  min-width: 86px;
-  border-radius: 30px;
-  padding: 6px 16px;
+const Wrapper = styled.button<{ $type: 'option' | 'price'; $incative: boolean }>`
+  ${BodyKrRegular3}
   height: 36px;
-  &:hover {
-    ${priceHoverCss}
-  }
-  &:active {
-    ${priceActiveCss}
-  }
-`;
-const optionButtonStyles = css`
-  padding: 6px 20px;
-  border-radius: 20px;
-  min-width: 65px;
-  height: 34px;
-  &:hover {
-    ${optionHoverCss}
-  }
-  &:active {
-    ${optionActiveCss}
-  }
-`;
+  padding-left: 17px;
+  padding-right: 17px;
+  border-radius: 18px;
+  color: ${({ theme }) => theme.color.primaryColor};
 
-const Wrapper = styled.button<{ $type: 'option' | 'price'; $inactive: boolean }>`
-  ${BodyKrRegular3};
-  ${flexCenterCss};
-  white-space: nowrap;
-  ${({ $type, $inactive, theme }) => {
+  ${({ $type, $incative, theme }) => {
     if ($type === 'price') {
       return css`
-        ${priceButtonStyles}
         border: 1px solid ${theme.color.primaryColor};
-        background: ${$inactive ? theme.color.skyBlueCardBg : theme.color.white};
-        color: ${$inactive ? theme.color.gray600 : theme.color.primaryColor};
+        &:hover {
+          ${priceHoverCss}
+        }
+        &:active {
+          ${priceActiveCss}
+        }
       `;
-    } else {
+    } else if (!$incative && $type === 'option') {
       return css`
-        align-items: center;
-        justify-content: center;
-        ${optionButtonStyles}
-        border: 1px solid ${$inactive ? theme.color.gray200 : theme.color.skyBlue};
-        background: ${$inactive ? theme.color.white : theme.color.skyBlueCardBg};
-        color: ${$inactive ? theme.color.gray600 : theme.color.primaryColor};
+        background: ${theme.color.skyBlueCardBg};
+        border: 1px solid ${theme.color.skyBlue};
+        &:hover {
+          ${optionHoverCss}
+        }
+        &:active {
+          ${optionActiveCss}
+        }
+      `;
+    } else if ($incative && $type === 'option') {
+      return css`
+        border: 1px solid ${theme.color.gray200};
+        color: ${theme.color.gray600};
+        background: ${theme.color.white};
+        &:hover {
+          ${optionHoverCss}
+        }
+        &:active {
+          ${optionActiveCss}
+        }
       `;
     }
   }}
