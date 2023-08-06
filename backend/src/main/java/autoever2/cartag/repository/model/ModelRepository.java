@@ -1,4 +1,4 @@
-성package autoever2.cartag.repository.model;
+package autoever2.cartag.repository.model;
 
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
