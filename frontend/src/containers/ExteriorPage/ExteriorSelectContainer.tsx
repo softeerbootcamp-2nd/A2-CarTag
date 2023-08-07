@@ -5,6 +5,7 @@ import DefaultCardStyle from '../../components/card/DefaultCardStyle';
 import { HTMLAttributes, useState } from 'react';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { ArrowLeft, ArrowRight } from '../../components/icons/Icons';
+import PriceSummary from '../../components/summary/PriceSummary';
 
 export default function ExteriorSelectContainer() {
   const [page, setPage] = useState(0);
@@ -71,6 +72,9 @@ export default function ExteriorSelectContainer() {
         </PageButtonWrapper>
       </Header>
       <SelectSection>{CardPageList[page]}</SelectSection>
+      <Footer>
+        <PriceSummary />
+      </Footer>
     </Wrapper>
   );
 }
@@ -159,4 +163,9 @@ const ColorName = styled.div`
 `;
 const ColorPrice = styled.div`
   ${BodyKrMedium3}
+`;
+const Footer = styled.div`
+  margin-top: 36px;
+  display: flex;
+  justify-content: flex-end;
 `;
