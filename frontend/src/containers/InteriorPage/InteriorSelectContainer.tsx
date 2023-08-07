@@ -15,7 +15,7 @@ import PriceSummary from '../../components/summary/PriceSummary';
 const MAX_PAGE = 3;
 const NUM_IN_A_PAGE = 4;
 
-interface IIneTeriorCard extends HTMLAttributes<HTMLDivElement> {
+interface IInTeriorCard extends HTMLAttributes<HTMLDivElement> {
   imgSrc1: string;
   imgSrc2: string;
   active: boolean;
@@ -91,7 +91,7 @@ export default function InteriorSelectContainer() {
   );
 }
 
-function InteriorCard({ imgSrc1, imgSrc2, active, desc, name, price, ...props }: IIneTeriorCard) {
+function InteriorCard({ imgSrc1, imgSrc2, active, desc, name, price, ...props }: IInTeriorCard) {
   return (
     <Card active={active} {...props}>
       <ImgWrapper>
@@ -173,7 +173,7 @@ const Footer = styled.div`
 `;
 
 const DescWrapper = styled.div`
-  padding: 14px 16px 14px 16px;
+  padding: 14px 16px;
   width: 100%;
   height: 100%;
 `;
