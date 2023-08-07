@@ -1,9 +1,9 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { css, styled } from 'styled-components';
+import { css, styled, useTheme } from 'styled-components';
 import { PATH } from '../../utils/url';
 import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../styles/typefaces';
-import { CancelIcon } from '../icons/Icons';
+import { ArrowDown, CancelIcon } from '../icons/Icons';
 import hyundaiLogo from '/images/logo.svg';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
@@ -12,6 +12,7 @@ interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
 export default function NavBar() {
   const navigate = useNavigate();
   const { pathname: currentPath } = useLocation();
+  const theme = useTheme();
 
   const handleNavItemClick = (path: string) => {
     navigate(path);
@@ -20,12 +21,18 @@ export default function NavBar() {
   const isActive = (path: string) => {
     return currentPath === path;
   };
+  const handleCloseButtonClick = () => {
+    console.log('종료 창 띄우기');
+  };
 
   return (
     <Wrapper>
       <HyundaiLogo src={hyundaiLogo} alt="" />
       <Body>
-        <CarSelect>펠리세이드</CarSelect>
+        <CarSelect>
+          <span>펠리세이드</span>
+          <ArrowDown fill={theme.color.gray800} />
+        </CarSelect>
         <NavList>
           <NavItem onClick={() => handleNavItemClick(PATH.trim)} active={isActive(PATH.trim)}>
             트림
@@ -58,7 +65,7 @@ export default function NavBar() {
       </Body>
 
       <CancelButton>
-        <span>종료</span>
+        <Span onClick={handleCloseButtonClick}>종료</Span>
         <CancelIcon width={12} height={12} />
       </CancelButton>
     </Wrapper>
@@ -130,6 +137,7 @@ const CarSelect = styled.div`
   align-items: center;
   padding-left: 20px;
   border-left: 1px solid ${({ theme }) => theme.color.gray200};
+  cursor: pointer;
 `;
 
 const CancelButton = styled.button`
@@ -155,4 +163,8 @@ const Underline = styled.div`
   width: 18px;
   height: 2px;
   background-color: ${({ theme }) => theme.color.primaryColor};
+`;
+
+const Span = styled.span`
+  ${BodyKrMedium3}
 `;
