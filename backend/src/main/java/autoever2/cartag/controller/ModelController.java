@@ -1,7 +1,12 @@
 package autoever2.cartag.controller;
 
-import autoever2.cartag.domain.dto.model.ModelShortDataDTO;
+import autoever2.cartag.domain.model.ModelShortDataDTO;
 import autoever2.cartag.service.ModelService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,13 +18,17 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/modeltype")
-@Tag(name = "트림의 모델 타입", description = "트림의 모델 타입 호출 관련 API")
+@RequestMapping("/api/modeltypes")
+@Tag(name = "트림의 모델 타입", description = "트림의 모델 타입 호출 관련 api")
 public class ModelController {
 
     private final ModelService modelTypeService;
 
-    @GetMapping("/getmodeltype")
+    @Operation(summary = "차량 모델 타입 리스트 조회", description = "차량 모델 페이지에서 하단의 리스트(파워트레인 등)를 반환하는 method")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = ModelShortDataDTO.class)))
+    })
+    @GetMapping("/list")
     public List<ModelShortDataDTO> getTrimModelType(@RequestParam("carid") int carId) {
         return modelTypeService.getModelTypeData(carId);
     }
