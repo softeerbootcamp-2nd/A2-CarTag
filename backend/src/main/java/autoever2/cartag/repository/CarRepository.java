@@ -1,8 +1,7 @@
 package autoever2.cartag.repository;
 
-import autoever2.cartag.domain.dto.car.DefaultOptionDto;
 import autoever2.cartag.domain.dto.car.CarInfoDto;
-import org.springframework.dao.EmptyResultDataAccessException;
+import autoever2.cartag.domain.dto.car.DefaultOptionDto;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -25,13 +24,11 @@ public class CarRepository {
     public Optional<List<CarInfoDto>> findCarByCarType(int carType) {
         String sql = "select car_id, trim, car_default_price, outer_image, inner_image, wheel_image " +
                 "car_description from Car where car_type = :carType";
-        try {
-            SqlParameterSource param = new MapSqlParameterSource()
-                    .addValue("carType", carType);
-            return Optional.of(template.query(sql, param, CarRowMapper()));
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
+
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("carType", carType);
+        return Optional.ofNullable(template.query(sql, param, CarRowMapper()));
+
     }
 
     public Optional<List<DefaultOptionDto>> findDefaultOptionByCarId(int carId) {
@@ -39,13 +36,10 @@ public class CarRepository {
                 "from DefaultOptionData as data " +
                 "inner join DefaultOption as options on data.default_option_id = options.default_option_id " +
                 "where data.car_id = :carId";
-        try {
-            SqlParameterSource param = new MapSqlParameterSource()
-                    .addValue("carId", carId);
-            return Optional.of(template.query(sql, param, OptionRowMapper()));
-        } catch (EmptyResultDataAccessException e) {
-            return Optional.empty();
-        }
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("carId", carId);
+        return Optional.ofNullable(template.query(sql, param, OptionRowMapper()));
+
     }
 
     private RowMapper<DefaultOptionDto> OptionRowMapper() {

@@ -20,12 +20,12 @@ import java.util.List;
 @RestController
 @RequestMapping("api/cars")
 @RequiredArgsConstructor
-@Tag(name = "TrimController", description = "트림 반환 api 입니다.")
+@Tag(name = "TrimController", description = "트림 반환 api")
 public class TrimController {
 
     private final CarService service;
 
-    @Operation(summary = "trim 조회", description = "trim 조회 method 입니다.")
+    @Operation(summary = "trim 조회", description = "trim 조회 method")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = CarDto.class))),
     })
