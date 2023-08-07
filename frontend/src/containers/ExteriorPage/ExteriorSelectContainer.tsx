@@ -12,6 +12,14 @@ import { flexCenterCss } from '../../utils/commonStyle';
 import { ArrowLeft, ArrowRight } from '../../components/icons/Icons';
 import PriceSummary from '../../components/summary/PriceSummary';
 
+interface IExteriorCard extends HTMLAttributes<HTMLDivElement> {
+  active: boolean;
+  color: string;
+  desc: string;
+  name: string;
+  price: string;
+}
+
 export default function ExteriorSelectContainer() {
   const [page, setPage] = useState(0);
   const [selectedIdx, setSelectedIdx] = useState({ page: 0, idx: 0 });
@@ -35,7 +43,7 @@ export default function ExteriorSelectContainer() {
       return prevPage;
     });
   };
-  const handleSelectIdx = (idx: number) => {
+  const handleSelectedIdx = (idx: number) => {
     setSelectedIdx({ page, idx });
   };
   const isActive = (idx: number) => {
@@ -50,7 +58,7 @@ export default function ExteriorSelectContainer() {
           <ExteriorCard
             key={idx}
             active={isActive(idx)}
-            onClick={() => handleSelectIdx(idx)}
+            onClick={() => handleSelectedIdx(idx)}
             color="black"
             desc="38%가 선택했어요"
             name="블랙"
@@ -84,14 +92,6 @@ export default function ExteriorSelectContainer() {
       </Footer>
     </Wrapper>
   );
-}
-
-interface IExteriorCard extends HTMLAttributes<HTMLDivElement> {
-  active: boolean;
-  color: string;
-  desc: string;
-  name: string;
-  price: string;
 }
 
 function ExteriorCard({ active, color, desc, name, price, ...props }: IExteriorCard) {
@@ -157,7 +157,6 @@ const ColorWrapper = styled.div`
   width: 58px;
   height: 58px;
   border: 1px solid ${({ theme }) => theme.color.gray50};
-  /* border: 1px solid ${({ theme }) => theme.color.primaryColor}; */
   margin-left: 12px;
 `;
 
