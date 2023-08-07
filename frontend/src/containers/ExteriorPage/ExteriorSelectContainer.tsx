@@ -3,7 +3,6 @@ import {
   BodyKrMedium3,
   BodyKrMedium4,
   BodyKrRegular3,
-  BodyKrRegular5,
   HeadingKrMedium5,
 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
