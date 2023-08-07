@@ -1,0 +1,67 @@
+@font-face {
+  font-family: 'Hyundai Sans Head Bold';
+  src: url('fonts/HyundaiSansHead-Bold.otf') format('opentype');
+}
+
+@font-face {
+  font-family: 'Hyundai Sans Head Medium';
+  src: url('fonts/HyundaiSansHeadKROTFMedium.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Hyundai Sans Head Regular';
+  src: url('fonts/HyundaiSansHeadKROTFRegular.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Hyundai Sans Head Light';
+  src: url('fonts/HyundaiSansHeadKROTFLight.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Hyundai Sans Text Bold';
+  src: url('fonts/HyundaiSansHeadKROTFBold.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Hyundai Sans Text Medium';
+  src: url('fonts/HyundaiSansHeadKROTFMedium.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Hyundai Sans Text Regular';
+  src: url('fonts/HyundaiSansHeadKROTFRegular.otf') format('opentype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Hyundai Sans Text Light';
+  src: url('fonts/HyundaiSansHeadKROTFLight.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Hyundai Sans Head KR Bold';
+  src: url('fonts/HyundaiSansHeadKROTFBold.otf') format('opentype');
+  font-weight: 700;
+}
+@font-face {
+  font-family: 'Hyundai Sans Head KR Medium';
+  src: url('fonts/HyundaiSansHeadKROTFMedium.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Hyundai Sans Head KR Regular';
+  src: url('fonts/HyundaiSansHeadKROTFRegular.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Hyundai Sans Head KR Light';
+  src: url('fonts/HyundaiSansHeadKROTFLight.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Hyundai Sans Text KR Bold';
+  src: url('fonts/HyundaiSansHeadKROTFBold.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Hyundai Sans Text KR Medium';
+  src: url('fonts/HyundaiSansHeadKROTFMedium.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Hyundai Sans Text KR Regular';
+  src: url('fonts/HyundaiSansHeadKROTFRegular.otf') format('opentype');
+}
+@font-face {
+  font-family: 'Hyundai Sans Text KR Light';
+  src: url('fonts/HyundaiSansHeadKROTFLight.otf') format('opentype');
+}
