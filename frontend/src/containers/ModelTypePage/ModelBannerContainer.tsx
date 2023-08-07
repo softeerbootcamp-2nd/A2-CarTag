@@ -3,7 +3,7 @@ import { BodyKrRegular5, HeadingKrRegular2 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import Banner from '../../components/banner/Banner';
 import HmgTag from '../../components/hmgTag/HmgTag';
-import PriceStaticBar from '../../components/status/priceStatusBar/PriceStatusBar';
+import PriceStaticBar from '../../components/priceStaticBar/PriceStaticBar';
 
 export default function ModelBannerContainer() {
   return (

@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
-import { flexCenterCss } from '../../../utils/commonStyle';
-import { BodyKrRegular5 } from '../../../styles/typefaces';
+import { flexCenterCss } from '../../utils/commonStyle';
+import { BodyKrRegular5 } from '../../styles/typefaces';
 
 export const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>((props) => ({
   type: props.type,
