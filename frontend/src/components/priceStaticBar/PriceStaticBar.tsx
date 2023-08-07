@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { css, styled } from 'styled-components';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular4, HeadingKrMedium6 } from '../../styles/typefaces';
@@ -16,10 +16,10 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
   const [isOverBudget, setIsOverBudget] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const balance = ((isOverBudget ? -10000 : 10000) * (budget - total)).toLocaleString();
-  const getBudgetStatus = () => {
+  const getBudgetStatus = useCallback(() => {
     const status = budget - total;
     status >= 0 ? setIsOverBudget(false) : setIsOverBudget(true);
-  };
+  }, [budget]);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(event.target.value);
     setBudget(newValue);
@@ -27,7 +27,7 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
 
   useEffect(() => {
     getBudgetStatus();
-  }, [budget]);
+  }, [budget, getBudgetStatus]);
 
   return (
     <StatusBox {...props} $isover={isOverBudget}>
