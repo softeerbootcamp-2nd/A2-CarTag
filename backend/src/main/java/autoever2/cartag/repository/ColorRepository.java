@@ -3,7 +3,6 @@ package autoever2.cartag.repository;
 import autoever2.cartag.domain.entity.color.Color;
 import autoever2.cartag.domain.entity.color.ColorCarMapper;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -61,10 +60,24 @@ public class ColorRepository {
     }
 
     private RowMapper<ColorCarMapper> ColorCarRowMapper() {
-        return BeanPropertyRowMapper.newInstance(ColorCarMapper.class);
+        return (rs, rowNum) -> ColorCarMapper
+                .builder()
+                .colorCarMapperId(rs.getInt("color_car_mapper_id"))
+                .carId(rs.getInt("car_id"))
+                .colorId(rs.getInt("color_id"))
+                .colorCarImage(rs.getString("color_car_image"))
+                .colorPrice(rs.getLong("color_price"))
+                .colorBoughtCount(rs.getLong("color_bought_count"))
+                .build();
     }
 
     private RowMapper<Color> ColorRowMapper() {
-        return BeanPropertyRowMapper.newInstance(Color.class);
+        return (rs, rowNum) -> Color
+                .builder()
+                .colorId(rs.getInt("color_id"))
+                .colorName(rs.getString("color_name"))
+                .colorImage(rs.getString("color_image"))
+                .isOuterColor(rs.getInt("is_outer_color"))
+                .build();
     }
 }

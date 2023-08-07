@@ -3,7 +3,6 @@ package autoever2.cartag.repository;
 import autoever2.cartag.domain.dto.car.DefaultOptionDto;
 import autoever2.cartag.domain.entity.car.Car;
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -47,10 +46,27 @@ public class CarRepository {
     }
 
     private RowMapper<DefaultOptionDto> OptionRowMapper() {
-        return BeanPropertyRowMapper.newInstance(DefaultOptionDto.class);
+        return (rs, rowNum) -> DefaultOptionDto
+                .builder()
+                .optionName(rs.getString("option_name"))
+                .optionImage(rs.getString("option_image"))
+                .optionDescription(rs.getString("option_description"))
+                .defaultOptionCount(rs.getInt("default_option_count"))
+                .build();
     }
 
     private RowMapper<Car> CarRowMapper() {
-        return BeanPropertyRowMapper.newInstance(Car.class);
+        return (rs, rowNum) ->
+            Car.builder()
+                    .carDescription(rs.getString("car_description"))
+                    .carId(rs.getInt("car_id"))
+                    .carTypeId(rs.getInt("car_type_id"))
+                    .trim(rs.getString("trim"))
+                    .innerImage(rs.getString("inner_image"))
+                    .outerImage(rs.getString("outer_image"))
+                    .wheelImage(rs.getString("wheel_image"))
+                    .boughtCount(rs.getLong("bought_count"))
+                    .carDefaultPrice(rs.getInt("car_default_price"))
+                    .build();
     }
 }

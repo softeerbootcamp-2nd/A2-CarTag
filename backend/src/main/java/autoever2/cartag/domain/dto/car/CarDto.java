@@ -6,9 +6,7 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.Singular;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Getter
 @Builder
@@ -29,7 +27,6 @@ public class CarDto {
     @Singular private List<DefaultOptionDto> options;
 
     public static CarDto toDto(Car car, List<DefaultOptionDto> optionDtos) {
-
         return CarDto.builder()
                 .trim(car.getTrim())
                 .carDefaultPrice(car.getCarDefaultPrice())

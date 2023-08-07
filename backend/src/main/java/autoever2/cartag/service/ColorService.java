@@ -16,7 +16,6 @@ public class ColorService {
     private final ColorRepository repository;
 
     /**
-     *
      * 어떤 예외를 반환할지를 고민합니다.
      */
 

@@ -1,9 +1,10 @@
 package autoever2.cartag.domain.entity.color;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Builder
 public class ColorCarMapper {
     private int colorCarMapperId;
     private int carId;

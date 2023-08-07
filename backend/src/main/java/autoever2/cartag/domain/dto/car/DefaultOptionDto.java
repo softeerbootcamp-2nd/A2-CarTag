@@ -1,12 +1,12 @@
 package autoever2.cartag.domain.dto.car;
 
+import lombok.Builder;
 import lombok.Getter;
-import lombok.Setter;
 
-@Getter @Setter
+@Getter @Builder
 public class DefaultOptionDto {
     private String optionName;
     private String optionImage;
     private String optionDescription;
-    private int optionCount;
+    private int defaultOptionCount;
 }
