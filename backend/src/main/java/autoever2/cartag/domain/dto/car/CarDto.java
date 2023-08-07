@@ -12,17 +12,17 @@ import java.util.List;
 @Builder
 @Schema(description = "차량 반환 DTO")
 public class CarDto {
-    @Schema(description = "trim 명", example = "Le Blanc", nullable = true)
+    @Schema(description = "trim 명", example = "Le Blanc")
     private String trim;
-    @Schema(description = "차량의 기본 가격", nullable = true)
+    @Schema(description = "차량의 기본 가격")
     private int carDefaultPrice;
-    @Schema(description = "차량 외부 이미지 url", nullable = true)
+    @Schema(description = "차량 외부 이미지 url")
     private String outerImage;
-    @Schema(description = "차량 내부 이미지 url", nullable = true)
+    @Schema(description = "차량 내부 이미지 url")
     private String innerImage;
-    @Schema(description = "차량 바퀴 이미지 url")
+    @Schema(description = "차량 바퀴 이미지 url", nullable = true)
     private String wheelImage;
-    @Schema(description = "차량에 대한 설명", nullable = true)
+    @Schema(description = "차량에 대한 설명")
     private String carDescription;
     @Singular private List<DefaultOptionDto> options;
 
