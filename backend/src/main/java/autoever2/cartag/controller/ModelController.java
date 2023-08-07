@@ -3,6 +3,7 @@ package autoever2.cartag.controller;
 import autoever2.cartag.domain.model.ModelShortDataDTO;
 import autoever2.cartag.service.ModelService;
 import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
@@ -29,7 +30,7 @@ public class ModelController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = ModelShortDataDTO.class)))
     })
     @GetMapping("/list")
-    public List<ModelShortDataDTO> getTrimModelType(@RequestParam("carid") int carId) {
+    public List<ModelShortDataDTO> getTrimModelType(@Parameter(description = "선택한 차량 트림ID") @RequestParam("carid") int carId) {
         return modelTypeService.getModelTypeData(carId);
     }
 }
