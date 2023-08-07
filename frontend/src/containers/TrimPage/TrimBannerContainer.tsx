@@ -68,7 +68,6 @@ const Container = styled(CenterWrapper)`
   display: flex;
   justify-content: space-between;
   height: 100%;
-  height: 100%;
 `;
 const HmgDataSection = styled.div`
   padding-top: 166px;

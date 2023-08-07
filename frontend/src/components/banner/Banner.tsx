@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { BodyKrRegular3, BodyKrRegular4, HeadingKrBold1 } from '../../styles/typefaces';
+import { BodyKrRegular3, HeadingKrBold1 } from '../../styles/typefaces';
 import CenterWrapper from '../layout/CenterWrapper';
 
 interface IBanner extends React.HTMLAttributes<HTMLDivElement> {
@@ -8,7 +8,7 @@ interface IBanner extends React.HTMLAttributes<HTMLDivElement> {
   desc?: string;
 }
 
-export default function Banner({ subtitle, title, desc, ...props }: IBanner) {
+export default function Banner({ subtitle, title, ...props }: IBanner) {
   return (
     <>
       <BannerBg {...props}>
@@ -16,7 +16,6 @@ export default function Banner({ subtitle, title, desc, ...props }: IBanner) {
           <InfoWrapper>
             <SubTitle>{subtitle}</SubTitle>
             <Title>{title}</Title>
-            <AdditionalText>{desc}</AdditionalText>
           </InfoWrapper>
         </CenterWrapper>
         {props.children}
@@ -50,10 +49,4 @@ const SubTitle = styled.p`
 const Title = styled.p`
   color: ${(props) => props.theme.color.primaryColor700};
   ${HeadingKrBold1}
-`;
-
-const AdditionalText = styled.p`
-  width: 207px;
-  color: ${(props) => props.theme.color.gray800};
-  ${BodyKrRegular4}
 `;

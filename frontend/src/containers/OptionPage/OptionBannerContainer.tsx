@@ -1,20 +1,23 @@
 import { styled } from 'styled-components';
-import { BodyKrRegular4, BodyKrRegular5, HeadingKrRegular2 } from '../../styles/typefaces';
+import { BodyKrRegular5, HeadingKrRegular2 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import Banner from '../../components/banner/Banner';
 import HmgTag from '../../components/hmgTag/HmgTag';
 import PriceStaticBar from '../../components/priceStaticBar/PriceStaticBar';
 
-export default function ModelBannerContainer() {
+export default function OptionBannerContainer() {
   return (
     <>
       <PriceStaticBar />
-      <Banner subtitle={'파워트레인'} title={'디젤 2.2'}>
+      <OptionBanner
+        subtitle={'파워트레인/성능'}
+        title={'컴포트 ll'}
+        desc={
+          '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게 경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다. 더보기'
+        }
+      >
         <Container>
           <HmgDataSection>
-            <AdditionalText>
-              '높은 토크로 파워풀한 드라이빙이 가능하며, 차급대비 연비 효율이 우수합니다'
-            </AdditionalText>
             <HmgTag size="small" />
             <DataList>
               <Data>
@@ -40,24 +43,22 @@ export default function ModelBannerContainer() {
           </HmgDataSection>
           <ImgSection />
         </Container>
-      </Banner>
+      </OptionBanner>
     </>
   );
 }
 
-const AdditionalText = styled.p`
-  width: 207px;
-  color: ${(props) => props.theme.color.gray800};
-  ${BodyKrRegular4}
+const OptionBanner = styled(Banner)`
+  background: ${({ theme }) => theme.color.blueBg};
 `;
+
 const Container = styled(CenterWrapper)`
   display: flex;
   justify-content: space-between;
   height: 100%;
 `;
-
 const HmgDataSection = styled.div`
-  padding-top: 142px;
+  padding-top: 202px;
 `;
 
 const DataList = styled.ul`
@@ -104,11 +105,25 @@ const Ratio = styled.div<{ $current: number; $max: number }>`
   background-color: ${({ theme }) => theme.color.activeBlue2};
 `;
 
+// const ImgSection = styled.div`
+//   width: 632px;
+//   height: 360px;
+//   background:
+//     url('/images/option_roa.png'),
+//     rgba(211, 211, 211, 0.5) / cover no-repeat;
+//   background-size: contain;
+//   background-repeat: no-repeat;
+//   background-position: center;
+//   background-color: lightgray 50%;
+//   background-color: rgba(211, 211, 211, 0.5);
+// `;
+
 const ImgSection = styled.div`
   width: 632px;
   height: 360px;
-  background-image: url('/images/model_engine.png');
+  background-image: url('/images/option_roa.png');
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  background-color: rgba(211, 211, 211, 0.5); /* "lightgray"에 50%의 투명도 적용 */
 `;
