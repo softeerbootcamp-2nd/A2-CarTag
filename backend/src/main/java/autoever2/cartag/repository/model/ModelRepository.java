@@ -1,5 +1,6 @@
 package autoever2.cartag.repository.model;
 
+import autoever2.cartag.domain.model.ModelTypeMappedDto;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -7,6 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ModelRepository {
@@ -26,26 +28,16 @@ public class ModelRepository {
                 "on m.model_type_id = t.model_type_id " +
                 "where mm.car_id = ?";
 
-        List<ModelTypeMappedDto> result = template.query(sql, modelRowMapper(), carId);
-        return result;
+        return template.query(sql, modelRowMapper(), carId);
     }
 
     private RowMapper<ModelTypeMappedDto> modelRowMapper() {
-        return ((rs, rowNum) ->
-            ModelTypeMappedDto.builder()
-                    .modelId(rs.getInt("model_id"))
-                    .modelName(rs.getString("model_name"))
-                    .modelTypeName(rs.getString("model_type_name"))
-                    .modelBoughtCount(rs.getLong("model_bought_count"))
-                    .modelPrice(rs.getLong("model_price"))
-                    .isDefaultOption(rs.getBoolean("default_option"))
-                    .build()
-        );
+        return BeanPropertyRowMapper.newInstance(ModelTypeMappedDto.class);
     }
 
-    public Long findCarBoughtCountByCarId(int carId) {
+    public Optional<Long> findCarBoughtCountByCarId(int carId) {
         String sql = "select bought_count from car where car_id = ?";
 
-        return template.queryForObject(sql, Long.class, carId);
+        return Optional.ofNullable(template.queryForObject(sql, Long.class, carId));
     }
 }
