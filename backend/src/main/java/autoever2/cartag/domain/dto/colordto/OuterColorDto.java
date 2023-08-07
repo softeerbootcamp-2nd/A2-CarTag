@@ -9,15 +9,15 @@ import lombok.Getter;
 @Getter @Builder
 @Schema(description = "차량 외부 색상 반환 DTO")
 public class OuterColorDto {
-    @Schema(description = "외부 색상 이름", nullable = true)
+    @Schema(description = "외부 색상 이름")
     private String colorName;
-    @Schema(description = "외부 색상 이미지 url", nullable = true)
+    @Schema(description = "외부 색상 이미지 url")
     private String colorImage;
-    @Schema(description = "외부 색상 이미지 가격", nullable = true)
+    @Schema(description = "외부 색상 이미지 가격")
     private Long colorPrice;
-    @Schema(description = "판매된 외부 색상 이미지", nullable = true)
+    @Schema(description = "판매된 외부 색상 이미지")
     private Long colorBoughtCount;
-    @Schema(description = "차량에 적용된 외부 색상 이미지 url", nullable = true)
+    @Schema(description = "차량에 적용된 외부 색상 이미지 url")
     private String colorCarImage;
 
     public static OuterColorDto toDto(ColorCarMapper colorCarMapper, Color color) {
