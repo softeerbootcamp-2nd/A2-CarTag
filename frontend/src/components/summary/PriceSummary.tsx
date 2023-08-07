@@ -24,6 +24,7 @@ const SummaryWrapper = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  height: 114px;
 `;
 const InfoWrapper = styled.div`
   display: flex;
