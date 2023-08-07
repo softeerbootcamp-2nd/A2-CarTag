@@ -1,5 +1,11 @@
 import { styled, useTheme } from 'styled-components';
-import { BodyKrMedium3, BodyKrMedium4, HeadingKrMedium5 } from '../../styles/typefaces';
+import {
+  BodyKrMedium3,
+  BodyKrMedium4,
+  BodyKrRegular3,
+  BodyKrRegular5,
+  HeadingKrMedium5,
+} from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import DefaultCardStyle from '../../components/card/DefaultCardStyle';
 import { HTMLAttributes, useState } from 'react';
@@ -65,7 +71,9 @@ export default function ExteriorSelectContainer() {
           <PageButton onClick={handlePagePrev}>
             <ArrowLeft fill={arrowLeftColor} />
           </PageButton>
-          <Page>{page + 1}/3</Page>
+          <Page>
+            {page + 1}/{MAX_PAGE}
+          </Page>
           <PageButton onClick={handlePageNext}>
             <ArrowRight fill={arrowRightColor} />
           </PageButton>
@@ -119,6 +127,9 @@ const PageButtonWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  width: 116px;
+  ${BodyKrRegular3}
+  color: ${({ theme }) => theme.color.gray500}
 `;
 const PageButton = styled.button``;
 const Page = styled.span``;
