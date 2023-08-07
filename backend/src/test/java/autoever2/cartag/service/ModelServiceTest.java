@@ -1,8 +1,8 @@
 package autoever2.cartag.service;
 
-import autoever2.cartag.domain.dto.model.ModelShortDataDTO;
+import autoever2.cartag.domain.model.ModelShortDataDTO;
 import autoever2.cartag.repository.model.ModelRepository;
-import autoever2.cartag.repository.model.ModelTypeMappedDto;
+import autoever2.cartag.domain.model.ModelTypeMappedDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -10,17 +10,14 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.as;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
@@ -106,7 +103,7 @@ class ModelServiceTest {
         int carId = 1;
         Long boughtCount = 2000L;
         when(modelRepository.findAllModelTypeData(carId)).thenReturn(trimModelList);
-        when(modelRepository.findCarBoughtCountByCarId(carId)).thenReturn(boughtCount);
+        when(modelRepository.findCarBoughtCountByCarId(carId)).thenReturn(Optional.of(2000L));
 
         //when
         List<ModelShortDataDTO> result = modelService.getModelTypeData(carId);

@@ -1,26 +1,12 @@
 package autoever2.cartag.repository.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import nonapi.io.github.classgraph.json.Id;
-import org.junit.jupiter.api.BeforeEach;
+import autoever2.cartag.domain.model.ModelTypeMappedDto;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.data.jdbc.DataJdbcTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.event.annotation.BeforeTestClass;
-import org.springframework.test.context.jdbc.Sql;
 
-import javax.sql.DataSource;
-
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -68,7 +54,7 @@ class ModelRepositoryTest {
         int carId = 1;
 
         //when
-        Long boughtCount = modelRepository.findCarBoughtCountByCarId(carId);
+        Long boughtCount = modelRepository.findCarBoughtCountByCarId(carId).orElse(-1L);
 
         //then
         assertEquals(2000L, boughtCount);
