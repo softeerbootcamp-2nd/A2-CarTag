@@ -4,6 +4,9 @@ import autoever2.cartag.domain.model.ModelTypeMappedDto;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
@@ -13,10 +16,10 @@ import java.util.Optional;
 @Repository
 public class ModelRepository {
 
-    private final JdbcTemplate template;
+    private final NamedParameterJdbcTemplate template;
 
     public ModelRepository(DataSource dataSource) {
-        this.template = new JdbcTemplate(dataSource);
+        this.template = new NamedParameterJdbcTemplate(dataSource);
     }
 
     public List<ModelTypeMappedDto> findAllModelTypeData(int carId) {
@@ -26,9 +29,12 @@ public class ModelRepository {
                 "on mm.model_id = m.model_id " +
                 "inner join modeltype t " +
                 "on m.model_type_id = t.model_type_id " +
-                "where mm.car_id = ?";
+                "where mm.car_id = :carId";
 
-        return template.query(sql, modelRowMapper(), carId);
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("carId", carId);
+
+        return template.query(sql, param, modelRowMapper());
     }
 
     private RowMapper<ModelTypeMappedDto> modelRowMapper() {
@@ -36,8 +42,11 @@ public class ModelRepository {
     }
 
     public Optional<Long> findCarBoughtCountByCarId(int carId) {
-        String sql = "select bought_count from car where car_id = ?";
+        String sql = "select bought_count from car where car_id = :carId";
 
-        return Optional.ofNullable(template.queryForObject(sql, Long.class, carId));
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("carId", carId);
+
+        return Optional.ofNullable(template.queryForObject(sql, param, Long.class));
     }
 }
