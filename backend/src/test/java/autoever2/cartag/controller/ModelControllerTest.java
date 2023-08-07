@@ -1,6 +1,6 @@
 package autoever2.cartag.controller;
 
-import autoever2.cartag.domain.dto.model.ModelShortDataDTO;
+import autoever2.cartag.domain.model.ModelShortDataDTO;
 import autoever2.cartag.service.ModelService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -103,7 +103,7 @@ class ModelControllerTest {
         given(modelService.getModelTypeData(carId)).willReturn(trimModelList);
 
         //when
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/modeltype/getmodeltype").param("carid", String.valueOf(carId)));
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/modeltypes/list").param("carid", String.valueOf(carId)));
 
         //then
         resultActions.andExpect(status().isOk())
