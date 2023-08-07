@@ -1,8 +1,8 @@
 package autoever2.cartag.repository.model;
 
 import autoever2.cartag.domain.model.ModelTypeMappedDto;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -47,6 +47,6 @@ public class ModelRepository {
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("carId", carId);
 
-        return Optional.ofNullable(template.queryForObject(sql, param, Long.class));
+        return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, (rs, rowNum) -> rs.getLong("bought_count"))));
     }
 }
