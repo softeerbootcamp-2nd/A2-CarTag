@@ -2,13 +2,12 @@ package autoever2.cartag.service;
 
 import autoever2.cartag.domain.dto.colordto.InnerColorDto;
 import autoever2.cartag.domain.dto.colordto.OuterColorDto;
-import autoever2.cartag.domain.entity.color.ColorCarMapper;
 import autoever2.cartag.repository.ColorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -20,16 +19,20 @@ public class ColorService {
      */
 
     public List<OuterColorDto> findOuterColorByCarId(int carId) {
-        List<ColorCarMapper> colorCars = repository.findOuterColorCarByCarId(carId).get();
-        return colorCars.stream()
-                .map(colorCar -> OuterColorDto.toDto(colorCar, repository.findColorByColorId(colorCar.getColorId()).get()))
-                .collect(Collectors.toList());
+        Optional<List<OuterColorDto>> outerColors = repository.findOuterColorCarByCarId(carId);
+        if (outerColors.isEmpty()) {
+            throw new RuntimeException("미정");
+        }
+
+        return outerColors.get();
     }
 
     public List<InnerColorDto> findInnerColorByCarId(int carId) {
-        List<ColorCarMapper> colorCars = repository.findInnerColorCarByCarId(carId).get();
-        return colorCars.stream()
-                .map(colorCar -> InnerColorDto.toDto(colorCar, repository.findColorByColorId(colorCar.getColorId()).get()))
-                .collect(Collectors.toList());
+        Optional<List<InnerColorDto>> innerColors = repository.findInnerColorCarByCarId(carId);
+        if (innerColors.isEmpty()) {
+            throw new RuntimeException("미정");
+        }
+
+        return innerColors.get();
     }
 }

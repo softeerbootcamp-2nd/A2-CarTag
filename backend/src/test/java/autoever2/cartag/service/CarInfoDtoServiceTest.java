@@ -10,7 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import java.util.List;
 
 @SpringBootTest
-class CarServiceTest {
+class CarInfoDtoServiceTest {
     @Autowired
     private CarService service;
     @Test

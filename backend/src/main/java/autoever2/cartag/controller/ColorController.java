@@ -20,13 +20,13 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/cars")
+@RequestMapping("api/cars")
 @Tag(name = "ColorController", description = "색상 반환 api 입니다.")
 public class ColorController {
 
     private final ColorService service;
 
-    @Operation(summary = "차량 외장 색상 조회", description = "차량 외장 색상 조회 method 입니다.")
+    @Operation(summary = "차량 외장 색상 조회", description = "차량 외장 색상 조회 method")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = OuterColorDto.class))),
     })
@@ -34,7 +34,7 @@ public class ColorController {
     public List<OuterColorDto> carOuterColorInfo(@Parameter(description = "선택한 car_id") @RequestParam int carId) {
         return service.findOuterColorByCarId(carId);
     }
-    @Operation(summary = "차량 내장 색상 조회", description = "차량 내장 색상 조회 method 입니다.")
+    @Operation(summary = "차량 내장 색상 조회", description = "차량 내장 색상 조회 method")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = InnerColorDto.class))),
     })
