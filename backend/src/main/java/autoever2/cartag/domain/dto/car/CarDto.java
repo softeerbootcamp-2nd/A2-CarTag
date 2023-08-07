@@ -1,6 +1,5 @@
 package autoever2.cartag.domain.dto.car;
 
-import autoever2.cartag.domain.entity.car.Car;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -26,14 +25,14 @@ public class CarDto {
     private String carDescription;
     @Singular private List<DefaultOptionDto> options;
 
-    public static CarDto toDto(Car car, List<DefaultOptionDto> optionDtos) {
+    public static CarDto toDto(CarInfoDto carInfoDto, List<DefaultOptionDto> optionDtos) {
         return CarDto.builder()
-                .trim(car.getTrim())
-                .carDefaultPrice(car.getCarDefaultPrice())
-                .outerImage(car.getOuterImage())
-                .innerImage(car.getInnerImage())
-                .wheelImage(car.getWheelImage())
-                .carDescription(car.getCarDescription())
+                .trim(carInfoDto.getTrim())
+                .carDefaultPrice(carInfoDto.getCarDefaultPrice())
+                .outerImage(carInfoDto.getOuterImage())
+                .innerImage(carInfoDto.getInnerImage())
+                .wheelImage(carInfoDto.getWheelImage())
+                .carDescription(carInfoDto.getCarDescription())
                 .options(optionDtos)
                 .build();
     }

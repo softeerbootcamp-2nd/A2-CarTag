@@ -1,8 +1,9 @@
 package autoever2.cartag.repository;
 
 import autoever2.cartag.domain.dto.car.DefaultOptionDto;
-import autoever2.cartag.domain.entity.car.Car;
+import autoever2.cartag.domain.dto.car.CarInfoDto;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -21,8 +22,9 @@ public class CarRepository {
         template = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public Optional<List<Car>> findCarByCarType(int carType) {
-        String sql = "select * from Car where car_type = :carType";
+    public Optional<List<CarInfoDto>> findCarByCarType(int carType) {
+        String sql = "select car_id, trim, car_default_price, outer_image, inner_image, wheel_image " +
+                "car_description from Car where car_type = :carType";
         try {
             SqlParameterSource param = new MapSqlParameterSource()
                     .addValue("carType", carType);
@@ -33,7 +35,8 @@ public class CarRepository {
     }
 
     public Optional<List<DefaultOptionDto>> findDefaultOptionByCarId(int carId) {
-        String sql = "select * from DefaultOptionData as data " +
+        String sql = "select option_name, option_image, option_description, default_option_count " +
+                "from DefaultOptionData as data " +
                 "inner join DefaultOption as options on data.default_option_id = options.default_option_id " +
                 "where data.car_id = :carId";
         try {
@@ -46,27 +49,10 @@ public class CarRepository {
     }
 
     private RowMapper<DefaultOptionDto> OptionRowMapper() {
-        return (rs, rowNum) -> DefaultOptionDto
-                .builder()
-                .optionName(rs.getString("option_name"))
-                .optionImage(rs.getString("option_image"))
-                .optionDescription(rs.getString("option_description"))
-                .defaultOptionCount(rs.getInt("default_option_count"))
-                .build();
+        return BeanPropertyRowMapper.newInstance(DefaultOptionDto.class);
     }
 
-    private RowMapper<Car> CarRowMapper() {
-        return (rs, rowNum) ->
-            Car.builder()
-                    .carDescription(rs.getString("car_description"))
-                    .carId(rs.getInt("car_id"))
-                    .carTypeId(rs.getInt("car_type_id"))
-                    .trim(rs.getString("trim"))
-                    .innerImage(rs.getString("inner_image"))
-                    .outerImage(rs.getString("outer_image"))
-                    .wheelImage(rs.getString("wheel_image"))
-                    .boughtCount(rs.getLong("bought_count"))
-                    .carDefaultPrice(rs.getInt("car_default_price"))
-                    .build();
+    private RowMapper<CarInfoDto> CarRowMapper() {
+        return BeanPropertyRowMapper.newInstance(CarInfoDto.class);
     }
 }

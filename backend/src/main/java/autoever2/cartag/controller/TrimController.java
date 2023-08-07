@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/cars")
+@RequestMapping("api/cars")
 @RequiredArgsConstructor
 @Tag(name = "TrimController", description = "트림 반환 api 입니다.")
 public class TrimController {

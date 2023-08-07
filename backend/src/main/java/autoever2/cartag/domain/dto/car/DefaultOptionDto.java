@@ -3,9 +3,10 @@ package autoever2.cartag.domain.dto.car;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
-@Builder
+@Setter
 @Schema(description = "차량 DefaultOption 반환")
 public class DefaultOptionDto {
     @Schema(description = "option 이름")

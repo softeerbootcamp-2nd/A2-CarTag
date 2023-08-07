@@ -1,15 +1,15 @@
-package autoever2.cartag.domain.entity.car;
+package autoever2.cartag.domain.dto.car;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 @Getter
+@Setter
 @Builder
-public class Car {
+public class CarInfoDto {
 
     private int carId;
-
-    private int carTypeId;
 
     private String trim;
 
@@ -20,8 +20,6 @@ public class Car {
     private String innerImage;
 
     private String wheelImage;
-
-    private Long boughtCount;
 
     private String carDescription;
 }
