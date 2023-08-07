@@ -32,12 +32,12 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
   return (
     <StatusBox {...props} $isover={isOverBudget}>
       <StatusText>
-        <span className="status-title">예산 범위</span>
-        <span className="status-desc">
+        <StatusTitle>예산 범위</StatusTitle>
+        <StatusDesc>
           {isOverBudget ? '설정한 예산보다 ' : '설정한 예산까지 '}
           <span id="price-info">{balance}원</span>
           {isOverBudget ? ' 더 들었어요.' : ' 남았어요.'}
-        </span>
+        </StatusDesc>
 
         <IconBtn onClick={() => setIsOpen(!isOpen)}>{isOpen ? <ArrowUp /> : <ArrowDown />}</IconBtn>
       </StatusText>
@@ -53,7 +53,6 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
           handleChange={handleChange}
         />
       ) : null}
-      {props.children}
     </StatusBox>
   );
 }
@@ -84,22 +83,23 @@ const StatusBox = styled.div<{ $isover: boolean }>`
   border-radius: 10px;
   backdrop-filter: blur(3px);
   color: ${(props) => props.theme.color.gray50};
-
-  .status-title {
-    margin-right: 8px;
-    ${HeadingKrMedium6}
-  }
-  .status-desc {
-    ${BodyKrRegular4}
-    flex:1;
-    text-align: end;
-  }
 `;
 
 const StatusText = styled.div`
   width: 100%;
   ${flexCenterCss};
   justify-content: space-between;
+`;
+
+const StatusTitle = styled.span`
+  margin-right: 8px;
+  ${HeadingKrMedium6}
+`;
+
+const StatusDesc = styled.span`
+  ${BodyKrRegular4}
+  flex:1;
+  text-align: end;
 `;
 
 const IconBtn = styled.button``;
