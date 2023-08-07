@@ -1,11 +1,15 @@
-package autoever2.cartag.repository.model;
+package autoever2.cartag.domain.model;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.util.Objects;
 
 @Getter
+@Setter
+@NoArgsConstructor
 public class ModelTypeMappedDto {
 
     private int modelId;
@@ -31,10 +35,5 @@ public class ModelTypeMappedDto {
         if (o == null || getClass() != o.getClass()) return false;
         ModelTypeMappedDto that = (ModelTypeMappedDto) o;
         return modelId == that.modelId && isDefaultOption == that.isDefaultOption && Objects.equals(modelName, that.modelName) && Objects.equals(modelTypeName, that.modelTypeName) && Objects.equals(modelPrice, that.modelPrice) && Objects.equals(modelBoughtCount, that.modelBoughtCount);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(modelId, modelName, modelTypeName, modelPrice, modelBoughtCount, isDefaultOption);
     }
 }
