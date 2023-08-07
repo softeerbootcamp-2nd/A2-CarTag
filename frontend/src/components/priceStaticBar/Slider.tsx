@@ -1,4 +1,4 @@
-import { styled } from 'styled-components';
+import { css, styled } from 'styled-components';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular5 } from '../../styles/typefaces';
 import { ChangeEvent } from 'react';
@@ -68,19 +68,21 @@ const MarkerSvg = styled.svg<{ $isover: boolean; $percent: number }>`
   width: 9px;
   height: 23px;
   top: 6px;
-  fill: ${(props) => (props.$isover ? props.theme.color.sand : props.theme.color.primaryColor400)};
-  left: ${(props) => props.$percent}%;
+  fill: ${({ theme, $isover }) => ($isover ? theme.color.sand : theme.color.primaryColor400)};
+  left: ${({ $percent }) => $percent}%;
   transform: translate(-50%, -50%);
 `;
 
-const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>((props) => ({
-  type: props.type,
-  min: props.min,
-  max: props.max,
-  value: props.value,
-  onChange: props.onChange,
-  step: props.step,
-}))`
+const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
+  ({ type, min, max, value, onChange, step }) => ({
+    type: type,
+    min: min,
+    max: max,
+    value: value,
+    onChange: onChange,
+    step: step,
+  })
+)`
   &,
   &::-webkit-slider-runnable-track,
   &::-webkit-slider-thumb {
@@ -89,15 +91,19 @@ const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>((pro
   width: 100%;
   height: 6px;
   border-radius: 4px;
-  background: linear-gradient(
-    to right,
-    #fff 0%,
-    #fff ${(props) => `${props.$percent}%`},
-    ${(props) => (props.$isover ? props.theme.color.gray800 : props.theme.color.primaryColor800)}
-      ${(props) => `${props.$percent}%`},
-    ${(props) => (props.$isover ? props.theme.color.gray800 : props.theme.color.primaryColor800)}
-      100%
-  );
+
+  ${({ $percent, $isover, theme }) => {
+    return css`
+      background: linear-gradient(
+        to right,
+        #fff 0%,
+        #fff ${$percent}%,
+        ${$isover ? theme.color.gray800 : theme.color.primaryColor800} ${$percent}%,
+        ${$isover ? theme.color.gray800 : theme.color.primaryColor800} 100%
+      );
+    `;
+  }}
+
   &::-webkit-slider-runnable-track {
     cursor: pointer;
 
@@ -110,8 +116,8 @@ const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>((pro
     cursor: pointer;
     width: 20px;
     height: 20px;
-    background: ${(props) =>
-      props.$isover ? props.theme.color.sand : props.theme.color.primaryColor400};
+    background: ${({ $isover, theme }) =>
+      $isover ? theme.color.sand : theme.color.primaryColor400};
     border-radius: 50%;
     cursor: pointer;
     border: 1px solid #fff;
@@ -125,6 +131,6 @@ const PriceInfo = styled.div`
   span {
     padding-top: 4px;
     ${BodyKrRegular5}
-    color: ${(props) => props.theme.color.primaryColor200};
+    color: ${({ theme }) => theme.color.primaryColor200};
   }
 `;

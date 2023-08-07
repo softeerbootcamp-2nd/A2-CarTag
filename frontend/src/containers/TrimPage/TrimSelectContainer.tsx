@@ -22,25 +22,25 @@ export default function TrimSelectContainer() {
       <Title>트림을 선택해주세요.</Title>
       <TrimSection>
         {/* Todo. map() 으로 데이터 받아서 만들기! */}
-        <TrimCard onClick={() => handleSelectedIdx(0)} active={selectedTrimIdx === 0 && true}>
+        <TrimCard onClick={() => handleSelectedIdx(0)} active={selectedTrimIdx === 0}>
           <TrimDesc>기본기를 갖춘 베이직한 펠리세이드</TrimDesc>
           <TrimTitle>Exclusive</TrimTitle>
           <TrimPrice>100원!</TrimPrice>
           <TrimButton type={'trim'}>선택하기</TrimButton>
         </TrimCard>
-        <TrimCard onClick={() => handleSelectedIdx(1)} active={selectedTrimIdx === 1 && true}>
+        <TrimCard onClick={() => handleSelectedIdx(1)} active={selectedTrimIdx === 1}>
           <TrimDesc>기본기를 갖춘 베이직한 펠리세이드</TrimDesc>
           <TrimTitle>Exclusive</TrimTitle>
           <TrimPrice>100원!</TrimPrice>
           <TrimButton type={'trim'}>선택하기</TrimButton>
         </TrimCard>
-        <TrimCard onClick={() => handleSelectedIdx(2)} active={selectedTrimIdx === 2 && true}>
+        <TrimCard onClick={() => handleSelectedIdx(2)} active={selectedTrimIdx === 2}>
           <TrimDesc>기본기를 갖춘 베이직한 펠리세이드</TrimDesc>
           <TrimTitle>Exclusive</TrimTitle>
           <TrimPrice>100원!</TrimPrice>
           <TrimButton type={'trim'}>선택하기</TrimButton>
         </TrimCard>
-        <TrimCard onClick={() => handleSelectedIdx(3)} active={selectedTrimIdx === 3 && true}>
+        <TrimCard onClick={() => handleSelectedIdx(3)} active={selectedTrimIdx === 3}>
           <TrimDesc>기본기를 갖춘 베이직한 펠리세이드</TrimDesc>
           <TrimTitle>Exclusive</TrimTitle>
           <TrimPrice>100원!</TrimPrice>
