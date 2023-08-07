@@ -7,7 +7,7 @@ import { CancelIcon } from '../icons/Icons';
 import hyundaiLogo from '/images/logo.svg';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
-  active: 'true' | 'false';
+  active: boolean;
 }
 export default function NavBar() {
   const navigate = useNavigate();
@@ -18,7 +18,7 @@ export default function NavBar() {
   };
 
   const isActive = (path: string) => {
-    return currentPath === path ? 'true' : 'false';
+    return currentPath === path;
   };
 
   return (
@@ -66,8 +66,7 @@ export default function NavBar() {
 }
 
 function NavItem({ active, ...props }: INavItem) {
-  const Highlight =
-    active === 'true' ? <Underline /> : <Underline style={{ visibility: 'hidden' }} />;
+  const Highlight = active ? <Underline /> : <Underline style={{ visibility: 'hidden' }} />;
   return (
     <Item {...props} $active={active}>
       {props.children}
@@ -98,7 +97,7 @@ const NavList = styled.ul`
   margin: -10px;
 `;
 
-const Item = styled.li<{ $active: string }>`
+const Item = styled.li<{ $active: boolean }>`
   ${HeadingKrMedium6}
   width: 52px;
   display: flex;
@@ -109,7 +108,7 @@ const Item = styled.li<{ $active: string }>`
   cursor: pointer;
 
   ${({ theme, $active }) => {
-    if ($active === 'true') {
+    if ($active === true) {
       return css`
         color: ${theme.color.primaryColor};
       `;
