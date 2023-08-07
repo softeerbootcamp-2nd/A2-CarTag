@@ -1,6 +1,6 @@
 package autoever2.cartag.controller;
 
-import autoever2.cartag.domain.model.ModelShortDataDTO;
+import autoever2.cartag.domain.model.ModelShortDataDto;
 import autoever2.cartag.service.ModelService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -28,14 +28,14 @@ class ModelControllerTest {
     @MockBean
     private ModelService modelService;
 
-    private List<ModelShortDataDTO> trimModelList;
+    private List<ModelShortDataDto> trimModelList;
 
     @BeforeEach
     void setUp() {
 
         trimModelList = new ArrayList<>();
         //디젤 2.2 데이터
-        trimModelList.add(ModelShortDataDTO.builder()
+        trimModelList.add(ModelShortDataDto.builder()
                 .modelId(1)
                 .modelName("디젤 2.2")
                 .modelPrice(0L)
@@ -45,7 +45,7 @@ class ModelControllerTest {
                 .build());
 
         //가솔린 3.8 데이터
-        trimModelList.add(ModelShortDataDTO.builder()
+        trimModelList.add(ModelShortDataDto.builder()
                 .modelId(2)
                 .modelName("가솔린 3.8")
                 .modelPrice(280000L)
@@ -55,7 +55,7 @@ class ModelControllerTest {
                 .build());
 
         //7인승 데이터
-        trimModelList.add(ModelShortDataDTO.builder()
+        trimModelList.add(ModelShortDataDto.builder()
                 .modelId(3)
                 .modelName("7인승")
                 .modelPrice(0L)
@@ -65,7 +65,7 @@ class ModelControllerTest {
                 .build());
 
         //8인승 데이터
-        trimModelList.add(ModelShortDataDTO.builder()
+        trimModelList.add(ModelShortDataDto.builder()
                 .modelId(4)
                 .modelName("8인승")
                 .modelPrice(130000L)
@@ -75,7 +75,7 @@ class ModelControllerTest {
                 .build());
 
         //2WD 데이터
-        trimModelList.add(ModelShortDataDTO.builder()
+        trimModelList.add(ModelShortDataDto.builder()
                 .modelId(5)
                 .modelName("2WD")
                 .modelPrice(0L)
@@ -85,7 +85,7 @@ class ModelControllerTest {
                 .build());
 
         //4WD 데이터
-        trimModelList.add(ModelShortDataDTO.builder()
+        trimModelList.add(ModelShortDataDto.builder()
                 .modelId(6)
                 .modelName("4WD")
                 .modelPrice(237000L)

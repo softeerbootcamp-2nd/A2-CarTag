@@ -1,6 +1,6 @@
 package autoever2.cartag.controller;
 
-import autoever2.cartag.domain.model.ModelShortDataDTO;
+import autoever2.cartag.domain.model.ModelShortDataDto;
 import autoever2.cartag.service.ModelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -27,10 +27,10 @@ public class ModelController {
 
     @Operation(summary = "차량 모델 타입 리스트 조회", description = "차량 모델 페이지에서 하단의 리스트(파워트레인 등)를 반환하는 method")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = ModelShortDataDTO.class)))
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = ModelShortDataDto.class)))
     })
     @GetMapping("/list")
-    public List<ModelShortDataDTO> getTrimModelType(@Parameter(description = "선택한 차량 트림ID") @RequestParam("carid") int carId) {
+    public List<ModelShortDataDto> getTrimModelType(@Parameter(description = "선택한 차량 트림ID") @RequestParam("carid") int carId) {
         return modelTypeService.getModelTypeData(carId);
     }
 }

@@ -7,7 +7,7 @@ import lombok.Getter;
 @Builder
 @Getter
 @Schema(description = "모델 타입 + 이름 + 선택 비율 반환")
-public class ModelShortDataDTO {
+public class ModelShortDataDto {
 
     @Schema(description = "모델ID", example = "1")
     private int modelId;

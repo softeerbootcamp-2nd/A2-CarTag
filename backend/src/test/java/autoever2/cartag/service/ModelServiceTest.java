@@ -1,6 +1,6 @@
 package autoever2.cartag.service;
 
-import autoever2.cartag.domain.model.ModelShortDataDTO;
+import autoever2.cartag.domain.model.ModelShortDataDto;
 import autoever2.cartag.repository.model.ModelRepository;
 import autoever2.cartag.domain.model.ModelTypeMappedDto;
 import org.junit.jupiter.api.BeforeEach;
@@ -106,7 +106,7 @@ class ModelServiceTest {
         when(modelRepository.findCarBoughtCountByCarId(carId)).thenReturn(Optional.of(2000L));
 
         //when
-        List<ModelShortDataDTO> result = modelService.getModelTypeData(carId);
+        List<ModelShortDataDto> result = modelService.getModelTypeData(carId);
 
         //then
         assertEquals(6, result.size());
