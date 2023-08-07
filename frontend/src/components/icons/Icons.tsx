@@ -40,6 +40,41 @@ export function ArrowDown({ ...props }: ISvg) {
   );
 }
 
+export function ArrowLeft({ ...props }: ISvg) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="8"
+      height="12"
+      viewBox="0 0 8 12"
+      fill="none"
+      {...props}
+    >
+      <path
+        d="M6.00016 0L7.41016 1.41L2.83016 6L7.41016 10.59L6.00016 12L0.000156403 6L6.00016 0Z"
+        fill={props.fill}
+      />
+    </svg>
+  );
+}
+export function ArrowRight({ ...props }: ISvg) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="8"
+      height="12"
+      viewBox="0 0 8 12"
+      fill="red"
+      {...props}
+    >
+      <path
+        d="M1.99984 0L0.589844 1.41L5.16984 6L0.589844 10.59L1.99984 12L7.99984 6L1.99984 0Z"
+        fill={props.fill}
+      />
+    </svg>
+  );
+}
+
 export function SearchIcon({ ...props }: ISvg) {
   return (
     <svg
