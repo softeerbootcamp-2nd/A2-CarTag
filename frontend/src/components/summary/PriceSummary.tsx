@@ -1,13 +1,12 @@
 import { styled } from 'styled-components';
 import RectButton from '../buttons/RectButton';
 import RoundButton from '../buttons/RoundButton';
-import { useState } from 'react';
 import { BodyKrRegular4, HeadingKrMedium2 } from '../../styles/typefaces';
 
 interface IPriceSummary extends React.HTMLAttributes<HTMLDivElement> {}
 
 export default function PriceSummary({ ...props }: IPriceSummary) {
-  const [total, setTotal] = useState(43_560_000);
+  const total = 43_560_000;
   return (
     <SummaryWrapper {...props}>
       <InfoWrapper>
@@ -17,7 +16,6 @@ export default function PriceSummary({ ...props }: IPriceSummary) {
         </TotalPriceText>
       </InfoWrapper>
       <RectButton type="price">다음</RectButton>
-      {props.children}
     </SummaryWrapper>
   );
 }
