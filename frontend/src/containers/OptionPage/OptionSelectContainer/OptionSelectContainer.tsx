@@ -79,5 +79,5 @@ const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin: 16px;
+  margin: 16px 0px;
 `;
