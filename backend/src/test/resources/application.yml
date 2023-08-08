@@ -14,4 +14,4 @@ spring:
     init:
       mode: always
       schema-locations: classpath:schema-h2.sql
-#      data-locations:
+      data-locations: classpath:insert/insertModel-h2.sql

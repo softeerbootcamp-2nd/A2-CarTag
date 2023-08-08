@@ -28,7 +28,7 @@ export default function SummaryItem({ imgSrc, itemName, selectedName, price }: I
 
 const Item = styled.li`
   display: flex;
-  padding: 0 8px;
+  padding: 8px 0;
   height: 71px;
   border-bottom: 1px solid ${({ theme }) => theme.color.gray100};
 `;

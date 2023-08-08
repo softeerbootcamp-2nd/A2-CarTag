@@ -10,8 +10,12 @@ type buttonType = 'exterior' | 'interior';
 export default function ResultBannerContainer() {
   const [selectedButton, setSelectedButton] = useState<buttonType>('exterior');
 
-  const handleSelectedButton = (selected: buttonType) => {
-    setSelectedButton(selected);
+  const handleSelectedButton = () => {
+    if (selectedButton === 'exterior') {
+      setSelectedButton('interior');
+    } else {
+      setSelectedButton('exterior');
+    }
   };
 
   return (
@@ -20,19 +24,9 @@ export default function ResultBannerContainer() {
         <PriceStaticBar />
         <Title>Le Blanc</Title>
         <CarImg src="images/car.png" alt="" />
-        <ButtonContainer>
-          <Button
-            $active={selectedButton === 'exterior'}
-            onClick={() => handleSelectedButton('exterior')}
-          >
-            외장
-          </Button>
-          <Button
-            $active={selectedButton === 'interior'}
-            onClick={() => handleSelectedButton('interior')}
-          >
-            내장
-          </Button>
+        <ButtonContainer onClick={handleSelectedButton}>
+          <Button $active={selectedButton === 'exterior'}>외장</Button>
+          <Button $active={selectedButton === 'interior'}>내장</Button>
         </ButtonContainer>
       </ResultBanner>
     </>
