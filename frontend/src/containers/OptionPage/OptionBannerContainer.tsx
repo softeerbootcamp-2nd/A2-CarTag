@@ -291,7 +291,7 @@ const ImgSection = styled.div`
   position: absolute;
   width: 632px;
   height: 360px;
-  background-image: url('/images/option_roa.png');
+  background-image: url('/images/extra_option/roa.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;

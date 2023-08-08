@@ -12,9 +12,11 @@ import {
 } from '../../styles/typefaces';
 import DefaultCardStyle from '../../components/card/DefaultCardStyle';
 import { useState } from 'react';
-import HmgTag from '../../components/hmgTag/HmgTag';
 import { CheckIcon } from '../../components/icons/Icons';
-import PriceSummary from '../../components/summary/PriceSummary';
+import RoundButton from '../../components/buttons/RoundButton';
+import HmgTag from '../../components/hmgTag/HmgTag';
+import SearchBar from '../../components/searchBar/SearchBar';
+import { flexCenterCss } from '../../utils/commonStyle';
 
 export default function OptionSelectContainer() {
   const [selectedTypeIdx, setSelectedTypeIdx] = useState({
@@ -31,170 +33,279 @@ export default function OptionSelectContainer() {
 
   return (
     <Wrapper>
-      <Title>모델타입을 선택해주세요.</Title>
-      <TypeSection>
-        <TypeWrapper>
-          <TypeTitle>파워트레인</TypeTitle>
-          <ModelTypeSection>
-            {/* Todo. map() 으로 데이터 받아서 만들기! */}
-            <ModelTypeCardWrapper>
-              <ModelTypeCard
-                onClick={() => handleSelectedIdx('powerTrain', 0)}
-                active={selectedTypeIdx.powerTrain === 0}
-              >
-                <ModelTypeDesc>38%의 선택</ModelTypeDesc>
-                <ModelTypeTitle>디젤 2.2</ModelTypeTitle>
-                <ModelTypePrice>
+      <Header>
+        <Title>추가옵션 기본옵션</Title>
+        <SearchBar placeholder="옵션명, 해시태그, 카테고리로 검색해보세요."></SearchBar>
+      </Header>
+      <CategoryWrapper>
+        <RoundButton type="option">전체</RoundButton>
+        <RoundButton type="option" inactive={true}>
+          상세품목
+        </RoundButton>
+        <RoundButton type="option" inactive={true}>
+          악세서리
+        </RoundButton>
+        <RoundButton type="option" inactive={true}>
+          휠
+        </RoundButton>
+      </CategoryWrapper>
+      <OptionSection>
+        <OptionWrapper>
+          {/* Todo. map() 으로 데이터 받아서 만들기! */}
+
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard
+              onClick={() => handleSelectedIdx('powerTrain', 0)}
+              active={selectedTypeIdx.powerTrain === 0}
+            >
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
                   +0 원 <CheckIcon active={selectedTypeIdx.powerTrain === 0} />
-                </ModelTypePrice>
-              </ModelTypeCard>
-              <ModelTypeCard
-                onClick={() => handleSelectedIdx('powerTrain', 1)}
-                active={selectedTypeIdx.powerTrain === 1}
-              >
-                <ModelTypeDesc>38%의 선택</ModelTypeDesc>
-                <ModelTypeTitle>디젤 2.2</ModelTypeTitle>
-                <ModelTypePrice>
-                  +0 원 <CheckIcon active={selectedTypeIdx.powerTrain === 1} />
-                </ModelTypePrice>
-              </ModelTypeCard>
-            </ModelTypeCardWrapper>
-          </ModelTypeSection>
-        </TypeWrapper>
-        <TypeWrapper>
-          <TypeTitle>바디타입</TypeTitle>
-          <ModelTypeSection>
-            {/* Todo. map() 으로 데이터 받아서 만들기! */}
-            <ModelTypeCardWrapper>
-              <ModelTypeCard
-                onClick={() => handleSelectedIdx('bodyType', 0)}
-                active={selectedTypeIdx.bodyType === 0}
-              >
-                <ModelTypeDesc>38%의 선택</ModelTypeDesc>
-                <ModelTypeTitle>디젤 2.2</ModelTypeTitle>
-                <ModelTypePrice>
-                  +0 원 <CheckIcon active={selectedTypeIdx.bodyType === 0} />
-                </ModelTypePrice>
-              </ModelTypeCard>
-              <ModelTypeCard
-                onClick={() => handleSelectedIdx('bodyType', 1)}
-                active={selectedTypeIdx.bodyType === 1}
-              >
-                <ModelTypeDesc>38%의 선택</ModelTypeDesc>
-                <ModelTypeTitle>디젤 2.2</ModelTypeTitle>
-                <ModelTypePrice>
-                  +0 원 <CheckIcon active={selectedTypeIdx.bodyType === 1} />
-                </ModelTypePrice>
-              </ModelTypeCard>
-            </ModelTypeCardWrapper>
-          </ModelTypeSection>
-        </TypeWrapper>
-        <TypeWrapper>
-          <TypeTitle>구동방식</TypeTitle>
-          <ModelTypeSection>
-            {/* Todo. map() 으로 데이터 받아서 만들기! */}
-            <ModelTypeCardWrapper>
-              <ModelTypeCard
-                onClick={() => handleSelectedIdx('drivingSystem', 0)}
-                active={selectedTypeIdx.drivingSystem === 0}
-              >
-                <ModelTypeDesc>38%의 선택</ModelTypeDesc>
-                <ModelTypeTitle>디젤 2.2</ModelTypeTitle>
-                <ModelTypePrice>
-                  +0 원 <CheckIcon active={selectedTypeIdx.drivingSystem === 0} />
-                </ModelTypePrice>
-              </ModelTypeCard>
-              <ModelTypeCard
-                onClick={() => handleSelectedIdx('drivingSystem', 1)}
-                active={selectedTypeIdx.drivingSystem === 1}
-              >
-                <ModelTypeDesc>38%의 선택</ModelTypeDesc>
-                <ModelTypeTitle>디젤 2.2</ModelTypeTitle>
-                <ModelTypePrice>
-                  +0 원 <CheckIcon active={selectedTypeIdx.drivingSystem === 1} />
-                </ModelTypePrice>
-              </ModelTypeCard>
-            </ModelTypeCardWrapper>
-          </ModelTypeSection>
-        </TypeWrapper>
-      </TypeSection>
-      <TypeSection>
-        <HmgDataSection>
-          <HmgTag size="small" />
-          <HmgInfoWrapper>
-            <HmgTagDescription>
-              <p>
-                <BlueText>디젤 2.2</BlueText>와 <BlueText>2WD</BlueText>의
-              </p>
-              <p>배기량과 평균연비입니다.</p>
-            </HmgTagDescription>
-            <DataList>
-              <Data>
-                <DataTitle>배기량</DataTitle>
-                <DataInfo>2,199cc</DataInfo>
-              </Data>
-              <Data className="separator" />
-              <Data>
-                <DataTitle>평균연비</DataTitle>
-                <DataInfo>12km/s</DataInfo>
-              </Data>
-            </DataList>
-          </HmgInfoWrapper>
-        </HmgDataSection>
-        <PriceSummary />
-      </TypeSection>
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard
+              onClick={() => handleSelectedIdx('powerTrain', 0)}
+              active={selectedTypeIdx.powerTrain === 0}
+            >
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
+                  +0 원 <CheckIcon active={selectedTypeIdx.powerTrain === 0} />
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard
+              onClick={() => handleSelectedIdx('powerTrain', 0)}
+              active={selectedTypeIdx.powerTrain === 0}
+            >
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
+                  +0 원 <CheckIcon active={selectedTypeIdx.powerTrain === 0} />
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard
+              onClick={() => handleSelectedIdx('powerTrain', 0)}
+              active={selectedTypeIdx.powerTrain === 0}
+            >
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
+                  +0 원 <CheckIcon active={selectedTypeIdx.powerTrain === 0} />
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard
+              onClick={() => handleSelectedIdx('powerTrain', 0)}
+              active={selectedTypeIdx.powerTrain === 0}
+            >
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
+                  +0 원 <CheckIcon active={selectedTypeIdx.powerTrain === 0} />
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard
+              onClick={() => handleSelectedIdx('powerTrain', 0)}
+              active={selectedTypeIdx.powerTrain === 0}
+            >
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
+                  +0 원 <CheckIcon active={selectedTypeIdx.powerTrain === 0} />
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard
+              onClick={() => handleSelectedIdx('powerTrain', 0)}
+              active={selectedTypeIdx.powerTrain === 0}
+            >
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
+                  +0 원 <CheckIcon active={selectedTypeIdx.powerTrain === 0} />
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard
+              onClick={() => handleSelectedIdx('powerTrain', 0)}
+              active={selectedTypeIdx.powerTrain === 0}
+            >
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
+                  +0 원 <CheckIcon active={selectedTypeIdx.powerTrain === 0} />
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard
+              onClick={() => handleSelectedIdx('powerTrain', 0)}
+              active={selectedTypeIdx.powerTrain === 0}
+            >
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
+                  +0 원 <CheckIcon active={selectedTypeIdx.powerTrain === 0} />
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
+
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard
+              onClick={() => handleSelectedIdx('powerTrain', 0)}
+              active={selectedTypeIdx.powerTrain === 0}
+            >
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
+                  +0 원 <CheckIcon active={selectedTypeIdx.powerTrain === 0} />
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
+        </OptionWrapper>
+      </OptionSection>
     </Wrapper>
   );
 }
 
 const Wrapper = styled(CenterWrapper)``;
-const Title = styled.div`
-  ${HeadingKrMedium5}
-  margin-top: 16px;
-`;
-
-const TypeSection = styled.div`
-  display: flex;
-  justify-content: space-between;
-  /* margin-top: 34px; */
-  padding: 16px 0px;
-`;
-const TypeWrapper = styled.div``;
-const TypeTitle = styled.div`
-  color: ${(props) => props.theme.color.gray600};
-  ${HeadingKrMedium7};
-`;
-
-const ModelTypeSection = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
-
-const ModelTypeCardWrapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-  width: 331px;
-  background: ${(props) => props.theme.color.gray50};
-  padding: 4px;
-  gap: 5px;
-`;
-
-const ModelTypeCard = styled(DefaultCardStyle)`
-  padding: 8px 12px;
-  width: 100%;
-  box-sizing: border-box;
-`;
-
-const ModelTypeTitle = styled.div`
-  ${HeadingEn4}
-`;
-const ModelTypePrice = styled.div`
-  ${HeadingKrMedium7}
+const Header = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin: 16px;
 `;
-const ModelTypeDesc = styled.div`
+const Title = styled.div`
+  ${HeadingKrMedium5}
+`;
+
+const CategoryWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+const OptionSection = styled.div`
+  margin: 16px 0px;
+`;
+const OptionWrapper = styled.div`
+  display: flex;
+
+  flex-wrap: wrap;
+  gap: 16px;
+`;
+
+const OptionCardWrapper = styled.div`
+  position: relative;
+`;
+
+const HmgWrapper = styled.div`
+  position: absolute;
+  top: 0;
+  right: 0;
+`;
+const OptionCard = styled(DefaultCardStyle)`
+  width: 244px;
+  height: 278px;
+  border-radius: 2px;
+`;
+
+const OptionImg = styled.div`
+  border-radius: 1px 1px 0px 0px;
+  width: 100%;
+  height: 160px;
+  background-image: url('/images/extra_option/roa.png');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: rgba(211, 211, 211, 0.5);
+`;
+const OptionCardInfo = styled.div`
+  padding: 12px 14px;
+`;
+
+const OptionTitle = styled.div`
+  ${HeadingEn4}
+`;
+const OptionPrice = styled.div`
+  ${HeadingKrMedium7}
+  display: flex;
+  justify-content: space-between;
+  margin-top: 18px;
+  align-items: center;
+`;
+const OptionDesc = styled.div`
   ${BodyKrRegular4}
 `;
 
