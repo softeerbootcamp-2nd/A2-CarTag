@@ -12,7 +12,6 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 @ActiveProfiles("test")
-@Sql(scripts = "classpath:/insert/insertModel-h2.sql")
 @SpringBootTest
 class ModelRepositoryTest {
 

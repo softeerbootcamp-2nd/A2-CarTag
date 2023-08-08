@@ -19,6 +19,16 @@ public class ModelTypeMappedDto {
     private Long modelBoughtCount;
     private boolean isDefaultOption;
 
+    @Builder
+    public ModelTypeMappedDto(int modelId, String modelName, String modelTypeName, Long modelPrice, Long modelBoughtCount, boolean isDefaultOption) {
+        this.modelId = modelId;
+        this.modelName = modelName;
+        this.modelTypeName = modelTypeName;
+        this.modelPrice = modelPrice;
+        this.modelBoughtCount = modelBoughtCount;
+        this.isDefaultOption = isDefaultOption;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
