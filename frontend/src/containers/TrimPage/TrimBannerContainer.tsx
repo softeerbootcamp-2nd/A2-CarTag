@@ -15,11 +15,7 @@ export default function TrimBannerContainer() {
   const images = ['/images/car.png', '/images/inner_car.png', '/images/wheel.png'];
   const ImgSectionComponent = images.map((imgPath, idx) => {
     return (
-      <ImgWrapper
-        key={idx}
-        onClick={() => handleSelectImg(idx)}
-        $selected={selectedImgIdx === idx && true}
-      >
+      <ImgWrapper key={idx} onClick={() => handleSelectImg(idx)} $selected={selectedImgIdx === idx}>
         <Img src={imgPath}></Img>
       </ImgWrapper>
     );
