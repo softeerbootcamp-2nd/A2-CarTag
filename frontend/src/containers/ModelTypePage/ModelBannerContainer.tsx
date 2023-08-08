@@ -11,33 +11,36 @@ export default function ModelBannerContainer() {
       <PriceStaticBar />
       <Banner subtitle={'파워트레인'} title={'디젤 2.2'}>
         <Container>
-          <HmgDataSection>
+          <InfoWrapper>
             <AdditionalText>
               '높은 토크로 파워풀한 드라이빙이 가능하며, 차급대비 연비 효율이 우수합니다'
             </AdditionalText>
-            <HmgTag size="small" />
-            <DataList>
-              <Data>
-                <DataTitle>최고출력(PS/rpm)</DataTitle>
-                <DataInfo>
-                  202/3,800
-                  <DataRatio>
-                    <Ratio $current={0.49} $max={0.53}></Ratio>
-                  </DataRatio>
-                </DataInfo>
-              </Data>
-              <Separator />
-              <Data>
-                <DataTitle>최대토크(kgf·m/rpm)</DataTitle>
-                <DataInfo>
-                  45/1,750-2,750
-                  <DataRatio>
-                    <Ratio $current={0.005} $max={0.02}></Ratio>
-                  </DataRatio>
-                </DataInfo>
-              </Data>
-            </DataList>
-          </HmgDataSection>
+            <HmgDataSection>
+              <HmgTag size="small" />
+              <DataList>
+                <Data>
+                  <DataTitle>최고출력(PS/rpm)</DataTitle>
+                  <DataInfo>
+                    202/3,800
+                    <DataRatio>
+                      <Ratio $current={0.49} $max={0.53}></Ratio>
+                    </DataRatio>
+                  </DataInfo>
+                </Data>
+                <Separator />
+                <Data>
+                  <DataTitle>최대토크(kgf·m/rpm)</DataTitle>
+                  <DataInfo>
+                    45/1,750-2,750
+                    <DataRatio>
+                      <Ratio $current={0.005} $max={0.02}></Ratio>
+                    </DataRatio>
+                  </DataInfo>
+                </Data>
+              </DataList>
+            </HmgDataSection>
+          </InfoWrapper>
+
           <ImgSection />
         </Container>
       </Banner>
@@ -56,9 +59,13 @@ const Container = styled(CenterWrapper)`
   height: 100%;
 `;
 
-const HmgDataSection = styled.div`
-  padding-top: 142px;
+const InfoWrapper = styled.div`
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  padding-top: 100px;
 `;
+const HmgDataSection = styled.div``;
 
 const DataList = styled.ul`
   display: flex;
