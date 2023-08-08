@@ -282,4 +282,3 @@ ALTER TABLE SubOptionPackage ADD CONSTRAINT SubOption_SubOption FOREIGN KEY SubO
     REFERENCES SubOption (sub_option_id);
 
 -- End of file.
-
