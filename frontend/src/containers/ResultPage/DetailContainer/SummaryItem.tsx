@@ -28,8 +28,7 @@ export default function SummaryItem({ imgSrc, itemName, selectedName, price }: I
 
 const Item = styled.li`
   display: flex;
-  padding-top: 8px;
-  padding-bottom: 8px;
+  padding: 0 8px;
   height: 71px;
   border-bottom: 1px solid ${({ theme }) => theme.color.gray100};
 `;

@@ -91,7 +91,7 @@ const Title = styled.div`
 `;
 
 const ItemList = styled.ul`
-  :nth-last-child(1) {
+  :last-child {
     border-bottom: none;
   }
 `;
