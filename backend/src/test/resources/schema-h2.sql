@@ -1,8 +1,3 @@
--- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2023-08-07 08:46:13.382
-
--- tables
--- Table: Car
 CREATE TABLE Car (
     car_id int  NOT NULL,
     car_type_id int  NOT NULL,
