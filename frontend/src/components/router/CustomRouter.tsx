@@ -6,6 +6,7 @@ import ExteriorPage from '../../pages/ExteriorPage';
 import AnimatePresence from '../pageAnimation/AnimationPresence';
 import PageAnimationWrapper from '../pageAnimation/PageAnimationWrapper';
 import OptionPage from '../../pages/OptionPage';
+import InteriorPage from '../../pages/InteriorPage';
 
 export function CustomRouter() {
   const location = useLocation();
@@ -29,7 +30,7 @@ export function CustomRouter() {
       )}
       {location.pathname === PATH.interior && (
         <PageAnimationWrapper key={'interior'}>
-          <div />
+          <InteriorPage />
         </PageAnimationWrapper>
       )}
       {location.pathname === PATH.option && (
