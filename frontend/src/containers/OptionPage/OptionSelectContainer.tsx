@@ -16,7 +16,6 @@ import { CheckIcon } from '../../components/icons/Icons';
 import RoundButton from '../../components/buttons/RoundButton';
 import HmgTag from '../../components/hmgTag/HmgTag';
 import SearchBar from '../../components/searchBar/SearchBar';
-import { flexCenterCss } from '../../utils/commonStyle';
 
 export default function OptionSelectContainer() {
   const [selectedTypeIdx, setSelectedTypeIdx] = useState({
