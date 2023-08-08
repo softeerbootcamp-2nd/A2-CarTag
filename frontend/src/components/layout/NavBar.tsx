@@ -83,11 +83,12 @@ function NavItem({ active, ...props }: INavItem) {
 }
 
 const Wrapper = styled.div`
-  position: relative;
+  z-index: 999;
+  position: fixed;
+  top: 0px;
+  left: 0px;
   width: 100%;
   height: 60px;
-  top: 0;
-  left: 0;
   border-bottom: 2px solid ${({ theme }) => theme.color.gray200};
   box-sizing: border-box;
   background-color: ${({ theme }) => theme.color.white};
