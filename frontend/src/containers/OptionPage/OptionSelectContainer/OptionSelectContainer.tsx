@@ -11,17 +11,17 @@ interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
 }
 export default function OptionSelectContainer() {
   const [isDefault, setIsDefault] = useState(false);
-  const handleTabItemClick = () => {
-    setIsDefault(!isDefault);
+  const handleTabItemClick = (isDefault: boolean) => {
+    setIsDefault(isDefault);
   };
   return (
     <Wrapper>
       <Header>
         <CategoryList>
-          <CategoryItem onClick={handleTabItemClick} active={!isDefault}>
+          <CategoryItem onClick={() => handleTabItemClick(false)} active={!isDefault}>
             추가옵션
           </CategoryItem>
-          <CategoryItem onClick={handleTabItemClick} active={isDefault}>
+          <CategoryItem onClick={() => handleTabItemClick(true)} active={isDefault}>
             기본옵션
           </CategoryItem>
         </CategoryList>

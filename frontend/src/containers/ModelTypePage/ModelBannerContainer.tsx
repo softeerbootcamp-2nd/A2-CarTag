@@ -50,7 +50,7 @@ export default function ModelBannerContainer() {
 
 const AdditionalText = styled.p`
   width: 207px;
-  color: ${(props) => props.theme.color.gray800};
+  color: ${({ theme }) => theme.color.gray800};
   ${BodyKrRegular4}
 `;
 const Container = styled(CenterWrapper)`

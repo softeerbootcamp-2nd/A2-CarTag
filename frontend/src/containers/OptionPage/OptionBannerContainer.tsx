@@ -86,7 +86,13 @@ function SubOptionTab({ options }: ISubOptionTab) {
   const [page, setPage] = useState(0);
   const arrowLeftColor = page <= 0 ? theme.color.gray200 : theme.color.gray600;
   const arrowRightColor = page >= MAX_PAGE - 1 ? theme.color.gray200 : theme.color.gray600;
-
+  const displayUnderline = (groupIndex: number, index: number) => {
+    return page === groupIndex && index === selectedIdx ? (
+      <Underline />
+    ) : (
+      <Underline style={{ visibility: 'hidden' }} />
+    );
+  };
   const handleOffsetNext = () => {
     if (page + 1 >= MAX_PAGE) return;
     setSelectedIdx(0);
@@ -110,6 +116,7 @@ function SubOptionTab({ options }: ISubOptionTab) {
     return result;
   };
   const chunkedOptions = chunkArray(options, 4);
+
   return (
     <TabWrapper>
       <BtnWrapper onClick={handleOffsetPrev} style={{ cursor: page <= 0 ? 'default' : 'pointer' }}>
@@ -126,11 +133,7 @@ function SubOptionTab({ options }: ISubOptionTab) {
                   $isselected={page === groupIndex && index === selectedIdx}
                 >
                   <div>{option}</div>
-                  {page === groupIndex && index === selectedIdx ? (
-                    <Underline />
-                  ) : (
-                    <Underline style={{ visibility: 'hidden' }} />
-                  )}
+                  {displayUnderline(groupIndex, index)}
                 </TabButton>
               ))}
             </TabDivision>
@@ -147,11 +150,10 @@ function SubOptionTab({ options }: ISubOptionTab) {
   );
 }
 
-const Wrapper = styled.div`
+const Wrapper = styled(CenterWrapper)`
   display: flex;
   justify-content: flex-end;
   width: 1280px;
-  margin: 0 auto;
 `;
 const OptionBanner = styled(Banner)`
   background: ${({ theme }) => theme.color.blueBg};
