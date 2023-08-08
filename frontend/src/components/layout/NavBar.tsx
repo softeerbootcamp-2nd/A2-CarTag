@@ -1,42 +1,58 @@
 import React from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { css, styled } from 'styled-components';
+import { css, styled, useTheme } from 'styled-components';
 import { PATH } from '../../utils/url';
 import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../styles/typefaces';
-import { CancelIcon } from '../icons/Icons';
+import { ArrowDown, CancelIcon } from '../icons/Icons';
 import hyundaiLogo from '/images/logo.svg';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
-  active: 'true' | 'false';
+  active: boolean;
 }
 export default function NavBar() {
   const navigate = useNavigate();
   const { pathname: currentPath } = useLocation();
+  const theme = useTheme();
 
   const handleNavItemClick = (path: string) => {
     navigate(path);
   };
 
   const isActive = (path: string) => {
-    return currentPath === '/' + path ? 'true' : 'false';
+    return currentPath === path;
+  };
+  const handleCloseButtonClick = () => {
+    console.log('종료 창 띄우기');
   };
 
   return (
     <Wrapper>
       <HyundaiLogo src={hyundaiLogo} alt="" />
       <Body>
-        <CarSelect>펠리세이드</CarSelect>
+        <CarSelect>
+          <span>펠리세이드</span>
+          <ArrowDown fill={theme.color.gray800} />
+        </CarSelect>
         <NavList>
           <NavItem onClick={() => handleNavItemClick(PATH.trim)} active={isActive(PATH.trim)}>
             트림
           </NavItem>
-          <NavItem onClick={() => handleNavItemClick(PATH.type)} active={isActive(PATH.type)}>
+          <NavItem
+            onClick={() => handleNavItemClick(PATH.modelType)}
+            active={isActive(PATH.modelType)}
+          >
             타입
           </NavItem>
-          <NavItem onClick={() => handleNavItemClick(PATH.outside)} active={isActive(PATH.outside)}>
+          <NavItem
+            onClick={() => handleNavItemClick(PATH.exterior)}
+            active={isActive(PATH.exterior)}
+          >
             외장
           </NavItem>
-          <NavItem onClick={() => handleNavItemClick(PATH.inside)} active={isActive(PATH.inside)}>
+          <NavItem
+            onClick={() => handleNavItemClick(PATH.interior)}
+            active={isActive(PATH.interior)}
+          >
             내장
           </NavItem>
           <NavItem onClick={() => handleNavItemClick(PATH.option)} active={isActive(PATH.option)}>
@@ -49,7 +65,7 @@ export default function NavBar() {
       </Body>
 
       <CancelButton>
-        <span>종료</span>
+        <Span onClick={handleCloseButtonClick}>종료</Span>
         <CancelIcon width={12} height={12} />
       </CancelButton>
     </Wrapper>
@@ -57,8 +73,7 @@ export default function NavBar() {
 }
 
 function NavItem({ active, ...props }: INavItem) {
-  const Highlight =
-    active === 'true' ? <Underline /> : <Underline style={{ visibility: 'hidden' }} />;
+  const Highlight = active ? <Underline /> : <Underline style={{ visibility: 'hidden' }} />;
   return (
     <Item {...props} $active={active}>
       {props.children}
@@ -89,7 +104,7 @@ const NavList = styled.ul`
   margin: -10px;
 `;
 
-const Item = styled.li<{ $active: string }>`
+const Item = styled.li<{ $active: boolean }>`
   ${HeadingKrMedium6}
   width: 52px;
   display: flex;
@@ -100,7 +115,7 @@ const Item = styled.li<{ $active: string }>`
   cursor: pointer;
 
   ${({ theme, $active }) => {
-    if ($active === 'true') {
+    if ($active === true) {
       return css`
         color: ${theme.color.primaryColor};
       `;
@@ -122,6 +137,7 @@ const CarSelect = styled.div`
   align-items: center;
   padding-left: 20px;
   border-left: 1px solid ${({ theme }) => theme.color.gray200};
+  cursor: pointer;
 `;
 
 const CancelButton = styled.button`
@@ -147,4 +163,8 @@ const Underline = styled.div`
   width: 18px;
   height: 2px;
   background-color: ${({ theme }) => theme.color.primaryColor};
+`;
+
+const Span = styled.span`
+  ${BodyKrMedium3}
 `;

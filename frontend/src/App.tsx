@@ -1,12 +1,13 @@
-import { Outlet } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import NavBar from './components/layout/NavBar';
+import { CustomRouter } from './components/router/CustomRouter';
 
 function App() {
   return (
-    <>
+    <BrowserRouter>
       <NavBar />
-      <Outlet />
-    </>
+      <CustomRouter />
+    </BrowserRouter>
   );
 }
 

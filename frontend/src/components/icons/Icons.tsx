@@ -34,7 +34,42 @@ export function ArrowDown({ ...props }: ISvg) {
     >
       <path
         d="M17.8352 9.66475C17.6355 9.46505 17.323 9.4469 17.1028 9.61029L17.0398 9.66475L12.1875 14.5168L7.33525 9.66475C7.13555 9.46505 6.82305 9.4469 6.60284 9.61029L6.53975 9.66475C6.34005 9.86445 6.3219 10.177 6.48529 10.3972L6.53975 10.4602L11.7898 15.7102C11.9895 15.9099 12.302 15.9281 12.5222 15.7647L12.5852 15.7102L17.8352 10.4602C18.0549 10.2406 18.0549 9.88442 17.8352 9.66475Z"
-        fill="#F7F8F9"
+        fill={props.fill}
+      />
+    </svg>
+  );
+}
+
+export function ArrowLeft({ ...props }: ISvg) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="8"
+      height="12"
+      viewBox="0 0 8 12"
+      fill="none"
+      {...props}
+    >
+      <path
+        d="M6.00016 0L7.41016 1.41L2.83016 6L7.41016 10.59L6.00016 12L0.000156403 6L6.00016 0Z"
+        fill={props.fill}
+      />
+    </svg>
+  );
+}
+export function ArrowRight({ ...props }: ISvg) {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="8"
+      height="12"
+      viewBox="0 0 8 12"
+      fill="red"
+      {...props}
+    >
+      <path
+        d="M1.99984 0L0.589844 1.41L5.16984 6L0.589844 10.59L1.99984 12L7.99984 6L1.99984 0Z"
+        fill={props.fill}
       />
     </svg>
   );
