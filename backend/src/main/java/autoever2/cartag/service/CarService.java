@@ -6,7 +6,6 @@ import autoever2.cartag.repository.CarRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +25,7 @@ public class CarService {
         }
 
         return carInfos.stream()
-                .map(carInfoDto -> CarDto.toDto(carInfoDto, repository.findDefaultOptionByCarId(carInfoDto.getCarId()).orElse(new ArrayList<>())))
+                .map(carInfoDto -> CarDto.toDto(carInfoDto, repository.findDefaultOptionByCarId(carInfoDto.getCarId())))
                 .collect(Collectors.toList());
     }
 

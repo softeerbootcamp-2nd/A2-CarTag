@@ -11,7 +11,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class CarRepository {
@@ -31,14 +30,14 @@ public class CarRepository {
 
     }
 
-    public Optional<List<DefaultOptionDto>> findDefaultOptionByCarId(int carId) {
+    public List<DefaultOptionDto> findDefaultOptionByCarId(int carId) {
         String sql = "select option_name, option_image, option_description, default_option_count " +
                 "from DefaultOptionData as data " +
                 "inner join DefaultOption as options on data.default_option_id = options.default_option_id " +
                 "where data.car_id = :carId";
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("carId", carId);
-        return Optional.ofNullable(template.query(sql, param, OptionRowMapper()));
+        return template.query(sql, param, OptionRowMapper());
 
     }
 
