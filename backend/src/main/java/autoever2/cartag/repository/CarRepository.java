@@ -1,7 +1,7 @@
 package autoever2.cartag.repository;
 
-import autoever2.cartag.domain.dto.car.CarInfoDto;
-import autoever2.cartag.domain.dto.car.DefaultOptionDto;
+import autoever2.cartag.domain.car.CarInfoDto;
+import autoever2.cartag.domain.car.DefaultOptionDto;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -21,13 +21,13 @@ public class CarRepository {
         template = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public Optional<List<CarInfoDto>> findCarByCarType(int carType) {
+    public List<CarInfoDto> findCarByCarType(int carType) {
         String sql = "select car_id, trim, car_default_price, outer_image, inner_image, wheel_image " +
-                "car_description from Car where car_type = :carType";
+                "car_description from Car where car_type_id = :carType";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("carType", carType);
-        return Optional.ofNullable(template.query(sql, param, CarRowMapper()));
+        return template.query(sql, param, CarRowMapper());
 
     }
 

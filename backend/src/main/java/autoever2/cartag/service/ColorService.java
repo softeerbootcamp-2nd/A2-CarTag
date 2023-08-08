@@ -1,13 +1,12 @@
 package autoever2.cartag.service;
 
-import autoever2.cartag.domain.dto.colordto.InnerColorDto;
-import autoever2.cartag.domain.dto.colordto.OuterColorDto;
+import autoever2.cartag.domain.color.InnerColorDto;
+import autoever2.cartag.domain.color.OuterColorDto;
 import autoever2.cartag.repository.ColorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -19,20 +18,20 @@ public class ColorService {
      */
 
     public List<OuterColorDto> findOuterColorByCarId(int carId) {
-        Optional<List<OuterColorDto>> outerColors = repository.findOuterColorCarByCarId(carId);
+        List<OuterColorDto> outerColors = repository.findOuterColorCarByCarId(carId);
         if (outerColors.isEmpty()) {
             throw new RuntimeException("미정");
         }
 
-        return outerColors.get();
+        return outerColors;
     }
 
     public List<InnerColorDto> findInnerColorByCarId(int carId) {
-        Optional<List<InnerColorDto>> innerColors = repository.findInnerColorCarByCarId(carId);
+        List<InnerColorDto> innerColors = repository.findInnerColorCarByCarId(carId);
         if (innerColors.isEmpty()) {
             throw new RuntimeException("미정");
         }
 
-        return innerColors.get();
+        return innerColors;
     }
 }

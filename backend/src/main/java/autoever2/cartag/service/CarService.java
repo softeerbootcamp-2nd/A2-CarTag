@@ -1,14 +1,13 @@
 package autoever2.cartag.service;
 
-import autoever2.cartag.domain.dto.car.CarDto;
-import autoever2.cartag.domain.dto.car.CarInfoDto;
+import autoever2.cartag.domain.car.CarDto;
+import autoever2.cartag.domain.car.CarInfoDto;
 import autoever2.cartag.repository.CarRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -21,12 +20,12 @@ public class CarService {
      * Optional로 감싸진 값이 empty일 경우 어떤 예외 발생시킬지 정하기
      */
     public List<CarDto> findCarByCarType(int carType) {
-        Optional<List<CarInfoDto>> carInfos = repository.findCarByCarType(carType);
+        List<CarInfoDto> carInfos = repository.findCarByCarType(carType);
         if(carInfos.isEmpty()){
             throw new RuntimeException("미정");
         }
 
-        return carInfos.get().stream()
+        return carInfos.stream()
                 .map(carInfoDto -> CarDto.toDto(carInfoDto, repository.findDefaultOptionByCarId(carInfoDto.getCarId()).orElse(new ArrayList<>())))
                 .collect(Collectors.toList());
     }

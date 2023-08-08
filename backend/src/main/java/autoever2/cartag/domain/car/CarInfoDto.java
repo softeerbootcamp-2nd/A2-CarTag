@@ -1,4 +1,4 @@
-package autoever2.cartag.domain.dto.car;
+package autoever2.cartag.domain.car;
 
 import lombok.Builder;
 import lombok.Getter;

@@ -1,6 +1,6 @@
 package autoever2.cartag.controller;
 
-import autoever2.cartag.domain.dto.car.CarDto;
+import autoever2.cartag.domain.car.CarDto;
 import autoever2.cartag.service.CarService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

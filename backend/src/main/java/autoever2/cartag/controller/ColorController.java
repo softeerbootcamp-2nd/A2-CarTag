@@ -1,7 +1,7 @@
 package autoever2.cartag.controller;
 
-import autoever2.cartag.domain.dto.colordto.InnerColorDto;
-import autoever2.cartag.domain.dto.colordto.OuterColorDto;
+import autoever2.cartag.domain.color.InnerColorDto;
+import autoever2.cartag.domain.color.OuterColorDto;
 import autoever2.cartag.service.ColorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
