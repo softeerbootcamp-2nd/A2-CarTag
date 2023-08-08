@@ -46,6 +46,7 @@ const ButtonSection = styled.section`
   width: 100%;
   display: flex;
   justify-content: space-between;
+  gap: 17px;
 `;
 const Button = styled(RectButton)`
   border-radius: 4px;
