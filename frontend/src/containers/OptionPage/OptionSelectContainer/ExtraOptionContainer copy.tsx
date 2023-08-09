@@ -81,6 +81,126 @@ export default function ExtraOptionContainer() {
               </OptionCardInfo>
             </OptionCard>
           </OptionCardWrapper>
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard onClick={() => handleClick(0)} active={selectedOptions.includes(0)}>
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
+                  +0 원 <CheckIcon active={selectedOptions.includes(0)} />
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard onClick={() => handleClick(0)} active={selectedOptions.includes(0)}>
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
+                  +0 원 <CheckIcon active={selectedOptions.includes(0)} />
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard onClick={() => handleClick(0)} active={selectedOptions.includes(0)}>
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
+                  +0 원 <CheckIcon active={selectedOptions.includes(0)} />
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard onClick={() => handleClick(0)} active={selectedOptions.includes(0)}>
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
+                  +0 원 <CheckIcon active={selectedOptions.includes(0)} />
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard onClick={() => handleClick(0)} active={selectedOptions.includes(0)}>
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
+                  +0 원 <CheckIcon active={selectedOptions.includes(0)} />
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard onClick={() => handleClick(0)} active={selectedOptions.includes(0)}>
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
+                  +0 원 <CheckIcon active={selectedOptions.includes(0)} />
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard onClick={() => handleClick(0)} active={selectedOptions.includes(0)}>
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
+                  +0 원 <CheckIcon active={selectedOptions.includes(0)} />
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
+          <OptionCardWrapper>
+            <HmgWrapper>
+              <HmgTag />
+            </HmgWrapper>
+            <OptionCard onClick={() => handleClick(0)} active={selectedOptions.includes(0)}>
+              <OptionImg />
+              <OptionCardInfo>
+                <OptionDesc>38%의 선택</OptionDesc>
+                <OptionTitle>디젤 2.2</OptionTitle>
+                <OptionPrice>
+                  +0 원 <CheckIcon active={selectedOptions.includes(0)} />
+                </OptionPrice>
+              </OptionCardInfo>
+            </OptionCard>
+          </OptionCardWrapper>
         </OptionWrapper>
       </OptionSection>
     </>
