@@ -1,9 +1,9 @@
 import { styled } from 'styled-components';
 import CenterWrapper from '../components/layout/CenterWrapper';
-import DetailContainer from '../containers/ResultPage/DetailContainer/DetailContainer';
+import DetailContainer from '../containers/ResultPage/DetailContainer';
 import QuoteSummaryContainer from '../containers/ResultPage/QuoteSummaryContainer';
 import ResultBannerContainer from '../containers/ResultPage/ResultBannerContainer';
-import HistogramContainer from '../containers/ResultPage/HistogramContainer/HistogramContainer';
+import HistogramContainer from '../containers/ResultPage/HistogramContainer';
 import ResultFooterContainer from '../containers/ResultPage/ResultFooterContainer';
 
 export default function ResultPage() {

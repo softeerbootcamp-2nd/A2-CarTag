@@ -1,14 +1,12 @@
 import { styled } from 'styled-components';
 import { BodyKrRegular4, BodyKrRegular5, HeadingKrRegular2 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
-import Banner from '../../components/banner/Banner';
-import HmgTag from '../../components/hmgTag/HmgTag';
-import PriceStaticBar from '../../components/priceStaticBar/PriceStaticBar';
+import Banner from '../../components/common/banner/Banner';
+import HmgTag from '../../components/common/hmgTag/HmgTag';
 
 export default function ModelBannerContainer() {
   return (
     <>
-      <PriceStaticBar />
       <Banner subtitle={'파워트레인'} title={'디젤 2.2'}>
         <Container>
           <InfoWrapper>
@@ -107,7 +105,7 @@ const DataRatio = styled.div`
 `;
 const Ratio = styled.div<{ $current: number; $max: number }>`
   height: 4px;
-  width: ${(props) => (props.$current / props.$max) * 100}%;
+  width: ${({ $current, $max }) => ($current / $max) * 100}%;
   background-color: ${({ theme }) => theme.color.activeBlue2};
 `;
 

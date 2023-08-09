@@ -5,13 +5,11 @@ import { styled } from 'styled-components';
 
 export default function OptionPage() {
   return (
-    <>
-      <Wrapper>
-        <OptionBannerContainer />
-        <OptionSelectContainer />
-      </Wrapper>
+    <Wrapper>
+      <OptionBannerContainer />
+      <OptionSelectContainer />
       <OptionFooterContainer />
-    </>
+    </Wrapper>
   );
 }
 

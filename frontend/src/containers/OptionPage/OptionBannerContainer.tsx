@@ -1,28 +1,66 @@
-import { css, styled, useTheme } from 'styled-components';
+import { styled } from 'styled-components';
 import {
-  BodyKrMedium3,
   BodyKrMedium4,
-  BodyKrRegular3,
   BodyKrRegular4,
   BodyKrRegular5,
   HeadingKrRegular2,
 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
-import Banner from '../../components/banner/Banner';
-import HmgTag from '../../components/hmgTag/HmgTag';
-import PriceStaticBar from '../../components/priceStaticBar/PriceStaticBar';
-import { HTMLAttributes, useEffect, useState } from 'react';
-import { ArrowLeft, ArrowRight } from '../../components/icons/Icons';
-
-interface ISubOptionTab extends HTMLAttributes<HTMLDivElement> {
-  options: string[];
-}
+import Banner from '../../components/common/banner/Banner';
+import HmgTag from '../../components/common/hmgTag/HmgTag';
+import OptionTab from '../../components/tabs/OptionTab';
+import { MAX_TEXT_CNT } from '../../utils/constants';
+import { useEffect, useState } from 'react';
 
 export default function OptionBannerContainer() {
-  const [isBannerVisible, setIsBannerVisible] = useState(false);
-
-  const MAX_TEXT_CNT = 98;
   const suboptions = [
+    '후석승객알림',
+    '메탈 도어스커프',
+    '3열파워폴딩시트',
+    '내비게이션기반스마트크루즈컨트롤',
+    '3열 열선시트',
+    '헤드업 디스플레이',
+    '3열 열선시트',
+    '후석승객알림',
+    '메탈 리어범퍼스텝',
+    '메탈 도어스커프',
+    '3열파워폴딩시트',
+    '내비게이션기반스마트크루즈컨트롤',
+    '3열 열선시트',
+    '헤드업 디스플레이',
+    '3열 열선시트',
+    '후석승객알림',
+    '메탈 리어범퍼스텝',
+    '메탈 도어스커프',
+    '3열파워폴딩시트',
+    '내비게이션기반스마트크루즈컨트롤',
+    '3열 열선시트',
+    '헤드업 디스플레이',
+    '3열 열선시트',
+    '후석승객알림',
+    '메탈 리어범퍼스텝',
+    '메탈 도어스커프',
+    '3열파워폴딩시트',
+    '내비게이션기반스마트크루즈컨트롤',
+    '3열 열선시트',
+    '헤드업 디스플레이',
+    '3열 열선시트',
+    '후석승객알림',
+    '메탈 리어범퍼스텝',
+    '메탈 도어스커프',
+    '3열파워폴딩시트',
+    '내비게이션기반스마트크루즈컨트롤',
+    '3열 열선시트',
+    '헤드업 디스플레이',
+    '3열 열선시트',
+    '후석승객알림',
+    '메탈 리어범퍼스텝',
+    '메탈 도어스커프',
+    '3열파워폴딩시트',
+    '내비게이션기반스마트크루즈컨트롤',
+    '3열 열선시트',
+    '헤드업 디스플레이',
+    '3열 열선시트',
     '후석승객알림',
     '메탈 리어범퍼스텝',
     '메탈 도어스커프',
@@ -34,7 +72,80 @@ export default function OptionBannerContainer() {
     '헤드업 디스플레이',
     '3열 열선시트',
     '11헤드업 디스플레이',
+    '후석승객알림',
+    '메탈 리어범퍼스텝',
+    '메탈 도어스커프',
+    '3열파워폴딩시트',
+    '내비게이션기반스마트크루즈컨트롤',
+    '3열 열선시트',
+    '헤드업 디스플레이',
+    '3열 열선시트',
+    '헤드업 디스플레이',
+    '3열 열선시트',
+    '11헤드업 디스플레이',
+    '후석승객알림',
+    '메탈 리어범퍼스텝',
+    '메탈 도어스커프',
+    '3열파워폴딩시트',
+    '내비게이션기반스마트크루즈컨트롤',
+    '3열 열선시트',
+    '헤드업 디스플레이',
+    '3열 열선시트',
+    '헤드업 디스플레이',
+    '3열 열선시트',
+    '11헤드업 디스플레이',
+    '후석승객알림',
+    '메탈 리어범퍼스텝',
+    '메탈 도어스커프',
+    '3열파워폴딩시트',
+    '내비게이션기반스마트크루즈컨트롤',
+    '3열 열선시트',
+    '헤드업 디스플레이',
+    '3열 열선시트',
+    '헤드업 디스플레이',
+    '3열 열선시트',
+    '11헤드업 디스플레이',
+    '후석승객알림',
+    '메탈 리어범퍼스텝',
+    '메탈 도어스커프',
+    '3열파워폴딩시트',
+    '내비게이션기반스마트크루즈컨트롤',
+    '3열 열선시트',
+    '헤드업 디스플레이',
+    '3열 열선시트',
+    '헤드업 디스플레이',
+    '3열 열선시트',
+    '11헤드업 디스플레이',
+    '메탈 리어범퍼스텝',
+    '메탈 도어스커프',
+    '3열파워폴딩시트',
+    '내비게이션기반스마트크루즈컨트롤',
+    '메탈 리어범퍼스텝',
+    '메탈 도어스커프',
+    '3열파워폴딩시트',
+    '내비게이션기반스마트크루즈컨트롤',
+    '메탈 리어범퍼스텝',
+    '메탈 도어스커프',
+    '3열파워폴딩시트',
+    '내비게이션기반스마트크루즈컨트롤',
+    '메탈 리어범퍼스텝',
+    '메탈 도어스커프',
+    '3열파워폴딩시트',
+    '내비게이션기반스마트크루즈컨트롤',
+    '메탈 리어범퍼스텝',
+    '메탈 도어스커프',
+    '3열파워폴딩시트',
+    '내비게이션기반스마트크루즈컨트롤',
+    '메탈 리어범퍼스텝',
+    '메탈 도어스커프',
+    '3열파워폴딩시트',
+    '내비게이션기반스마트크루즈컨트롤',
+    '메탈 리어범퍼스텝',
+    '메탈 도어스커프',
+    '3열파워폴딩시트',
+    '내비게이션기반스마트크루즈컨트롤',
   ];
+  const [isBannerVisible, setIsBannerVisible] = useState(false);
   const optionDesc =
     '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다. 초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.  ';
   const displayText =
@@ -54,14 +165,14 @@ export default function OptionBannerContainer() {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
+
   return (
     <Wrapper $isBannerVisible={isBannerVisible}>
-      <PriceStaticBar />
       <OptionBanner subtitle={'파워트레인/성능'} title={'컴포트 ll'}>
         <ContainerWrapper>
           <Container>
             <InfoWrapper>
-              <SubOptionTab options={suboptions} />
+              <OptionTab options={suboptions} />
               <AdditionalText>
                 {displayText}
                 {optionDesc.length > MAX_TEXT_CNT && <span>더보기</span>}
@@ -102,77 +213,6 @@ export default function OptionBannerContainer() {
   );
 }
 
-function SubOptionTab({ options }: ISubOptionTab) {
-  const theme = useTheme();
-  const MAX_PAGE = options.length / 4;
-  const [selectedIdx, setSelectedIdx] = useState(0);
-  const [page, setPage] = useState(0);
-  const arrowLeftColor = page <= 0 ? theme.color.gray200 : theme.color.gray600;
-  const arrowRightColor = page >= MAX_PAGE - 1 ? theme.color.gray200 : theme.color.gray600;
-  const displayUnderline = (groupIndex: number, index: number) => {
-    return page === groupIndex && index === selectedIdx ? (
-      <Underline />
-    ) : (
-      <Underline style={{ visibility: 'hidden' }} />
-    );
-  };
-  const handleOffsetNext = () => {
-    if (page + 1 >= MAX_PAGE) return;
-    setSelectedIdx(0);
-    setPage(page + 1);
-  };
-  const handleOffsetPrev = () => {
-    if (page - 1 < 0) return;
-    setSelectedIdx(0);
-    setPage(page - 1);
-  };
-
-  const handleOptionClick = (index: number) => {
-    setSelectedIdx(index);
-  };
-
-  const chunkArray = (array: string[], size: number) => {
-    const result = [];
-    for (let i = 0; i < array.length; i += size) {
-      result.push(array.slice(i, i + size));
-    }
-    return result;
-  };
-  const chunkedOptions = chunkArray(options, 4);
-
-  return (
-    <TabWrapper>
-      <BtnWrapper onClick={handleOffsetPrev} style={{ cursor: page <= 0 ? 'default' : 'pointer' }}>
-        <ArrowLeft fill={arrowLeftColor} />
-      </BtnWrapper>
-      <TabWrapperInner>
-        <Tab $offset={page * -408}>
-          {chunkedOptions.map((optionGroup: string[], groupIndex) => (
-            <TabDivision key={groupIndex}>
-              {optionGroup.map((option: string, index: number) => (
-                <TabButton
-                  key={index}
-                  onClick={() => handleOptionClick(index)}
-                  $isselected={page === groupIndex && index === selectedIdx}
-                >
-                  <div>{option}</div>
-                  {displayUnderline(groupIndex, index)}
-                </TabButton>
-              ))}
-            </TabDivision>
-          ))}
-        </Tab>
-      </TabWrapperInner>
-      <BtnWrapper
-        onClick={handleOffsetNext}
-        style={{ cursor: page >= MAX_PAGE - 1 ? 'default' : 'pointer' }}
-      >
-        <ArrowRight fill={arrowRightColor} />
-      </BtnWrapper>
-    </TabWrapper>
-  );
-}
-
 const Wrapper = styled.div<{ $isBannerVisible: boolean }>`
   z-index: 5;
   position: sticky;
@@ -192,73 +232,6 @@ const OptionBanner = styled(Banner)`
 const Container = styled(CenterWrapper)`
   position: relative;
   height: 100%;
-`;
-
-const TabWrapper = styled.div`
-  width: 488px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  margin-top: 10px;
-  height: 40px;
-`;
-
-const TabWrapperInner = styled.div`
-  overflow: hidden;
-`;
-const BtnWrapper = styled.button`
-  z-index: 10;
-`;
-const Tab = styled.div<{ $offset: number }>`
-  display: flex;
-  justify-content: space-between;
-  width: 408px;
-  transition: transform 1s ease;
-  transform: translateX(${({ $offset }) => $offset}px);
-`;
-
-const TabDivision = styled.ul`
-  display: flex;
-  width: 408px;
-`;
-
-const TabButton = styled.div<{ $isselected: boolean }>`
-  display: flex;
-  flex: 1;
-  overflow: hidden;
-  align-items: center;
-  flex-direction: column;
-  gap: 4px;
-  margin-right: 16px;
-  height: 28px;
-  cursor: pointer;
-  ${({ theme, $isselected }) => {
-    if ($isselected) {
-      return css`
-        ${BodyKrMedium3}
-        color: ${theme.color.gray800};
-      `;
-    } else {
-      return css`
-        ${BodyKrRegular3}
-        color: ${theme.color.gray400};
-      `;
-    }
-  }}
-
-  div:first-child {
-    width: 100%;
-    text-align: center;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-  }
-`;
-
-const Underline = styled.div`
-  width: 58px;
-  height: 2px;
-  background-color: ${({ theme }) => theme.color.gray800};
 `;
 
 const AdditionalText = styled.p`

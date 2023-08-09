@@ -1,13 +1,19 @@
-import { styled } from 'styled-components';
 import { useState } from 'react';
+import { styled } from 'styled-components';
 import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
 
-export default function DefaultOptionContainer() {
-  const [selectedOption, setSelectedOption] = useState(0);
+export default function ExtraOptionContainer() {
+  const [selectedOptions, setSelectedOptions] = useState<number[]>([]);
 
   const handleClick = (index: number) => {
-    setSelectedOption(index);
+    setSelectedOptions((prevSelectedOptions) => {
+      if (prevSelectedOptions.includes(index)) {
+        return prevSelectedOptions.filter((item) => item !== index);
+      } else {
+        return [...prevSelectedOptions, index];
+      }
+    });
   };
   return (
     <>
@@ -26,27 +32,21 @@ export default function DefaultOptionContainer() {
       <OptionSection>
         <OptionWrapper>
           {/* Todo. map() 으로 데이터 받아서 만들기! */}
-
           <OptionCard
-            type="default"
-            active={selectedOption === 0}
+            type="extra"
+            active={selectedOptions.includes(0)}
+            desc="38%의 선택"
             title="디젤 2.2"
             price={0}
             onClick={() => handleClick(0)}
           ></OptionCard>
           <OptionCard
-            type="default"
-            active={selectedOption === 1}
+            type="extra"
+            active={selectedOptions.includes(1)}
+            desc="38%의 선택"
             title="디젤 2.2"
             price={0}
             onClick={() => handleClick(1)}
-          ></OptionCard>
-          <OptionCard
-            type="default"
-            active={selectedOption === 2}
-            title="디젤 2.2"
-            price={0}
-            onClick={() => handleClick(2)}
           ></OptionCard>
         </OptionWrapper>
       </OptionSection>
@@ -64,6 +64,7 @@ const OptionSection = styled.div`
 `;
 const OptionWrapper = styled.div`
   display: flex;
+
   flex-wrap: wrap;
   gap: 16px;
 `;

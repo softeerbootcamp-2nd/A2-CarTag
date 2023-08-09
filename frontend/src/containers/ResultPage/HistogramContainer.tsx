@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
-import { BarHistogram, CurveHistogram } from './Histogram';
+import CurveHistogram from '../../components/histogram/CurveHistogram';
+import BarHistogram from '../../components/histogram/BarHistogram';
 
 export default function HistogramContainer() {
   return (

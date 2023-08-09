@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import { BodyKrRegular3, HeadingKrMedium2 } from '../../styles/typefaces';
-import RectButton from '../../components/buttons/RectButton';
+import RectButton from '../../components/common/buttons/RectButton';
 
 export default function ResultFooterContainer() {
   return (

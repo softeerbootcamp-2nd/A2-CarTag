@@ -1,4 +1,4 @@
-import { theme } from '../../styles/theme';
+import { theme } from '../../../styles/theme';
 
 interface ISvg extends React.SVGProps<SVGSVGElement> {
   active?: boolean;

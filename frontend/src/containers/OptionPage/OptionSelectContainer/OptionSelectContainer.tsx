@@ -2,7 +2,7 @@ import { css, styled } from 'styled-components';
 import CenterWrapper from '../../../components/layout/CenterWrapper';
 import { BodyKrMedium1 } from '../../../styles/typefaces';
 import SearchBar from '../../../components/searchBar/SearchBar';
-import ExtraOptionContainer from './ExtraOptionContainer copy';
+import ExtraOptionContainer from './ExtraOptionContainer';
 import { useState } from 'react';
 import DefaultOptionContainer from './DefaultOptionContainer';
 

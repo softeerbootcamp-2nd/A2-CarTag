@@ -1,5 +1,5 @@
 import { css, styled } from 'styled-components';
-import { BodyKrRegular3 } from '../../styles/typefaces';
+import { BodyKrRegular3 } from '../../../styles/typefaces';
 
 interface IRoundButton extends React.HTMLAttributes<HTMLButtonElement> {
   type: 'option' | 'price';
@@ -41,39 +41,42 @@ const Wrapper = styled.button<{ $type: 'option' | 'price'; $incative: boolean }>
   color: ${({ theme }) => theme.color.primaryColor};
 
   ${({ $type, $incative, theme }) => {
-    if ($type === 'price') {
-      return css`
-        border: 1px solid ${theme.color.primaryColor};
-        &:hover {
-          ${priceHoverCss}
+    switch ($type) {
+      case 'price':
+        return css`
+          border: 1px solid ${theme.color.primaryColor};
+          &:hover {
+            ${priceHoverCss}
+          }
+          &:active {
+            ${priceActiveCss}
+          }
+        `;
+      case 'option':
+        if (!$incative) {
+          return css`
+            background: ${theme.color.skyBlueCardBg};
+            border: 1px solid ${theme.color.skyBlue};
+            &:hover {
+              ${optionHoverCss}
+            }
+            &:active {
+              ${optionActiveCss}
+            }
+          `;
+        } else {
+          return css`
+            border: 1px solid ${theme.color.gray200};
+            color: ${theme.color.gray600};
+            background: ${theme.color.white};
+            &:hover {
+              ${optionHoverCss}
+            }
+            &:active {
+              ${optionActiveCss}
+            }
+          `;
         }
-        &:active {
-          ${priceActiveCss}
-        }
-      `;
-    } else if (!$incative && $type === 'option') {
-      return css`
-        background: ${theme.color.skyBlueCardBg};
-        border: 1px solid ${theme.color.skyBlue};
-        &:hover {
-          ${optionHoverCss}
-        }
-        &:active {
-          ${optionActiveCss}
-        }
-      `;
-    } else if ($incative && $type === 'option') {
-      return css`
-        border: 1px solid ${theme.color.gray200};
-        color: ${theme.color.gray600};
-        background: ${theme.color.white};
-        &:hover {
-          ${optionHoverCss}
-        }
-        &:active {
-          ${optionActiveCss}
-        }
-      `;
     }
   }}
 `;

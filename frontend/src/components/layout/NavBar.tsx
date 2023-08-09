@@ -3,7 +3,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { css, styled, useTheme } from 'styled-components';
 import { PATH } from '../../utils/url';
 import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../styles/typefaces';
-import { ArrowDown, CancelIcon } from '../icons/Icons';
+import { ArrowDown, CancelIcon } from '../common/icons/Icons';
 import hyundaiLogo from '/images/logo.svg';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {

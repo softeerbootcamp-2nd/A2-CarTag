@@ -2,12 +2,15 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { css, styled, useTheme } from 'styled-components';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular4, HeadingKrMedium6 } from '../../styles/typefaces';
-import { ArrowUp, ArrowDown } from '../icons/Icons';
+import { ArrowUp, ArrowDown } from '../common/icons/Icons';
 import Slider from './Slider';
 import React from 'react';
+import { useLocation } from 'react-router-dom';
+import { PATH } from '../../utils/url';
 
 interface IPriceStaticBar extends React.HTMLAttributes<HTMLDivElement> {}
 export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
+  const { pathname } = useLocation();
   const theme = useTheme();
   const lowestPrice = 3850; //단위: 만원
   const highestPrice = 4300;
@@ -30,6 +33,9 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
     getBudgetStatus();
   }, [budget, getBudgetStatus]);
 
+  if (pathname === PATH.trim) {
+    return <></>;
+  }
   return (
     <StatusBox {...props} $isover={isOverBudget}>
       <StatusText>
@@ -79,7 +85,7 @@ const StatusBox = styled.div<{ $isover: boolean }>`
   position: absolute;
   min-width: 343px;
   z-index: 10;
-  top: 16px;
+  top: 76px;
   left: 50%;
   transform: translateX(-50%);
   padding: 8px 16px;

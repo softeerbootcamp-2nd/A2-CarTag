@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
-import RectButton from '../buttons/RectButton';
-import RoundButton from '../buttons/RoundButton';
+import RectButton from '../common/buttons/RectButton';
+import RoundButton from '../common/buttons/RoundButton';
 import { BodyKrRegular4, HeadingKrMedium2 } from '../../styles/typefaces';
 
 interface IPriceSummary extends React.HTMLAttributes<HTMLDivElement> {}

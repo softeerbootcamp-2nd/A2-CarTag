@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import { BodyKrRegular4 } from '../../styles/typefaces';
-import { SearchIcon } from '../icons/Icons';
+import { SearchIcon } from '../common/icons/Icons';
 
 interface SearchBarProps extends React.HTMLAttributes<HTMLInputElement> {}
 export default function SearchBar({ ...props }: SearchBarProps) {

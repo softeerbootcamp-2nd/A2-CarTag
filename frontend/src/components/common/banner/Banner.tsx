@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
-import { BodyKrRegular3, HeadingKrBold1 } from '../../styles/typefaces';
-import CenterWrapper from '../layout/CenterWrapper';
+import { BodyKrRegular3, HeadingKrBold1 } from '../../../styles/typefaces';
+import CenterWrapper from '../../layout/CenterWrapper';
 
 interface IBanner extends React.HTMLAttributes<HTMLDivElement> {
   subtitle?: string;
@@ -41,11 +41,11 @@ const InfoWrapper = styled.div`
 `;
 
 const SubTitle = styled.p`
-  color: ${(props) => props.theme.color.gray900};
+  color: ${({ theme }) => theme.color.gray900};
   ${BodyKrRegular3}
 `;
 
 const Title = styled.p`
-  color: ${(props) => props.theme.color.primaryColor700};
+  color: ${({ theme }) => theme.color.primaryColor700};
   ${HeadingKrBold1}
 `;

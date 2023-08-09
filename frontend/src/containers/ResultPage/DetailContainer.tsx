@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
-import { HeadingKrMedium7 } from '../../../styles/typefaces';
-import Details from './Details';
-import SummaryItem from './SummaryItem';
+import { HeadingKrMedium7 } from '../../styles/typefaces';
+import Details from '../../components/details/Details';
+import SummaryItem from '../../components/details/SummaryItem';
 
 export default function DetailContainer() {
   return (
@@ -13,19 +13,19 @@ export default function DetailContainer() {
             imgSrc="images/result1.png"
             itemName="파워트레인"
             selectedName="디젤 2.2"
-            price="100"
+            price={100}
           />
           <SummaryItem
             imgSrc="images/result1.png"
             itemName="파워트레인"
             selectedName="디젤 2.2"
-            price="100"
+            price={100}
           />
           <SummaryItem
             imgSrc="images/result1.png"
             itemName="파워트레인"
             selectedName="디젤 2.2"
-            price="100"
+            price={100}
           />
         </ItemList>
       </Details>
@@ -35,19 +35,19 @@ export default function DetailContainer() {
             imgSrc="images/result1.png"
             itemName="파워트레인"
             selectedName="디젤 2.2"
-            price="100"
+            price={100}
           />
           <SummaryItem
             imgSrc="images/result1.png"
             itemName="파워트레인"
             selectedName="디젤 2.2"
-            price="100"
+            price={100}
           />
           <SummaryItem
             imgSrc="images/result1.png"
             itemName="파워트레인"
             selectedName="디젤 2.2"
-            price="100"
+            price={100}
           />
         </ItemList>
       </Details>
@@ -57,19 +57,19 @@ export default function DetailContainer() {
             imgSrc="images/result1.png"
             itemName="파워트레인"
             selectedName="디젤 2.2"
-            price="100"
+            price={100}
           />
           <SummaryItem
             imgSrc="images/result1.png"
             itemName="파워트레인"
             selectedName="디젤 2.2"
-            price="100"
+            price={100}
           />
           <SummaryItem
             imgSrc="images/result1.png"
             itemName="파워트레인"
             selectedName="디젤 2.2"
-            price="100"
+            price={100}
           />
         </ItemList>
       </Details>
