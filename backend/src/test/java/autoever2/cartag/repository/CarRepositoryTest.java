@@ -41,4 +41,15 @@ class CarRepositoryTest {
         assertEquals("image_1", defaultOptionByCarId.get(0).getOptionName());
     }
 
+    @Test
+    @DisplayName("car에 있는 총 구매횟수 데이터를 반환")
+    void findCarBoughtCountByCarId() {
+        //given
+        int carId = 1;
+        //when
+        Long boughtCount = repository.findCarBoughtCountByCarId(carId).orElse(-1L);
+        //then
+        assertEquals(234L, boughtCount);
+
+    }
 }
