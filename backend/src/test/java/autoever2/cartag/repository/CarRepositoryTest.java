@@ -5,23 +5,27 @@ import autoever2.cartag.domain.car.DefaultOptionDto;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-@SpringBootTest
+@JdbcTest
 @ActiveProfiles("test")
-@Sql(scripts = {"classpath:/insert/insertCar-h2.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(scripts = {"/cleanup.sql"}, executionPhase =  Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = {"classpath:/insert/insertCar-h2.sql"})
 class CarRepositoryTest {
 
+    private final CarRepository repository;
     @Autowired
-    private CarRepository repository;
+    public CarRepositoryTest(DataSource dataSource) {
+        repository = new CarRepository(dataSource);
+    }
 
 
     @Test
