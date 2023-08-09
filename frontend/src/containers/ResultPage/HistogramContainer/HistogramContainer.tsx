@@ -10,7 +10,4 @@ export default function HistogramContainer() {
   );
 }
 
-const Wrapper = styled.div`
-  border: 1px solid red;
-  width: 347px;
-`;
+const Wrapper = styled.div``;
