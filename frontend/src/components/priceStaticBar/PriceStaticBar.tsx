@@ -5,9 +5,16 @@ import { BodyKrRegular4, HeadingKrMedium6 } from '../../styles/typefaces';
 import { ArrowUp, ArrowDown } from '../common/icons/Icons';
 import Slider from './Slider';
 import React from 'react';
+import { useLocation } from 'react-router-dom';
+import { PATH } from '../../utils/url';
 
 interface IPriceStaticBar extends React.HTMLAttributes<HTMLDivElement> {}
 export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
+  const { pathname } = useLocation();
+  if (pathname === PATH.trim) {
+    return <></>;
+  }
+
   const theme = useTheme();
   const lowestPrice = 3850; //단위: 만원
   const highestPrice = 4300;
@@ -79,7 +86,7 @@ const StatusBox = styled.div<{ $isover: boolean }>`
   position: absolute;
   min-width: 343px;
   z-index: 10;
-  top: 16px;
+  top: 76px;
   left: 50%;
   transform: translateX(-50%);
   padding: 8px 16px;

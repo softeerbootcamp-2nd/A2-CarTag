@@ -10,7 +10,6 @@ import {
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
-import PriceStaticBar from '../../components/priceStaticBar/PriceStaticBar';
 import { HTMLAttributes, useState } from 'react';
 import { ArrowLeft, ArrowRight } from '../../components/common/icons/Icons';
 
@@ -40,7 +39,6 @@ export default function OptionBannerContainer() {
 
   return (
     <>
-      <PriceStaticBar />
       <OptionBanner subtitle={'파워트레인/성능'} title={'컴포트 ll'}>
         <Wrapper>
           <Container>

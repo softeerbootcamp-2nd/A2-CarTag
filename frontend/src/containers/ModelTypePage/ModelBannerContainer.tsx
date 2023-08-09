@@ -8,7 +8,6 @@ import PriceStaticBar from '../../components/priceStaticBar/PriceStaticBar';
 export default function ModelBannerContainer() {
   return (
     <>
-      <PriceStaticBar />
       <Banner subtitle={'파워트레인'} title={'디젤 2.2'}>
         <Container>
           <InfoWrapper>

@@ -3,7 +3,6 @@ import Banner from '../../components/common/banner/Banner';
 import { BodyKrRegular3, HeadingKrBold1 } from '../../styles/typefaces';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { useState } from 'react';
-import PriceStaticBar from '../../components/priceStaticBar/PriceStaticBar';
 
 type buttonType = 'exterior' | 'interior';
 
@@ -21,7 +20,6 @@ export default function ResultBannerContainer() {
   return (
     <>
       <ResultBanner>
-        <PriceStaticBar />
         <Title>Le Blanc</Title>
         <CarImg src="images/car.png" alt="" />
         <ButtonContainer onClick={handleSelectedButton}>

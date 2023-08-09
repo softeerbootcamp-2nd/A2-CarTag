@@ -34,16 +34,18 @@ export default function ExteriorBannerContainer() {
   };
 
   return (
-    <ExteriorBanner onMouseUp={handleMouseup} subtitle={'외장색상'} title={'어비스블랙펄'}>
-      <FlexCenterWrapper>
-        <ImgWrapper onMouseMove={handleMousemove} onMouseDown={handleMousedown}>
-          <CarImg src={`/images/car360/img${imgIdx}.png`} alt="" />
-          <CarShadow>
-            <DegreeCaption>360°</DegreeCaption>
-          </CarShadow>
-        </ImgWrapper>
-      </FlexCenterWrapper>
-    </ExteriorBanner>
+    <>
+      <ExteriorBanner onMouseUp={handleMouseup} subtitle={'외장색상'} title={'어비스블랙펄'}>
+        <FlexCenterWrapper>
+          <ImgWrapper onMouseMove={handleMousemove} onMouseDown={handleMousedown}>
+            <CarImg src={`/images/car360/img${imgIdx}.png`} alt="" />
+            <CarShadow>
+              <DegreeCaption>360°</DegreeCaption>
+            </CarShadow>
+          </ImgWrapper>
+        </FlexCenterWrapper>
+      </ExteriorBanner>
+    </>
   );
 }
 

@@ -1,4 +1,4 @@
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { PATH } from '../../utils/url';
 import { TrimPage } from '../../pages/TrimPage';
 import { ModelTypePage } from '../../pages/ModelTypePage';
@@ -8,38 +8,46 @@ import PageAnimationWrapper from '../pageAnimation/PageAnimationWrapper';
 import OptionPage from '../../pages/OptionPage';
 import InteriorPage from '../../pages/InteriorPage';
 import ResultPage from '../../pages/ResultPage';
+import { useEffect } from 'react';
 
 export function CustomRouter() {
-  const location = useLocation();
+  const { pathname } = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (pathname === PATH.home) {
+      navigate(PATH.trim);
+    }
+  });
 
   return (
     <AnimatePresence>
-      {location.pathname === PATH.trim && (
+      {pathname === PATH.trim && (
         <PageAnimationWrapper key={'trim'}>
           <TrimPage />
         </PageAnimationWrapper>
       )}
-      {location.pathname === PATH.modelType && (
+      {pathname === PATH.modelType && (
         <PageAnimationWrapper key={'modelType'}>
           <ModelTypePage />
         </PageAnimationWrapper>
       )}
-      {location.pathname === PATH.exterior && (
+      {pathname === PATH.exterior && (
         <PageAnimationWrapper key={'exterior'}>
           <ExteriorPage />
         </PageAnimationWrapper>
       )}
-      {location.pathname === PATH.interior && (
+      {pathname === PATH.interior && (
         <PageAnimationWrapper key={'interior'}>
           <InteriorPage />
         </PageAnimationWrapper>
       )}
-      {location.pathname === PATH.option && (
+      {pathname === PATH.option && (
         <PageAnimationWrapper key={'option'}>
           <OptionPage />
         </PageAnimationWrapper>
       )}
-      {location.pathname === PATH.result && (
+      {pathname === PATH.result && (
         <PageAnimationWrapper key={'result'}>
           <ResultPage />
         </PageAnimationWrapper>
