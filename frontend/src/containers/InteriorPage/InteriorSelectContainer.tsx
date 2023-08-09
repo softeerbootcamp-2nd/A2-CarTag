@@ -1,28 +1,13 @@
 import { styled, useTheme } from 'styled-components';
-import {
-  BodyKrMedium3,
-  BodyKrMedium4,
-  BodyKrRegular3,
-  HeadingKrMedium5,
-} from '../../styles/typefaces';
+import { BodyKrRegular3, HeadingKrMedium5 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
-import DefaultCardStyle from '../../components/common/card/DefaultCardStyle';
-import { HTMLAttributes, useState } from 'react';
-import { flexCenterCss } from '../../utils/commonStyle';
-import { ArrowLeft, ArrowRight, CheckIcon } from '../../components/common/icons/Icons';
+import { ArrowLeft, ArrowRight } from '../../components/common/icons/Icons';
 import PriceSummary from '../../components/summary/PriceSummary';
+import { useState } from 'react';
+import { InteriorCard } from '../../components/cards/InteriorCard';
 
 const MAX_PAGE = 3;
 const NUM_IN_A_PAGE = 4;
-
-interface IInTeriorCard extends HTMLAttributes<HTMLDivElement> {
-  imgSrc1: string;
-  imgSrc2: string;
-  active: boolean;
-  desc: string;
-  name: string;
-  price: string;
-}
 
 export default function InteriorSelectContainer() {
   const [page, setPage] = useState(0);
@@ -52,6 +37,19 @@ export default function InteriorSelectContainer() {
     return page === selectedIdx.page && idx === selectedIdx.idx;
   };
 
+  const displayCards = cardIndices.map((idx) => (
+    <InteriorCard
+      key={idx}
+      imgSrc1={'images/inner_color1.png'}
+      imgSrc2={'images/inner_color2.png'}
+      active={isActive(idx)}
+      onClick={() => handleSelectedIdx(idx)}
+      desc="38%가 선택했어요"
+      name="블랙"
+      price="0"
+    />
+  ));
+
   return (
     <Wrapper>
       <Header>
@@ -69,46 +67,12 @@ export default function InteriorSelectContainer() {
         </PageButtonWrapper>
       </Header>
       <SelectSection>
-        <CardPage key={page}>
-          {cardIndices.map((idx) => (
-            <InteriorCard
-              key={idx}
-              imgSrc1={'images/inner_color1.png'}
-              imgSrc2={'images/inner_color2.png'}
-              active={isActive(idx)}
-              onClick={() => handleSelectedIdx(idx)}
-              desc="38%가 선택했어요"
-              name="블랙"
-              price="0"
-            />
-          ))}
-        </CardPage>
+        <CardPage key={page}>{displayCards}</CardPage>
       </SelectSection>
       <Footer>
         <PriceSummary />
       </Footer>
     </Wrapper>
-  );
-}
-
-function InteriorCard({ imgSrc1, imgSrc2, active, desc, name, price, ...props }: IInTeriorCard) {
-  return (
-    <Card active={active} {...props}>
-      <ImgWrapper>
-        <InteriorImg src={imgSrc1}></InteriorImg>
-        <InteriorImg src={imgSrc2}></InteriorImg>
-      </ImgWrapper>
-      <DescWrapper>
-        <ColorInfo>
-          <ColorDesc>{desc}</ColorDesc>
-          <ColorName>{name}</ColorName>
-          <Row>
-            <ColorPrice>+ {price}원</ColorPrice>
-            <CheckIcon active={active} />
-          </Row>
-        </ColorInfo>
-      </DescWrapper>
-    </Card>
   );
 }
 
@@ -134,13 +98,7 @@ const PageButtonWrapper = styled.div`
 `;
 const PageButton = styled.button``;
 const Page = styled.span``;
-const Card = styled(DefaultCardStyle)`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 110px;
-  overflow: hidden;
-`;
+
 const SelectSection = styled.div``;
 const CardPage = styled.div`
   display: flex;
@@ -148,36 +106,8 @@ const CardPage = styled.div`
   gap: 16px;
   margin-top: 12px;
 `;
-const InteriorImg = styled.img``;
-const ImgWrapper = styled.div`
-  ${flexCenterCss}
-  flex-direction: column;
-  width: 69px;
-`;
-
-const ColorInfo = styled.div``;
-const ColorDesc = styled.div`
-  ${BodyKrMedium4}
-`;
-const ColorName = styled.div`
-  ${BodyKrMedium3}
-  margin-bottom: 28px;
-`;
-const ColorPrice = styled.div`
-  ${BodyKrMedium3}
-`;
 const Footer = styled.div`
   margin-top: 36px;
   display: flex;
   justify-content: flex-end;
-`;
-
-const DescWrapper = styled.div`
-  padding: 14px 16px;
-  width: 100%;
-  height: 100%;
-`;
-const Row = styled.div`
-  display: flex;
-  justify-content: space-between;
 `;

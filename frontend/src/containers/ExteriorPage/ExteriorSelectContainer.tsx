@@ -1,24 +1,10 @@
 import { styled, useTheme } from 'styled-components';
-import {
-  BodyKrMedium3,
-  BodyKrMedium4,
-  BodyKrRegular3,
-  HeadingKrMedium5,
-} from '../../styles/typefaces';
+import { BodyKrRegular3, HeadingKrMedium5 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
-import DefaultCardStyle from '../../components/common/card/DefaultCardStyle';
-import { HTMLAttributes, useState } from 'react';
-import { flexCenterCss } from '../../utils/commonStyle';
+import { useState } from 'react';
 import { ArrowLeft, ArrowRight } from '../../components/common/icons/Icons';
 import PriceSummary from '../../components/summary/PriceSummary';
-
-interface IExteriorCard extends HTMLAttributes<HTMLDivElement> {
-  active: boolean;
-  color: string;
-  desc: string;
-  name: string;
-  price: string;
-}
+import ExteriorCard from '../../components/cards/ExteriorCard';
 
 export default function ExteriorSelectContainer() {
   const [page, setPage] = useState(0);
@@ -94,21 +80,6 @@ export default function ExteriorSelectContainer() {
   );
 }
 
-function ExteriorCard({ active, color, desc, name, price, ...props }: IExteriorCard) {
-  return (
-    <Card active={active} {...props}>
-      <ColorWrapper>
-        <ColorImg $color={color}></ColorImg>
-      </ColorWrapper>
-      <ColorInfo>
-        <ColorDesc>{desc}</ColorDesc>
-        <ColorName>{name}</ColorName>
-        <ColorPrice>+ {price}원</ColorPrice>
-      </ColorInfo>
-    </Card>
-  );
-}
-
 const Wrapper = styled(CenterWrapper)`
   display: flex;
   flex-direction: column;
@@ -128,50 +99,17 @@ const PageButtonWrapper = styled.div`
   align-items: center;
   width: 116px;
   ${BodyKrRegular3}
-  color: ${({ theme }) => theme.color.gray500}
+  color: ${({ theme }) => theme.color.gray500};
 `;
 const PageButton = styled.button``;
 const Page = styled.span``;
-const Card = styled(DefaultCardStyle)`
-  display: flex;
-  align-items: center;
-  width: 100%;
-  height: 110px;
-`;
+
 const SelectSection = styled.div``;
 const CardPage = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 16px;
   margin-top: 12px;
-`;
-const ColorImg = styled.div<{ $color: string }>`
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background-color: ${({ $color }) => $color};
-`;
-const ColorWrapper = styled.div`
-  ${flexCenterCss}
-  border-radius: 50%;
-  width: 58px;
-  height: 58px;
-  border: 1px solid ${({ theme }) => theme.color.gray50};
-  margin-left: 12px;
-`;
-
-const ColorInfo = styled.div`
-  margin-left: 14px;
-`;
-const ColorDesc = styled.div`
-  ${BodyKrMedium4}
-`;
-const ColorName = styled.div`
-  ${BodyKrMedium3}
-  margin-bottom: 28px;
-`;
-const ColorPrice = styled.div`
-  ${BodyKrMedium3}
 `;
 const Footer = styled.div`
   margin-top: 36px;
