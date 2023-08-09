@@ -9,7 +9,7 @@ import {
 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import Banner from '../../components/common/banner/Banner';
-import HmgTag from '../../components/hmgTag/HmgTag';
+import HmgTag from '../../components/common/hmgTag/HmgTag';
 import PriceStaticBar from '../../components/priceStaticBar/PriceStaticBar';
 import { HTMLAttributes, useState } from 'react';
 import { ArrowLeft, ArrowRight } from '../../components/common/icons/Icons';

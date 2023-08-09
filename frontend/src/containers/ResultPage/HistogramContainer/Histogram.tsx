@@ -1,5 +1,5 @@
 import { styled, useTheme } from 'styled-components';
-import HmgTag from '../../../components/hmgTag/HmgTag';
+import HmgTag from '../../../components/common/hmgTag/HmgTag';
 import {
   BodyKrMedium2,
   BodyKrRegular2,

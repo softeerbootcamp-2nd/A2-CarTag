@@ -12,7 +12,7 @@ import {
 } from '../../styles/typefaces';
 import DefaultCardStyle from '../../components/common/card/DefaultCardStyle';
 import { useState } from 'react';
-import HmgTag from '../../components/hmgTag/HmgTag';
+import HmgTag from '../../components/common/hmgTag/HmgTag';
 import { CheckIcon } from '../../components/common/icons/Icons';
 import PriceSummary from '../../components/summary/PriceSummary';
 

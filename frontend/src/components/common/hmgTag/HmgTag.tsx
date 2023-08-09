@@ -1,5 +1,5 @@
 import { css, styled } from 'styled-components';
-import { HeadingEn5 } from '../../styles/typefaces';
+import { HeadingEn5 } from '../../../styles/typefaces';
 
 export type sizeType = 'large' | 'medium' | 'small';
 export interface IHmgTag {
