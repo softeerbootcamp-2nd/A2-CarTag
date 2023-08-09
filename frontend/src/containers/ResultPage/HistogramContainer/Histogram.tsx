@@ -39,11 +39,11 @@ export function CurveHistogram() {
         <XCaptionWrapper>
           <MinXCaption>
             <XTitle>최소</XTitle>
-            <XValue>43,000,000</XValue>
+            <XValue>43,000,000원</XValue>
           </MinXCaption>
           <MaxXCaption>
             <XTitle>최대</XTitle>
-            <XValue>43,000,000</XValue>
+            <XValue>43,000,000원</XValue>
           </MaxXCaption>
         </XCaptionWrapper>
       </PaddingWrapper>
