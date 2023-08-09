@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@Builder
+@NoArgsConstructor
 public class ModelTypeMappedDto {
 
     private int modelId;
@@ -35,5 +35,9 @@ public class ModelTypeMappedDto {
         if (o == null || getClass() != o.getClass()) return false;
         ModelTypeMappedDto that = (ModelTypeMappedDto) o;
         return modelId == that.modelId && isDefaultOption == that.isDefaultOption && Objects.equals(modelName, that.modelName) && Objects.equals(modelTypeName, that.modelTypeName) && Objects.equals(modelPrice, that.modelPrice) && Objects.equals(modelBoughtCount, that.modelBoughtCount);
+    }
+
+    public void setIsDefaultOption(int isDefaultOption) {
+        this.isDefaultOption = isDefaultOption > 0;
     }
 }

@@ -1,8 +1,9 @@
 package autoever2.cartag.service;
 
 import autoever2.cartag.domain.model.ModelShortDataDto;
+import autoever2.cartag.repository.CarRepository;
+import autoever2.cartag.repository.ModelRepository;
 import autoever2.cartag.domain.model.ModelTypeMappedDto;
-import autoever2.cartag.repository.model.ModelRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -27,6 +28,9 @@ class ModelServiceTest {
 
     @Mock
     private ModelRepository modelRepository;
+
+    @Mock
+    private CarRepository carRepository;
 
     private List<ModelTypeMappedDto> trimModelList;
 
@@ -102,7 +106,7 @@ class ModelServiceTest {
         int carId = 1;
         Long boughtCount = 2000L;
         when(modelRepository.findAllModelTypeData(carId)).thenReturn(trimModelList);
-        when(modelRepository.findCarBoughtCountByCarId(carId)).thenReturn(Optional.of(2000L));
+        when(carRepository.findCarBoughtCountByCarId(carId)).thenReturn(Optional.of(2000L));
 
         //when
         List<ModelShortDataDto> result = modelService.getModelTypeData(carId);
