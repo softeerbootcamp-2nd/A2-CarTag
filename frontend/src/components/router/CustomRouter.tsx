@@ -5,7 +5,9 @@ import { ModelTypePage } from '../../pages/ModelTypePage';
 import ExteriorPage from '../../pages/ExteriorPage';
 import AnimatePresence from '../pageAnimation/AnimationPresence';
 import PageAnimationWrapper from '../pageAnimation/PageAnimationWrapper';
+import OptionPage from '../../pages/OptionPage';
 import InteriorPage from '../../pages/InteriorPage';
+import ResultPage from '../../pages/ResultPage';
 
 export function CustomRouter() {
   const location = useLocation();
@@ -34,12 +36,12 @@ export function CustomRouter() {
       )}
       {location.pathname === PATH.option && (
         <PageAnimationWrapper key={'option'}>
-          <div />
+          <OptionPage />
         </PageAnimationWrapper>
       )}
       {location.pathname === PATH.result && (
         <PageAnimationWrapper key={'result'}>
-          <div />
+          <ResultPage />
         </PageAnimationWrapper>
       )}
     </AnimatePresence>

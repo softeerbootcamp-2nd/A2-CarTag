@@ -14,4 +14,3 @@ spring:
     init:
       mode: always
       schema-locations: classpath:schema-h2.sql
-      # data-locations:
