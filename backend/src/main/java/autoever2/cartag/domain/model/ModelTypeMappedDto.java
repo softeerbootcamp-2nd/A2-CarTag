@@ -9,7 +9,7 @@ import java.util.Objects;
 
 @Getter
 @Setter
-@Builder
+@NoArgsConstructor
 public class ModelTypeMappedDto {
 
     private int modelId;
