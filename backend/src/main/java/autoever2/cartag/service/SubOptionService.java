@@ -2,6 +2,7 @@ package autoever2.cartag.service;
 
 import autoever2.cartag.domain.suboption.SubOptionDto;
 import autoever2.cartag.domain.suboption.SubOptionMappedDto;
+import autoever2.cartag.repository.CarRepository;
 import autoever2.cartag.repository.SubOptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,11 @@ import java.util.stream.Collectors;
 public class SubOptionService {
 
     private final SubOptionRepository subOptionRepository;
+    private final CarRepository carRepository;
 
     public List<SubOptionDto> getSubOptionList(int carId) {
         List<SubOptionMappedDto> subOptionList = subOptionRepository.findAllSubOptionWithCategoryNameByCarId(carId);
-        Long carBoughtCount = subOptionRepository.findCarBoughtCountByCarId(carId).orElse(0L);
+        Long carBoughtCount = carRepository.findCarBoughtCountByCarId(carId).orElse(0L);
 
         return subOptionList.stream().map(subOptionMappedDto -> {
                     int percentage = 0;

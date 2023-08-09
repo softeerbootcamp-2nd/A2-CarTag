@@ -10,6 +10,7 @@ import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
 import OptionTab from '../../components/tabs/OptionTab';
 import { MAX_TEXT_CNT } from '../../utils/constants';
+import { useEffect, useState } from 'react';
 
 export default function OptionBannerContainer() {
   const suboptions = [
@@ -144,15 +145,31 @@ export default function OptionBannerContainer() {
     '3열파워폴딩시트',
     '내비게이션기반스마트크루즈컨트롤',
   ];
+  const [isBannerVisible, setIsBannerVisible] = useState(false);
   const optionDesc =
     '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다. 초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.  ';
   const displayText =
     optionDesc.length > MAX_TEXT_CNT ? optionDesc.substring(0, MAX_TEXT_CNT) + '...' : optionDesc;
+  const handleBannerVisibility = () => {
+    setIsBannerVisible(!isBannerVisible);
+  };
+  const [winY, setWinY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setWinY(window.scrollY);
+    };
+    window.addEventListener('scroll', handleScroll);
+
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+    };
+  }, []);
 
   return (
-    <>
+    <Wrapper $isBannerVisible={isBannerVisible}>
       <OptionBanner subtitle={'파워트레인/성능'} title={'컴포트 ll'}>
-        <Wrapper>
+        <ContainerWrapper>
           <Container>
             <InfoWrapper>
               <OptionTab options={suboptions} />
@@ -181,15 +198,29 @@ export default function OptionBannerContainer() {
                 </DataList>
               </HmgDataSection>
             </InfoWrapper>
+            <ToastPopup
+              $offsetY={winY}
+              $isBannerVisible={isBannerVisible}
+              onClick={handleBannerVisibility}
+            >
+              {isBannerVisible ? '이미지 접기' : '이미지 확인'}
+            </ToastPopup>
           </Container>
           <ImgSection />
-        </Wrapper>
+        </ContainerWrapper>
       </OptionBanner>
-    </>
+    </Wrapper>
   );
 }
 
-const Wrapper = styled(CenterWrapper)`
+const Wrapper = styled.div<{ $isBannerVisible: boolean }>`
+  z-index: 5;
+  position: sticky;
+  top: ${({ $isBannerVisible }) => ($isBannerVisible ? '60' : '-190')}px;
+  left: 0;
+`;
+
+const ContainerWrapper = styled(CenterWrapper)`
   display: flex;
   justify-content: flex-end;
   width: 1280px;
@@ -220,6 +251,27 @@ const InfoWrapper = styled.div`
   justify-content: space-evenly;
   flex-direction: column;
   padding-top: 120px;
+`;
+
+const ToastPopup = styled.button<{ $offsetY: number; $isBannerVisible: boolean }>`
+  opacity: ${({ $offsetY, $isBannerVisible }) =>
+    ($offsetY >= 250 && !$isBannerVisible) || !(!$offsetY && $isBannerVisible) ? 100 : 0};
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  left: 50%;
+  bottom: 18px;
+  transform: translate(-50%, 50%);
+
+  z-index: 10;
+  width: 76px;
+  height: 28px;
+  border-radius: 20px;
+  background: rgba(117, 117, 117, 0.5);
+  backdrop-filter: blur(2px);
+  color: ${({ theme }) => theme.color.white};
+  text-align: center;
+  ${BodyKrMedium4}
 `;
 const HmgDataSection = styled.div`
   margin-top: 12px;

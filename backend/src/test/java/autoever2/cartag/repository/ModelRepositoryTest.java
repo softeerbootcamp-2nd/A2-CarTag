@@ -1,24 +1,33 @@
-package autoever2.cartag.repository.model;
+package autoever2.cartag.repository;
 
 import autoever2.cartag.domain.model.ModelTypeMappedDto;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.jdbc.Sql;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ActiveProfiles("test")
-@SpringBootTest
+@JdbcTest
+@Sql({"classpath:insert/insert-model-h2.sql"})
 class ModelRepositoryTest {
 
+    private final ModelRepository modelRepository;
+
     @Autowired
-    private ModelRepository modelRepository;
+    public ModelRepositoryTest(DataSource dataSource) {
+        modelRepository = new ModelRepository(dataSource);
+    }
 
     @Test
+    @DisplayName("모델 타입의 리스트를 가져온다")
     void findAllModelTypeData() {
         //given
         int carId = 1;
@@ -28,37 +37,24 @@ class ModelRepositoryTest {
                 .modelTypeName("파워트레인")
                 .isDefaultOption(true)
                 .modelBoughtCount(800L)
-                .modelPrice(0L)
+                .modelPrice(1480000L)
                 .build();
 
-        ModelTypeMappedDto fourthModel = ModelTypeMappedDto.builder()
-                .modelId(4)
+        ModelTypeMappedDto sixthModel = ModelTypeMappedDto.builder()
+                .modelId(6)
                 .modelName("8인승")
-                .modelTypeName("바디 타입")
+                .modelTypeName("바디타입")
                 .isDefaultOption(false)
-                .modelBoughtCount(1500L)
-                .modelPrice(150000L)
+                .modelBoughtCount(1800L)
+                .modelPrice(0L)
                 .build();
 
         //when
         List<ModelTypeMappedDto> modelList = modelRepository.findAllModelTypeData(carId);
 
         //then
-        assertEquals(4, modelList.size());
-        assertTrue(modelList.stream().anyMatch(modelTypeMappedDto -> modelTypeMappedDto.equals(firstModel)));
-        assertTrue(modelList.stream().anyMatch(modelTypeMappedDto -> modelTypeMappedDto.equals(fourthModel)));
-    }
-
-    @Test
-    void findCarBoughtCountByCarId() {
-        //given
-        int carId = 1;
-
-        //when
-        Long boughtCount = modelRepository.findCarBoughtCountByCarId(carId).orElse(-1L);
-
-        //then
-        assertEquals(2000L, boughtCount);
-
+        assertEquals(6, modelList.size());
+        assertTrue(modelList.contains(firstModel));
+        assertTrue(modelList.contains(sixthModel));
     }
 }

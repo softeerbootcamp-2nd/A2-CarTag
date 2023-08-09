@@ -203,8 +203,8 @@ ALTER TABLE SubOptionPackage ADD CONSTRAINT SubOptionPackage_Package FOREIGN KEY
 ALTER TABLE SubOptionPackage ADD CONSTRAINT SubOptionPackage_Option FOREIGN KEY (sub_option_id)
     REFERENCES SubOption (sub_option_id);
 
-ALTER TABLE Model ADD CONSTRAINT PowerTrainData_Model FOREIGN KEY (model_id)
-    REFERENCES PowerTrainData (power_train_id);
+ALTER TABLE PowerTrainData ADD CONSTRAINT PowerTrainData_Model FOREIGN KEY (power_train_id)
+    REFERENCES Model (model_id);
 
 ALTER TABLE PowerTrainOperationEfficiency ADD CONSTRAINT PowerTrain_Efficiency_Model FOREIGN KEY (power_train_id)
     REFERENCES Model (model_id);

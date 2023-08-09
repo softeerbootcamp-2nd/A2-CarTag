@@ -1,7 +1,6 @@
-package autoever2.cartag.repository.model;
+package autoever2.cartag.repository;
 
 import autoever2.cartag.domain.model.ModelTypeMappedDto;
-import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -11,7 +10,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
-import java.util.Optional;
 
 @Repository
 public class ModelRepository {
@@ -23,7 +21,7 @@ public class ModelRepository {
     }
 
     public List<ModelTypeMappedDto> findAllModelTypeData(int carId) {
-        String sql = "select m.model_id, m.model_name, t.model_type_name, m.model_price, mm.model_bought_count, mm.default_option " +
+        String sql = "select m.model_id, m.model_name, t.model_type_name, m.model_price, mm.model_bought_count, mm.is_default_option " +
                 "from modelcarmapper mm " +
                 "inner join model m " +
                 "on mm.model_id = m.model_id " +
@@ -39,14 +37,5 @@ public class ModelRepository {
 
     private RowMapper<ModelTypeMappedDto> modelRowMapper() {
         return BeanPropertyRowMapper.newInstance(ModelTypeMappedDto.class);
-    }
-
-    public Optional<Long> findCarBoughtCountByCarId(int carId) {
-        String sql = "select bought_count from car where car_id = :carId";
-
-        SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("carId", carId);
-
-        return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, (rs, rowNum) -> rs.getLong("bought_count"))));
     }
 }

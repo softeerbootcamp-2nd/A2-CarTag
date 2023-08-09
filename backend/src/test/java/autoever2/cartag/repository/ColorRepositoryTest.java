@@ -5,20 +5,25 @@ import autoever2.cartag.domain.color.OuterColorDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
+import javax.sql.DataSource;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-@SpringBootTest
+@JdbcTest
 @ActiveProfiles("test")
-@Sql(scripts = {"classpath:/insert/insertColor-h2.sql"}, executionPhase = Sql.ExecutionPhase.BEFORE_TEST_METHOD)
-@Sql(scripts = {"/cleanup.sql"}, executionPhase =  Sql.ExecutionPhase.AFTER_TEST_METHOD)
+@Sql(scripts = {"classpath:/insert/insertColor-h2.sql"})
 class ColorRepositoryTest {
+
+    private final ColorRepository repository;
     @Autowired
-    private ColorRepository repository;
+    public ColorRepositoryTest(DataSource dataSource) {
+        this.repository = new ColorRepository(dataSource);
+    }
 
     @Test
     @DisplayName("carId에 따른 모든 내장 색상 리스트를 반환합니다.")
