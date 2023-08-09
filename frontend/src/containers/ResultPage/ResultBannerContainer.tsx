@@ -69,4 +69,5 @@ const ButtonContainer = styled.div`
   height: 48px;
   border-radius: 24px;
   border: 1px solid ${({ theme }) => theme.color.gray100};
+  cursor: pointer;
 `;
