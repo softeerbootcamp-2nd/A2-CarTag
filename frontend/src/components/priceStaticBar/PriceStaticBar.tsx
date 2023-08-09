@@ -1,5 +1,5 @@
 import { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { css, styled } from 'styled-components';
+import { css, styled, useTheme } from 'styled-components';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular4, HeadingKrMedium6 } from '../../styles/typefaces';
 import { ArrowUp, ArrowDown } from '../icons/Icons';
@@ -8,6 +8,7 @@ import React from 'react';
 
 interface IPriceStaticBar extends React.HTMLAttributes<HTMLDivElement> {}
 export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
+  const theme = useTheme();
   const lowestPrice = 3850; //단위: 만원
   const highestPrice = 4300;
   const total = 4100;
@@ -39,7 +40,9 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
           {isOverBudget ? ' 더 들었어요.' : ' 남았어요.'}
         </StatusDesc>
 
-        <IconBtn onClick={() => setIsOpen(!isOpen)}>{isOpen ? <ArrowUp /> : <ArrowDown />}</IconBtn>
+        <IconBtn onClick={() => setIsOpen(!isOpen)}>
+          {isOpen ? <ArrowUp fill={theme.color.gray50} /> : <ArrowDown fill={theme.color.gray50} />}
+        </IconBtn>
       </StatusText>
 
       {isOpen ? (
@@ -57,16 +60,16 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
   );
 }
 const withinBudgetCss = css`
-  background: ${(props) => props.theme.color.primaryColor700};
+  background: ${({ theme }) => theme.color.primaryColor700};
   #price-info {
-    color: ${(props) => props.theme.color.activeBlue2};
+    color: ${({ theme }) => theme.color.activeBlue2};
   }
 `;
 
 const overBudgetCss = css`
   background: rgba(0, 11, 25, 0.9);
   #price-info {
-    color: ${(props) => props.theme.color.sand};
+    color: ${({ theme }) => theme.color.sand};
   }
 `;
 
@@ -82,7 +85,7 @@ const StatusBox = styled.div<{ $isover: boolean }>`
   padding: 8px 16px;
   border-radius: 10px;
   backdrop-filter: blur(3px);
-  color: ${(props) => props.theme.color.gray50};
+  color: ${({ theme }) => theme.color.gray50};
 `;
 
 const StatusText = styled.div`

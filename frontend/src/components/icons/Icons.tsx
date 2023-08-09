@@ -9,14 +9,14 @@ export function ArrowUp({ ...props }: ISvg) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
-      height="25"
-      viewBox="0 0 24 25"
+      height="24"
+      viewBox="0 0 24 24"
       fill="none"
       {...props}
     >
       <path
         d="M6.16475 15.3352C6.36445 15.5349 6.67695 15.5531 6.89716 15.3897L6.96025 15.3352L11.8125 10.4832L16.6648 15.3352C16.8645 15.5349 17.177 15.5531 17.3972 15.3897L17.4602 15.3352C17.6599 15.1355 17.6781 14.8231 17.5147 14.6028L17.4602 14.5398L12.2102 9.28975C12.0105 9.09005 11.698 9.0719 11.4778 9.23529L11.4148 9.28975L6.16475 14.5398C5.94508 14.7594 5.94508 15.1156 6.16475 15.3352Z"
-        fill="#F7F8F9"
+        fill={props.fill}
       />
     </svg>
   );
@@ -27,8 +27,8 @@ export function ArrowDown({ ...props }: ISvg) {
     <svg
       xmlns="http://www.w3.org/2000/svg"
       width="24"
-      height="25"
-      viewBox="0 0 24 25"
+      height="24"
+      viewBox="0 0 24 24"
       fill="none"
       {...props}
     >
@@ -42,35 +42,35 @@ export function ArrowDown({ ...props }: ISvg) {
 
 export function ArrowLeft({ ...props }: ISvg) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="8"
-      height="12"
-      viewBox="0 0 8 12"
-      fill="none"
-      {...props}
-    >
-      <path
-        d="M6.00016 0L7.41016 1.41L2.83016 6L7.41016 10.59L6.00016 12L0.000156403 6L6.00016 0Z"
-        fill={props.fill}
-      />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <g clipPath="url(#clip0_2522_6830)">
+        <path
+          d="M14.0002 6L15.4102 7.41L10.8302 12L15.4102 16.59L14.0002 18L8.00016 12L14.0002 6Z"
+          fill={props.fill}
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_2522_6830">
+          <rect width="24" height="24" fill="white" transform="matrix(-1 0 0 1 24 0)" />
+        </clipPath>
+      </defs>
     </svg>
   );
 }
 export function ArrowRight({ ...props }: ISvg) {
   return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="8"
-      height="12"
-      viewBox="0 0 8 12"
-      fill="red"
-      {...props}
-    >
-      <path
-        d="M1.99984 0L0.589844 1.41L5.16984 6L0.589844 10.59L1.99984 12L7.99984 6L1.99984 0Z"
-        fill={props.fill}
-      />
+    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+      <g clipPath="url(#clip0_2522_2451)">
+        <path
+          d="M9.99984 6L8.58984 7.41L13.1698 12L8.58984 16.59L9.99984 18L15.9998 12L9.99984 6Z"
+          fill={props.fill}
+        />
+      </g>
+      <defs>
+        <clipPath id="clip0_2522_2451">
+          <rect width="24" height="24" fill="white" />
+        </clipPath>
+      </defs>
     </svg>
   );
 }

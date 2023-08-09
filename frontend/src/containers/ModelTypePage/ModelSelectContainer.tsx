@@ -156,7 +156,6 @@ const Title = styled.div`
 const TypeSection = styled.div`
   display: flex;
   justify-content: space-between;
-  /* margin-top: 34px; */
   padding: 16px 0px;
 `;
 const TypeWrapper = styled.div``;
@@ -182,7 +181,6 @@ const ModelTypeCardWrapper = styled.div`
 const ModelTypeCard = styled(DefaultCardStyle)`
   padding: 8px 12px;
   width: 100%;
-  box-sizing: border-box;
 `;
 
 const ModelTypeTitle = styled.div`

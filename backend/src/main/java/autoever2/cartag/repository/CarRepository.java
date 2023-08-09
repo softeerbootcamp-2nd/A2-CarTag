@@ -23,7 +23,7 @@ public class CarRepository {
     }
 
     public List<CarInfoDto> findCarByCarType(int carType) {
-        String sql = "select car_id, trim, car_default_price, outer_image, inner_image, wheel_image " +
+        String sql = "select car_id, trim, car_default_price, outer_image, inner_image, wheel_image, " +
                 "car_description from Car where car_type_id = :carType";
 
         SqlParameterSource param = new MapSqlParameterSource()
