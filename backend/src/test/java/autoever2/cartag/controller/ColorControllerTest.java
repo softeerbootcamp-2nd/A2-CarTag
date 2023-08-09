@@ -1,31 +1,37 @@
-package autoever2.cartag.service;
+package autoever2.cartag.controller;
 
 import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
-import autoever2.cartag.repository.ColorRepository;
+import autoever2.cartag.service.ColorService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
+import static org.mockito.BDDMockito.given;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-class ColorServiceTest {
+@WebMvcTest(ColorController.class)
+class ColorControllerTest {
 
-    @InjectMocks
+    @Autowired
+    MockMvc mockMvc;
+
+    @MockBean
     private ColorService service;
 
-    @Mock
-    private ColorRepository repository;
+    private List<OuterColorDto> outerColors;
 
     private List<InnerColorDto> innerColors;
-
-    private List<OuterColorDto> outerColors;
 
     @BeforeEach
     void setUp() {
@@ -114,21 +120,31 @@ class ColorServiceTest {
     }
 
     @Test
-    @DisplayName("트림의 모델 리스트 반환")
-    void getModelTypeData() {
+    @DisplayName("트림의 색상 타입 데이터 호출 API")
+    void getTrimModel() throws Exception {
         //given
         int carId = 1;
-
-        when(repository.findInnerColorCarByCarId(carId)).thenReturn(innerColors);
-        when(repository.findOuterColorCarByCarId(carId)).thenReturn(outerColors);
+        given(service.findOuterColorByCarId(carId)).willReturn(outerColors);
+        given(service.findInnerColorByCarId(carId)).willReturn(innerColors);
 
         //when
-        List<OuterColorDto> result_outer = service.findOuterColorByCarId(carId);
-        List<InnerColorDto> result_inner = service.findInnerColorByCarId(carId);
+        ResultActions resultActionsOuter = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/colors/outer/").param("carId", String.valueOf(carId)));
+        ResultActions resultActionsInner = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/colors/inner/").param("carId", String.valueOf(carId)));
 
         //then
-        assertEquals(result_outer.size(), 5);
-        assertEquals(result_inner.size(), 5);
+        resultActionsOuter.andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].colorName").value("어비스 블랙펄"))
+                .andExpect(jsonPath("$[1].colorImage").value("color_image_2"))
+                .andExpect(jsonPath("$[2].colorPrice").value(1234440L))
+                .andExpect(jsonPath("$[3].colorBoughtCount").value(203L))
+                .andExpect(jsonPath("$[4].colorCarImage").value("car_image_5"));
+
+        resultActionsInner.andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].colorName").value("퀄팅 천연(블랙)"))
+                .andExpect(jsonPath("$[1].colorImage").value("color_image_2"))
+                .andExpect(jsonPath("$[2].colorPrice").value(1234440L))
+                .andExpect(jsonPath("$[3].colorBoughtCount").value(203L))
+                .andExpect(jsonPath("$[4].colorCarImage").value("car_image_5"));
     }
 
 }
