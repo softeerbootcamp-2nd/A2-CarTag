@@ -1,7 +1,8 @@
 package autoever2.cartag.service;
 
 import autoever2.cartag.domain.model.ModelShortDataDto;
-import autoever2.cartag.repository.model.ModelRepository;
+import autoever2.cartag.repository.CarRepository;
+import autoever2.cartag.repository.ModelRepository;
 import autoever2.cartag.domain.model.ModelTypeMappedDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,10 +15,11 @@ import java.util.stream.Collectors;
 public class ModelService {
 
     private final ModelRepository modelRepository;
+    private final CarRepository carRepository;
 
     public List<ModelShortDataDto> getModelTypeData(int carId) {
         List<ModelTypeMappedDto> modelData = modelRepository.findAllModelTypeData(carId);
-        Long carBoughtCount = modelRepository.findCarBoughtCountByCarId(carId).orElse(0L);
+        Long carBoughtCount = carRepository.findCarBoughtCountByCarId(carId).orElse(0L);
 
         return modelData.stream().map(modelTypeMappedDto -> {
                             int percentage = 0;
