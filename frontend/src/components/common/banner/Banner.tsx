@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
-import { BodyKrRegular3, HeadingKrBold1 } from '../../styles/typefaces';
-import CenterWrapper from '../layout/CenterWrapper';
+import { BodyKrRegular3, HeadingKrBold1 } from '../../../styles/typefaces';
+import CenterWrapper from '../../layout/CenterWrapper';
 
 interface IBanner extends React.HTMLAttributes<HTMLDivElement> {
   subtitle?: string;

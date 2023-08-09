@@ -1,6 +1,6 @@
 import { MouseEventHandler, useState } from 'react';
 import { styled } from 'styled-components';
-import Banner from '../../components/banner/Banner';
+import Banner from '../../components/common/banner/Banner';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import { flexCenterCss } from '../../utils/commonStyle';
 

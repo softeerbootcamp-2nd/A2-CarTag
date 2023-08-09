@@ -1,10 +1,10 @@
 import { useState } from 'react';
 import { styled } from 'styled-components';
-import RoundButton from '../../../components/buttons/RoundButton';
-import { CheckIcon } from '../../../components/icons/Icons';
+import RoundButton from '../../../components/common/buttons/RoundButton';
+import { CheckIcon } from '../../../components/common/icons/Icons';
 import HmgTag from '../../../components/hmgTag/HmgTag';
 import { BodyKrRegular4, HeadingEn4, HeadingKrMedium7 } from '../../../styles/typefaces';
-import DefaultCardStyle from '../../../components/card/DefaultCardStyle';
+import DefaultCardStyle from '../../../components/common/card/DefaultCardStyle';
 
 export default function ExtraOptionContainer() {
   const [selectedOptions, setSelectedOptions] = useState<number[]>([]);

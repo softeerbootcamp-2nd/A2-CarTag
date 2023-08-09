@@ -6,10 +6,10 @@ import {
   HeadingKrMedium5,
 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
-import DefaultCardStyle from '../../components/card/DefaultCardStyle';
+import DefaultCardStyle from '../../components/common/card/DefaultCardStyle';
 import { HTMLAttributes, useState } from 'react';
 import { flexCenterCss } from '../../utils/commonStyle';
-import { ArrowLeft, ArrowRight, CheckIcon } from '../../components/icons/Icons';
+import { ArrowLeft, ArrowRight, CheckIcon } from '../../components/common/icons/Icons';
 import PriceSummary from '../../components/summary/PriceSummary';
 
 const MAX_PAGE = 3;

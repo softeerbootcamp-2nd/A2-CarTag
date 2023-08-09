@@ -2,7 +2,7 @@ import { ChangeEvent, useCallback, useEffect, useState } from 'react';
 import { css, styled, useTheme } from 'styled-components';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular4, HeadingKrMedium6 } from '../../styles/typefaces';
-import { ArrowUp, ArrowDown } from '../icons/Icons';
+import { ArrowUp, ArrowDown } from '../common/icons/Icons';
 import Slider from './Slider';
 import React from 'react';
 

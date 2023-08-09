@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import Banner from '../../components/banner/Banner';
+import Banner from '../../components/common/banner/Banner';
 import { BodyKrRegular3, HeadingKrBold1 } from '../../styles/typefaces';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { useState } from 'react';

@@ -6,9 +6,9 @@ import {
   HeadingKrMedium5,
   HeadingKrMedium7,
 } from '../../styles/typefaces';
-import DefaultCardStyle from '../../components/card/DefaultCardStyle';
+import DefaultCardStyle from '../../components/common/card/DefaultCardStyle';
 import { useState } from 'react';
-import RectButton from '../../components/buttons/RectButton';
+import RectButton from '../../components/common/buttons/RectButton';
 
 export default function TrimSelectContainer() {
   const firstTrimIdx = 0;

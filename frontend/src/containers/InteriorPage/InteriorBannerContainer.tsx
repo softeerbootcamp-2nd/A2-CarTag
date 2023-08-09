@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import Banner from '../../components/banner/Banner';
+import Banner from '../../components/common/banner/Banner';
 
 export default function InteriorBannerContainer() {
   return <InteriorBanner subtitle={'내장색상'} title={'퀼팅천연(블랙)'} />;

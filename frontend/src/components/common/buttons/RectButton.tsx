@@ -1,7 +1,7 @@
 import { css, styled } from 'styled-components';
-import { BodyKrMedium2, CaptionEn2, HeadingKrMedium5 } from '../../styles/typefaces';
+import { BodyKrMedium2, CaptionEn2, HeadingKrMedium5 } from '../../../styles/typefaces';
 import React from 'react';
-import { flexCenterCss } from '../../utils/commonStyle';
+import { flexCenterCss } from '../../../utils/commonStyle';
 
 type rectBtnType = 'popup' | 'price' | 'trim';
 

@@ -1,9 +1,9 @@
 import { styled } from 'styled-components';
-import DefaultCardStyle from '../../../components/card/DefaultCardStyle';
+import DefaultCardStyle from '../../../components/common/card/DefaultCardStyle';
 import { BodyKrRegular4, HeadingEn4, HeadingKrMedium7 } from '../../../styles/typefaces';
 import { useState } from 'react';
-import RoundButton from '../../../components/buttons/RoundButton';
-import { CheckIcon } from '../../../components/icons/Icons';
+import RoundButton from '../../../components/common/buttons/RoundButton';
+import { CheckIcon } from '../../../components/common/icons/Icons';
 import HmgTag from '../../../components/hmgTag/HmgTag';
 
 export default function DefaultOptionContainer() {

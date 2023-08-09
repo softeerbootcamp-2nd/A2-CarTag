@@ -1,7 +1,7 @@
 import { css, styled } from 'styled-components';
 import { BodyKrMedium3, BodyKrRegular5, HeadingKrRegular2 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
-import Banner from '../../components/banner/Banner';
+import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/hmgTag/HmgTag';
 import { useState } from 'react';
 import { flexCenterCss } from '../../utils/commonStyle';

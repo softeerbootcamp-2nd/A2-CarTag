@@ -1,5 +1,5 @@
 import { css, styled } from 'styled-components';
-import { BodyKrRegular3 } from '../../styles/typefaces';
+import { BodyKrRegular3 } from '../../../styles/typefaces';
 
 interface IRoundButton extends React.HTMLAttributes<HTMLButtonElement> {
   type: 'option' | 'price';
