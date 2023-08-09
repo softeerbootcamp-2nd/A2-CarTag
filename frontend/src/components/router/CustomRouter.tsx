@@ -1,7 +1,5 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 import { PATH } from '../../utils/url';
-import { TrimPage } from '../../pages/TrimPage';
-import { ModelTypePage } from '../../pages/ModelTypePage';
 import ExteriorPage from '../../pages/ExteriorPage';
 import AnimatePresence from '../pageAnimation/AnimationPresence';
 import PageAnimationWrapper from '../pageAnimation/PageAnimationWrapper';
@@ -9,8 +7,10 @@ import OptionPage from '../../pages/OptionPage';
 import InteriorPage from '../../pages/InteriorPage';
 import ResultPage from '../../pages/ResultPage';
 import { useEffect } from 'react';
+import TrimPage from '../../pages/TrimPage';
+import ModelTypePage from '../../pages/ModelTypePage';
 
-export function CustomRouter() {
+export default function CustomRouter() {
   const { pathname } = useLocation();
   const navigate = useNavigate();
 

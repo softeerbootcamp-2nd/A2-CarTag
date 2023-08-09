@@ -1,11 +1,11 @@
 import { styled } from 'styled-components';
-import { BodyKrRegular3 } from '../../../styles/typefaces';
+import { BodyKrRegular3 } from '../../styles/typefaces';
 
 export interface ISummaryItem {
   imgSrc: string;
   itemName: string;
   selectedName: string;
-  price: string;
+  price: number;
 }
 
 export default function SummaryItem({ imgSrc, itemName, selectedName, price }: ISummaryItem) {
@@ -61,7 +61,6 @@ const ItemName = styled.div`
   color: ${({ theme }) => theme.color.gray500};
 `;
 const ModifyButton = styled.button`
-  padding: 0;
   color: ${({ theme }) => theme.color.primaryColor};
 `;
 const SelectedName = styled.div``;

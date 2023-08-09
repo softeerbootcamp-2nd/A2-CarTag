@@ -1,7 +1,7 @@
 import { styled, useTheme } from 'styled-components';
 import { HTMLAttributes, useRef, useState } from 'react';
-import { HeadingKrMedium5 } from '../../../styles/typefaces';
-import { ArrowDown, ArrowUp } from '../../../components/common/icons/Icons';
+import { HeadingKrMedium5 } from '../../styles/typefaces';
+import { ArrowDown, ArrowUp } from '../common/icons/Icons';
 
 interface IDetails extends HTMLAttributes<HTMLDetailsElement> {
   title: string;

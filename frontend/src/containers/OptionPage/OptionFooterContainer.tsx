@@ -14,7 +14,7 @@ export default function OptionFooterContainer() {
 
 const Wrapper = styled.div`
   z-index: 999;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   left: 0px;
   width: 100%;

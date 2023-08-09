@@ -105,7 +105,7 @@ const DataRatio = styled.div`
 `;
 const Ratio = styled.div<{ $current: number; $max: number }>`
   height: 4px;
-  width: ${(props) => (props.$current / props.$max) * 100}%;
+  width: ${({ $current, $max }) => ($current / $max) * 100}%;
   background-color: ${({ theme }) => theme.color.activeBlue2};
 `;
 

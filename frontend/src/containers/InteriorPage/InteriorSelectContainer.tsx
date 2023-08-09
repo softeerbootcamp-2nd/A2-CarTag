@@ -4,10 +4,8 @@ import CenterWrapper from '../../components/layout/CenterWrapper';
 import { ArrowLeft, ArrowRight } from '../../components/common/icons/Icons';
 import PriceSummary from '../../components/summary/PriceSummary';
 import { useState } from 'react';
-import { InteriorCard } from '../../components/cards/InteriorCard';
-
-const MAX_PAGE = 3;
-const NUM_IN_A_PAGE = 4;
+import InteriorCard from '../../components/cards/InteriorCard';
+import { MAX_PAGE, NUM_IN_A_PAGE } from '../../utils/constants';
 
 export default function InteriorSelectContainer() {
   const [page, setPage] = useState(0);
@@ -46,7 +44,7 @@ export default function InteriorSelectContainer() {
       onClick={() => handleSelectedIdx(idx)}
       desc="38%가 선택했어요"
       name="블랙"
-      price="0"
+      price={0}
     />
   ));
 

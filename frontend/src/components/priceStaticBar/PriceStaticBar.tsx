@@ -11,10 +11,6 @@ import { PATH } from '../../utils/url';
 interface IPriceStaticBar extends React.HTMLAttributes<HTMLDivElement> {}
 export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
   const { pathname } = useLocation();
-  if (pathname === PATH.trim) {
-    return <></>;
-  }
-
   const theme = useTheme();
   const lowestPrice = 3850; //단위: 만원
   const highestPrice = 4300;
@@ -37,6 +33,9 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
     getBudgetStatus();
   }, [budget, getBudgetStatus]);
 
+  if (pathname === PATH.trim) {
+    return <></>;
+  }
   return (
     <StatusBox {...props} $isover={isOverBudget}>
       <StatusText>

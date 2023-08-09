@@ -1,7 +1,7 @@
 import TrimBannerContainer from '../containers/TrimPage/TrimBannerContainer';
 import TrimSelectContainer from '../containers/TrimPage/TrimSelectContainer';
 
-export function TrimPage() {
+export default function TrimPage() {
   return (
     <>
       <TrimBannerContainer />

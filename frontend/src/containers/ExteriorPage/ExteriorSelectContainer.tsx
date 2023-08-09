@@ -48,7 +48,7 @@ export default function ExteriorSelectContainer() {
             color="black"
             desc="38%가 선택했어요"
             name="블랙"
-            price="0"
+            price={0}
           />
         ))}
       </CardPage>

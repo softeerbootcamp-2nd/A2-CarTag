@@ -35,19 +35,19 @@ const trimCss = css`
 `;
 
 const Wrapper = styled.button<IWrapper>`
-  ${(props) => props.$type === 'popup' && popupCss}
-  ${(props) => props.$type === 'price' && priceCss}
-  ${(props) => props.$type === 'trim' && trimCss}
+  ${({ $type }) => $type === 'popup' && popupCss}
+  ${({ $type }) => $type === 'price' && priceCss}
+  ${({ $type }) => $type === 'trim' && trimCss}
 
   ${flexCenterCss}
 
-  background-color: ${(props) => props.theme.color.primaryColor700};
-  color: ${(props) => props.theme.color.white};
+  background-color: ${({ theme }) => theme.color.primaryColor700};
+  color: ${({ theme }) => theme.color.white};
 
   &:hover {
-    background-color: ${(props) => props.theme.color.primaryColor500};
+    background-color: ${({ theme }) => theme.color.primaryColor500};
   }
   &:active {
-    background-color: ${(props) => props.theme.color.primaryColor800};
+    background-color: ${({ theme }) => theme.color.primaryColor800};
   }
 `;

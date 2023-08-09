@@ -11,10 +11,10 @@ interface IInTeriorCard extends HTMLAttributes<HTMLDivElement> {
   active: boolean;
   desc: string;
   name: string;
-  price: string;
+  price: number;
 }
 
-export function InteriorCard({
+export default function InteriorCard({
   imgSrc1,
   imgSrc2,
   active,

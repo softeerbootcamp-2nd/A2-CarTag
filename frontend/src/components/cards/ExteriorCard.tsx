@@ -9,7 +9,7 @@ interface IExteriorCard extends HTMLAttributes<HTMLDivElement> {
   color: string;
   desc: string;
   name: string;
-  price: string;
+  price: number;
 }
 
 export default function ExteriorCard({
