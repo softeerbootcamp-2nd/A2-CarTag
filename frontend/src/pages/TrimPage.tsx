@@ -1,4 +1,4 @@
-import OnBoardingGuide from '../components/dimmedBg/guide';
+import OnBoardingGuide from '../components/modal/guide';
 import TrimBannerContainer from '../containers/TrimPage/TrimBannerContainer';
 import TrimSelectContainer from '../containers/TrimPage/TrimSelectContainer';
 

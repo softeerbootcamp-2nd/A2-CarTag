@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { css, styled, useTheme } from 'styled-components';
 import { PATH } from '../../utils/url';
 import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../styles/typefaces';
 import { ArrowDown, CancelIcon } from '../common/icons/Icons';
 import hyundaiLogo from '/images/logo.svg';
+import CloseModal from '../modal/closeModal';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
   active: boolean;
@@ -12,63 +13,74 @@ interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
 export default function NavBar() {
   const navigate = useNavigate();
   const { pathname: currentPath } = useLocation();
+  const [displayDimmed, setDisplayDimmed] = useState(false);
   const theme = useTheme();
 
   const handleNavItemClick = (path: string) => {
     navigate(path);
   };
-
   const isActive = (path: string) => {
     return currentPath === path;
   };
   const handleCloseButtonClick = () => {
-    console.log('종료 창 띄우기');
+    setDisplayDimmed(true);
+  };
+
+  const handleCloseModalClick = () => {
+    setDisplayDimmed(false);
   };
 
   return (
-    <Wrapper>
-      <HyundaiLogo src={hyundaiLogo} alt="" />
-      <Body>
-        <CarSelect>
-          <span>펠리세이드</span>
-          <ArrowDown fill={theme.color.gray800} />
-        </CarSelect>
-        <NavList>
-          <NavItem onClick={() => handleNavItemClick(PATH.trim)} active={isActive(PATH.trim)}>
-            트림
-          </NavItem>
-          <NavItem
-            onClick={() => handleNavItemClick(PATH.modelType)}
-            active={isActive(PATH.modelType)}
-          >
-            타입
-          </NavItem>
-          <NavItem
-            onClick={() => handleNavItemClick(PATH.exterior)}
-            active={isActive(PATH.exterior)}
-          >
-            외장
-          </NavItem>
-          <NavItem
-            onClick={() => handleNavItemClick(PATH.interior)}
-            active={isActive(PATH.interior)}
-          >
-            내장
-          </NavItem>
-          <NavItem onClick={() => handleNavItemClick(PATH.option)} active={isActive(PATH.option)}>
-            옵션
-          </NavItem>
-          <NavItem onClick={() => handleNavItemClick(PATH.result)} active={isActive(PATH.result)}>
-            완료
-          </NavItem>
-        </NavList>
-      </Body>
+    <>
+      <Wrapper>
+        <HyundaiLogo src={hyundaiLogo} alt="" />
+        <Body>
+          <CarSelect>
+            <span>펠리세이드</span>
+            <ArrowDown fill={theme.color.gray800} />
+          </CarSelect>
+          <NavList>
+            <NavItem onClick={() => handleNavItemClick(PATH.trim)} active={isActive(PATH.trim)}>
+              트림
+            </NavItem>
+            <NavItem
+              onClick={() => handleNavItemClick(PATH.modelType)}
+              active={isActive(PATH.modelType)}
+            >
+              타입
+            </NavItem>
+            <NavItem
+              onClick={() => handleNavItemClick(PATH.exterior)}
+              active={isActive(PATH.exterior)}
+            >
+              외장
+            </NavItem>
+            <NavItem
+              onClick={() => handleNavItemClick(PATH.interior)}
+              active={isActive(PATH.interior)}
+            >
+              내장
+            </NavItem>
+            <NavItem onClick={() => handleNavItemClick(PATH.option)} active={isActive(PATH.option)}>
+              옵션
+            </NavItem>
+            <NavItem onClick={() => handleNavItemClick(PATH.result)} active={isActive(PATH.result)}>
+              완료
+            </NavItem>
+          </NavList>
+        </Body>
 
-      <CancelButton>
-        <Span onClick={handleCloseButtonClick}>종료</Span>
-        <CancelIcon width={12} height={12} />
-      </CancelButton>
-    </Wrapper>
+        <CancelButton onClick={handleCloseButtonClick}>
+          <Span>종료</Span>
+          <CancelIcon width={12} height={12} />
+        </CancelButton>
+      </Wrapper>
+      <CloseModal
+        displayDimmed={displayDimmed}
+        setDisplayDimmed={setDisplayDimmed}
+        onClick={handleCloseModalClick}
+      />
+    </>
   );
 }
 
