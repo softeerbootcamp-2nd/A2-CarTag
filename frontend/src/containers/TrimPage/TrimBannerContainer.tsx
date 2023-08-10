@@ -24,10 +24,9 @@ export default function TrimBannerContainer() {
   return (
     <Banner subtitle={'기본에 충실한 펠리세이드'} title={'Le blanc'}>
       <Container>
-        <HmgDataWrapper>
+        <HmgDataWrapper style={{ zIndex: 10000 }}>
           <HmgDataSection>
             <HmgTag size="small" />
-
             <HmgTagDescription>
               해당 트림 포함된 옵션들의
               <BlueText> 실활용 데이터</BlueText>예요.
@@ -73,8 +72,7 @@ const HmgDataWrapper = styled.div`
   height: 175px;
   margin-top: 166px;
   margin-left: -16px;
-  background-color: ${({ theme }) => theme.color.white};
-  z-index: 10000;
+  /* background-color: ${({ theme }) => theme.color.white}; */
 `;
 
 const HmgDataSection = styled.div`

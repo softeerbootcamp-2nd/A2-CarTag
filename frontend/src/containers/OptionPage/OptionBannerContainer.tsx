@@ -154,11 +154,10 @@ export default function OptionBannerContainer() {
     setIsBannerVisible(!isBannerVisible);
   };
   const [winY, setWinY] = useState(0);
-
+  const handleScroll = () => {
+    setWinY(window.scrollY);
+  };
   useEffect(() => {
-    const handleScroll = () => {
-      setWinY(window.scrollY);
-    };
     window.addEventListener('scroll', handleScroll);
 
     return () => {
