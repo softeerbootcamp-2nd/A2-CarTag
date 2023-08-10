@@ -105,7 +105,7 @@ const TypeSection = styled.div`
 `;
 const TypeWrapper = styled.div``;
 const TypeTitle = styled.div`
-  color: ${(props) => props.theme.color.gray600};
+  color: ${({ theme }) => theme.color.gray600};
   ${HeadingKrMedium7};
 `;
 
@@ -118,7 +118,7 @@ const ModelTypeCardWrapper = styled.div`
   display: flex;
   justify-content: space-between;
   width: 331px;
-  background: ${(props) => props.theme.color.gray50};
+  background: ${({ theme }) => theme.color.gray50};
   padding: 4px;
   gap: 5px;
 `;
