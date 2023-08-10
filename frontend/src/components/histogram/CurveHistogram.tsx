@@ -1,7 +1,7 @@
 import { styled, useTheme } from 'styled-components';
 import HmgTag from '../common/hmgTag/HmgTag';
 import { BodyKrMedium2, BodyKrRegular2, HeadingKrMedium5 } from '../../styles/typefaces';
-import { useEffect, useRef, useState } from 'react';
+import { useCallback, useEffect, useRef, useState } from 'react';
 
 // 임시 데이터
 const carData = {
@@ -39,47 +39,56 @@ export default function CurveHistogram() {
     setSvgSize({ width, height: height - 20 });
   };
 
-  const getCoords = (data: ICarData) => {
-    const yList = Object.values(data);
-    let xList = Object.keys(data).map(Number);
-    const minX = Math.min(...xList);
-    const maxX = Math.max(...xList);
-    const maxY = Math.max(...yList);
+  const getCoords = useCallback(
+    (data: ICarData) => {
+      const yList = Object.values(data);
+      let xList = Object.keys(data).map(Number);
+      const minX = Math.min(...xList);
+      const maxX = Math.max(...xList);
+      const maxY = Math.max(...yList);
 
-    xList = xList.map((value) => value - minX);
-    xList = xList.map((value) => (value * svgSize.width) / (maxX - minX));
+      xList = xList.map((value) => value - minX);
+      xList = xList.map((value) => (value * svgSize.width) / (maxX - minX));
 
-    const coords = yList.reduce((acc: CoordType[], value, idx) => {
-      const x = xList[idx];
-      const y = (value / maxY) * svgSize.height;
-      const coord: CoordType = [x, y];
-      return [...acc, coord];
-    }, []);
+      const coords = yList.reduce((acc: CoordType[], value, idx) => {
+        const x = xList[idx];
+        const y = (value / maxY) * svgSize.height;
+        const coord: CoordType = [x, y];
+        return [...acc, coord];
+      }, []);
 
-    return coords;
-  };
+      return coords;
+    },
+    [svgSize]
+  );
 
-  const drawHistogram = () => {
+  const drawLine = useCallback(
+    (carData: ICarData) => {
+      const coords = getCoords(carData);
+      coords && setD(getPathDAttribute(coords));
+    },
+    [getCoords]
+  );
+
+  const drawCircle = useCallback(
+    (mycarPrice: number) => {
+      const coords = getCoords(carData);
+      const carDataKeys = Object.keys(carData);
+      const mycarIdx = carDataKeys.findIndex((value) => value === mycarPrice.toString());
+      if (mycarIdx === -1) {
+        alert('price와 일치하는 데이터 없음');
+        return;
+      }
+      const [mycarX, myCarY] = coords[mycarIdx];
+      setCirclePos({ x: mycarX, y: myCarY });
+    },
+    [getCoords]
+  );
+
+  const drawHistogram = useCallback(() => {
     drawLine(carData);
     drawCircle(mycarPrice);
-  };
-
-  const drawLine = (carData: ICarData) => {
-    const coords = getCoords(carData);
-    coords && setD(getPathDAttribute(coords));
-  };
-
-  const drawCircle = (mycarPrice: number) => {
-    const coords = getCoords(carData);
-    const carDataKeys = Object.keys(carData);
-    const mycarIdx = carDataKeys.findIndex((value) => value === mycarPrice.toString());
-    if (mycarIdx === -1) {
-      alert('price와 일치하는 데이터 없음');
-      return;
-    }
-    const [mycarX, myCarY] = coords[mycarIdx];
-    setCirclePos({ x: mycarX, y: myCarY });
-  };
+  }, [drawLine, drawCircle]);
 
   useEffect(initSvgSize, [histogramRef]);
   useEffect(drawHistogram, [svgSize, drawHistogram]);
