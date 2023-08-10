@@ -8,17 +8,12 @@ interface IOnBoardingGuide extends HTMLAttributes<HTMLDivElement> {}
 export default function OnBoardingGuide({ ...props }: IOnBoardingGuide) {
   const [displayDimmed, setDisplayDimmed] = useState(true);
   const guideBubbleRef = useRef<HTMLDivElement>(null);
+  const hmgDataBgRef = useRef<HTMLDivElement>(null);
   const handleClick = (event: MouseEvent) => {
-    const zIndex1000Element = document.querySelector('[style*="z-index: 10000"]');
-    const clickedElement = event.target as HTMLElement;
-    if (
-      guideBubbleRef.current &&
-      event.target instanceof Node &&
-      guideBubbleRef.current.contains(event.target)
-    ) {
+    if (guideBubbleRef.current?.contains(event.target as Node)) {
       return;
     }
-    if (zIndex1000Element?.contains(clickedElement)) {
+    if (hmgDataBgRef.current?.contains(event.target as Node)) {
       return;
     }
     setDisplayDimmed(false);
@@ -55,7 +50,7 @@ export default function OnBoardingGuide({ ...props }: IOnBoardingGuide) {
             </GuideDesc>
           </GuideText>
         </GuideBubble>
-        <HmgDataBg />
+        <HmgDataBg ref={hmgDataBgRef} />
       </Wrapper>
     </DimmedBg>
   );
@@ -85,6 +80,7 @@ const Header = styled.div`
 `;
 const CloseBtn = styled.button``;
 const HmgDataBg = styled.div`
+  z-index: 10000;
   margin-top: 20px;
   margin-left: 111px;
   width: 316px;
