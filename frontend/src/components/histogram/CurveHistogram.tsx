@@ -82,7 +82,7 @@ export default function CurveHistogram() {
   };
 
   useEffect(initSvgSize, [histogramRef]);
-  useEffect(drawHistogram, [svgSize]);
+  useEffect(drawHistogram, [svgSize, drawHistogram]);
 
   return (
     <HistogramWrapper>
