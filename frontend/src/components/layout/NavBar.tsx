@@ -5,7 +5,7 @@ import { PATH } from '../../utils/url';
 import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../styles/typefaces';
 import { ArrowDown, CancelIcon } from '../common/icons/Icons';
 import hyundaiLogo from '/images/logo.svg';
-import CloseModal from '../modal/closeModal';
+import CloseModal from '../modal/CloseModal';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
   active: boolean;
