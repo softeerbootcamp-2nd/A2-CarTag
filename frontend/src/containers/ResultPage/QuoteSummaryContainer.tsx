@@ -1,7 +1,6 @@
 import { styled } from 'styled-components';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import { BodyKrMedium3, BodyKrRegular4, HeadingKrBold1 } from '../../styles/typefaces';
-import Loading from '../../components/loading/Loading';
 
 export default function QuoteSummaryContainer() {
   return (
