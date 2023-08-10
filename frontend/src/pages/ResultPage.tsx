@@ -5,10 +5,12 @@ import QuoteSummaryContainer from '../containers/ResultPage/QuoteSummaryContaine
 import ResultBannerContainer from '../containers/ResultPage/ResultBannerContainer';
 import HistogramContainer from '../containers/ResultPage/HistogramContainer';
 import ResultFooterContainer from '../containers/ResultPage/ResultFooterContainer';
+import SimilarQuote from '../components/dimmedBg/SimilarQuote';
 
 export default function ResultPage() {
   return (
     <>
+      <SimilarQuote />
       <ResultBannerContainer />
       <QuoteSummaryContainer />
       <Row>
