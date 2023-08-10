@@ -3,7 +3,7 @@ name: "✏️ ISSUE"
 about: 이슈 작업 사항을 입력해주세요.
 title: "[FE] main task 작업 내용 {- sub task 번호}"
 labels: ''
-assignees: kimdaye77
+assignees: ''
 
 ---
 
