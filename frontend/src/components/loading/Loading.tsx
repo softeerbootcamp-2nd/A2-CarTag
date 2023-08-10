@@ -8,10 +8,10 @@ export default function Loading() {
     <Wrapper>
       <Spinner>
         <AbsoluteCenter>
-          <LoadingIcon></LoadingIcon>
+          <LoadingIcon />
         </AbsoluteCenter>
         <AbsoluteCenter>
-          <LoadingIcon2></LoadingIcon2>
+          <LoadingIcon2 />
         </AbsoluteCenter>
         <AbsoluteCenter>
           <LoadingIcon3 />
@@ -22,16 +22,16 @@ export default function Loading() {
   );
 }
 
+const spin = keyframes`
+  to{
+    transform: rotate(360deg);
+  }
+`;
+
 const Wrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const spin = keyframes`
-    to{
-        transform: rotate(360deg);
-    }
 `;
 
 const Spinner = styled.div`
