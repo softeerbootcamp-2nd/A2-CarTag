@@ -36,17 +36,15 @@ const trimCss = css`
   ${CaptionEn2};
 `;
 
-const inactiveCss = css``;
-const activeCss = css``;
-
 const Wrapper = styled.button<IWrapper>`
-  ${({ $active, $type, theme }) => {
+  ${({ $type }) => $type === 'popup' && popupCss}
+  ${({ $type }) => $type === 'price' && priceCss}
+  ${({ $type }) => $type === 'trim' && trimCss}
+
+  ${({ $active, theme }) => {
     switch ($active) {
       case true:
         return css`
-          ${$type === 'popup' && popupCss};
-          ${$type === 'price' && priceCss};
-          ${$type === 'trim' && trimCss};
           ${flexCenterCss}
           background-color: ${theme.color.primaryColor700};
           color: ${theme.color.white};
