@@ -24,36 +24,38 @@ export default function TrimBannerContainer() {
   return (
     <Banner subtitle={'기본에 충실한 펠리세이드'} title={'Le blanc'}>
       <Container>
-        <HmgDataSection>
-          <HmgTag size="small" />
-          <HmgTagDescription>
-            해당 트림 포함된 옵션들의
-            <BlueText> 실활용 데이터</BlueText>예요.
-          </HmgTagDescription>
-          <DataList>
-            <Data>
-              <DataTitle>안전 하차 보조</DataTitle>
-              <DataInfo>
-                42회
-                <DataCaption>15,000km 당</DataCaption>
-              </DataInfo>
-            </Data>
-            <Data>
-              <DataTitle>후측방 충돌 경고</DataTitle>
-              <DataInfo>
-                42회
-                <DataCaption>15,000km 당</DataCaption>
-              </DataInfo>
-            </Data>
-            <Data>
-              <DataTitle>후방 교차 충돌방지 경고</DataTitle>
-              <DataInfo>
-                42회
-                <DataCaption>15,000km 당</DataCaption>
-              </DataInfo>
-            </Data>
-          </DataList>
-        </HmgDataSection>
+        <HmgDataWrapper>
+          <HmgDataSection>
+            <HmgTag size="small" />
+            <HmgTagDescription>
+              해당 트림 포함된 옵션들의
+              <BlueText> 실활용 데이터</BlueText>예요.
+            </HmgTagDescription>
+            <DataList>
+              <Data>
+                <DataTitle>안전 하차 보조</DataTitle>
+                <DataInfo>
+                  42회
+                  <DataCaption>15,000km 당</DataCaption>
+                </DataInfo>
+              </Data>
+              <Data>
+                <DataTitle>후측방 충돌 경고</DataTitle>
+                <DataInfo>
+                  42회
+                  <DataCaption>15,000km 당</DataCaption>
+                </DataInfo>
+              </Data>
+              <Data>
+                <DataTitle>후방 교차 충돌방지 경고</DataTitle>
+                <DataInfo>
+                  42회
+                  <DataCaption>15,000km 당</DataCaption>
+                </DataInfo>
+              </Data>
+            </DataList>
+          </HmgDataSection>
+        </HmgDataWrapper>
         <ImgSection>{ImgSectionComponent}</ImgSection>
       </Container>
     </Banner>
@@ -65,8 +67,17 @@ const Container = styled(CenterWrapper)`
   justify-content: space-between;
   height: 100%;
 `;
+const HmgDataWrapper = styled.div`
+  z-index: 10000;
+  width: 316px;
+  height: 175px;
+  margin-top: 166px;
+  margin-left: -16px;
+  pointer-events: none;
+`;
+
 const HmgDataSection = styled.div`
-  padding-top: 166px;
+  margin: 0 16px;
 `;
 
 const HmgTagDescription = styled.div`
