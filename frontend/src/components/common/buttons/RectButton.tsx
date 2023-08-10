@@ -7,13 +7,15 @@ type rectBtnType = 'popup' | 'price' | 'trim';
 
 interface IRectButton extends React.HTMLAttributes<HTMLButtonElement> {
   type: rectBtnType;
+  active?: boolean;
 }
 interface IWrapper {
   $type: rectBtnType;
+  $active: boolean;
 }
 
-export default function RectButton({ type, ...props }: IRectButton) {
-  return <Wrapper $type={type} {...props}></Wrapper>;
+export default function RectButton({ type, active = true, ...props }: IRectButton) {
+  return <Wrapper $type={type} $active={active} {...props}></Wrapper>;
 }
 
 const popupCss = css`
@@ -34,20 +36,33 @@ const trimCss = css`
   ${CaptionEn2};
 `;
 
+const inactiveCss = css``;
+const activeCss = css``;
+
 const Wrapper = styled.button<IWrapper>`
-  ${({ $type }) => $type === 'popup' && popupCss}
-  ${({ $type }) => $type === 'price' && priceCss}
-  ${({ $type }) => $type === 'trim' && trimCss}
+  ${({ $active, $type, theme }) => {
+    switch ($active) {
+      case true:
+        return css`
+          ${$type === 'popup' && popupCss};
+          ${$type === 'price' && priceCss};
+          ${$type === 'trim' && trimCss};
+          ${flexCenterCss}
+          background-color: ${theme.color.primaryColor700};
+          color: ${theme.color.white};
 
-  ${flexCenterCss}
-
-  background-color: ${({ theme }) => theme.color.primaryColor700};
-  color: ${({ theme }) => theme.color.white};
-
-  &:hover {
-    background-color: ${({ theme }) => theme.color.primaryColor500};
-  }
-  &:active {
-    background-color: ${({ theme }) => theme.color.primaryColor800};
-  }
+          &:hover {
+            background-color: ${theme.color.primaryColor500};
+          }
+          &:active {
+            background-color: ${theme.color.primaryColor800};
+          }
+        `;
+      case false:
+        return css`
+          background-color: ${theme.color.gray300};
+          color: ${theme.color.white};
+        `;
+    }
+  }}
 `;
