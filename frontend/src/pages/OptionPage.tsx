@@ -14,5 +14,6 @@ export default function OptionPage() {
 }
 
 const Wrapper = styled.div`
+  height: 100vh;
   padding-bottom: 120px;
 `;

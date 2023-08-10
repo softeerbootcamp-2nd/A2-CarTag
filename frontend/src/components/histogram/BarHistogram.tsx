@@ -2,8 +2,13 @@ import { styled } from 'styled-components';
 import HmgTag from '../common/hmgTag/HmgTag';
 import { BodyKrMedium2, BodyKrRegular3, HeadingKrMedium6 } from '../../styles/typefaces';
 import { flexCenterCss } from '../../utils/commonStyle';
+import { Dispatch, HTMLAttributes, SetStateAction } from 'react';
 
-export default function BarHistogram() {
+interface IBarHistogram extends HTMLAttributes<HTMLDivElement> {
+  setDisplayDimmed: Dispatch<SetStateAction<boolean>>;
+}
+
+export default function BarHistogram({ setDisplayDimmed }: IBarHistogram) {
   return (
     <HistogramWrapper>
       <HmgTag size="small" />
@@ -45,7 +50,7 @@ export default function BarHistogram() {
             <BarItemName>내 견적</BarItemName>
           </BarItem>
         </BarChart>
-        <Button>유사 출고 견적 확인하기</Button>
+        <Button onClick={() => setDisplayDimmed(true)}>유사 출고 견적 확인하기</Button>
       </PaddingWrapper>
     </HistogramWrapper>
   );

@@ -5,15 +5,27 @@ import QuoteSummaryContainer from '../containers/ResultPage/QuoteSummaryContaine
 import ResultBannerContainer from '../containers/ResultPage/ResultBannerContainer';
 import HistogramContainer from '../containers/ResultPage/HistogramContainer';
 import ResultFooterContainer from '../containers/ResultPage/ResultFooterContainer';
+import SimilarQuote from '../components/modal/SimilarQuote';
+import { useState } from 'react';
 
 export default function ResultPage() {
+  const [displayDimmed, setDisplayDimmed] = useState(false);
+
+  const handleCloseModalClick = () => {
+    setDisplayDimmed(false);
+  };
   return (
     <>
+      <SimilarQuote
+        displayDimmed={displayDimmed}
+        setDisplayDimmed={setDisplayDimmed}
+        onClick={handleCloseModalClick}
+      />
       <ResultBannerContainer />
       <QuoteSummaryContainer />
       <Row>
         <DetailContainer />
-        <HistogramContainer />
+        <HistogramContainer setDisplayDimmed={setDisplayDimmed} />
       </Row>
       <ResultFooterContainer />
     </>
