@@ -1,10 +1,5 @@
 import { styled } from 'styled-components';
-import {
-  BodyKrMedium5,
-  HeadingEn4,
-  HeadingKrMedium6,
-  HeadingKrMedium7,
-} from '../../styles/typefaces';
+import { BodyKrMedium5, HeadingKrMedium7 } from '../../styles/typefaces';
 import { CheckIcon } from '../common/icons/Icons';
 import DefaultCardStyle from '../common/card/DefaultCardStyle';
 import { HTMLAttributes } from 'react';

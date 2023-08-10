@@ -2,18 +2,13 @@ import { styled } from 'styled-components';
 import HmgTag from '../common/hmgTag/HmgTag';
 import { BodyKrMedium2, BodyKrRegular3, HeadingKrMedium6 } from '../../styles/typefaces';
 import { flexCenterCss } from '../../utils/commonStyle';
-import { useState } from 'react';
-import SimilarQuote from '../modal/SimilarQuote';
-export default function BarHistogram() {
-  const [displayDimmed, setDisplayDimmed] = useState(false);
+import { Dispatch, HTMLAttributes, SetStateAction } from 'react';
 
-  const handleCloseButtonClick = () => {
-    setDisplayDimmed(true);
-  };
-  const handleCloseModalClick = () => {
-    setDisplayDimmed(false);
-  };
+interface IBarHistogram extends HTMLAttributes<HTMLDivElement> {
+  setDisplayDimmed: Dispatch<SetStateAction<boolean>>;
+}
 
+export default function BarHistogram({ setDisplayDimmed }: IBarHistogram) {
   return (
     <HistogramWrapper>
       <HmgTag size="small" />
@@ -55,12 +50,7 @@ export default function BarHistogram() {
             <BarItemName>내 견적</BarItemName>
           </BarItem>
         </BarChart>
-        <SimilarQuote
-          displayDimmed={displayDimmed}
-          setDisplayDimmed={setDisplayDimmed}
-          onClick={handleCloseModalClick}
-        />
-        <Button onClick={handleCloseButtonClick}>유사 출고 견적 확인하기</Button>
+        <Button onClick={() => setDisplayDimmed(true)}>유사 출고 견적 확인하기</Button>
       </PaddingWrapper>
     </HistogramWrapper>
   );
