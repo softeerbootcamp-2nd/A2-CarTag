@@ -5,7 +5,7 @@ export interface IDefaultPage {
   onExitAnimationDone?: () => void;
   isVisible?: boolean;
   isLeft?: boolean | undefined;
-  animation: boolean;
+  animation?: boolean;
 }
 
 interface IPageAnimationWrapper extends IDefaultPage, React.HTMLAttributes<HTMLDivElement> {}
