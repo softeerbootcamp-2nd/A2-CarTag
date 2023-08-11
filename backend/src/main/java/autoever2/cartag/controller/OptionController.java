@@ -1,7 +1,7 @@
 package autoever2.cartag.controller;
 
 import autoever2.cartag.domain.suboption.SubOptionDto;
-import autoever2.cartag.service.SubOptionService;
+import autoever2.cartag.service.OptionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -21,9 +21,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/suboptions")
 @Tag(name = "추가 옵션", description = "추가 옵션 정보 관련 API")
-public class SubOptionController {
+public class
+OptionController {
 
-    private final SubOptionService subOptionService;
+    private final OptionService optionService;
 
     @Operation(summary = "추가 옵션 리스트 조회", description = "추가 옵션 데이터와 선택 비율(%) 및 HMG 데이터 존재 여부 List 제공")
     @ApiResponses(value = {
@@ -31,6 +32,6 @@ public class SubOptionController {
     })
     @GetMapping("/list")
     public List<SubOptionDto> getSubOptionList(@Parameter(description = "차량 트림 ID") @RequestParam("carid") int carId) {
-        return subOptionService.getSubOptionList(carId);
+        return optionService.getSubOptionList(carId);
     }
 }

@@ -21,28 +21,21 @@ import static org.junit.jupiter.api.Assertions.*;
 @Sql(scripts = {"classpath:/insert/insertCar-h2.sql"})
 class CarRepositoryTest {
 
-    private final CarRepository repository;
+    private final CarRepository carRepository;
+
     @Autowired
     public CarRepositoryTest(DataSource dataSource) {
-        repository = new CarRepository(dataSource);
+        carRepository = new CarRepository(dataSource);
     }
 
 
     @Test
     @DisplayName("CarType 별 트림 리스트를 반환합니다.")
     void findCars() {
-        List<CarInfoDto> carByCarType = repository.findCarByCarType(1);
+        List<CarInfoDto> carByCarType = carRepository.findCarByCarType(1);
         assertEquals(4, carByCarType.size());
         assertEquals("Le Blanc", carByCarType.get(0).getTrim());
         assertEquals(40000000, carByCarType.get(0).getCarDefaultPrice());
-    }
-
-    @Test
-    @DisplayName("carId에 해당하는 모든 defaultOption을 가져옵니다.")
-    void findDefaultOptions() {
-        List<DefaultOptionDto> defaultOptionByCarId = repository.findDefaultOptionByCarId(1);
-        assertEquals(3, defaultOptionByCarId.size());
-        assertEquals("image_1", defaultOptionByCarId.get(0).getOptionName());
     }
 
     @Test
@@ -51,7 +44,7 @@ class CarRepositoryTest {
         //given
         int carId = 1;
         //when
-        Long boughtCount = repository.findCarBoughtCountByCarId(carId).orElse(-1L);
+        Long boughtCount = carRepository.findCarBoughtCountByCarId(carId).orElse(-1L);
         //then
         assertEquals(234L, boughtCount);
 

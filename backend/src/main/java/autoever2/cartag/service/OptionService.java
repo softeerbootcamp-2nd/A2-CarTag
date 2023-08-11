@@ -3,7 +3,7 @@ package autoever2.cartag.service;
 import autoever2.cartag.domain.suboption.SubOptionDto;
 import autoever2.cartag.domain.suboption.SubOptionMappedDto;
 import autoever2.cartag.repository.CarRepository;
-import autoever2.cartag.repository.SubOptionRepository;
+import autoever2.cartag.repository.OptionRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +12,13 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class SubOptionService {
+public class OptionService {
 
-    private final SubOptionRepository subOptionRepository;
+    private final OptionRepository optionRepository;
     private final CarRepository carRepository;
 
     public List<SubOptionDto> getSubOptionList(int carId) {
-        List<SubOptionMappedDto> subOptionList = subOptionRepository.findAllSubOptionWithCategoryNameByCarId(carId);
+        List<SubOptionMappedDto> subOptionList = optionRepository.findAllSubOptionWithCategoryNameByCarId(carId);
         Long carBoughtCount = carRepository.findCarBoughtCountByCarId(carId).orElse(0L);
 
         return subOptionList.stream().map(subOptionMappedDto -> {
@@ -30,13 +30,13 @@ public class SubOptionService {
                     boolean hasHmgData = subOptionMappedDto.getOptionUsedCount() != 0;
 
                     return SubOptionDto.builder()
-                            .subOptionId(subOptionMappedDto.getSubOptionId())
+                            .subOptionId(subOptionMappedDto.getOptionId())
                             .optionCategoryName(subOptionMappedDto.getOptionCategoryName())
                             .optionImage(subOptionMappedDto.getOptionImage())
                             .optionPrice(subOptionMappedDto.getOptionPrice())
                             .optionName(subOptionMappedDto.getOptionName())
                             .percentage(percentage)
-                            .hashtagName(subOptionRepository.findAllHashtagNameBySubOptionId(subOptionMappedDto.getSubOptionId()))
+                            .hashtagName(optionRepository.findAllHashtagNameBySubOptionId(subOptionMappedDto.getOptionId()))
                             .hasHmgData(hasHmgData)
                             .build();
                 }

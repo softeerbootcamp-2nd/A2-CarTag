@@ -1,5 +1,6 @@
 package autoever2.cartag.repository;
 
+import autoever2.cartag.domain.car.DefaultOptionDto;
 import autoever2.cartag.domain.suboption.SubOptionMappedDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,18 +12,19 @@ import org.springframework.test.context.jdbc.Sql;
 import javax.sql.DataSource;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ActiveProfiles("test")
 @JdbcTest
 @Sql({"classpath:insert/insert-suboption-h2.sql"})
-class SubOptionRepositoryTest {
+class OptionRepositoryTest {
 
-    private final SubOptionRepository subOptionRepository;
+    private final OptionRepository optionRepository;
 
     @Autowired
-    public SubOptionRepositoryTest(DataSource dataSource) {
-        subOptionRepository = new SubOptionRepository(dataSource);
+    public OptionRepositoryTest(DataSource dataSource) {
+        optionRepository = new OptionRepository(dataSource);
     }
 
     @Test
@@ -32,9 +34,9 @@ class SubOptionRepositoryTest {
         int carId = 1;
 
         //when
-        List<SubOptionMappedDto> optionList = subOptionRepository.findAllSubOptionWithCategoryNameByCarId(carId);
+        List<SubOptionMappedDto> optionList = optionRepository.findAllSubOptionWithCategoryNameByCarId(carId);
         SubOptionMappedDto expectedResult1 = SubOptionMappedDto.builder()
-                .subOptionId(1)
+                .optionId(1)
                 .optionCategoryName("상세품목")
                 .optionName("2열 통풍 시트")
                 .optionImage("/images/options/sub/2seats.jpg")
@@ -43,7 +45,7 @@ class SubOptionRepositoryTest {
                 .optionUsedCount(38)
                 .build();
         SubOptionMappedDto expectedResult2 = SubOptionMappedDto.builder()
-                .subOptionId(2)
+                .optionId(2)
                 .optionCategoryName("악세사리")
                 .optionName("적외선 무릎 워머")
                 .optionImage("/images/options/sub/warmer.jpg")
@@ -52,7 +54,7 @@ class SubOptionRepositoryTest {
                 .optionUsedCount(42)
                 .build();
         SubOptionMappedDto expectedResult3 = SubOptionMappedDto.builder()
-                .subOptionId(3)
+                .optionId(3)
                 .optionCategoryName("악세사리")
                 .optionName("듀얼 머플러 패키지")
                 .optionImage("/images/options/sub/murfler.jpg")
@@ -61,7 +63,7 @@ class SubOptionRepositoryTest {
                 .optionUsedCount(55)
                 .build();
         SubOptionMappedDto expectedResult4 = SubOptionMappedDto.builder()
-                .subOptionId(4)
+                .optionId(4)
                 .optionCategoryName("휠")
                 .optionName("20인치 다크 스퍼터링 휠")
                 .optionImage("/images/options/sub/darkwheel.jpg")
@@ -71,6 +73,7 @@ class SubOptionRepositoryTest {
                 .build();
 
         //then
+
         assertTrue(optionList.stream().anyMatch(subOptionMappedDto -> subOptionMappedDto.equals(expectedResult1)));
         assertTrue(optionList.stream().anyMatch(subOptionMappedDto -> subOptionMappedDto.equals(expectedResult2)));
         assertTrue(optionList.stream().anyMatch(subOptionMappedDto -> subOptionMappedDto.equals(expectedResult3)));
@@ -85,9 +88,9 @@ class SubOptionRepositoryTest {
         int optionId2 = 2;
 
         //when
-        List<String> hashtag1 = subOptionRepository.findAllHashtagNameBySubOptionId(1);
-        List<String> hashtag2 = subOptionRepository.findAllHashtagNameBySubOptionId(2);
-
+        List<String> hashtag1 = optionRepository.findAllHashtagNameBySubOptionId(optionId1);
+        List<String> hashtag2 = optionRepository.findAllHashtagNameBySubOptionId(optionId2);
+        System.out.println("hashtag2.toString() = " + hashtag2.toString());
         //then
         assertTrue(hashtag1.contains("레저"));
         assertTrue(hashtag1.contains("스포츠"));
@@ -95,5 +98,13 @@ class SubOptionRepositoryTest {
         assertTrue(hashtag2.contains("레저"));
         assertTrue(hashtag2.contains("장거리 운전"));
         assertTrue(hashtag2.contains("주차"));
+    }
+
+    @Test
+    @DisplayName("carId에 해당하는 모든 defaultOption을 가져옵니다.")
+    void findDefaultOptions() {
+        List<DefaultOptionDto> defaultOptionByCarId = optionRepository.findDefaultOptionByCarId(1);
+        assertEquals(3, defaultOptionByCarId.size());
+        assertEquals("2열 통풍 시트", defaultOptionByCarId.get(0).getOptionName());
     }
 }

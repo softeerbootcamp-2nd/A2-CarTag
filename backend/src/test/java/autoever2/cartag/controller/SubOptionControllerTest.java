@@ -1,7 +1,7 @@
 package autoever2.cartag.controller;
 
 import autoever2.cartag.domain.suboption.SubOptionDto;
-import autoever2.cartag.service.SubOptionService;
+import autoever2.cartag.service.OptionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,14 +19,14 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(SubOptionController.class)
+@WebMvcTest(OptionController.class)
 class SubOptionControllerTest {
 
     @Autowired
     MockMvc mockMvc;
 
     @MockBean
-    private SubOptionService subOptionService;
+    private OptionService optionService;
 
     private List<SubOptionDto> optionList;
 
@@ -88,7 +88,7 @@ class SubOptionControllerTest {
     @DisplayName("트림의 서브 옵션 데이터 호출 API")
     void getSubOptionList() throws Exception {
         int carId = 1;
-        given(subOptionService.getSubOptionList(carId)).willReturn(optionList);
+        given(optionService.getSubOptionList(carId)).willReturn(optionList);
 
         //when
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/suboptions/list").param("carid", String.valueOf(carId)));
