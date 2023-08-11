@@ -7,11 +7,11 @@ insert into Car values(4, 1, 'Prestige', 40000000, 'image_1', 'image_2', 'image_
 
 insert into OptionCategory values (1, 'category');
 
-insert into defaultoption values(1, 1, 'image_1', 'image_2', 'image_3');
-insert into defaultoption values(2, 1, 'image_1', 'image_2', 'image_3');
-insert into defaultoption values(3, 1, 'image_1', 'image_2', 'image_3');
+insert into Option values(1, 1, 'image_1', 'image_2', 'image_3', 234);
+insert into Option values(2, 1, 'image_1', 'image_2', 'image_3', 234);
+insert into Option values(3, 1, 'image_1', 'image_2', 'image_3', 567);
 
-insert into defaultOptionData values(1, 1, 1, 234);
-insert into defaultOptionData values(2, 1, 2, 234);
-insert into defaultOptionData values(3, 1, 3, 234);
+insert into defaultOptionData values(1, 1, 1);
+insert into defaultOptionData values(2, 1, 2);
+insert into defaultOptionData values(3, 1, 3);
 
