@@ -7,7 +7,7 @@ import java.util.Objects;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ModelTypeMappedDto {
+public class ModelShortMappedDto {
 
     private int modelId;
     private String modelName;
@@ -17,7 +17,7 @@ public class ModelTypeMappedDto {
     private boolean isDefaultModel;
 
     @Builder
-    public ModelTypeMappedDto(int modelId, String modelName, String modelTypeName, Long modelPrice, Long modelBoughtCount, boolean isDefaultModel) {
+    public ModelShortMappedDto(int modelId, String modelName, String modelTypeName, Long modelPrice, Long modelBoughtCount, boolean isDefaultModel) {
         this.modelId = modelId;
         this.modelName = modelName;
         this.modelTypeName = modelTypeName;
@@ -30,7 +30,7 @@ public class ModelTypeMappedDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        ModelTypeMappedDto that = (ModelTypeMappedDto) o;
+        ModelShortMappedDto that = (ModelShortMappedDto) o;
         return modelId == that.modelId && isDefaultModel == that.isDefaultModel && Objects.equals(modelName, that.modelName) && Objects.equals(modelTypeName, that.modelTypeName) && Objects.equals(modelPrice, that.modelPrice) && Objects.equals(modelBoughtCount, that.modelBoughtCount);
     }
 

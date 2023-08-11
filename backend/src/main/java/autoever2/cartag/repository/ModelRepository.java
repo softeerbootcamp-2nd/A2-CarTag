@@ -1,6 +1,9 @@
 package autoever2.cartag.repository;
 
-import autoever2.cartag.domain.model.ModelTypeMappedDto;
+import autoever2.cartag.domain.model.ModelDetailMappedDto;
+import autoever2.cartag.domain.model.ModelShortMappedDto;
+import autoever2.cartag.domain.model.PowerTrainMappedDto;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -10,6 +13,7 @@ import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public class ModelRepository {
@@ -20,7 +24,7 @@ public class ModelRepository {
         this.template = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public List<ModelTypeMappedDto> findAllModelTypeData(int carId) {
+    public List<ModelShortMappedDto> findAllModelTypeData(int carId) {
         String sql = "select m.model_id, m.model_name, t.model_type_name, m.model_price, mm.model_bought_count, mm.is_default_model " +
                 "from modelcarmapper mm " +
                 "inner join model m " +
@@ -32,10 +36,45 @@ public class ModelRepository {
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("carId", carId);
 
-        return template.query(sql, param, modelRowMapper());
+        return template.query(sql, param, modelShortRowMapper());
     }
 
-    private RowMapper<ModelTypeMappedDto> modelRowMapper() {
-        return BeanPropertyRowMapper.newInstance(ModelTypeMappedDto.class);
+    private RowMapper<ModelShortMappedDto> modelShortRowMapper() {
+        return BeanPropertyRowMapper.newInstance(ModelShortMappedDto.class);
     }
+
+    public Optional<ModelDetailMappedDto> findModelDetailData(int modelId) {
+        String sql = "select mt.model_type_name, m.model_name, m.option_description, m.model_image " +
+                "from Model m " +
+                "inner join ModelType mt " +
+                "on m.model_type_id = mt.model_type_id " +
+                "where m.model_id = :modelId";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("modelId", modelId);
+
+        return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, modelDetailRowMapper())));
+
+    }
+
+    private RowMapper<ModelDetailMappedDto> modelDetailRowMapper() {
+        return BeanPropertyRowMapper.newInstance(ModelDetailMappedDto.class);
+    }
+
+    public Optional<PowerTrainMappedDto> findPowerTrainData(int powerTrainId) {
+        String sql = "select max_ps, max_kgfm " +
+                "from PowerTrainData " +
+                "where power_train_id = :powerTrainId";
+
+        SqlParameterSource parameterSource = new MapSqlParameterSource()
+                .addValue("powerTrainId", powerTrainId);
+
+        return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, parameterSource, powerTrainRowMapper())));
+    }
+
+    private RowMapper<PowerTrainMappedDto> powerTrainRowMapper() {
+        return BeanPropertyRowMapper.newInstance(PowerTrainMappedDto.class);
+    }
+
+
 }

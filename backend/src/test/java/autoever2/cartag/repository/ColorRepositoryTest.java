@@ -2,8 +2,12 @@ package autoever2.cartag.repository;
 
 import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,6 +24,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class ColorRepositoryTest {
 
     private final ColorRepository repository;
+
     @Autowired
     public ColorRepositoryTest(DataSource dataSource) {
         this.repository = new ColorRepository(dataSource);

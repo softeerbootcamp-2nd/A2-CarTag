@@ -1,9 +1,11 @@
 package autoever2.cartag.service;
 
+import autoever2.cartag.domain.model.ModelDetailMappedDto;
 import autoever2.cartag.domain.model.ModelShortDataDto;
+import autoever2.cartag.domain.model.PowerTrainMappedDto;
 import autoever2.cartag.repository.CarRepository;
 import autoever2.cartag.repository.ModelRepository;
-import autoever2.cartag.domain.model.ModelTypeMappedDto;
+import autoever2.cartag.domain.model.ModelShortMappedDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -18,7 +20,7 @@ public class ModelService {
     private final CarRepository carRepository;
 
     public List<ModelShortDataDto> getModelTypeData(int carId) {
-        List<ModelTypeMappedDto> modelData = modelRepository.findAllModelTypeData(carId);
+        List<ModelShortMappedDto> modelData = modelRepository.findAllModelTypeData(carId);
         Long carBoughtCount = carRepository.findCarBoughtCountByCarId(carId).orElse(0L);
 
         return modelData.stream().map(modelTypeMappedDto -> {
@@ -39,5 +41,15 @@ public class ModelService {
                 )
 
                 .collect(Collectors.toList());
+    }
+
+    //TODO: RuntimeException 처리
+    public ModelDetailMappedDto getModelDetail(int modelId) {
+        return modelRepository.findModelDetailData(modelId).orElseThrow(() -> new RuntimeException("데이터가 존재하지 않습니다."));
+    }
+
+    //TODO: RuntimeException 처리
+    public PowerTrainMappedDto getPowerTrainHmgData(int powerTrainId) {
+        return modelRepository.findPowerTrainData(powerTrainId).orElseThrow(() -> new RuntimeException("데이터가 존재하지 않습니다."));
     }
 }
