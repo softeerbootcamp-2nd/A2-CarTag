@@ -37,7 +37,10 @@ export default function NavBar() {
             <ArrowDown fill={theme.color.gray800} />
           </CarSelect>
           <NavList>
-            <NavItem onClick={() => handleNavItemClick(PATH.trim)} active={isActive(PATH.trim)}>
+            <NavItem
+              onClick={() => handleNavItemClick(PATH.trim)}
+              active={isActive(PATH.trim) || isActive(PATH.home)}
+            >
               트림
             </NavItem>
             <NavItem

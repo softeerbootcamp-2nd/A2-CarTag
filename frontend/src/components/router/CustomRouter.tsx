@@ -1,27 +1,24 @@
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import ExteriorPage from '../../pages/ExteriorPage';
 import AnimatePresence from '../pageAnimation/AnimationPresence';
 import PageAnimationWrapper from '../pageAnimation/PageAnimationWrapper';
 import OptionPage from '../../pages/OptionPage';
 import InteriorPage from '../../pages/InteriorPage';
 import ResultPage from '../../pages/ResultPage';
-import { useEffect } from 'react';
 import TrimPage from '../../pages/TrimPage';
 import ModelTypePage from '../../pages/ModelTypePage';
 import { PATH } from '../../utils/constants';
 
 export default function CustomRouter() {
   const { pathname } = useLocation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (pathname === PATH.home) {
-      navigate(PATH.trim);
-    }
-  });
 
   return (
     <AnimatePresence>
+      {pathname === PATH.home && (
+        <PageAnimationWrapper key={0}>
+          <TrimPage />
+        </PageAnimationWrapper>
+      )}
       {pathname === PATH.trim && (
         <PageAnimationWrapper key={0}>
           <TrimPage />
