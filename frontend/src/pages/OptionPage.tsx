@@ -5,15 +5,17 @@ import { styled } from 'styled-components';
 
 export default function OptionPage() {
   return (
-    <Wrapper>
-      <OptionBannerContainer />
-      <OptionSelectContainer />
+    <>
+      <Wrapper>
+        <OptionBannerContainer />
+        <OptionSelectContainer />
+      </Wrapper>
       <OptionFooterContainer />
-    </Wrapper>
+    </>
   );
 }
 
 const Wrapper = styled.div`
-  height: 100vh;
+  height: 100%;
   padding-bottom: 120px;
 `;
