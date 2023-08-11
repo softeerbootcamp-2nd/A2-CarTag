@@ -41,7 +41,7 @@ export default function PageAnimationWrapper({
       animate?.finished.then(onExitAnimationDone).catch((err) => console.log(err));
       return () => animate?.cancel();
     }
-  }, [isVisible, onExitAnimationDone, isLeft]);
+  }, [isVisible, onExitAnimationDone, isLeft, animation]);
 
   return <Wrapper ref={wrapperRef}>{children}</Wrapper>;
 }
