@@ -4,6 +4,7 @@ import autoever2.cartag.domain.car.CarDto;
 import autoever2.cartag.domain.car.CarInfoDto;
 import autoever2.cartag.domain.car.DefaultOptionDto;
 import autoever2.cartag.repository.CarRepository;
+import autoever2.cartag.repository.OptionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -25,7 +26,10 @@ class CarServiceTest {
     private CarService service;
 
     @Mock
-    private CarRepository repository;
+    private CarRepository carRepository;
+
+    @Mock
+    private OptionRepository optionRepository;
 
     private List<CarInfoDto> carInfoDtoList;
 
@@ -110,8 +114,8 @@ class CarServiceTest {
         int carId = 1;
         int carType = 1;
 
-        when(repository.findCarByCarType(carType)).thenReturn(carInfoDtoList);
-        when(repository.findDefaultOptionByCarId(carId)).thenReturn(defaultOptionDtoList);
+        when(carRepository.findCarByCarType(carType)).thenReturn(carInfoDtoList);
+        when(optionRepository.findDefaultOptionByCarId(carId)).thenReturn(defaultOptionDtoList);
 
         List<CarDto> carByCarType = service.findCarByCarType(carType);
 

@@ -3,7 +3,7 @@ package autoever2.cartag.service;
 import autoever2.cartag.domain.suboption.SubOptionDto;
 import autoever2.cartag.domain.suboption.SubOptionMappedDto;
 import autoever2.cartag.repository.CarRepository;
-import autoever2.cartag.repository.SubOptionRepository;
+import autoever2.cartag.repository.OptionRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -21,13 +21,13 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class SubOptionServiceTest {
+class OptionServiceTest {
 
     @InjectMocks
-    private SubOptionService subOptionService;
+    private OptionService optionService;
 
     @Mock
-    private SubOptionRepository subOptionRepository;
+    private OptionRepository optionRepository;
 
     @Mock
     private CarRepository carRepository;
@@ -45,7 +45,7 @@ class SubOptionServiceTest {
         hashtagList.add("시원한");
 
         optionList.add(SubOptionMappedDto.builder()
-                .subOptionId(1)
+                .optionId(1)
                 .optionCategoryName("상세품목")
                 .optionImage("/images/options/sub/2seats.jpg")
                 .optionPrice(100000L)
@@ -55,7 +55,7 @@ class SubOptionServiceTest {
                 .build());
 
         optionList.add(SubOptionMappedDto.builder()
-                .subOptionId(2)
+                .optionId(2)
                 .optionCategoryName("악세사리")
                 .optionImage("/images/options/sub/legwarmer.jpg")
                 .optionPrice(230000L)
@@ -65,7 +65,7 @@ class SubOptionServiceTest {
                 .build());
 
         optionList.add(SubOptionMappedDto.builder()
-                .subOptionId(3)
+                .optionId(3)
                 .optionCategoryName("악세사리")
                 .optionImage("/images/options/sub/murfler.jpg")
                 .optionPrice(840000L)
@@ -75,7 +75,7 @@ class SubOptionServiceTest {
                 .build());
 
         optionList.add(SubOptionMappedDto.builder()
-                .subOptionId(4)
+                .optionId(4)
                 .optionCategoryName("휠")
                 .optionImage("/images/options/sub/darkwheel.jpg")
                 .optionPrice(840000L)
@@ -90,16 +90,16 @@ class SubOptionServiceTest {
     void getSubOptionList() {
         int carId = 1;
         Long boughtCount = 2000L;
-        when(subOptionRepository.findAllSubOptionWithCategoryNameByCarId(carId)).thenReturn(optionList);
+        when(optionRepository.findAllSubOptionWithCategoryNameByCarId(carId)).thenReturn(optionList);
         when(carRepository.findCarBoughtCountByCarId(carId)).thenReturn(Optional.of(10000L));
-        when(subOptionRepository.findAllHashtagNameBySubOptionId(1)).thenReturn(hashtagList);
-        when(subOptionRepository.findAllHashtagNameBySubOptionId(2)).thenReturn(hashtagList);
-        when(subOptionRepository.findAllHashtagNameBySubOptionId(3)).thenReturn(hashtagList);
-        when(subOptionRepository.findAllHashtagNameBySubOptionId(4)).thenReturn(hashtagList);
+        when(optionRepository.findAllHashtagNameBySubOptionId(1)).thenReturn(hashtagList);
+        when(optionRepository.findAllHashtagNameBySubOptionId(2)).thenReturn(hashtagList);
+        when(optionRepository.findAllHashtagNameBySubOptionId(3)).thenReturn(hashtagList);
+        when(optionRepository.findAllHashtagNameBySubOptionId(4)).thenReturn(hashtagList);
 
 
         //when
-        List<SubOptionDto> result = subOptionService.getSubOptionList(carId);
+        List<SubOptionDto> result = optionService.getSubOptionList(carId);
 
         //then
         assertEquals(4, result.size());
