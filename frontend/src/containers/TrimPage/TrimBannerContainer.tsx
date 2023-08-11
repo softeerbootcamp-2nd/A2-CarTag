@@ -68,7 +68,7 @@ const Container = styled(CenterWrapper)`
   height: 100%;
 `;
 const HmgDataWrapper = styled.div`
-  z-index: 10000;
+  z-index: 100000;
   width: 316px;
   height: 175px;
   margin-top: 166px;

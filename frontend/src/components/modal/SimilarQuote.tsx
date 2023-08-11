@@ -14,6 +14,7 @@ import Noname from '../priceStaticBar/Noname';
 import ExtraOptionCard from '../cards/ExtraOptionCard';
 import HmgTag from '../common/hmgTag/HmgTag';
 import RectButton from '../common/buttons/RectButton';
+import { DimmedBackground } from './DimmedBackground';
 
 interface ISimilarQuote extends HTMLAttributes<HTMLDivElement> {
   displayDimmed: boolean;
@@ -30,7 +31,7 @@ export default function SimilarQuote({
     e.stopPropagation();
   };
   return (
-    <DimmedBg $displayDimmed={displayDimmed} {...props}>
+    <DimmedBackground $displayDimmed={displayDimmed} {...props}>
       <Modal onClick={stopEvent}>
         <Header>
           <CloseBtn onClick={() => setDisplayDimmed(false)}>
@@ -95,22 +96,9 @@ export default function SimilarQuote({
         </CardWrapper>
         <TmpBtn type={'price'}>옵션을 선택해 추가해보세요.</TmpBtn>
       </Modal>
-    </DimmedBg>
+    </DimmedBackground>
   );
 }
-
-const DimmedBg = styled.div<{ $displayDimmed: boolean }>`
-  z-index: 20000;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(31, 31, 31, 0.7);
-  backdrop-filter: blur(6px);
-  mix-blend-mode: normal;
-  display: ${({ $displayDimmed }) => ($displayDimmed ? 'block' : 'none')};
-`;
 
 const Modal = styled.div`
   position: relative;

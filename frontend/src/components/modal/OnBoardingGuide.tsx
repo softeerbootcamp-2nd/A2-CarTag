@@ -3,6 +3,7 @@ import { styled } from 'styled-components';
 import { Bubble, CloseIcon } from '../common/icons/Icons';
 import { BodyKrRegular3, HeadingKrMedium7 } from '../../styles/typefaces';
 import CenterWrapper from '../layout/CenterWrapper';
+import { DimmedBackground } from './DimmedBackground';
 
 interface IOnBoardingGuide extends HTMLAttributes<HTMLDivElement> {}
 export default function OnBoardingGuide({ ...props }: IOnBoardingGuide) {
@@ -27,7 +28,7 @@ export default function OnBoardingGuide({ ...props }: IOnBoardingGuide) {
   }, []);
 
   return (
-    <DimmedBg $displayDimmed={displayDimmed} {...props}>
+    <DimmedBackground $displayDimmed={displayDimmed} {...props}>
       <Wrapper>
         <GuideBubble ref={guideBubbleRef}>
           <Bubble />
@@ -52,22 +53,9 @@ export default function OnBoardingGuide({ ...props }: IOnBoardingGuide) {
         </GuideBubble>
         <HmgDataBg ref={hmgDataBgRef} />
       </Wrapper>
-    </DimmedBg>
+    </DimmedBackground>
   );
 }
-
-const DimmedBg = styled.div<{ $displayDimmed: boolean }>`
-  z-index: 1000;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(31, 31, 31, 0.7);
-  backdrop-filter: blur(6px);
-  mix-blend-mode: normal;
-  display: ${({ $displayDimmed }) => ($displayDimmed ? 'block' : 'none')};
-`;
 
 const Wrapper = styled(CenterWrapper)`
   width: 1280px;
@@ -80,7 +68,6 @@ const Header = styled.div`
 `;
 const CloseBtn = styled.button``;
 const HmgDataBg = styled.div`
-  z-index: 10000;
   margin-top: 20px;
   margin-left: 111px;
   width: 316px;
