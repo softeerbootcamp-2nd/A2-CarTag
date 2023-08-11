@@ -1,20 +1,29 @@
-import { HTMLAttributes, MouseEventHandler, useContext, useRef } from 'react';
+import { HTMLAttributes, MouseEventHandler, useContext, useLayoutEffect, useRef } from 'react';
 import { styled } from 'styled-components';
 import { Bubble, CloseIcon } from '../common/icons/Icons';
 import { BodyKrRegular3, HeadingKrMedium7 } from '../../styles/typefaces';
 import CenterWrapper from '../layout/CenterWrapper';
 import { DimmedBackground } from './DimmedBackground';
 import { GuideModalContext } from '../../context/GuideMoadlContext';
+import { useLocation } from 'react-router-dom';
+import { PATH } from '../../utils/constants';
 
 interface IGuideModal extends HTMLAttributes<HTMLDivElement> {}
 export default function GuideModal({ ...props }: IGuideModal) {
   const guideBubbleRef = useRef<HTMLDivElement>(null);
   const hmgDataBgRef = useRef<HTMLDivElement>(null);
   const { visible, setVisible } = useContext(GuideModalContext);
+  const { pathname } = useLocation();
 
   const stopEvent: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation();
   };
+
+  useLayoutEffect(() => {
+    if (!(pathname === PATH.home || pathname === PATH.trim)) {
+      setVisible(false);
+    }
+  }, [pathname, setVisible]);
 
   return (
     <DimmedBackground $displayDimmed={visible} {...props}>

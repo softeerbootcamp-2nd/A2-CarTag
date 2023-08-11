@@ -23,6 +23,7 @@ export default function ResultPage() {
 const Row = styled(CenterWrapper)`
   display: flex;
   flex-direction: row;
+  justify-content: space-between;
   min-height: 300px;
   gap: 70px;
 `;
