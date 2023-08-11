@@ -48,6 +48,94 @@ export default function ExtraOptionContainer() {
             price={0}
             onClick={() => handleClick(1)}
           ></OptionCard>
+          <OptionCard
+            type="extra"
+            active={selectedOptions.includes(1)}
+            desc="38%의 선택"
+            title="디젤 2.2"
+            price={0}
+            onClick={() => handleClick(1)}
+          ></OptionCard>
+          <OptionCard
+            type="extra"
+            active={selectedOptions.includes(1)}
+            desc="38%의 선택"
+            title="디젤 2.2"
+            price={0}
+            onClick={() => handleClick(1)}
+          ></OptionCard>
+          <OptionCard
+            type="extra"
+            active={selectedOptions.includes(1)}
+            desc="38%의 선택"
+            title="디젤 2.2"
+            price={0}
+            onClick={() => handleClick(1)}
+          ></OptionCard>
+          <OptionCard
+            type="extra"
+            active={selectedOptions.includes(1)}
+            desc="38%의 선택"
+            title="디젤 2.2"
+            price={0}
+            onClick={() => handleClick(1)}
+          ></OptionCard>
+          <OptionCard
+            type="extra"
+            active={selectedOptions.includes(1)}
+            desc="38%의 선택"
+            title="디젤 2.2"
+            price={0}
+            onClick={() => handleClick(1)}
+          ></OptionCard>
+          <OptionCard
+            type="extra"
+            active={selectedOptions.includes(1)}
+            desc="38%의 선택"
+            title="디젤 2.2"
+            price={0}
+            onClick={() => handleClick(1)}
+          ></OptionCard>
+          <OptionCard
+            type="extra"
+            active={selectedOptions.includes(1)}
+            desc="38%의 선택"
+            title="디젤 2.2"
+            price={0}
+            onClick={() => handleClick(1)}
+          ></OptionCard>
+          <OptionCard
+            type="extra"
+            active={selectedOptions.includes(1)}
+            desc="38%의 선택"
+            title="디젤 2.2"
+            price={0}
+            onClick={() => handleClick(1)}
+          ></OptionCard>
+          <OptionCard
+            type="extra"
+            active={selectedOptions.includes(1)}
+            desc="38%의 선택"
+            title="디젤 2.2"
+            price={0}
+            onClick={() => handleClick(1)}
+          ></OptionCard>
+          <OptionCard
+            type="extra"
+            active={selectedOptions.includes(1)}
+            desc="38%의 선택"
+            title="디젤 2.2"
+            price={0}
+            onClick={() => handleClick(1)}
+          ></OptionCard>
+          <OptionCard
+            type="extra"
+            active={selectedOptions.includes(1)}
+            desc="38%의 선택"
+            title="디젤 2.2"
+            price={0}
+            onClick={() => handleClick(1)}
+          ></OptionCard>
         </OptionWrapper>
       </OptionSection>
     </>

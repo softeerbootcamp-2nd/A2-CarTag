@@ -1,11 +1,12 @@
-import React, { useState } from 'react';
+import React, { useContext } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { css, styled, useTheme } from 'styled-components';
-import { PATH } from '../../utils/url';
 import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../styles/typefaces';
 import { ArrowDown, CancelIcon } from '../common/icons/Icons';
 import hyundaiLogo from '/images/logo.svg';
 import CloseModal from '../modal/CloseModal';
+import { PATH } from '../../utils/constants';
+import { CloseModalContext } from '../../context/closeModalContext';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
   active: boolean;
@@ -13,7 +14,7 @@ interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
 export default function NavBar() {
   const navigate = useNavigate();
   const { pathname: currentPath } = useLocation();
-  const [displayDimmed, setDisplayDimmed] = useState(false);
+  const { setVisible: setCloseModalVisible } = useContext(CloseModalContext);
   const theme = useTheme();
 
   const handleNavItemClick = (path: string) => {
@@ -23,11 +24,11 @@ export default function NavBar() {
     return currentPath === path;
   };
   const handleCloseButtonClick = () => {
-    setDisplayDimmed(true);
+    setCloseModalVisible(true);
   };
 
   const handleCloseModalClick = () => {
-    setDisplayDimmed(false);
+    setCloseModalVisible(false);
   };
 
   return (
@@ -75,11 +76,7 @@ export default function NavBar() {
           <CancelIcon width={12} height={12} />
         </CancelButton>
       </Wrapper>
-      <CloseModal
-        displayDimmed={displayDimmed}
-        setDisplayDimmed={setDisplayDimmed}
-        onClick={handleCloseModalClick}
-      />
+      <CloseModal onClick={handleCloseModalClick} />
     </>
   );
 }
@@ -102,7 +99,6 @@ const Wrapper = styled.div`
   width: 100%;
   height: 60px;
   border-bottom: 2px solid ${({ theme }) => theme.color.gray200};
-  box-sizing: border-box;
   background-color: ${({ theme }) => theme.color.white};
   display: flex;
   justify-content: center;

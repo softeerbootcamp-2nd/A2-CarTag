@@ -3,7 +3,7 @@ import CenterWrapper from '../../components/layout/CenterWrapper';
 import {
   BodyKrRegular4,
   HeadingEn4,
-  HeadingKrMedium5,
+  HeadingKrMedium6,
   HeadingKrMedium7,
 } from '../../styles/typefaces';
 import DefaultCardStyle from '../../components/common/card/DefaultCardStyle';
@@ -53,7 +53,7 @@ export default function TrimSelectContainer() {
 
 const Wrapper = styled(CenterWrapper)``;
 const Title = styled.div`
-  ${HeadingKrMedium5}
+  ${HeadingKrMedium6}
   margin-top: 16px;
 `;
 

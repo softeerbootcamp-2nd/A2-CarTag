@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import CenterWrapper from '../../components/layout/CenterWrapper';
-import { HeadingKrMedium5, HeadingKrMedium7 } from '../../styles/typefaces';
+import { HeadingKrMedium6, HeadingKrMedium7 } from '../../styles/typefaces';
 import { useState } from 'react';
 import ModelTypeCard from '../../components/cards/ModelTypeCard';
 
@@ -94,7 +94,7 @@ export default function ModelTypelSelectContainer() {
 
 const Wrapper = styled(CenterWrapper)``;
 const Title = styled.div`
-  ${HeadingKrMedium5}
+  ${HeadingKrMedium6}
   margin-top: 16px;
 `;
 

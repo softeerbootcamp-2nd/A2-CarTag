@@ -1,35 +1,25 @@
-import { HTMLAttributes, useEffect, useRef, useState } from 'react';
+import { HTMLAttributes, MouseEventHandler, useContext, useRef } from 'react';
 import { styled } from 'styled-components';
 import { Bubble, CloseIcon } from '../common/icons/Icons';
 import { BodyKrRegular3, HeadingKrMedium7 } from '../../styles/typefaces';
 import CenterWrapper from '../layout/CenterWrapper';
+import { DimmedBackground } from './DimmedBackground';
+import { GuideModalContext } from '../../context/GuideMoadlContext';
 
-interface IOnBoardingGuide extends HTMLAttributes<HTMLDivElement> {}
-export default function OnBoardingGuide({ ...props }: IOnBoardingGuide) {
-  const [displayDimmed, setDisplayDimmed] = useState(true);
+interface IGuideModal extends HTMLAttributes<HTMLDivElement> {}
+export default function GuideModal({ ...props }: IGuideModal) {
   const guideBubbleRef = useRef<HTMLDivElement>(null);
   const hmgDataBgRef = useRef<HTMLDivElement>(null);
-  const handleClick = (event: MouseEvent) => {
-    if (guideBubbleRef.current?.contains(event.target as Node)) {
-      return;
-    }
-    if (hmgDataBgRef.current?.contains(event.target as Node)) {
-      return;
-    }
-    setDisplayDimmed(false);
+  const { visible, setVisible } = useContext(GuideModalContext);
+
+  const stopEvent: MouseEventHandler<HTMLDivElement> = (e) => {
+    e.stopPropagation();
   };
 
-  useEffect(() => {
-    window.addEventListener('click', (event) => handleClick(event));
-    return () => {
-      window.removeEventListener('click', handleClick);
-    };
-  }, []);
-
   return (
-    <DimmedBg $displayDimmed={displayDimmed} {...props}>
+    <DimmedBackground $displayDimmed={visible} {...props}>
       <Wrapper>
-        <GuideBubble ref={guideBubbleRef}>
+        <GuideBubble onClick={stopEvent} ref={guideBubbleRef}>
           <Bubble />
           <GuideText>
             <Header>
@@ -39,7 +29,7 @@ export default function OnBoardingGuide({ ...props }: IOnBoardingGuide) {
                 제공하는 <BlueText>실활용 데이터</BlueText>로<br />
                 합리적인 차량을 만들어 보세요.
               </GuideTitle>
-              <CloseBtn onClick={() => setDisplayDimmed(false)}>
+              <CloseBtn onClick={() => setVisible(false)}>
                 <CloseIcon />
               </CloseBtn>
             </Header>
@@ -50,24 +40,11 @@ export default function OnBoardingGuide({ ...props }: IOnBoardingGuide) {
             </GuideDesc>
           </GuideText>
         </GuideBubble>
-        <HmgDataBg ref={hmgDataBgRef} />
+        <HmgDataBg ref={hmgDataBgRef} onClick={stopEvent} />
       </Wrapper>
-    </DimmedBg>
+    </DimmedBackground>
   );
 }
-
-const DimmedBg = styled.div<{ $displayDimmed: boolean }>`
-  z-index: 1000;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(31, 31, 31, 0.7);
-  backdrop-filter: blur(6px);
-  mix-blend-mode: normal;
-  display: ${({ $displayDimmed }) => ($displayDimmed ? 'block' : 'none')};
-`;
 
 const Wrapper = styled(CenterWrapper)`
   width: 1280px;
@@ -80,7 +57,6 @@ const Header = styled.div`
 `;
 const CloseBtn = styled.button``;
 const HmgDataBg = styled.div`
-  z-index: 10000;
   margin-top: 20px;
   margin-left: 111px;
   width: 316px;

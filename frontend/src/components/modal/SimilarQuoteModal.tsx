@@ -1,4 +1,4 @@
-import { Dispatch, HTMLAttributes, MouseEventHandler, SetStateAction } from 'react';
+import { HTMLAttributes, MouseEventHandler, useContext } from 'react';
 import { styled, useTheme } from 'styled-components';
 import { ArrowLeft, ArrowRight, CloseIcon } from '../common/icons/Icons';
 import {
@@ -10,30 +10,26 @@ import {
   HeadingKrMedium6,
 } from '../../styles/typefaces';
 import { flexCenterCss } from '../../utils/commonStyle';
-import Noname from '../priceStaticBar/Noname';
 import ExtraOptionCard from '../cards/ExtraOptionCard';
 import HmgTag from '../common/hmgTag/HmgTag';
 import RectButton from '../common/buttons/RectButton';
+import { DimmedBackground } from './DimmedBackground';
+import { SimilarQuoteModalContext } from '../../context/SimilarQuoteModalContext';
+import SimilarPriceBar from '../priceStaticBar/SimilarPriceBar';
 
-interface ISimilarQuote extends HTMLAttributes<HTMLDivElement> {
-  displayDimmed: boolean;
-  setDisplayDimmed: Dispatch<SetStateAction<boolean>>;
-}
+interface ISimilarQuoteModal extends HTMLAttributes<HTMLDivElement> {}
 
-export default function SimilarQuote({
-  displayDimmed = false,
-  setDisplayDimmed,
-  ...props
-}: ISimilarQuote) {
+export default function SimilarQuoteModal({ ...props }: ISimilarQuoteModal) {
   const theme = useTheme();
+  const { visible, setVisible } = useContext(SimilarQuoteModalContext);
   const stopEvent: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation();
   };
   return (
-    <DimmedBg $displayDimmed={displayDimmed} {...props}>
+    <DimmedBackground $displayDimmed={visible} {...props}>
       <Modal onClick={stopEvent}>
         <Header>
-          <CloseBtn onClick={() => setDisplayDimmed(false)}>
+          <CloseBtn onClick={() => setVisible(false)}>
             <CloseIcon />
           </CloseBtn>
         </Header>
@@ -47,7 +43,7 @@ export default function SimilarQuote({
               <br />내 견적과 해시태그 유사도가 높은 다른 사람들의 실제 출고 견적이에요.
             </DescText>
           </TextWrapper>
-          <Noname />
+          <SimilarPriceBar />
         </InfoWrapper>
         <CardWrapper>
           <CarInfo>
@@ -95,22 +91,9 @@ export default function SimilarQuote({
         </CardWrapper>
         <TmpBtn type={'price'}>옵션을 선택해 추가해보세요.</TmpBtn>
       </Modal>
-    </DimmedBg>
+    </DimmedBackground>
   );
 }
-
-const DimmedBg = styled.div<{ $displayDimmed: boolean }>`
-  z-index: 20000;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(31, 31, 31, 0.7);
-  backdrop-filter: blur(6px);
-  mix-blend-mode: normal;
-  display: ${({ $displayDimmed }) => ($displayDimmed ? 'block' : 'none')};
-`;
 
 const Modal = styled.div`
   position: relative;
