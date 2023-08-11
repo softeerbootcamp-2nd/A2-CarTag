@@ -1,4 +1,4 @@
-import { HTMLAttributes, MouseEventHandler, useContext, useEffect, useRef } from 'react';
+import { HTMLAttributes, MouseEventHandler, useContext, useLayoutEffect, useRef } from 'react';
 import { styled } from 'styled-components';
 import { Bubble, CloseIcon } from '../common/icons/Icons';
 import { BodyKrRegular3, HeadingKrMedium7 } from '../../styles/typefaces';
@@ -19,7 +19,7 @@ export default function GuideModal({ ...props }: IGuideModal) {
     e.stopPropagation();
   };
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (!(pathname === PATH.home || pathname === PATH.trim)) {
       setVisible(false);
     }
