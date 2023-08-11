@@ -20,7 +20,7 @@ export default function CloseModal({ ...props }: ICloseModal) {
   };
 
   return (
-    <DimmedBackground $displayDimmed={visible} {...props}>
+    <CloseDimmed $displayDimmed={visible} {...props}>
       <Modal onClick={stopEvent}>
         <Text>
           내 차 만들기를 종료하시겠습니까?
@@ -36,9 +36,13 @@ export default function CloseModal({ ...props }: ICloseModal) {
           </Button>
         </ButtonWrapper>
       </Modal>
-    </DimmedBackground>
+    </CloseDimmed>
   );
 }
+
+const CloseDimmed = styled(DimmedBackground)`
+  z-index: 99999999999;
+`;
 
 const Modal = styled.div`
   position: relative;
