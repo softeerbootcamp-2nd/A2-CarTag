@@ -23,7 +23,8 @@ export default function AnimatePresence({ children }: IAnimatePresence) {
   const childrenOfPreviousRender = useRef(validChildren);
   const elementByKey = useRef<IElementByKeyMap>(getElementByKeyMap(validChildren, {}));
   const [_, forceRender] = useState(0);
-
+  const isSamePage = childrenOfPreviousRender.current[0].key === validChildren[0].key;
+  const animatePresence = !isSamePage;
   /**
    * 렌더링이 끝난 이후, 렌더링 전의 컴포넌트를 참조하여 기억
    * elementByKey는 직전 렌더링과 직후 렌더링 되는 컴포넌트 기억
@@ -52,11 +53,12 @@ export default function AnimatePresence({ children }: IAnimatePresence) {
     isLeft.current = parseInt(prevKeys[0]?.toString()) < parseInt(currentKeys[0].toString());
   }
   const childrenToRender = validChildren.map((child) =>
-    cloneElement(child, { isVisible: true, isLeft: isLeft.current })
+    cloneElement(child, { isVisible: true, isLeft: isLeft.current, animation: animatePresence })
   );
 
   /**
-   * isVisible 를 통해 사라질 컴포넌트 구분
+   * isVisible 를 통
+   * 해 사라질 컴포넌트 구분
    */
   removedChildrenKey.forEach((removedKey) => {
     if (!removedKey) return;
@@ -73,7 +75,12 @@ export default function AnimatePresence({ children }: IAnimatePresence) {
     childrenToRender.splice(
       elementIndex,
       0,
-      cloneElement(element, { isVisible: false, onExitAnimationDone, isLeft: isLeft.current })
+      cloneElement(element, {
+        isVisible: false,
+        onExitAnimationDone,
+        isLeft: isLeft.current,
+        animation: true,
+      })
     );
   });
 

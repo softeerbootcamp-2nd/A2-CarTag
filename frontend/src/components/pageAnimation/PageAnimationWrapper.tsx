@@ -5,6 +5,7 @@ export interface IDefaultPage {
   onExitAnimationDone?: () => void;
   isVisible?: boolean;
   isLeft?: boolean | undefined;
+  animation: boolean;
 }
 
 interface IPageAnimationWrapper extends IDefaultPage, React.HTMLAttributes<HTMLDivElement> {}
@@ -13,10 +14,14 @@ export default function PageAnimationWrapper({
   isVisible = true,
   isLeft,
   children,
+  animation = false,
 }: IPageAnimationWrapper) {
   const wrapperRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
+    if (!animation) {
+      return;
+    }
     const visibleAnimation = isLeft ? visibleLeftAnimation : visibleRightAnimation;
     const unvisibleAnimation = isLeft ? unvisibleLeftAnimation : unvisibleRightAnimation;
 
@@ -36,7 +41,7 @@ export default function PageAnimationWrapper({
       animate?.finished.then(onExitAnimationDone).catch((err) => console.log(err));
       return () => animate?.cancel();
     }
-  }, [isVisible, onExitAnimationDone, isLeft]);
+  }, [isVisible, onExitAnimationDone, isLeft, animation]);
 
   return <Wrapper ref={wrapperRef}>{children}</Wrapper>;
 }
