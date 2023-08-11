@@ -33,9 +33,9 @@ public class CarRepository {
     }
 
     public List<DefaultOptionDto> findDefaultOptionByCarId(int carId) {
-        String sql = "select option_name, option_image, option_description, default_option_count " +
+        String sql = "select option_name, option_image, option_description, option_used_count " +
                 "from DefaultOptionData as data " +
-                "inner join DefaultOption as options on data.default_option_id = options.default_option_id " +
+                "inner join Option as options on data.option_id = options.option_id " +
                 "where data.car_id = :carId";
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("carId", carId);

@@ -23,32 +23,32 @@ export default function CustomRouter() {
   return (
     <AnimatePresence>
       {pathname === PATH.trim && (
-        <PageAnimationWrapper key={'trim'}>
+        <PageAnimationWrapper key={0}>
           <TrimPage />
         </PageAnimationWrapper>
       )}
       {pathname === PATH.modelType && (
-        <PageAnimationWrapper key={'modelType'}>
+        <PageAnimationWrapper key={1}>
           <ModelTypePage />
         </PageAnimationWrapper>
       )}
       {pathname === PATH.exterior && (
-        <PageAnimationWrapper key={'exterior'}>
+        <PageAnimationWrapper key={2}>
           <ExteriorPage />
         </PageAnimationWrapper>
       )}
       {pathname === PATH.interior && (
-        <PageAnimationWrapper key={'interior'}>
+        <PageAnimationWrapper key={3}>
           <InteriorPage />
         </PageAnimationWrapper>
       )}
       {pathname === PATH.option && (
-        <PageAnimationWrapper key={'option'}>
+        <PageAnimationWrapper key={4}>
           <OptionPage />
         </PageAnimationWrapper>
       )}
       {pathname === PATH.result && (
-        <PageAnimationWrapper key={'result'}>
+        <PageAnimationWrapper key={5}>
           <ResultPage />
         </PageAnimationWrapper>
       )}

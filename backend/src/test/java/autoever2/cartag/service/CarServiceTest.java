@@ -41,21 +41,21 @@ class CarServiceTest {
                 .optionName("안전 하차 보조")
                 .optionImage("image_1")
                 .optionDescription("좋은 보조 장치")
-                .defaultOptionCount(42)
+                .OptionUsedCount(42)
                 .build());
         defaultOptionDtoList.add(DefaultOptionDto
                 .builder()
                 .optionName("후측방 충둘 경고")
                 .optionImage("image_2")
                 .optionDescription("좋은 보조 장치")
-                .defaultOptionCount(98)
+                .OptionUsedCount(98)
                 .build());
         defaultOptionDtoList.add(DefaultOptionDto
                 .builder()
                 .optionName("후방 교차 충돌 보조 장치")
                 .optionImage("image_3")
                 .optionDescription("좋은 보조 장치")
-                .defaultOptionCount(41)
+                .OptionUsedCount(41)
                 .build());
 
         carInfoDtoList.add(CarInfoDto

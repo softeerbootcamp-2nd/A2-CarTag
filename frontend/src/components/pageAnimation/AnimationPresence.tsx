@@ -43,7 +43,17 @@ export default function AnimatePresence({ children }: IAnimatePresence) {
     return element.key;
   });
   const removedChildrenKey = new Set(prevKeys.filter((key) => !currentKeys.includes(key)));
-  const childrenToRender = validChildren.map((child) => cloneElement(child, { isVisible: true }));
+
+  /**
+   *  왼쪽 애니메이션? 오른쪽 애니메이션?
+   */
+  const isLeft = useRef(true);
+  if (prevKeys[0] && currentKeys[0] && removedChildrenKey.size) {
+    isLeft.current = parseInt(prevKeys[0]?.toString()) < parseInt(currentKeys[0].toString());
+  }
+  const childrenToRender = validChildren.map((child) =>
+    cloneElement(child, { isVisible: true, isLeft: isLeft.current })
+  );
 
   /**
    * isVisible 를 통해 사라질 컴포넌트 구분
@@ -63,7 +73,7 @@ export default function AnimatePresence({ children }: IAnimatePresence) {
     childrenToRender.splice(
       elementIndex,
       0,
-      cloneElement(element, { isVisible: false, onExitAnimationDone })
+      cloneElement(element, { isVisible: false, onExitAnimationDone, isLeft: isLeft.current })
     );
   });
 
