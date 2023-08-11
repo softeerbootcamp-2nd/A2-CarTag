@@ -23,7 +23,7 @@ export default function GuideModal({ ...props }: IGuideModal) {
     if (!(pathname === PATH.home || pathname === PATH.trim)) {
       setVisible(false);
     }
-  }, [pathname]);
+  }, [pathname, setVisible]);
 
   return (
     <DimmedBackground $displayDimmed={visible} {...props}>
