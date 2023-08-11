@@ -18,9 +18,8 @@ public class CarService {
 
     private final OptionRepository optionRepository;
 
-    /**
-     * Optional로 감싸진 값이 empty일 경우 어떤 예외 발생시킬지 정하기
-     */
+
+    // TODO Optional로 감싸진 값이 empty일 경우 어떤 예외 발생시킬지 정하기
     public List<CarDto> findCarByCarType(int carType) {
         List<CarInfoDto> carInfos = carRepository.findCarByCarType(carType);
         if(carInfos.isEmpty()){
@@ -31,7 +30,5 @@ public class CarService {
                 .map(carInfoDto -> CarDto.toDto(carInfoDto, optionRepository.findDefaultOptionByCarId(carInfoDto.getCarId())))
                 .collect(Collectors.toList());
     }
-
-
 
 }

@@ -24,7 +24,7 @@ public class OptionRepository {
     public List<SubOptionMappedDto> findAllSubOptionWithCategoryNameByCarId(int carId) {
         String sql = "select o.option_id, o.option_name, oc.option_category_name, o.option_image, ob.option_bought_count, o.option_used_count, ob.option_price " +
                 "from suboptiondata ob " +
-                "inner join option o " +
+                "inner join Caroption o " +
                 "on o.option_id = ob.option_id " +
                 "inner join optioncategory oc " +
                 "on oc.option_category_id = o.option_category_id " +
@@ -54,7 +54,7 @@ public class OptionRepository {
     public List<DefaultOptionDto> findDefaultOptionByCarId(int carId) {
         String sql = "select option_name, option_image, option_description, option_used_count " +
                 "from DefaultOptionData as data " +
-                "inner join Option as options on data.option_id = options.option_id " +
+                "inner join Caroption on data.option_id = caroption.option_id " +
                 "where data.car_id = :carId";
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("carId", carId);

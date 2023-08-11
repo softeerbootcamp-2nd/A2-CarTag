@@ -33,6 +33,8 @@ class ColorControllerTest {
 
     private List<InnerColorDto> innerColors;
 
+    private List<String> images;
+
     @BeforeEach
     void setUp() {
 
@@ -42,7 +44,6 @@ class ColorControllerTest {
                 .colorImage("color_image_1")
                 .colorPrice(100000L)
                 .colorBoughtCount(212312L)
-                .colorCarImage("car_image_1")
                 .build());
 
         outerColors.add(OuterColorDto.builder()
@@ -50,7 +51,6 @@ class ColorControllerTest {
                 .colorImage("color_image_2")
                 .colorPrice(100000L)
                 .colorBoughtCount(203L)
-                .colorCarImage("car_image_2")
                 .build());
 
         outerColors.add(OuterColorDto.builder()
@@ -58,7 +58,6 @@ class ColorControllerTest {
                 .colorImage("color_image_3")
                 .colorPrice(1234440L)
                 .colorBoughtCount(203L)
-                .colorCarImage("car_image_3")
                 .build());
 
         outerColors.add(OuterColorDto.builder()
@@ -66,7 +65,6 @@ class ColorControllerTest {
                 .colorImage("color_image_4")
                 .colorPrice(100000L)
                 .colorBoughtCount(203L)
-                .colorCarImage("car_image_4")
                 .build());
 
         outerColors.add(OuterColorDto.builder()
@@ -74,7 +72,6 @@ class ColorControllerTest {
                 .colorImage("color_image_5")
                 .colorPrice(100000L)
                 .colorBoughtCount(203L)
-                .colorCarImage("car_image_5")
                 .build());
 
         innerColors = new ArrayList<>();
@@ -117,27 +114,36 @@ class ColorControllerTest {
                 .colorBoughtCount(203L)
                 .colorCarImage("car_image_5")
                 .build());
+
+        images = new ArrayList<>();
+
+        for(int i=1;i<=60;i++) {
+            images.add("car_image_" + i + ".jpg");
+        }
     }
 
     @Test
     @DisplayName("트림의 색상 타입 데이터 호출 API")
-    void getTrimModel() throws Exception {
+    void getTrimColor() throws Exception {
         //given
         int carId = 1;
+        int colorId = 1;
+
         given(service.findOuterColorByCarId(carId)).willReturn(outerColors);
         given(service.findInnerColorByCarId(carId)).willReturn(innerColors);
+        given(service.changeImageToImages(colorId)).willReturn(images);
 
         //when
         ResultActions resultActionsOuter = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/colors/outer/").param("carId", String.valueOf(carId)));
         ResultActions resultActionsInner = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/colors/inner/").param("carId", String.valueOf(carId)));
-
+        ResultActions resultActionsImages = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/colors/outer/images").param("colorId", String.valueOf(colorId)));
         //then
         resultActionsOuter.andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].colorName").value("어비스 블랙펄"))
                 .andExpect(jsonPath("$[1].colorImage").value("color_image_2"))
                 .andExpect(jsonPath("$[2].colorPrice").value(1234440L))
-                .andExpect(jsonPath("$[3].colorBoughtCount").value(203L))
-                .andExpect(jsonPath("$[4].colorCarImage").value("car_image_5"));
+                .andExpect(jsonPath("$[3].colorBoughtCount").value(203L));
+
 
         resultActionsInner.andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].colorName").value("퀄팅 천연(블랙)"))
@@ -145,6 +151,13 @@ class ColorControllerTest {
                 .andExpect(jsonPath("$[2].colorPrice").value(1234440L))
                 .andExpect(jsonPath("$[3].colorBoughtCount").value(203L))
                 .andExpect(jsonPath("$[4].colorCarImage").value("car_image_5"));
+
+        resultActionsImages.andExpect(status().isOk())
+                .andExpect(jsonPath("$[0]").value("car_image_1.jpg"))
+                .andExpect(jsonPath("$[1]").value("car_image_2.jpg"))
+                .andExpect(jsonPath("$[2]").value("car_image_3.jpg"))
+                .andExpect(jsonPath("$[3]").value("car_image_4.jpg"))
+                .andExpect(jsonPath("$[4]").value("car_image_5.jpg"));
     }
 
 }
