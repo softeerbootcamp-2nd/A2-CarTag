@@ -6,7 +6,7 @@ import { GuideModalContext } from '../../context/GuideMoadlContext';
 import { SimilarQuoteModalContext } from '../../context/SimilarQuoteModalContext';
 import { CloseModalContext } from '../../context/closeModalContext';
 
-export function ModalContainer() {
+export default function ModalContainer() {
   const { setVisible: setCloseModalVisible } = useContext(CloseModalContext);
   const { setVisible: setGuideModalVisible } = useContext(GuideModalContext);
   const { setVisible: setSimilarQuoteModalVisible } = useContext(SimilarQuoteModalContext);

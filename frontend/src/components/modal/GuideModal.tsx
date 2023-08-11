@@ -1,4 +1,4 @@
-import { HTMLAttributes, useContext, useRef } from 'react';
+import { HTMLAttributes, MouseEventHandler, useContext, useRef } from 'react';
 import { styled } from 'styled-components';
 import { Bubble, CloseIcon } from '../common/icons/Icons';
 import { BodyKrRegular3, HeadingKrMedium7 } from '../../styles/typefaces';
@@ -12,10 +12,14 @@ export default function GuideModal({ ...props }: IGuideModal) {
   const hmgDataBgRef = useRef<HTMLDivElement>(null);
   const { visible, setVisible } = useContext(GuideModalContext);
 
+  const stopEvent: MouseEventHandler<HTMLDivElement> = (e) => {
+    e.stopPropagation();
+  };
+
   return (
     <DimmedBackground $displayDimmed={visible} {...props}>
       <Wrapper>
-        <GuideBubble onClick={(e) => e.stopPropagation()} ref={guideBubbleRef}>
+        <GuideBubble onClick={stopEvent} ref={guideBubbleRef}>
           <Bubble />
           <GuideText>
             <Header>
@@ -36,7 +40,7 @@ export default function GuideModal({ ...props }: IGuideModal) {
             </GuideDesc>
           </GuideText>
         </GuideBubble>
-        <HmgDataBg ref={hmgDataBgRef} onClick={(e) => e.stopPropagation()} />
+        <HmgDataBg ref={hmgDataBgRef} onClick={stopEvent} />
       </Wrapper>
     </DimmedBackground>
   );
