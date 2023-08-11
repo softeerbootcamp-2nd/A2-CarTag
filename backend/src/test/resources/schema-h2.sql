@@ -265,4 +265,3 @@ ALTER TABLE `Option` ADD CONSTRAINT SubOption_OptionCategory FOREIGN KEY (option
 ALTER TABLE SubOptionPackage ADD CONSTRAINT SubOption_SubOption FOREIGN KEY (option_id)
     REFERENCES `Option` (option_id);
 
-show databases;

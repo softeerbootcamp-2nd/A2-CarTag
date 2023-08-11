@@ -1,9 +1,6 @@
 package autoever2.cartag.domain.model;
 
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.Objects;
 
@@ -17,16 +14,16 @@ public class ModelTypeMappedDto {
     private String modelTypeName;
     private Long modelPrice;
     private Long modelBoughtCount;
-    private boolean isDefaultOption;
+    private boolean isDefaultModel;
 
     @Builder
-    public ModelTypeMappedDto(int modelId, String modelName, String modelTypeName, Long modelPrice, Long modelBoughtCount, boolean isDefaultOption) {
+    public ModelTypeMappedDto(int modelId, String modelName, String modelTypeName, Long modelPrice, Long modelBoughtCount, boolean isDefaultModel) {
         this.modelId = modelId;
         this.modelName = modelName;
         this.modelTypeName = modelTypeName;
         this.modelPrice = modelPrice;
         this.modelBoughtCount = modelBoughtCount;
-        this.isDefaultOption = isDefaultOption;
+        this.isDefaultModel = isDefaultModel;
     }
 
     @Override
@@ -34,10 +31,10 @@ public class ModelTypeMappedDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ModelTypeMappedDto that = (ModelTypeMappedDto) o;
-        return modelId == that.modelId && isDefaultOption == that.isDefaultOption && Objects.equals(modelName, that.modelName) && Objects.equals(modelTypeName, that.modelTypeName) && Objects.equals(modelPrice, that.modelPrice) && Objects.equals(modelBoughtCount, that.modelBoughtCount);
+        return modelId == that.modelId && isDefaultModel == that.isDefaultModel && Objects.equals(modelName, that.modelName) && Objects.equals(modelTypeName, that.modelTypeName) && Objects.equals(modelPrice, that.modelPrice) && Objects.equals(modelBoughtCount, that.modelBoughtCount);
     }
 
-    public void setIsDefaultOption(int isDefaultOption) {
-        this.isDefaultOption = isDefaultOption > 0;
+    public void setIsDefaultModel(int isDefaultModel) {
+        this.isDefaultModel = isDefaultModel > 0;
     }
 }

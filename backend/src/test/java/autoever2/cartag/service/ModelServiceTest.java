@@ -43,7 +43,7 @@ class ModelServiceTest {
                 .modelId(1)
                 .modelName("디젤 2.2")
                 .modelPrice(0L)
-                .isDefaultOption(true)
+                .isDefaultModel(true)
                 .modelTypeName("파워트레인")
                 .modelBoughtCount(1800L)
                 .build());
@@ -53,7 +53,7 @@ class ModelServiceTest {
                 .modelId(2)
                 .modelName("가솔린 3.8")
                 .modelPrice(280000L)
-                .isDefaultOption(false)
+                .isDefaultModel(false)
                 .modelTypeName("파워트레인")
                 .modelBoughtCount(1900L)
                 .build());
@@ -63,7 +63,7 @@ class ModelServiceTest {
                 .modelId(3)
                 .modelName("7인승")
                 .modelPrice(0L)
-                .isDefaultOption(true)
+                .isDefaultModel(true)
                 .modelTypeName("바디타입")
                 .modelBoughtCount(900L)
                 .build());
@@ -73,7 +73,7 @@ class ModelServiceTest {
                 .modelId(4)
                 .modelName("8인승")
                 .modelPrice(130000L)
-                .isDefaultOption(false)
+                .isDefaultModel(false)
                 .modelTypeName("바디타입")
                 .modelBoughtCount(800L)
                 .build());
@@ -83,7 +83,7 @@ class ModelServiceTest {
                 .modelId(5)
                 .modelName("2WD")
                 .modelPrice(0L)
-                .isDefaultOption(true)
+                .isDefaultModel(true)
                 .modelTypeName("구동방식")
                 .modelBoughtCount(1200L)
                 .build());
@@ -93,7 +93,7 @@ class ModelServiceTest {
                 .modelId(6)
                 .modelName("4WD")
                 .modelPrice(237000L)
-                .isDefaultOption(false)
+                .isDefaultModel(false)
                 .modelTypeName("구동방식")
                 .modelBoughtCount(200L)
                 .build());
