@@ -3,7 +3,7 @@ import NavBar from './components/layout/NavBar';
 import PriceStaticBar from './components/priceStaticBar/PriceStaticBar';
 import CustomRouter from './components/router/CustomRouter';
 import ModalContainer from './containers/Modal/ModalContainer';
-import CloseModalProvider from './context/closeModalContext';
+import CloseModalProvider from './context/CloseModalContext';
 import SimilarQuoteModalProvider from './context/SimilarQuoteModalContext';
 import GuideModalProvider from './context/GuideMoadlContext';
 

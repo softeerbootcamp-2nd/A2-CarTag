@@ -4,9 +4,8 @@ import { css, styled, useTheme } from 'styled-components';
 import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../styles/typefaces';
 import { ArrowDown, CancelIcon } from '../common/icons/Icons';
 import hyundaiLogo from '/images/logo.svg';
-import CloseModal from '../modal/CloseModal';
 import { PATH } from '../../utils/constants';
-import { CloseModalContext } from '../../context/closeModalContext';
+import { CloseModalContext } from '../../context/CloseModalContext';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
   active: boolean;
@@ -27,15 +26,12 @@ export default function NavBar() {
     setCloseModalVisible(true);
   };
 
-  const handleCloseModalClick = () => {
-    setCloseModalVisible(false);
-  };
-
   return (
     <>
       <Wrapper>
-        <HyundaiLogo src={hyundaiLogo} alt="" />
         <Body>
+          <HyundaiLogo src={hyundaiLogo} alt="" />
+
           <CarSelect>
             <span>펠리세이드</span>
             <ArrowDown fill={theme.color.gray800} />
@@ -69,14 +65,12 @@ export default function NavBar() {
               완료
             </NavItem>
           </NavList>
+          <CancelButton onClick={handleCloseButtonClick}>
+            <Span>종료</Span>
+            <CancelIcon width={12} height={12} />
+          </CancelButton>
         </Body>
-
-        <CancelButton onClick={handleCloseButtonClick}>
-          <Span>종료</Span>
-          <CancelIcon width={12} height={12} />
-        </CancelButton>
       </Wrapper>
-      <CloseModal onClick={handleCloseModalClick} />
     </>
   );
 }
@@ -150,11 +144,14 @@ const CarSelect = styled.div`
 `;
 
 const CancelButton = styled.button`
+  position: absolute;
+  right: -44px;
+  bottom: 0;
   ${BodyKrRegular3}
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 9.5px;
+  gap: 8px;
 `;
 const Body = styled.div`
   position: relative;
@@ -164,9 +161,15 @@ const Body = styled.div`
 `;
 
 const HyundaiLogo = styled.img`
+  position: absolute;
+  left: -59px;
+  bottom: 0;
   width: 39px;
   height: 22px;
-  margin-right: 20px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 const Underline = styled.div`
   width: 18px;
@@ -175,5 +178,5 @@ const Underline = styled.div`
 `;
 
 const Span = styled.span`
-  ${BodyKrMedium3}
+  ${BodyKrMedium3};
 `;
