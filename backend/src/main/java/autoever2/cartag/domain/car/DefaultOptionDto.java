@@ -18,14 +18,14 @@ public class DefaultOptionDto {
     @Schema(description = "option에 대한 설명")
     private String optionDescription;
     @Schema(description = "option의 구매 횟수")
-    private int defaultOptionCount;
+    private int OptionUsedCount;
 
     @Builder
-    public DefaultOptionDto(String optionName, String optionImage, String optionDescription, int defaultOptionCount) {
+    public DefaultOptionDto(String optionName, String optionImage, String optionDescription, int OptionUsedCount) {
         this.optionName = optionName;
         this.optionImage = optionImage;
         this.optionDescription = optionDescription;
-        this.defaultOptionCount = defaultOptionCount;
+        this.OptionUsedCount = OptionUsedCount;
     }
 
 }
