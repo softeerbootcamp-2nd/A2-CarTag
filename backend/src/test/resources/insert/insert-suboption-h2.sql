@@ -5,10 +5,10 @@ insert into OptionCategory (option_category_id, option_category_name) VALUES (1,
 insert into OptionCategory (option_category_id, option_category_name) VALUES (2, '악세사리');
 insert into OptionCategory (option_category_id, option_category_name) VALUES (3, '휠');
 
-insert into option values (1, 1, '2열 통풍 시트', '/images/options/sub/2seats.jpg', '시동이 걸린 상태에서 해당 좌석의 통풍 스위치를 누르면 표시등이 켜지면서 해당 좌석에 바람이 나오는 편의장치입니다.', 38);
-insert into option values (2, 2, '적외선 무릎 워머', '/images/options/sub/warmer.jpg', '워머입니다.', 42);
-insert into option values (3, 2, '듀얼 머플러 패키지', '/images/options/sub/murfler.jpg', '머플러입니다.', 55);
-insert into option values (4, 3, '20인치 다크 스퍼터링 휠', '/images/options/sub/darkwheel.jpg', '다크 휠입니다.', 12);
+insert into caroption values (1, 1, '2열 통풍 시트', '/images/options/sub/2seats.jpg', '시동이 걸린 상태에서 해당 좌석의 통풍 스위치를 누르면 표시등이 켜지면서 해당 좌석에 바람이 나오는 편의장치입니다.', 38);
+insert into caroption values (2, 2, '적외선 무릎 워머', '/images/options/sub/warmer.jpg', '워머입니다.', 42);
+insert into caroption values (3, 2, '듀얼 머플러 패키지', '/images/options/sub/murfler.jpg', '머플러입니다.', 55);
+insert into caroption values (4, 3, '20인치 다크 스퍼터링 휠', '/images/options/sub/darkwheel.jpg', '다크 휠입니다.', 12);
 
 insert into SubOptionData values (1, 1, 1, 2800, 100000);
 insert into SubOptionData values (2, 1, 2, 4200, 130000);

@@ -1,5 +1,5 @@
 -- Created by Vertabelo (http://vertabelo.com)
--- Last modification date: 2023-08-10 07:45:51.608
+-- Last modification date: 2023-08-11 10:33:17.936
 
 -- tables
 -- Table: Car
@@ -14,6 +14,17 @@ CREATE TABLE Car (
                      bought_count bigint  NOT NULL,
                      car_description varchar(255)  NOT NULL,
                      CONSTRAINT Car_pk PRIMARY KEY (car_id)
+);
+
+-- Table: CarOption
+CREATE TABLE CarOption (
+                           option_id int  NOT NULL,
+                           option_category_id int  NOT NULL,
+                           option_name varchar(50)  NOT NULL,
+                           option_image varchar(255)  NULL,
+                           option_description text  NULL,
+                           option_used_count double  NULL,
+                           CONSTRAINT CarOption_pk PRIMARY KEY (option_id)
 );
 
 -- Table: CarType
@@ -85,17 +96,6 @@ CREATE TABLE ModelType (
                            model_type_id int  NOT NULL,
                            model_type_name varchar(50)  NOT NULL,
                            CONSTRAINT ModelType_pk PRIMARY KEY (model_type_id)
-);
-
--- Table: Option
-CREATE TABLE `Option` (
-                          option_id int  NOT NULL,
-                          option_category_id int  NOT NULL,
-                          option_name varchar(50)  NOT NULL,
-                          option_image varchar(255)  NULL,
-                          option_description text  NULL,
-                          option_used_count double  NULL,
-                          CONSTRAINT Option_pk PRIMARY KEY (option_id)
 );
 
 -- Table: OptionCategory
@@ -187,7 +187,7 @@ ALTER TABLE ColorCarMapper ADD CONSTRAINT ColorCarMapper_Color FOREIGN KEY (colo
 
 -- Reference: DefaultOptionData_Option (table: DefaultOptionData)
 ALTER TABLE DefaultOptionData ADD CONSTRAINT DefaultOptionData_Option FOREIGN KEY (option_id)
-    REFERENCES `Option` (option_id);
+    REFERENCES CarOption (option_id);
 
 -- Reference: MainOptionData_Car (table: DefaultOptionData)
 ALTER TABLE DefaultOptionData ADD CONSTRAINT MainOptionData_Car FOREIGN KEY (car_id)
@@ -215,11 +215,11 @@ ALTER TABLE OptionHashtag ADD CONSTRAINT OptionHashtag_Hashtag FOREIGN KEY (hash
 
 -- Reference: OptionHashtag_SubOption (table: OptionHashtag)
 ALTER TABLE OptionHashtag ADD CONSTRAINT OptionHashtag_SubOption FOREIGN KEY (option_id)
-    REFERENCES `Option` (option_id);
+    REFERENCES CarOption (option_id);
 
 -- Reference: Package (table: SubOptionPackage)
 ALTER TABLE SubOptionPackage ADD CONSTRAINT Package FOREIGN KEY (package_id)
-    REFERENCES `Option` (option_id);
+    REFERENCES CarOption (option_id);
 
 -- Reference: PowerTrainData_Model (table: PowerTrainData)
 ALTER TABLE PowerTrainData ADD CONSTRAINT PowerTrainData_Model FOREIGN KEY (power_train_id)
@@ -247,7 +247,7 @@ ALTER TABLE SalesOption ADD CONSTRAINT SalesOption_SalesHistory FOREIGN KEY (sal
 
 -- Reference: SalesOption_SubOption (table: SalesOption)
 ALTER TABLE SalesOption ADD CONSTRAINT SalesOption_SubOption FOREIGN KEY (sub_option_id)
-    REFERENCES `Option` (option_id);
+    REFERENCES CarOption (option_id);
 
 -- Reference: SubOptionData_Car (table: SubOptionData)
 ALTER TABLE SubOptionData ADD CONSTRAINT SubOptionData_Car FOREIGN KEY (car_id)
@@ -255,13 +255,15 @@ ALTER TABLE SubOptionData ADD CONSTRAINT SubOptionData_Car FOREIGN KEY (car_id)
 
 -- Reference: SubOptionData_SubOption (table: SubOptionData)
 ALTER TABLE SubOptionData ADD CONSTRAINT SubOptionData_SubOption FOREIGN KEY (option_id)
-    REFERENCES `Option` (option_id);
+    REFERENCES CarOption (option_id);
 
--- Reference: SubOption_OptionCategory (table: Option)
-ALTER TABLE `Option` ADD CONSTRAINT SubOption_OptionCategory FOREIGN KEY (option_category_id)
+-- Reference: SubOption_OptionCategory (table: CarOption)
+ALTER TABLE CarOption ADD CONSTRAINT SubOption_OptionCategory FOREIGN KEY (option_category_id)
     REFERENCES OptionCategory (option_category_id);
 
 -- Reference: SubOption_SubOption (table: SubOptionPackage)
 ALTER TABLE SubOptionPackage ADD CONSTRAINT SubOption_SubOption FOREIGN KEY (option_id)
-    REFERENCES `Option` (option_id);
+    REFERENCES CarOption (option_id);
+
+-- End of file.
 
