@@ -39,7 +39,6 @@ class ModelControllerTest {
                 .modelId(1)
                 .modelName("디젤 2.2")
                 .modelPrice(0L)
-                .isDefaultOption(true)
                 .modelTypeName("파워트레인")
                 .percentage(65)
                 .build());
@@ -49,7 +48,6 @@ class ModelControllerTest {
                 .modelId(2)
                 .modelName("가솔린 3.8")
                 .modelPrice(280000L)
-                .isDefaultOption(false)
                 .modelTypeName("파워트레인")
                 .percentage(35)
                 .build());
@@ -59,7 +57,6 @@ class ModelControllerTest {
                 .modelId(3)
                 .modelName("7인승")
                 .modelPrice(0L)
-                .isDefaultOption(true)
                 .modelTypeName("바디타입")
                 .percentage(70)
                 .build());
@@ -69,7 +66,6 @@ class ModelControllerTest {
                 .modelId(4)
                 .modelName("8인승")
                 .modelPrice(130000L)
-                .isDefaultOption(false)
                 .modelTypeName("바디타입")
                 .percentage(30)
                 .build());
@@ -79,7 +75,6 @@ class ModelControllerTest {
                 .modelId(5)
                 .modelName("2WD")
                 .modelPrice(0L)
-                .isDefaultOption(true)
                 .modelTypeName("구동방식")
                 .percentage(50)
                 .build());
@@ -89,7 +84,6 @@ class ModelControllerTest {
                 .modelId(6)
                 .modelName("4WD")
                 .modelPrice(237000L)
-                .isDefaultOption(false)
                 .modelTypeName("구동방식")
                 .percentage(50)
                 .build());
@@ -105,7 +99,6 @@ class ModelControllerTest {
         resultActions.andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].modelId").value(1))
                 .andExpect(jsonPath("$[1].modelName").value("가솔린 3.8"))
-                .andExpect(jsonPath("$[2].defaultOption").value(true))
                 .andExpect(jsonPath("$[3].modelPrice").value(130000))
                 .andExpect(jsonPath("$[4].percentage").value(50))
                 .andExpect(jsonPath("$[5].modelTypeName").value("구동방식"));

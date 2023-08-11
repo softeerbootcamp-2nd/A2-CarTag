@@ -119,7 +119,6 @@ class ModelServiceTest {
         assertEquals("가솔린 3.8", result.get(1).getModelName());
         assertEquals("바디타입", result.get(2).getModelTypeName());
         assertEquals(130000L, result.get(3).getModelPrice());
-        assertTrue(result.get(4).isDefaultOption());
         assertEquals(10, result.get(5).getPercentage());
     }
 
