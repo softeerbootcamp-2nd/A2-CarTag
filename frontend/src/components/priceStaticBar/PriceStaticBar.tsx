@@ -33,7 +33,7 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
     getBudgetStatus();
   }, [budget, getBudgetStatus]);
 
-  if (pathname === PATH.trim) {
+  if (pathname === PATH.home || pathname === PATH.trim) {
     return <></>;
   }
   return (
