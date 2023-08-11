@@ -21,7 +21,7 @@ public class ModelRepository {
     }
 
     public List<ModelTypeMappedDto> findAllModelTypeData(int carId) {
-        String sql = "select m.model_id, m.model_name, t.model_type_name, m.model_price, mm.model_bought_count, mm.is_default_option " +
+        String sql = "select m.model_id, m.model_name, t.model_type_name, m.model_price, mm.model_bought_count, mm.is_default_model " +
                 "from modelcarmapper mm " +
                 "inner join model m " +
                 "on mm.model_id = m.model_id " +

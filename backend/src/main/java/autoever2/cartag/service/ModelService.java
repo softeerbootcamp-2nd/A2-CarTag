@@ -32,7 +32,7 @@ public class ModelService {
                                     .modelName(modelTypeMappedDto.getModelName())
                                     .modelTypeName(modelTypeMappedDto.getModelTypeName())
                                     .modelPrice(modelTypeMappedDto.getModelPrice())
-                                    .isDefaultOption(modelTypeMappedDto.isDefaultOption())
+                                    .isDefaultOption(modelTypeMappedDto.isDefaultModel())
                                     .percentage(percentage)
                                     .build();
                         }

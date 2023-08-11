@@ -33,9 +33,9 @@ class ModelRepositoryTest {
         int carId = 1;
         ModelTypeMappedDto firstModel = ModelTypeMappedDto.builder()
                 .modelId(1)
-                .modelName("디젤 2.2")
+                .modelName("디젤2.2")
                 .modelTypeName("파워트레인")
-                .isDefaultOption(true)
+                .isDefaultModel(true)
                 .modelBoughtCount(800L)
                 .modelPrice(1480000L)
                 .build();
@@ -44,7 +44,7 @@ class ModelRepositoryTest {
                 .modelId(6)
                 .modelName("8인승")
                 .modelTypeName("바디타입")
-                .isDefaultOption(false)
+                .isDefaultModel(false)
                 .modelBoughtCount(1800L)
                 .modelPrice(0L)
                 .build();
