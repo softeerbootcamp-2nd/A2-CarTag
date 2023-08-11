@@ -42,7 +42,6 @@ class ColorControllerTest {
                 .colorImage("color_image_1")
                 .colorPrice(100000L)
                 .colorBoughtCount(212312L)
-                .colorCarImage("car_image_1")
                 .build());
 
         outerColors.add(OuterColorDto.builder()
@@ -50,7 +49,6 @@ class ColorControllerTest {
                 .colorImage("color_image_2")
                 .colorPrice(100000L)
                 .colorBoughtCount(203L)
-                .colorCarImage("car_image_2")
                 .build());
 
         outerColors.add(OuterColorDto.builder()
@@ -58,7 +56,6 @@ class ColorControllerTest {
                 .colorImage("color_image_3")
                 .colorPrice(1234440L)
                 .colorBoughtCount(203L)
-                .colorCarImage("car_image_3")
                 .build());
 
         outerColors.add(OuterColorDto.builder()
@@ -66,7 +63,6 @@ class ColorControllerTest {
                 .colorImage("color_image_4")
                 .colorPrice(100000L)
                 .colorBoughtCount(203L)
-                .colorCarImage("car_image_4")
                 .build());
 
         outerColors.add(OuterColorDto.builder()
@@ -74,7 +70,6 @@ class ColorControllerTest {
                 .colorImage("color_image_5")
                 .colorPrice(100000L)
                 .colorBoughtCount(203L)
-                .colorCarImage("car_image_5")
                 .build());
 
         innerColors = new ArrayList<>();
@@ -136,8 +131,8 @@ class ColorControllerTest {
                 .andExpect(jsonPath("$[0].colorName").value("어비스 블랙펄"))
                 .andExpect(jsonPath("$[1].colorImage").value("color_image_2"))
                 .andExpect(jsonPath("$[2].colorPrice").value(1234440L))
-                .andExpect(jsonPath("$[3].colorBoughtCount").value(203L))
-                .andExpect(jsonPath("$[4].colorCarImage").value("car_image_5"));
+                .andExpect(jsonPath("$[3].colorBoughtCount").value(203L));
+
 
         resultActionsInner.andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].colorName").value("퀄팅 천연(블랙)"))
