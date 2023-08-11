@@ -32,21 +32,6 @@ public class CarRepository {
 
     }
 
-    public List<DefaultOptionDto> findDefaultOptionByCarId(int carId) {
-        String sql = "select option_name, option_image, option_description, option_used_count " +
-                "from DefaultOptionData as data " +
-                "inner join Option as options on data.option_id = options.option_id " +
-                "where data.car_id = :carId";
-        SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("carId", carId);
-        return template.query(sql, param, OptionRowMapper());
-
-    }
-
-    private RowMapper<DefaultOptionDto> OptionRowMapper() {
-        return BeanPropertyRowMapper.newInstance(DefaultOptionDto.class);
-    }
-
     private RowMapper<CarInfoDto> CarRowMapper() {
         return BeanPropertyRowMapper.newInstance(CarInfoDto.class);
     }
