@@ -1,33 +1,26 @@
-import { Dispatch, HTMLAttributes, MouseEventHandler, SetStateAction } from 'react';
+import { HTMLAttributes, MouseEventHandler, useContext } from 'react';
 import { styled } from 'styled-components';
 import { BodyKrMedium3 } from '../../styles/typefaces';
 import { flexCenterCss } from '../../utils/commonStyle';
 import RectButton from '../common/buttons/RectButton';
 import { HYUNDAI_URL } from '../../utils/constants';
 import { DimmedBackground } from './DimmedBackground';
+import { CloseModalContext } from '../../context/closeModalContext';
 
-interface ICloseModal extends HTMLAttributes<HTMLDivElement> {
-  displayDimmed: boolean;
-  setDisplayDimmed: Dispatch<SetStateAction<boolean>>;
-}
+interface ICloseModal extends HTMLAttributes<HTMLDivElement> {}
 
-export default function CloseModal({
-  displayDimmed = false,
-  setDisplayDimmed,
-  ...props
-}: ICloseModal) {
+export default function CloseModal({ ...props }: ICloseModal) {
+  const { visible, setVisible } = useContext(CloseModalContext);
   const handleCloseClick = () => {
     location.href = HYUNDAI_URL;
   };
-  const handleCancelCick = () => {
-    setDisplayDimmed(false);
-  };
+
   const stopEvent: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation();
   };
 
   return (
-    <DimmedBackground $displayDimmed={displayDimmed} {...props}>
+    <DimmedBackground $displayDimmed={visible} {...props}>
       <Modal onClick={stopEvent}>
         <Text>
           내 차 만들기를 종료하시겠습니까?
@@ -35,7 +28,7 @@ export default function CloseModal({
           지금 서비스 종료 시 저장되지 않습니다.
         </Text>
         <ButtonWrapper>
-          <Button active={false} type={'popup'} onClick={handleCancelCick}>
+          <Button active={false} type={'popup'} onClick={() => setVisible(false)}>
             취소
           </Button>
           <Button type={'popup'} onClick={handleCloseClick}>

@@ -3,10 +3,10 @@ import { css, styled, useTheme } from 'styled-components';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular4, HeadingKrMedium6 } from '../../styles/typefaces';
 import { ArrowUp, ArrowDown } from '../common/icons/Icons';
-import Slider from './Slider';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { PATH } from '../../utils/url';
+import { PATH } from '../../utils/constants';
+import PriceStaticSlider from './PriceStaticSlider';
 
 interface IPriceStaticBar extends React.HTMLAttributes<HTMLDivElement> {}
 export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
@@ -52,7 +52,7 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
       </StatusText>
 
       {isOpen ? (
-        <Slider
+        <PriceStaticSlider
           lowestPrice={lowestPrice}
           highestPrice={highestPrice}
           budget={budget}

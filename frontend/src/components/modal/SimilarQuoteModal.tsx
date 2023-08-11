@@ -1,4 +1,4 @@
-import { Dispatch, HTMLAttributes, MouseEventHandler, SetStateAction } from 'react';
+import { HTMLAttributes, MouseEventHandler, useContext } from 'react';
 import { styled, useTheme } from 'styled-components';
 import { ArrowLeft, ArrowRight, CloseIcon } from '../common/icons/Icons';
 import {
@@ -10,31 +10,26 @@ import {
   HeadingKrMedium6,
 } from '../../styles/typefaces';
 import { flexCenterCss } from '../../utils/commonStyle';
-import Noname from '../priceStaticBar/Noname';
 import ExtraOptionCard from '../cards/ExtraOptionCard';
 import HmgTag from '../common/hmgTag/HmgTag';
 import RectButton from '../common/buttons/RectButton';
 import { DimmedBackground } from './DimmedBackground';
+import { SimilarQuoteModalContext } from '../../context/SimilarQuoteModalContext';
+import SimilarPriceBar from '../priceStaticBar/SimilarPriceBar';
 
-interface ISimilarQuote extends HTMLAttributes<HTMLDivElement> {
-  displayDimmed: boolean;
-  setDisplayDimmed: Dispatch<SetStateAction<boolean>>;
-}
+interface ISimilarQuoteModal extends HTMLAttributes<HTMLDivElement> {}
 
-export default function SimilarQuote({
-  displayDimmed = false,
-  setDisplayDimmed,
-  ...props
-}: ISimilarQuote) {
+export default function SimilarQuoteModal({ ...props }: ISimilarQuoteModal) {
   const theme = useTheme();
+  const { visible, setVisible } = useContext(SimilarQuoteModalContext);
   const stopEvent: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation();
   };
   return (
-    <DimmedBackground $displayDimmed={displayDimmed} {...props}>
+    <DimmedBackground $displayDimmed={visible} {...props}>
       <Modal onClick={stopEvent}>
         <Header>
-          <CloseBtn onClick={() => setDisplayDimmed(false)}>
+          <CloseBtn onClick={() => setVisible(false)}>
             <CloseIcon />
           </CloseBtn>
         </Header>
@@ -48,7 +43,7 @@ export default function SimilarQuote({
               <br />내 견적과 해시태그 유사도가 높은 다른 사람들의 실제 출고 견적이에요.
             </DescText>
           </TextWrapper>
-          <Noname />
+          <SimilarPriceBar />
         </InfoWrapper>
         <CardWrapper>
           <CarInfo>

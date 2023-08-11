@@ -1,5 +1,5 @@
 import { styled, useTheme } from 'styled-components';
-import { BodyKrRegular3, HeadingKrMedium5 } from '../../styles/typefaces';
+import { BodyKrRegular3, HeadingKrMedium6 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import { ArrowLeft, ArrowRight } from '../../components/common/icons/Icons';
 import PriceSummary from '../../components/summary/PriceSummary';
@@ -84,7 +84,7 @@ const Header = styled.div`
   justify-content: space-between;
 `;
 const Title = styled.div`
-  ${HeadingKrMedium5};
+  ${HeadingKrMedium6};
 `;
 const PageButtonWrapper = styled.div`
   display: flex;

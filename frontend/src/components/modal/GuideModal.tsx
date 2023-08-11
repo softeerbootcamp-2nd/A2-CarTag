@@ -1,36 +1,21 @@
-import { HTMLAttributes, useEffect, useRef, useState } from 'react';
+import { HTMLAttributes, useContext, useRef } from 'react';
 import { styled } from 'styled-components';
 import { Bubble, CloseIcon } from '../common/icons/Icons';
 import { BodyKrRegular3, HeadingKrMedium7 } from '../../styles/typefaces';
 import CenterWrapper from '../layout/CenterWrapper';
 import { DimmedBackground } from './DimmedBackground';
+import { GuideModalContext } from '../../context/GuideMoadlContext';
 
-interface IOnBoardingGuide extends HTMLAttributes<HTMLDivElement> {}
-export default function OnBoardingGuide({ ...props }: IOnBoardingGuide) {
-  const [displayDimmed, setDisplayDimmed] = useState(true);
+interface IGuideModal extends HTMLAttributes<HTMLDivElement> {}
+export default function GuideModal({ ...props }: IGuideModal) {
   const guideBubbleRef = useRef<HTMLDivElement>(null);
   const hmgDataBgRef = useRef<HTMLDivElement>(null);
-  const handleClick = (event: MouseEvent) => {
-    if (guideBubbleRef.current?.contains(event.target as Node)) {
-      return;
-    }
-    if (hmgDataBgRef.current?.contains(event.target as Node)) {
-      return;
-    }
-    setDisplayDimmed(false);
-  };
-
-  useEffect(() => {
-    window.addEventListener('click', (event) => handleClick(event));
-    return () => {
-      window.removeEventListener('click', handleClick);
-    };
-  }, []);
+  const { visible, setVisible } = useContext(GuideModalContext);
 
   return (
-    <DimmedBackground $displayDimmed={displayDimmed} {...props}>
+    <DimmedBackground $displayDimmed={visible} {...props}>
       <Wrapper>
-        <GuideBubble ref={guideBubbleRef}>
+        <GuideBubble onClick={(e) => e.stopPropagation()} ref={guideBubbleRef}>
           <Bubble />
           <GuideText>
             <Header>
@@ -40,7 +25,7 @@ export default function OnBoardingGuide({ ...props }: IOnBoardingGuide) {
                 제공하는 <BlueText>실활용 데이터</BlueText>로<br />
                 합리적인 차량을 만들어 보세요.
               </GuideTitle>
-              <CloseBtn onClick={() => setDisplayDimmed(false)}>
+              <CloseBtn onClick={() => setVisible(false)}>
                 <CloseIcon />
               </CloseBtn>
             </Header>
@@ -51,7 +36,7 @@ export default function OnBoardingGuide({ ...props }: IOnBoardingGuide) {
             </GuideDesc>
           </GuideText>
         </GuideBubble>
-        <HmgDataBg ref={hmgDataBgRef} />
+        <HmgDataBg ref={hmgDataBgRef} onClick={(e) => e.stopPropagation()} />
       </Wrapper>
     </DimmedBackground>
   );

@@ -3,11 +3,11 @@ import { css, styled } from 'styled-components';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular4, HeadingKrMedium6 } from '../../styles/typefaces';
 import React from 'react';
-import NonameS from './NonameS';
+import SimilarPriceSlider from './SimilarPriceSlider';
 
-interface ITmp extends React.HTMLAttributes<HTMLDivElement> {}
+interface ISimilarPrice extends React.HTMLAttributes<HTMLDivElement> {}
 
-export default function Noname({ ...props }: ITmp) {
+export default function SimilarPrice({ ...props }: ISimilarPrice) {
   const lowestPrice = 3850; //단위: 만원
   const highestPrice = 4300;
   const total = 4100;
@@ -37,7 +37,7 @@ export default function Noname({ ...props }: ITmp) {
           {isOverBudget ? ' 비싸요.' : ' 싸요.'}
         </StatusDesc>
       </StatusText>
-      <NonameS
+      <SimilarPriceSlider
         lowestPrice={lowestPrice}
         highestPrice={highestPrice}
         budget={budget}

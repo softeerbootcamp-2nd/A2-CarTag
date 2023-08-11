@@ -1,5 +1,4 @@
 import { useLocation, useNavigate } from 'react-router-dom';
-import { PATH } from '../../utils/url';
 import ExteriorPage from '../../pages/ExteriorPage';
 import AnimatePresence from '../pageAnimation/AnimationPresence';
 import PageAnimationWrapper from '../pageAnimation/PageAnimationWrapper';
@@ -9,6 +8,7 @@ import ResultPage from '../../pages/ResultPage';
 import { useEffect } from 'react';
 import TrimPage from '../../pages/TrimPage';
 import ModelTypePage from '../../pages/ModelTypePage';
+import { PATH } from '../../utils/constants';
 
 export default function CustomRouter() {
   const { pathname } = useLocation();
