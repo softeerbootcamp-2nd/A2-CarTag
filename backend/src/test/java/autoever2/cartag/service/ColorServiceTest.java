@@ -116,7 +116,7 @@ class ColorServiceTest {
     }
 
     @Test
-    @DisplayName("트림의 모델 리스트 반환")
+    @DisplayName("차량의 외장/내장 색상 리스트 반환")
     void getModelTypeData() {
         //given
         int carId = 1;
