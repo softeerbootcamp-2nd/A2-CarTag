@@ -122,14 +122,3 @@ const Footer = styled.div`
   display: flex;
   justify-content: flex-end;
 `;
-
-const LeftHidden = styled.div`
-  position: absolute;
-  top: 0;
-  left: -80%;
-`;
-const RightHidden = styled.div`
-  position: absolute;
-  top: 0;
-  right: -80%;
-`;
