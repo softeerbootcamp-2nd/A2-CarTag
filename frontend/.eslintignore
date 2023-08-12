@@ -6,5 +6,5 @@ public
 node_modules
 build
 dist
-package-lock.json
 README.md
+package-lock.json
