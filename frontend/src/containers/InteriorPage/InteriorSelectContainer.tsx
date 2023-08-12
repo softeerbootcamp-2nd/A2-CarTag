@@ -7,9 +7,13 @@ import { useState } from 'react';
 import InteriorCard from '../../components/cards/InteriorCard';
 import { MAX_PAGE, NUM_IN_A_PAGE } from '../../utils/constants';
 
+interface ISelected {
+  page: number;
+  idx: number;
+}
 export default function InteriorSelectContainer() {
   const [page, setPage] = useState(0);
-  const [selectedIdx, setSelectedIdx] = useState({ page: 0, idx: 0 });
+  const [selectedIdx, setSelectedIdx] = useState<ISelected>({ page: 0, idx: 0 });
   const theme = useTheme();
 
   const cardIndices = Array.from({ length: NUM_IN_A_PAGE }, (_, index) => index + 1);
@@ -28,25 +32,33 @@ export default function InteriorSelectContainer() {
       return prevPage;
     });
   };
-  const handleSelectedIdx = (idx: number) => {
+  const handleSelectedIdx = ({ page, idx }: ISelected) => {
     setSelectedIdx({ page, idx });
   };
-  const isActive = (idx: number) => {
+  const isActive = ({ page, idx }: ISelected) => {
     return page === selectedIdx.page && idx === selectedIdx.idx;
   };
 
-  const displayCards = cardIndices.map((idx) => (
-    <InteriorCard
-      key={idx}
-      imgSrc1={'images/inner_color1.png'}
-      imgSrc2={'images/inner_color2.png'}
-      active={isActive(idx)}
-      onClick={() => handleSelectedIdx(idx)}
-      desc="38%가 선택했어요"
-      name="블랙"
-      price={0}
-    />
-  ));
+  const CardPageList = [];
+  for (let i = 0; i < MAX_PAGE; i++) {
+    const newCardPage = (
+      <CardPage key={i}>
+        {cardIndices.map((idx) => (
+          <InteriorCard
+            key={idx}
+            imgSrc1={'images/inner_color1.png'}
+            imgSrc2={'images/inner_color2.png'}
+            active={isActive({ page: i, idx })}
+            onClick={() => handleSelectedIdx({ page: i, idx })}
+            desc="38%가 선택했어요"
+            name="블랙"
+            price={0}
+          />
+        ))}
+      </CardPage>
+    );
+    CardPageList.push(newCardPage);
+  }
 
   return (
     <Wrapper>
@@ -64,9 +76,7 @@ export default function InteriorSelectContainer() {
           </PageButton>
         </PageButtonWrapper>
       </Header>
-      <SelectSection>
-        <CardPage key={page}>{displayCards}</CardPage>
-      </SelectSection>
+      <SelectSection>{CardPageList[page]}</SelectSection>
       <Footer>
         <PriceSummary />
       </Footer>
@@ -97,12 +107,15 @@ const PageButtonWrapper = styled.div`
 const PageButton = styled.button``;
 const Page = styled.span``;
 
-const SelectSection = styled.div``;
+const SelectSection = styled.div`
+  transition: all 1s;
+`;
 const CardPage = styled.div`
   display: flex;
   justify-content: space-between;
   gap: 16px;
   margin-top: 12px;
+  transition: all 1s;
 `;
 const Footer = styled.div`
   margin-top: 36px;
