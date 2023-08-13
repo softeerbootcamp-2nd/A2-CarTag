@@ -10,7 +10,7 @@ import java.util.Objects;
 @Getter
 @NoArgsConstructor
 @Setter
-public class SubOptionMappedDto {
+public class OptionShortMappedDto {
 
     private int optionId;
     private String optionName;
@@ -21,7 +21,7 @@ public class SubOptionMappedDto {
     private Long optionPrice;
 
     @Builder
-    public SubOptionMappedDto(int optionId, String optionName, String optionCategoryName, String optionImage, Long optionBoughtCount, Double optionUsedCount, Long optionPrice) {
+    public OptionShortMappedDto(int optionId, String optionName, String optionCategoryName, String optionImage, Long optionBoughtCount, Double optionUsedCount, Long optionPrice) {
         this.optionId = optionId;
         this.optionName = optionName;
         this.optionCategoryName = optionCategoryName;
@@ -35,7 +35,7 @@ public class SubOptionMappedDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        SubOptionMappedDto that = (SubOptionMappedDto) o;
+        OptionShortMappedDto that = (OptionShortMappedDto) o;
         return optionId == that.optionId && Double.compare(optionUsedCount, that.optionUsedCount) == 0 && Objects.equals(optionName, that.optionName) && Objects.equals(optionCategoryName, that.optionCategoryName) && Objects.equals(optionImage, that.optionImage) && Objects.equals(optionBoughtCount, that.optionBoughtCount) && Objects.equals(optionPrice, that.optionPrice);
     }
 }

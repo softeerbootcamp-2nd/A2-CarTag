@@ -1,8 +1,8 @@
 package autoever2.cartag.repository;
 
-import autoever2.cartag.domain.car.DefaultOptionDto;
+import autoever2.cartag.domain.car.TrimDefaultOptionDto;
 import autoever2.cartag.domain.option.OptionDetailMappedDto;
-import autoever2.cartag.domain.option.SubOptionMappedDto;
+import autoever2.cartag.domain.option.OptionShortMappedDto;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -24,23 +24,29 @@ public class OptionRepository {
         this.template = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public List<SubOptionMappedDto> findAllSubOptionWithCategoryNameByCarId(int carId) {
-        String sql = "select o.option_id, o.option_name, oc.option_category_name, o.option_image, ob.option_bought_count, o.option_used_count, ob.option_price " +
-                "from suboptiondata ob " +
-                "inner join Caroption o " +
-                "on o.option_id = ob.option_id " +
-                "inner join optioncategory oc " +
-                "on oc.option_category_id = o.option_category_id " +
-                "where ob.car_id = :carId";
+    public List<OptionShortMappedDto> findOptionList(int carId, boolean isDefault) {
+        StringBuilder query = new StringBuilder();
+        query.append("select o.option_id, o.option_name, oc.option_category_name, o.option_image, o.option_used_count ");
+
+        if(!isDefault) {
+            query.append(", od.option_bought_count, od.option_price from subOptionData od ");
+        }
+        if(isDefault) {
+            query.append("from defaultOptionData od ");
+        }
+
+        query.append("inner join Caroption o ")
+                .append("on o.option_id = od.option_id ").append("inner join optioncategory oc ")
+                .append("on oc.option_category_id = o.option_category_id ").append("where od.car_id = :carId");
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("carId", carId);
 
-        return template.query(sql, param, subOptionMapper());
+        return template.query(query.toString(), param, optionShortMapper());
     }
 
-    private RowMapper<SubOptionMappedDto> subOptionMapper() {
-        return BeanPropertyRowMapper.newInstance(SubOptionMappedDto.class);
+    private RowMapper<OptionShortMappedDto> optionShortMapper() {
+        return BeanPropertyRowMapper.newInstance(OptionShortMappedDto.class);
     }
 
     public List<String> findAllHashtagNameBySubOptionId(int subOptionId) {
@@ -54,35 +60,44 @@ public class OptionRepository {
         return template.queryForList(sql, param, String.class);
     }
 
-    public List<DefaultOptionDto> findDefaultOptionByCarId(int carId) {
+    public List<TrimDefaultOptionDto> findDefaultOptionByCarId(int carId) {
         String sql = "select option_name, option_image, option_description, option_used_count " +
                 "from DefaultOptionData as data " +
                 "inner join Caroption on data.option_id = caroption.option_id " +
-                "where data.car_id = :carId";
+                "where data.car_id = :carId order by option_used_count desc limit 3";
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("carId", carId);
         return template.query(sql, param, defaultOptionRowMapper());
 
     }
 
-    private RowMapper<DefaultOptionDto> defaultOptionRowMapper() {
-        return BeanPropertyRowMapper.newInstance(DefaultOptionDto.class);
+
+    private RowMapper<TrimDefaultOptionDto> defaultOptionRowMapper() {
+        return BeanPropertyRowMapper.newInstance(TrimDefaultOptionDto.class);
     }
 
-    public Optional<OptionDetailMappedDto> findOptionDetail(int carId, int optionId) {
-        String sql = "select oc.option_category_name as category_name, o.option_name, o.option_description, o.option_image, o.option_used_count, so.option_bought_count " +
-                "from subOptionData so " +
-                "inner join CarOption o " +
-                "on so.option_id = o.option_id " +
-                "inner join optionCategory oc " +
-                "on oc.option_category_id = o.option_category_id " +
-                "where so.car_id = :carId and so.option_id = :optionId";
+    public Optional<OptionDetailMappedDto> findOptionDetail(int carId, int optionId, boolean isDefault) {
+        StringBuilder query = new StringBuilder();
+        query.append("select oc.option_category_name as category_name, o.option_name, o.option_description, o.option_image, o.option_used_count ");
+
+        if(isDefault) {
+            query.append("from defaultOptionData od ");
+        }
+
+        if(!isDefault) {
+            query.append(", od.option_bought_count from subOptionData od ");
+        }
+
+        query.append("inner join CarOption o ").append("on od.option_id = o.option_id ")
+                .append("inner join optionCategory oc ")
+                .append("on oc.option_category_id = o.option_category_id ")
+                .append("where od.car_id = :carId and od.option_id = :optionId");
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("carId", carId)
                 .addValue("optionId", optionId);
 
-        return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, optionDetailRowMapper())));
+        return Optional.ofNullable(DataAccessUtils.singleResult(template.query(query.toString(), param, optionDetailRowMapper())));
     }
 
     private RowMapper<OptionDetailMappedDto> optionDetailRowMapper() {

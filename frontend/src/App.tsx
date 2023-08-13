@@ -6,22 +6,19 @@ import ModalContainer from './containers/Modal/ModalContainer';
 import CloseModalProvider from './context/CloseModalContext';
 import SimilarQuoteModalProvider from './context/SimilarQuoteModalContext';
 import GuideModalProvider from './context/GuideMoadlContext';
+import Providers from './components/contextProviders/Providers';
 
 function App() {
+  const modalProviders = [CloseModalProvider, SimilarQuoteModalProvider, GuideModalProvider];
   return (
-    <CloseModalProvider>
-      <SimilarQuoteModalProvider>
-        <GuideModalProvider>
-          <BrowserRouter>
-            <NavBar />
-
-            <PriceStaticBar />
-            <CustomRouter />
-            <ModalContainer />
-          </BrowserRouter>
-        </GuideModalProvider>
-      </SimilarQuoteModalProvider>
-    </CloseModalProvider>
+    <Providers contexts={modalProviders}>
+      <BrowserRouter>
+        <NavBar />
+        <PriceStaticBar />
+        <CustomRouter />
+        <ModalContainer />
+      </BrowserRouter>
+    </Providers>
   );
 }
 

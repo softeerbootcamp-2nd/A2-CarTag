@@ -1,9 +1,6 @@
 package autoever2.cartag.controller;
 
-import autoever2.cartag.domain.option.OptionDetailDto;
-import autoever2.cartag.domain.option.OptionDetailMappedDto;
-import autoever2.cartag.domain.option.OptionHmgDataVo;
-import autoever2.cartag.domain.option.SubOptionDto;
+import autoever2.cartag.domain.option.*;
 import autoever2.cartag.service.OptionService;
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -92,7 +89,7 @@ class OptionControllerTest {
         given(optionService.getSubOptionList(carId)).willReturn(optionList);
 
         //when
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/options/list").param("carid", String.valueOf(carId)));
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/options/sublist").param("carid", String.valueOf(carId)));
 
         List<String> expectedHashtag = new ArrayList<>();
         expectedHashtag.add("여행");
@@ -174,5 +171,50 @@ class OptionControllerTest {
                 .andExpect(jsonPath("$.subOptionList[0].categoryName").value("악세사리"))
                 .andExpect(jsonPath("$.subOptionList[1].optionName").value("메탈 리어범퍼스텝"))
                 .andExpect(jsonPath("$.subOptionList[0].hmgData.optionBoughtCount").value(7890L));
+    }
+
+    @Test
+    @DisplayName("기본옵션 리스트 반환 API 테스트")
+    void getDefaultOptionList() throws Exception {
+        int carId = 1;
+        DefaultOptionDto expected1 = DefaultOptionDto.builder()
+                .optionId(1)
+                .optionName("2열 통풍 시트")
+                .optionCategoryName("상세품목")
+                .optionImage("/images/options/sub/2seats.jpg")
+                .hasHmgData(true)
+                .build();
+
+        DefaultOptionDto expected2 = DefaultOptionDto.builder()
+                .optionId(2)
+                .optionName("적외선 무릎 워머")
+                .optionCategoryName("악세사리")
+                .optionImage("/images/options/sub/warmer.jpg")
+                .hasHmgData(false)
+                .build();
+
+        DefaultOptionDto expected3 = DefaultOptionDto.builder()
+                .optionId(3)
+                .optionName("듀얼 머플러 패키지")
+                .optionCategoryName("악세사리")
+                .optionImage("/images/options/sub/murfler.jpg")
+                .hasHmgData(true)
+                .build();
+
+        List<DefaultOptionDto> expectedList = new ArrayList<>();
+        expectedList.add(expected1);
+        expectedList.add(expected2);
+        expectedList.add(expected3);
+
+        given(optionService.getDefaultOptionList(carId)).willReturn(expectedList);
+
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/options/defaultlist").param("carid", String.valueOf(carId)));
+
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].optionId").value(String.valueOf(1)))
+                .andExpect(jsonPath("$[1].optionName").value("적외선 무릎 워머"))
+                .andExpect(jsonPath("$[2].optionCategoryName").value("악세사리"))
+                .andExpect(jsonPath("$[0].optionImage").value("/images/options/sub/2seats.jpg"))
+                .andExpect(jsonPath("$[2].hasHmgData").value(true));
     }
 }
