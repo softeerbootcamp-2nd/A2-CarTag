@@ -28,12 +28,4 @@ public class OptionDetailMappedDto {
         this.optionUsedCount = optionUsedCount;
         this.optionBoughtCount = optionBoughtCount;
     }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        OptionDetailMappedDto that = (OptionDetailMappedDto) o;
-        return Objects.equals(categoryName, that.categoryName) && Objects.equals(optionName, that.optionName) && Objects.equals(optionDescription, that.optionDescription) && Objects.equals(optionImage, that.optionImage) && Objects.equals(optionUsedCount, that.optionUsedCount) && Objects.equals(optionBoughtCount, that.optionBoughtCount);
-    }
 }
