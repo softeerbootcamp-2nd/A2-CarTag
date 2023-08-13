@@ -1,7 +1,7 @@
 package autoever2.cartag.controller;
 
 import autoever2.cartag.domain.car.CarDto;
-import autoever2.cartag.domain.car.DefaultOptionDto;
+import autoever2.cartag.domain.car.TrimDefaultOptionDto;
 import autoever2.cartag.service.CarService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -29,27 +29,27 @@ class TrimControllerTest {
     private CarService service;
 
     private List<CarDto> carDtoList;
-    private List<DefaultOptionDto> defaultOptions;
+    private List<TrimDefaultOptionDto> defaultOptions;
     @BeforeEach
     void setup() {
         carDtoList = new ArrayList<>();
         defaultOptions = new ArrayList<>();
 
-        defaultOptions.add(DefaultOptionDto
+        defaultOptions.add(TrimDefaultOptionDto
                 .builder()
                         .optionName("안전 하차 보조")
                         .optionImage("image_1")
                         .optionDescription("좋은 보조 장치")
                         .OptionUsedCount(42)
                 .build());
-        defaultOptions.add(DefaultOptionDto
+        defaultOptions.add(TrimDefaultOptionDto
                 .builder()
                 .optionName("후측방 충둘 경고")
                 .optionImage("image_2")
                 .optionDescription("좋은 보조 장치")
                 .OptionUsedCount(98)
                 .build());
-        defaultOptions.add(DefaultOptionDto
+        defaultOptions.add(TrimDefaultOptionDto
                 .builder()
                 .optionName("후방 교차 충돌 보조 장치")
                 .optionImage("image_3")

@@ -23,9 +23,9 @@ public class CarDto {
     private String wheelImage;
     @Schema(description = "차량에 대한 설명")
     private String carDescription;
-    @Singular private List<DefaultOptionDto> options;
+    @Singular private List<TrimDefaultOptionDto> options;
 
-    public static CarDto toDto(CarInfoDto carInfoDto, List<DefaultOptionDto> optionDtos) {
+    public static CarDto toDto(CarInfoDto carInfoDto, List<TrimDefaultOptionDto> optionDtos) {
         return CarDto.builder()
                 .trim(carInfoDto.getTrim())
                 .carDefaultPrice(carInfoDto.getCarDefaultPrice())

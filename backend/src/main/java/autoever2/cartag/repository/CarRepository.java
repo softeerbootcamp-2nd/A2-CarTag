@@ -1,7 +1,6 @@
 package autoever2.cartag.repository;
 
 import autoever2.cartag.domain.car.CarInfoDto;
-import autoever2.cartag.domain.car.DefaultOptionDto;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
