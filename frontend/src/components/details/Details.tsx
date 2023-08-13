@@ -1,29 +1,25 @@
 import { styled, useTheme } from 'styled-components';
-import { DetailsHTMLAttributes, useState } from 'react';
+import { HTMLAttributes } from 'react';
 import { HeadingKrMedium5 } from '../../styles/typefaces';
 import { ArrowDown, ArrowUp } from '../common/icons/Icons';
 
-interface IDetails extends DetailsHTMLAttributes<HTMLDetailsElement> {
+interface IDetails extends HTMLAttributes<HTMLDivElement> {
   title: string;
+  open?: boolean;
 }
 
-export default function Details({ title, ...props }: IDetails) {
-  const [isOpen, setIsOepn] = useState(true);
+export default function Details({ title, open = false, ...props }: IDetails) {
   const theme = useTheme();
   const arrowColor = theme.color.gray900;
   const totalPrice = 1_000_000;
 
-  const toggleIsOpen = () => {
-    setIsOepn(!isOpen);
-  };
-
   return (
     <Wrapper {...props}>
-      <Summary onClick={toggleIsOpen}>
+      <Summary>
         <span>{title}</span>
         <RightDiv>
           <Price>+{totalPrice.toLocaleString()}원</Price>
-          {isOpen ? <ArrowDown fill={arrowColor} /> : <ArrowUp fill={arrowColor} />}
+          {open ? <ArrowUp fill={arrowColor} /> : <ArrowDown fill={arrowColor} />}
         </RightDiv>
       </Summary>
       {props.children}
@@ -31,12 +27,13 @@ export default function Details({ title, ...props }: IDetails) {
   );
 }
 
-const Wrapper = styled.details`
+const Wrapper = styled.div`
   position: relative;
   width: 100%;
   margin-top: 12px;
+  overflow: hidden; /* 내용을 감추기 위해 오버플로우를 숨김 */
 `;
-const Summary = styled.summary`
+const Summary = styled.div`
   ${HeadingKrMedium5}
   background-color: ${({ theme }) => theme.color.gray100};
   padding: 12px 20px;
