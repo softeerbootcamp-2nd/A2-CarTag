@@ -38,5 +38,4 @@ public class ModelDetailMappedDto {
         ModelDetailMappedDto that = (ModelDetailMappedDto) o;
         return Objects.equals(modelTypeName, that.modelTypeName) && Objects.equals(modelName, that.modelName) && Objects.equals(optionDescription, that.optionDescription) && Objects.equals(modelImage, that.modelImage);
     }
-
 }

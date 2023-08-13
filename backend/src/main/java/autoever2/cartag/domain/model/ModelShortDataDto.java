@@ -17,8 +17,6 @@ public class ModelShortDataDto {
     private String modelTypeName;
     @Schema(description = "모델 추가금액", example = "100000")
     private Long modelPrice;
-    @Schema(description = "기본 옵션 여부, 기본 옵션이면 처음 진입 시 자동 체크", example = "1")
-    private boolean isDefaultOption;
     @Schema(description = "선택 비율 퍼센트 값(정수), 데이터가 없다면 0", example = "38")
     private int percentage;
 }

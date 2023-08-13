@@ -1,6 +1,7 @@
 package autoever2.cartag.repository;
 
 import autoever2.cartag.domain.model.ModelDetailMappedDto;
+import autoever2.cartag.domain.model.ModelEfficiencyDataDto;
 import autoever2.cartag.domain.model.ModelShortMappedDto;
 import autoever2.cartag.domain.model.PowerTrainMappedDto;
 import org.assertj.core.api.SoftAssertions;
@@ -123,5 +124,29 @@ class ModelRepositoryTest {
         assertTrue(result2.isPresent());
         assertEquals(powerTrain1, result1.get());
         assertEquals(powerTrain2, result2.get());
+    }
+
+    @Test
+    @DisplayName("파워트레인과 구동방식이 조합된 HMG 데이터를 가져온다.")
+    void getPowerTrainOperationEfficiency() {
+        int powerTrainId1 = 1;
+        int powerTrainId2 = 2;
+        int operationId1 = 3;
+        int operationId2 = 4;
+
+        Optional<ModelEfficiencyDataDto> data1 = modelRepository.findEfficiencyData(powerTrainId1, operationId1);
+        Optional<ModelEfficiencyDataDto> data2 = modelRepository.findEfficiencyData(powerTrainId1, operationId2);
+        Optional<ModelEfficiencyDataDto> data3 = modelRepository.findEfficiencyData(powerTrainId2, operationId1);
+        Optional<ModelEfficiencyDataDto> data4 = modelRepository.findEfficiencyData(powerTrainId2, operationId2);
+
+        assertTrue(data1.isPresent());
+        assertTrue(data2.isPresent());
+        assertTrue(data3.isPresent());
+        assertTrue(data4.isPresent());
+        softAssertions.assertThat(data1.get().getAverageFuel()).isEqualTo("12.16km/s");
+        softAssertions.assertThat(data2.get().getDisplacement()).isEqualTo("2,199cc");
+        softAssertions.assertThat(data3.get().getAverageFuel()).isEqualTo("9.23km/s");
+        softAssertions.assertThat(data4.get().getDisplacement()).isEqualTo("3,778cc");
+
     }
 }
