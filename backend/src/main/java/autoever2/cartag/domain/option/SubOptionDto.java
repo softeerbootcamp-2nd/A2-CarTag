@@ -1,4 +1,4 @@
-package autoever2.cartag.domain.suboption;
+package autoever2.cartag.domain.option;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

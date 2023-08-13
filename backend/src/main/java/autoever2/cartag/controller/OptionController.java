@@ -1,6 +1,7 @@
 package autoever2.cartag.controller;
 
-import autoever2.cartag.domain.suboption.SubOptionDto;
+import autoever2.cartag.domain.option.OptionDetailDto;
+import autoever2.cartag.domain.option.SubOptionDto;
 import autoever2.cartag.service.OptionService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -19,10 +20,9 @@ import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/suboptions")
-@Tag(name = "추가 옵션", description = "추가 옵션 정보 관련 API")
-public class
-OptionController {
+@RequestMapping("/api/options")
+@Tag(name = "옵션", description = "옵션 정보 관련 API")
+public class OptionController {
 
     private final OptionService optionService;
 
@@ -33,5 +33,10 @@ OptionController {
     @GetMapping("/list")
     public List<SubOptionDto> getSubOptionList(@Parameter(description = "차량 트림 ID") @RequestParam("carid") int carId) {
         return optionService.getSubOptionList(carId);
+    }
+
+    @GetMapping("/optiondetail")
+    public OptionDetailDto getOptionDetail(@Parameter(description = "차량 트림 ID") @RequestParam("carid") int carId, @Parameter(description = "옵션 ID") @RequestParam("optionid") int optionId) {
+        return optionService.getOptionDetailData(carId, optionId);
     }
 }
