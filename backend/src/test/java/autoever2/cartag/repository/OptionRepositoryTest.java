@@ -105,6 +105,6 @@ class OptionRepositoryTest {
     void findDefaultOptions() {
         List<DefaultOptionDto> defaultOptionByCarId = optionRepository.findDefaultOptionByCarId(1);
         assertEquals(3, defaultOptionByCarId.size());
-        assertEquals("2열 통풍 시트", defaultOptionByCarId.get(0).getOptionName());
+        assertEquals("듀얼 머플러 패키지", defaultOptionByCarId.get(0).getOptionName());
     }
 }
