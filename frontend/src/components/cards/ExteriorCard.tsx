@@ -3,6 +3,7 @@ import { BodyKrMedium3, BodyKrMedium4 } from '../../styles/typefaces';
 import { flexCenterCss } from '../../utils/commonStyle';
 import DefaultCardStyle from '../common/card/DefaultCardStyle';
 import { HTMLAttributes } from 'react';
+import { CheckIcon } from '../common/icons/Icons';
 
 interface IExteriorCard extends HTMLAttributes<HTMLDivElement> {
   active: boolean;
@@ -25,11 +26,14 @@ export default function ExteriorCard({
       <ColorWrapper>
         <ColorImg $color={color}></ColorImg>
       </ColorWrapper>
-      <ColorInfo>
+      <DescWrapper>
         <ColorDesc>{desc}</ColorDesc>
         <ColorName>{name}</ColorName>
-        <ColorPrice>+ {price}원</ColorPrice>
-      </ColorInfo>
+        <Row>
+          <ColorPrice>+ {price}원</ColorPrice>
+          <CheckIcon active={active} />
+        </Row>
+      </DescWrapper>
     </Card>
   );
 }
@@ -56,9 +60,6 @@ const ColorWrapper = styled.div`
   margin-left: 12px;
 `;
 
-const ColorInfo = styled.div`
-  margin-left: 14px;
-`;
 const ColorDesc = styled.div`
   ${BodyKrMedium4}
 `;
@@ -68,4 +69,13 @@ const ColorName = styled.div`
 `;
 const ColorPrice = styled.div`
   ${BodyKrMedium3}
+`;
+const DescWrapper = styled.div`
+  padding: 14px 16px;
+  width: 100%;
+  height: 100%;
+`;
+const Row = styled.div`
+  display: flex;
+  justify-content: space-between;
 `;

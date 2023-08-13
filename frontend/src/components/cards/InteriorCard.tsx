@@ -30,14 +30,12 @@ export default function InteriorCard({
         <InteriorImg src={imgSrc2}></InteriorImg>
       </ImgWrapper>
       <DescWrapper>
-        <ColorInfo>
-          <ColorDesc>{desc}</ColorDesc>
-          <ColorName>{name}</ColorName>
-          <Row>
-            <ColorPrice>+ {price}원</ColorPrice>
-            <CheckIcon active={active} />
-          </Row>
-        </ColorInfo>
+        <ColorDesc>{desc}</ColorDesc>
+        <ColorName>{name}</ColorName>
+        <Row>
+          <ColorPrice>+ {price}원</ColorPrice>
+          <CheckIcon active={active} />
+        </Row>
       </DescWrapper>
     </Card>
   );
@@ -57,7 +55,6 @@ const ImgWrapper = styled.div`
   width: 69px;
 `;
 
-const ColorInfo = styled.div``;
 const ColorDesc = styled.div`
   ${BodyKrMedium4}
 `;

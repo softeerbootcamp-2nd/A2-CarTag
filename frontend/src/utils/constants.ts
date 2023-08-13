@@ -14,5 +14,13 @@ export const PATH = {
 
 export const HYUNDAI_URL = 'https://www.hyundai.com/kr/ko/e';
 export const FONT_URL = 'fonts/';
+export const PAGE_ANIMATION_DURATION = 500;
 
-Object.freeze({ MAX_PAGE, NUM_IN_A_PAGE, MAX_TEXT_CNT, HYUNDAI_URL, PATH });
+Object.freeze({
+  MAX_PAGE,
+  NUM_IN_A_PAGE,
+  MAX_TEXT_CNT,
+  HYUNDAI_URL,
+  PATH,
+  PAGE_ANIMATION_DURATION,
+});

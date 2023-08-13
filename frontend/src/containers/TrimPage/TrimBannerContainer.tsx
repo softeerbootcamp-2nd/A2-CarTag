@@ -141,9 +141,10 @@ const ImgWrapper = styled.div<{ $selected?: boolean }>`
     }
   }}
 
+  ${flexCenterCss}
   cursor: pointer;
   overflow: hidden;
-  ${flexCenterCss}
+  transition: all 0.2s;
 `;
 
 const Img = styled.img`

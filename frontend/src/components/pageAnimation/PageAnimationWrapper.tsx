@@ -1,10 +1,11 @@
 import { useEffect, useRef } from 'react';
 import { styled } from 'styled-components';
+import { PAGE_ANIMATION_DURATION } from '../../utils/constants';
 
 export interface IDefaultPage {
   onExitAnimationDone?: () => void;
   isVisible?: boolean;
-  isLeft?: boolean | undefined;
+  isLeft?: boolean;
   animation?: boolean;
 }
 
@@ -65,8 +66,8 @@ const visibleLeftAnimation: IAnimation = {
     { right: 0, opacity: 1 },
   ],
   option: {
-    duration: 700,
-    easing: 'ease-out',
+    duration: PAGE_ANIMATION_DURATION,
+    easing: 'ease',
   },
 };
 
@@ -76,8 +77,8 @@ const unvisibleLeftAnimation: IAnimation = {
     { right: '100%', opacity: 0 },
   ],
   option: {
-    duration: 700,
-    easing: 'ease-out',
+    duration: PAGE_ANIMATION_DURATION,
+    easing: 'ease',
     fill: 'forwards',
   },
 };
@@ -88,8 +89,8 @@ const visibleRightAnimation: IAnimation = {
     { left: 0, opacity: 1 },
   ],
   option: {
-    duration: 700,
-    easing: 'ease-out',
+    duration: PAGE_ANIMATION_DURATION,
+    easing: 'ease',
   },
 };
 
@@ -99,8 +100,8 @@ const unvisibleRightAnimation: IAnimation = {
     { left: '100%', opacity: 0 },
   ],
   option: {
-    duration: 700,
-    easing: 'ease-out',
+    duration: PAGE_ANIMATION_DURATION,
+    easing: 'ease',
     fill: 'forwards',
   },
 };
