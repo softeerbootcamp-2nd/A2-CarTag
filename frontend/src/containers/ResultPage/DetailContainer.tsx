@@ -1,4 +1,4 @@
-import { css, styled } from 'styled-components';
+import { styled } from 'styled-components';
 import { HeadingKrMedium7 } from '../../styles/typefaces';
 import Details from '../../components/details/Details';
 import SummaryItem from '../../components/details/SummaryItem';
@@ -220,14 +220,6 @@ const ItemList = styled.ul<{ $open: boolean }>`
     border-bottom: none;
   }
 
-  ${({ $open }) =>
-    $open
-      ? css`
-          max-height: 500px;
-        `
-      : css`
-          max-height: 0px;
-        `}
-
+  max-height: ${({ $open }) => ($open ? '500px' : '0px')};
   transition: all 0.3s ease;
 `;

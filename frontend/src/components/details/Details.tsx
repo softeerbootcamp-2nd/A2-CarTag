@@ -31,7 +31,7 @@ const Wrapper = styled.div`
   position: relative;
   width: 100%;
   margin-top: 12px;
-  overflow: hidden; /* 내용을 감추기 위해 오버플로우를 숨김 */
+  overflow: hidden;
 `;
 const Summary = styled.div`
   ${HeadingKrMedium5}
