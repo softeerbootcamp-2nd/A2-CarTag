@@ -36,7 +36,7 @@ public class CarRepository {
     }
 
     public Optional<Long> findCarBoughtCountByCarId(int carId) {
-        String sql = "select bought_count from car where car_id = :carId";
+        String sql = "select bought_count from Car where car_id = :carId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("carId", carId);
