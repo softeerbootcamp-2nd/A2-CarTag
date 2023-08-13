@@ -5,14 +5,18 @@ import { useState } from 'react';
 import { ArrowLeft, ArrowRight } from '../../components/common/icons/Icons';
 import PriceSummary from '../../components/summary/PriceSummary';
 import ExteriorCard from '../../components/cards/ExteriorCard';
+import { MAX_PAGE, NUM_IN_A_PAGE } from '../../utils/constants';
+
+interface ISelected {
+  page: number;
+  idx: number;
+}
 
 export default function ExteriorSelectContainer() {
   const [page, setPage] = useState(0);
-  const [selectedIdx, setSelectedIdx] = useState({ page: 0, idx: 0 });
+  const [selectedIdx, setSelectedIdx] = useState<ISelected>({ page: 0, idx: 0 });
   const theme = useTheme();
 
-  const MAX_PAGE = 3;
-  const NUM_IN_A_PAGE = 4;
   const cardIndices = Array.from({ length: NUM_IN_A_PAGE }, (_, index) => index + 1);
   const arrowLeftColor = page <= 0 ? theme.color.gray200 : theme.color.gray600;
   const arrowRightColor = page >= MAX_PAGE - 1 ? theme.color.gray200 : theme.color.gray600;
@@ -29,10 +33,10 @@ export default function ExteriorSelectContainer() {
       return prevPage;
     });
   };
-  const handleSelectedIdx = (idx: number) => {
+  const handleSelectedIdx = ({ page, idx }: ISelected) => {
     setSelectedIdx({ page, idx });
   };
-  const isActive = (idx: number) => {
+  const isActive = ({ page, idx }: ISelected) => {
     return page === selectedIdx.page && idx === selectedIdx.idx;
   };
 
@@ -43,11 +47,11 @@ export default function ExteriorSelectContainer() {
         {cardIndices.map((idx) => (
           <ExteriorCard
             key={idx}
-            active={isActive(idx)}
-            onClick={() => handleSelectedIdx(idx)}
+            active={isActive({ page: i, idx })}
+            onClick={() => handleSelectedIdx({ page: i, idx })}
             color="black"
             desc="38%가 선택했어요"
-            name="블랙"
+            name={`블랙_${i}_${idx}`}
             price={0}
           />
         ))}
@@ -104,7 +108,9 @@ const PageButtonWrapper = styled.div`
 const PageButton = styled.button``;
 const Page = styled.span``;
 
-const SelectSection = styled.div``;
+const SelectSection = styled.div`
+  position: relative;
+`;
 const CardPage = styled.div`
   display: flex;
   justify-content: space-between;
