@@ -29,14 +29,14 @@ public class OptionRepository {
         query.append("select o.option_id, o.option_name, oc.option_category_name, o.option_image, o.option_used_count ");
 
         if(!isDefault) {
-            query.append(", od.option_bought_count, od.option_price from subOptionData od ");
+            query.append(", od.option_bought_count, od.option_price from SubOptionData od ");
         }
         if(isDefault) {
-            query.append("from defaultOptionData od ");
+            query.append("from DefaultOptionData od ");
         }
 
-        query.append("inner join Caroption o ")
-                .append("on o.option_id = od.option_id ").append("inner join optioncategory oc ")
+        query.append("inner join CarOption o ")
+                .append("on o.option_id = od.option_id ").append("inner join OptionCategory oc ")
                 .append("on oc.option_category_id = o.option_category_id ").append("where od.car_id = :carId");
 
         SqlParameterSource param = new MapSqlParameterSource()
@@ -51,7 +51,7 @@ public class OptionRepository {
 
     public List<String> findAllHashtagNameBySubOptionId(int subOptionId) {
         String sql = "select h.hashtag_name " +
-                "from optionhashtag oh, hashtag h " +
+                "from OptionHashtag oh, Hashtag h " +
                 "where oh.hashtag_id = h.hashtag_id and oh.option_id = :subOptionId";
 
         SqlParameterSource param = new MapSqlParameterSource()
@@ -63,7 +63,7 @@ public class OptionRepository {
     public List<TrimDefaultOptionDto> findDefaultOptionByCarId(int carId) {
         String sql = "select option_name, option_image, option_description, option_used_count " +
                 "from DefaultOptionData as data " +
-                "inner join Caroption on data.option_id = caroption.option_id " +
+                "inner join CarOption on data.option_id = CarOption.option_id " +
                 "where data.car_id = :carId order by option_used_count desc limit 3";
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("carId", carId);
@@ -81,15 +81,15 @@ public class OptionRepository {
         query.append("select oc.option_category_name as category_name, o.option_name, o.option_description, o.option_image, o.option_used_count ");
 
         if(isDefault) {
-            query.append("from defaultOptionData od ");
+            query.append("from DefaultOptionData od ");
         }
 
         if(!isDefault) {
-            query.append(", od.option_bought_count from subOptionData od ");
+            query.append(", od.option_bought_count from SubOptionData od ");
         }
 
         query.append("inner join CarOption o ").append("on od.option_id = o.option_id ")
-                .append("inner join optionCategory oc ")
+                .append("inner join OptionCategory oc ")
                 .append("on oc.option_category_id = o.option_category_id ")
                 .append("where od.car_id = :carId and od.option_id = :optionId");
 
@@ -106,10 +106,10 @@ public class OptionRepository {
 
     public List<OptionDetailMappedDto> findPackageSubOptions(int optionId) {
         String sql = "select oc.option_category_name as category_name, o.option_name, o.option_description, o.option_image, o.option_used_count " +
-                "from subOptionPackage sp " +
-                "left join caroption o " +
+                "from SubOptionPackage sp " +
+                "left join CarOption o " +
                 "on sp.option_id = o.option_id " +
-                "inner join optionCategory oc " +
+                "inner join OptionCategory oc " +
                 "on o.option_category_id = oc.option_category_id " +
                 "where sp.package_id = :packageId";
 
