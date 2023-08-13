@@ -1,4 +1,4 @@
-package autoever2.cartag.domain.suboption;
+package autoever2.cartag.domain.option;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -8,7 +8,6 @@ import lombok.Setter;
 import java.util.List;
 
 @Getter
-@Setter
 @Builder
 @Schema(description = "모델 타입 + 이름 + 선택 비율 반환")
 public class SubOptionDto {

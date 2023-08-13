@@ -1,4 +1,4 @@
-package autoever2.cartag.domain.suboption;
+package autoever2.cartag.domain.option;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -17,11 +17,11 @@ public class SubOptionMappedDto {
     private String optionCategoryName;
     private String optionImage;
     private Long optionBoughtCount;
-    private double optionUsedCount;
+    private Double optionUsedCount;
     private Long optionPrice;
 
     @Builder
-    public SubOptionMappedDto(int optionId, String optionName, String optionCategoryName, String optionImage, Long optionBoughtCount, double optionUsedCount, Long optionPrice) {
+    public SubOptionMappedDto(int optionId, String optionName, String optionCategoryName, String optionImage, Long optionBoughtCount, Double optionUsedCount, Long optionPrice) {
         this.optionId = optionId;
         this.optionName = optionName;
         this.optionCategoryName = optionCategoryName;

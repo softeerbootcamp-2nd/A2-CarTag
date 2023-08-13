@@ -1,7 +1,6 @@
 package autoever2.cartag.service;
 
-import autoever2.cartag.domain.suboption.SubOptionDto;
-import autoever2.cartag.domain.suboption.SubOptionMappedDto;
+import autoever2.cartag.domain.option.*;
 import autoever2.cartag.repository.CarRepository;
 import autoever2.cartag.repository.OptionRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,6 +40,43 @@ public class OptionService {
                             .build();
                 }
         ).collect(Collectors.toList());
+    }
+
+    //TODO: RuntimeException 처리
+    public OptionDetailDto getOptionDetailData(int carId, int optionId) {
+        OptionDetailMappedDto detail = optionRepository.findOptionDetail(carId, optionId).orElseThrow(() -> new RuntimeException("데이터가 존재하지 않습니다."));
+
+        List<OptionDetailMappedDto> packageSubOptions = optionRepository.findPackageSubOptions(optionId);
+
+        OptionDetailDto result = OptionDetailDto.builder()
+                .categoryName(detail.getCategoryName())
+                .optionName(detail.getOptionName())
+                .optionDescription(detail.getOptionDescription())
+                .optionImage(detail.getOptionImage())
+                .hmgData(OptionHmgDataVo.builder().optionBoughtCount(detail.getOptionBoughtCount()).optionUsedCount(detail.getOptionUsedCount()).build())
+                .build();
+
+        if(!packageSubOptions.isEmpty()) {
+            result.setIsPackage(true);
+
+            packageSubOptions = packageSubOptions.stream().peek(option -> option.setOptionBoughtCount(detail.getOptionBoughtCount())).collect(Collectors.toList());
+            result.setSubOptionList(packageSubOptions.stream().map(option -> {
+                OptionDetailDto detailDto = OptionDetailDto.builder()
+                        .categoryName(option.getCategoryName())
+                        .isPackage(false)
+                        .optionDescription(option.getOptionDescription())
+                        .optionImage(option.getOptionImage())
+                        .optionName(option.getOptionName())
+                        .hmgData(OptionHmgDataVo.builder().optionUsedCount(option.getOptionUsedCount()).optionBoughtCount(option.getOptionBoughtCount()).build())
+                        .build();
+
+                detailDto.setHmgData(OptionHmgDataVo.builder().optionBoughtCount(detail.getOptionBoughtCount()).optionUsedCount(option.getOptionUsedCount()).build());
+
+                return detailDto;
+            }).collect(Collectors.toList()));
+        }
+
+        return result;
     }
 
 }
