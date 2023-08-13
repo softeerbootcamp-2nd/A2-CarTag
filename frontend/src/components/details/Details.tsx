@@ -14,8 +14,8 @@ export default function Details({ title, open = false, ...props }: IDetails) {
   const totalPrice = 1_000_000;
 
   return (
-    <Wrapper {...props}>
-      <Summary>
+    <Wrapper>
+      <Summary {...props}>
         <span>{title}</span>
         <RightDiv>
           <Price>+{totalPrice.toLocaleString()}원</Price>
