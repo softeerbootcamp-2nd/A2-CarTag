@@ -58,7 +58,7 @@ public class OptionRepository {
         String sql = "select option_name, option_image, option_description, option_used_count " +
                 "from DefaultOptionData as data " +
                 "inner join Caroption on data.option_id = caroption.option_id " +
-                "where data.car_id = :carId";
+                "where data.car_id = :carId order by option_used_count desc limit 3";
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("carId", carId);
         return template.query(sql, param, defaultOptionRowMapper());
