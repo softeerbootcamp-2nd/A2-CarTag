@@ -160,7 +160,7 @@ const ToastPopup = styled.button<{ $offsetY: number; $isBannerVisible: boolean }
   text-align: center;
   ${BodyKrMedium4}
   display:    ${({ $offsetY, $isBannerVisible }) =>
-    ($offsetY >= 200 && $isBannerVisible === false) || $offsetY ? 'block' : 'none'};
+    ($offsetY >= 200 && !$isBannerVisible) || $offsetY ? 'block' : 'none'};
 `;
 const HmgDataSection = styled.div`
   margin-top: 12px;
