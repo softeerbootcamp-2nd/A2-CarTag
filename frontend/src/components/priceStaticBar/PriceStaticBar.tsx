@@ -28,36 +28,26 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
   const [isOverBudget, setIsOverBudget] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const balance = ((isOverBudget ? -10000 : 10000) * (budget - total)).toLocaleString();
+
   const getBudgetStatus = useCallback(() => {
     const status = budget - total;
     status >= 0 ? setIsOverBudget(false) : setIsOverBudget(true);
   }, [budget]);
+
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(event.target.value);
     setBudget(newValue);
   };
-  useEffect(() => {
-    window.addEventListener('mousemove', handleMouseMove);
-  });
 
-  useEffect(() => {
-    getBudgetStatus();
-  }, [budget, getBudgetStatus]);
-
-  if (pathname === PATH.home || pathname === PATH.trim) {
-    return <></>;
-  }
-
-  const handleMouseDown = (event: React.MouseEvent) => {
+  const handleMouseDown = ({ clientX, clientY }: React.MouseEvent) => {
     dragRef.current = true;
     const element = barRef.current!.getBoundingClientRect();
-    setStartX(event.clientX - element.left);
-    setStartY(event.clientY - element.top);
+    setStartX(clientX - element.left);
+    setStartY(clientY - element.top);
   };
 
-  const handleMouseMove = (event: MouseEvent) => {
+  const handleMouseMove = (event: MouseEvent, startX: number, startY: number) => {
     if (!dragRef.current) {
-      window.removeEventListener('mousemove', handleMouseMove);
       return;
     }
 
@@ -75,6 +65,24 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
     dragRef.current = false;
   };
 
+  useEffect(() => {
+    getBudgetStatus();
+  }, [budget, getBudgetStatus]);
+
+  useEffect(() => {
+    window.addEventListener('mousemove', (e) => handleMouseMove(e, startX, startY));
+    window.addEventListener('mouseup', handleMouseUp);
+
+    return () => {
+      window.removeEventListener('mousemove', (e) => handleMouseMove(e, startX, startY));
+      window.removeEventListener('mouseup', handleMouseUp);
+    };
+  }, [startX, startY]);
+
+  if (pathname === PATH.home || pathname === PATH.trim) {
+    return <></>;
+  }
+
   return (
     <StatusBox
       ref={barRef}
@@ -83,7 +91,6 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
       $isover={isOverBudget}
       $isopen={isOpen}
       onMouseDown={handleMouseDown}
-      onMouseUp={handleMouseUp}
     >
       <StatusText>
         <StatusTitle>예산 범위</StatusTitle>
@@ -175,12 +182,7 @@ const StatusDesc = styled.p<{ $isover: boolean }>`
 `;
 const AnimatedSection = styled.div<{ $isopen: boolean }>`
   display: ${({ $isopen }) => ($isopen ? 'block' : 'none')};
-  animation: ${({ $isopen }) =>
-    $isopen
-      ? css`
-          ${fadeIn} 0.5s ease
-        `
-      : 'none'};
+  animation: ${({ $isopen }) => ($isopen ? `${fadeIn} 0.5s ease` : 'none')};
 `;
 
 const IconBtn = styled.button``;
