@@ -17,7 +17,7 @@ public class OptionService {
     private final CarRepository carRepository;
 
     public List<SubOptionDto> getSubOptionList(int carId) {
-        List<SubOptionMappedDto> subOptionList = optionRepository.findAllSubOptionWithCategoryNameByCarId(carId);
+        List<OptionShortMappedDto> subOptionList = optionRepository.findOptionList(carId, false);
         Long carBoughtCount = carRepository.findCarBoughtCountByCarId(carId).orElse(0L);
 
         return subOptionList.stream().map(subOptionMappedDto -> {
@@ -26,9 +26,9 @@ public class OptionService {
                         percentage = (int) (subOptionMappedDto.getOptionBoughtCount() * 100 / carBoughtCount);
                     }
 
-                    boolean hasHmgData = subOptionMappedDto.getOptionUsedCount() != 0;
+                    boolean hasHmgData = subOptionMappedDto.getOptionUsedCount() != null || subOptionMappedDto.getOptionBoughtCount() != null;
 
-                    return SubOptionDto.builder()
+            return SubOptionDto.builder()
                             .subOptionId(subOptionMappedDto.getOptionId())
                             .optionCategoryName(subOptionMappedDto.getOptionCategoryName())
                             .optionImage(subOptionMappedDto.getOptionImage())
@@ -42,9 +42,20 @@ public class OptionService {
         ).collect(Collectors.toList());
     }
 
+    public List<DefaultOptionDto> getDefaultOptionList(int carId) {
+        List<OptionShortMappedDto> dataList = optionRepository.findOptionList(carId, true);
+
+        return dataList.stream().map(data -> DefaultOptionDto.builder()
+                .optionId(data.getOptionId())
+                .optionName(data.getOptionName())
+                .optionCategoryName(data.getOptionCategoryName())
+                .optionImage(data.getOptionImage())
+            .hasHmgData(data.getOptionUsedCount() != null).build()).collect(Collectors.toList());
+    }
+
     //TODO: RuntimeException 처리
     public OptionDetailDto getOptionDetailData(int carId, int optionId) {
-        OptionDetailMappedDto detail = optionRepository.findOptionDetail(carId, optionId).orElseThrow(() -> new RuntimeException("데이터가 존재하지 않습니다."));
+        OptionDetailMappedDto detail = optionRepository.findOptionDetail(carId, optionId, false).orElseThrow(() -> new RuntimeException("데이터가 존재하지 않습니다."));
 
         List<OptionDetailMappedDto> packageSubOptions = optionRepository.findPackageSubOptions(optionId);
 
@@ -56,10 +67,13 @@ public class OptionService {
                 .hmgData(OptionHmgDataVo.builder().optionBoughtCount(detail.getOptionBoughtCount()).optionUsedCount(detail.getOptionUsedCount()).build())
                 .build();
 
+        if(detail.getOptionBoughtCount() != null) {
+            Long totalBoughtCount = carRepository.findCarBoughtCountByCarId(carId).orElseThrow(() -> new RuntimeException("알수 없는 에러"));
+            result.getHmgData().setOverHalf(detail.getOptionBoughtCount() * 2 > totalBoughtCount);
+        }
         if(!packageSubOptions.isEmpty()) {
             result.setIsPackage(true);
 
-            packageSubOptions = packageSubOptions.stream().peek(option -> option.setOptionBoughtCount(detail.getOptionBoughtCount())).collect(Collectors.toList());
             result.setSubOptionList(packageSubOptions.stream().map(option -> {
                 OptionDetailDto detailDto = OptionDetailDto.builder()
                         .categoryName(option.getCategoryName())
@@ -67,7 +81,7 @@ public class OptionService {
                         .optionDescription(option.getOptionDescription())
                         .optionImage(option.getOptionImage())
                         .optionName(option.getOptionName())
-                        .hmgData(OptionHmgDataVo.builder().optionUsedCount(option.getOptionUsedCount()).optionBoughtCount(option.getOptionBoughtCount()).build())
+                        .hmgData(OptionHmgDataVo.builder().optionUsedCount(option.getOptionUsedCount()).optionBoughtCount(result.getHmgData().getOptionBoughtCount()).isOverHalf(result.getHmgData().isOverHalf()).build())
                         .build();
 
                 detailDto.setHmgData(OptionHmgDataVo.builder().optionBoughtCount(detail.getOptionBoughtCount()).optionUsedCount(option.getOptionUsedCount()).build());
