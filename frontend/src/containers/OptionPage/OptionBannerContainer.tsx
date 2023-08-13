@@ -34,7 +34,7 @@ export default function OptionBannerContainer() {
     '3열파워폴딩시트',
     '내비게이션기반스마트크루즈컨트롤',
   ];
-  const [isBannerVisible, setIsBannerVisible] = useState(true);
+  const [isBannerVisible, setIsBannerVisible] = useState(false);
   const optionDesc =
     '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다. 초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.  ';
   const displayText =
@@ -105,6 +105,8 @@ const Wrapper = styled.div<{ $isBannerVisible: boolean }>`
   z-index: 5;
   position: sticky;
   top: ${({ $isBannerVisible }) => ($isBannerVisible ? '60' : '-150')}px;
+  transition: top 0.3s ease-in-out;
+
   left: 0;
 `;
 
@@ -148,7 +150,6 @@ const ToastPopup = styled.button<{ $offsetY: number; $isBannerVisible: boolean }
   left: 50%;
   bottom: 18px;
   transform: translate(-50%, 50%);
-
   z-index: 10;
   width: 76px;
   height: 28px;
