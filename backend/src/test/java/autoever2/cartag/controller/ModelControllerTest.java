@@ -1,6 +1,7 @@
 package autoever2.cartag.controller;
 
 import autoever2.cartag.domain.model.ModelDetailMappedDto;
+import autoever2.cartag.domain.model.ModelEfficiencyDataDto;
 import autoever2.cartag.domain.model.ModelShortDataDto;
 import autoever2.cartag.domain.model.PowerTrainMappedDto;
 import autoever2.cartag.service.ModelService;
@@ -39,7 +40,6 @@ class ModelControllerTest {
                 .modelId(1)
                 .modelName("디젤 2.2")
                 .modelPrice(0L)
-                .isDefaultOption(true)
                 .modelTypeName("파워트레인")
                 .percentage(65)
                 .build());
@@ -49,7 +49,6 @@ class ModelControllerTest {
                 .modelId(2)
                 .modelName("가솔린 3.8")
                 .modelPrice(280000L)
-                .isDefaultOption(false)
                 .modelTypeName("파워트레인")
                 .percentage(35)
                 .build());
@@ -59,7 +58,6 @@ class ModelControllerTest {
                 .modelId(3)
                 .modelName("7인승")
                 .modelPrice(0L)
-                .isDefaultOption(true)
                 .modelTypeName("바디타입")
                 .percentage(70)
                 .build());
@@ -69,7 +67,6 @@ class ModelControllerTest {
                 .modelId(4)
                 .modelName("8인승")
                 .modelPrice(130000L)
-                .isDefaultOption(false)
                 .modelTypeName("바디타입")
                 .percentage(30)
                 .build());
@@ -79,7 +76,6 @@ class ModelControllerTest {
                 .modelId(5)
                 .modelName("2WD")
                 .modelPrice(0L)
-                .isDefaultOption(true)
                 .modelTypeName("구동방식")
                 .percentage(50)
                 .build());
@@ -89,7 +85,6 @@ class ModelControllerTest {
                 .modelId(6)
                 .modelName("4WD")
                 .modelPrice(237000L)
-                .isDefaultOption(false)
                 .modelTypeName("구동방식")
                 .percentage(50)
                 .build());
@@ -105,7 +100,6 @@ class ModelControllerTest {
         resultActions.andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].modelId").value(1))
                 .andExpect(jsonPath("$[1].modelName").value("가솔린 3.8"))
-                .andExpect(jsonPath("$[2].defaultOption").value(true))
                 .andExpect(jsonPath("$[3].modelPrice").value(130000))
                 .andExpect(jsonPath("$[4].percentage").value(50))
                 .andExpect(jsonPath("$[5].modelTypeName").value("구동방식"));
@@ -146,10 +140,31 @@ class ModelControllerTest {
 
         given(modelService.getPowerTrainHmgData(powerTrainId)).willReturn(data);
 
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/modeltypes/hmg").param("powertrain", String.valueOf(powerTrainId)));
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/modeltypes/hmg-powertrain").param("powertrain", String.valueOf(powerTrainId)));
 
         resultActions.andExpect(status().isOk())
                 .andExpect(jsonPath("$.maxPs").value("202/3,800PS/rpm"))
                 .andExpect(jsonPath("$.maxKgfm").value("45.0/1,750~2,750kgf-m/rpm"));
+    }
+
+    @Test
+    @DisplayName("연비와 cc HMG 데이터 호출 API")
+    void getEfficiencyData() throws Exception {
+        int powerTrainId = 1;
+        int operationId = 3;
+
+        ModelEfficiencyDataDto data = ModelEfficiencyDataDto.builder()
+                .averageFuel("12.16km/s")
+                .displacement("2,199cc")
+                .build();
+
+        given(modelService.getEfficiencyData(powerTrainId, operationId)).willReturn(data);
+
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/modeltypes/hmg-efficiency")
+                .param("powertrain", String.valueOf(powerTrainId)).param("operation", String.valueOf(operationId)));
+
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$.averageFuel").value("12.16km/s"))
+                .andExpect(jsonPath("$.displacement").value("2,199cc"));
     }
 }

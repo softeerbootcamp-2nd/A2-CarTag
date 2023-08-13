@@ -1,11 +1,8 @@
 package autoever2.cartag.service;
 
-import autoever2.cartag.domain.model.ModelDetailMappedDto;
-import autoever2.cartag.domain.model.ModelShortDataDto;
-import autoever2.cartag.domain.model.PowerTrainMappedDto;
+import autoever2.cartag.domain.model.*;
 import autoever2.cartag.repository.CarRepository;
 import autoever2.cartag.repository.ModelRepository;
-import autoever2.cartag.domain.model.ModelShortMappedDto;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
@@ -119,7 +116,6 @@ class ModelServiceTest {
         assertEquals("가솔린 3.8", result.get(1).getModelName());
         assertEquals("바디타입", result.get(2).getModelTypeName());
         assertEquals(130000L, result.get(3).getModelPrice());
-        assertTrue(result.get(4).isDefaultOption());
         assertEquals(10, result.get(5).getPercentage());
     }
 
@@ -161,5 +157,21 @@ class ModelServiceTest {
 
         softAssertions.assertThat(result1).usingRecursiveComparison().isEqualTo(powerTrain1);
         softAssertions.assertThatThrownBy(() -> modelService.getPowerTrainHmgData(powerTrainId2)).isInstanceOf(RuntimeException.class);
+    }
+
+    @Test
+    @DisplayName("파워트레인과 구동방식의 조합으로 HMG 데이터 반환")
+    void getEfficiencyData() {
+        int powerTrainId = 1;
+        int operationId = 3;
+        ModelEfficiencyDataDto data = ModelEfficiencyDataDto.builder()
+                .averageFuel("12.16km/s")
+                .displacement("2,199cc")
+                .build();
+
+        when(modelRepository.findEfficiencyData(powerTrainId, operationId)).thenReturn(Optional.of(data));
+
+        softAssertions.assertThat(modelService.getEfficiencyData(powerTrainId, operationId)).usingRecursiveComparison().isEqualTo(data);
+        softAssertions.assertThatThrownBy(() -> modelService.getEfficiencyData(2, 4)).isInstanceOf(RuntimeException.class);
     }
 }

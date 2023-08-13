@@ -1,6 +1,7 @@
 package autoever2.cartag.repository;
 
 import autoever2.cartag.domain.model.ModelDetailMappedDto;
+import autoever2.cartag.domain.model.ModelEfficiencyDataDto;
 import autoever2.cartag.domain.model.ModelShortMappedDto;
 import autoever2.cartag.domain.model.PowerTrainMappedDto;
 import org.springframework.dao.support.DataAccessUtils;
@@ -66,14 +67,30 @@ public class ModelRepository {
                 "from PowerTrainData " +
                 "where power_train_id = :powerTrainId";
 
-        SqlParameterSource parameterSource = new MapSqlParameterSource()
+        SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("powerTrainId", powerTrainId);
 
-        return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, parameterSource, powerTrainRowMapper())));
+        return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, powerTrainRowMapper())));
     }
 
     private RowMapper<PowerTrainMappedDto> powerTrainRowMapper() {
         return BeanPropertyRowMapper.newInstance(PowerTrainMappedDto.class);
+    }
+
+    public Optional<ModelEfficiencyDataDto> findEfficiencyData(int powerTrainId, int operationId) {
+        String sql = "select average_fuel, displacement " +
+                "from PowerTrainOperationEfficiency " +
+                "where power_train_id = :powerTrainId and operation_id = :operationId";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("powerTrainId", powerTrainId)
+                .addValue("operationId", operationId);
+
+        return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, efficiencyMapper())));
+    }
+
+    private RowMapper<ModelEfficiencyDataDto> efficiencyMapper() {
+        return BeanPropertyRowMapper.newInstance(ModelEfficiencyDataDto.class);
     }
 
 

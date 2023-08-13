@@ -1,6 +1,7 @@
 package autoever2.cartag.controller;
 
 import autoever2.cartag.domain.model.ModelDetailMappedDto;
+import autoever2.cartag.domain.model.ModelEfficiencyDataDto;
 import autoever2.cartag.domain.model.ModelShortDataDto;
 import autoever2.cartag.domain.model.PowerTrainMappedDto;
 import autoever2.cartag.service.ModelService;
@@ -52,8 +53,17 @@ public class ModelController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = PowerTrainMappedDto.class)))
     })
-    @GetMapping("/hmg")
+    @GetMapping("/hmg-powertrain")
     public PowerTrainMappedDto getPowerTrainData(@Parameter(description = "파워트레인 모델 타입 ID") @RequestParam("powertrain") int powerTrainId) {
         return modelTypeService.getPowerTrainHmgData(powerTrainId);
+    }
+
+    @Operation(summary = "효율 HMG 데이터 호출", description = "파워트레인과 구동방식의 조합으로 나온 효츌 HMG값 반환")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = ModelEfficiencyDataDto.class)))
+    })
+    @GetMapping("/hmg-efficiency")
+    public ModelEfficiencyDataDto getPowerTrainData(@Parameter(description = "파워트레인 모델 타입 ID") @RequestParam("powertrain") int powerTrainId, @Parameter(description = "구동방식 모델 타입 ID") @RequestParam("operation") int operationId) {
+        return modelTypeService.getEfficiencyData(powerTrainId, operationId);
     }
 }
