@@ -1,5 +1,6 @@
 package autoever2.cartag.controller;
 
+import autoever2.cartag.domain.option.DefaultOptionDto;
 import autoever2.cartag.domain.option.OptionDetailDto;
 import autoever2.cartag.domain.option.SubOptionDto;
 import autoever2.cartag.service.OptionService;
@@ -30,13 +31,26 @@ public class OptionController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = SubOptionDto.class)))
     })
-    @GetMapping("/list")
+    @GetMapping("/sublist")
     public List<SubOptionDto> getSubOptionList(@Parameter(description = "차량 트림 ID") @RequestParam("carid") int carId) {
         return optionService.getSubOptionList(carId);
     }
 
+    @Operation(summary = "옵션 상세정보 조회", description = "옵션 데이터 상세정보 및 이미지, HMG가 존재한다면(비어있다면 비어있는 부분을 Null) 보냄")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = OptionDetailDto.class)))
+    })
     @GetMapping("/optiondetail")
     public OptionDetailDto getOptionDetail(@Parameter(description = "차량 트림 ID") @RequestParam("carid") int carId, @Parameter(description = "옵션 ID") @RequestParam("optionid") int optionId) {
         return optionService.getOptionDetailData(carId, optionId);
+    }
+
+    @Operation(summary = "기본 옵션 리스트 조회", description = "기본 옵션 데이터와 및 HMG 데이터 존재 여부 List 제공")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = DefaultOptionDto.class)))
+    })
+    @GetMapping("/defaultlist")
+    public List<DefaultOptionDto> getDefaultOptionList(@Parameter(description = "차량 트림 ID") @RequestParam("carid") int carId) {
+        return optionService.getDefaultOptionList(carId);
     }
 }
