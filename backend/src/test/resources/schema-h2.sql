@@ -117,7 +117,7 @@ CREATE TABLE OptionHashtag (
 CREATE TABLE PowerTrainData (
                                 power_train_id int  NOT NULL,
                                 max_ps varchar(30)  NOT NULL,
-                                max_kgfm varchar(30)  NOT NULL,
+                                max_kgfm varchar(50)  NOT NULL,
                                 CONSTRAINT PowerTrainData_pk PRIMARY KEY (power_train_id)
 );
 
