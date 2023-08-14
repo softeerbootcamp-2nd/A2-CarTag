@@ -105,7 +105,7 @@ const Wrapper = styled.div<{ $isBannerVisible: boolean }>`
   z-index: 5;
   position: sticky;
   top: ${({ $isBannerVisible }) => ($isBannerVisible ? '60' : '-150')}px;
-  transition: top 0.3s ease-in-out;
+  transition: top 0.3s ease;
 
   left: 0;
 `;
