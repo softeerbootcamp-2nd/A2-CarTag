@@ -1,7 +1,6 @@
 package autoever2.cartag.repository;
 
 import autoever2.cartag.domain.car.CarInfoDto;
-import autoever2.cartag.domain.car.DefaultOptionDto;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -37,7 +36,7 @@ public class CarRepository {
     }
 
     public Optional<Long> findCarBoughtCountByCarId(int carId) {
-        String sql = "select bought_count from car where car_id = :carId";
+        String sql = "select bought_count from Car where car_id = :carId";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("carId", carId);
