@@ -3,10 +3,34 @@ import TrimSelectContainer from '../containers/TrimPage/TrimSelectContainer';
 import { useFetch } from '../hooks/useFetch';
 import { TRIM_API } from '../utils/apis';
 
+interface ICartype {
+  trim: string;
+  carDefaultPrice: string;
+  outerImage: string;
+  innerImage: string;
+  wheelImage: string;
+  carDescription: '합리적인 조합의 절정';
+  options: [
+    {
+      optionName: string;
+      optionImage: string;
+      optionDescription: string;
+      optionUsedCount: number;
+    },
+  ];
+}
 export default function TrimPage() {
-  const { data, loading } = useFetch(TRIM_API + `carType=${1}`);
+  const params = {
+    carType: '1',
+  };
 
-  console.log(data, loading);
+  const query = new URLSearchParams(params).toString();
+  const { data, loading } = useFetch<ICartype[]>(`${TRIM_API}?${query}`);
+
+  if (data) {
+    console.log(data[0].trim, loading);
+  }
+
   return (
     <>
       <TrimBannerContainer />
