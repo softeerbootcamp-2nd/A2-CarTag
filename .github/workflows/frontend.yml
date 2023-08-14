@@ -24,6 +24,14 @@ jobs:
               with:
                   node-version: 20
 
+            - name: 환경변수를 설정합니다.
+              run: |
+                  echo "VITE_API_URL=$VITE_API_URL" >> .env
+                  echo "VITE_STATIC_API_URL=$VITE_STATIC_API_URL" >> .env
+              env:
+                  VITE_API_URL: ${{ secrets.VITE_API_URL }}
+                  VITE_STATIC_API_URL: ${{ secrets.VITE_IMG_URL }}
+
             - name: 의존성 패키지들을 설치합니다.
               run: npm ci
 
