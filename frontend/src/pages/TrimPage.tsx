@@ -5,11 +5,11 @@ import { TRIM_API } from '../utils/apis';
 
 interface ICartype {
   trim: string;
-  carDefaultPrice: string;
+  carDefaultPrice: number;
   outerImage: string;
   innerImage: string;
   wheelImage: string;
-  carDescription: '합리적인 조합의 절정';
+  carDescription: string;
   options: [
     {
       optionName: string;
