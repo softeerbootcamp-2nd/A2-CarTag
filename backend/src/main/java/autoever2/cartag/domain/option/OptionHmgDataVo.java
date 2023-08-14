@@ -13,4 +13,10 @@ public class OptionHmgDataVo {
     private Long optionBoughtCount;
     @Schema(description = "옵션의 실사용 횟수. 15000km당", example = "13.2")
     private Double optionUsedCount;
+    @Schema(description = "옵션이 절반 이상인지 여부", example = "true")
+    private boolean isOverHalf;
+
+    public void setOverHalf(boolean value) {
+        isOverHalf = value;
+    }
 }

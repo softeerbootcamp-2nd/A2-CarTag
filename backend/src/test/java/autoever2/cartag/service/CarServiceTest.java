@@ -2,7 +2,7 @@ package autoever2.cartag.service;
 
 import autoever2.cartag.domain.car.CarDto;
 import autoever2.cartag.domain.car.CarInfoDto;
-import autoever2.cartag.domain.car.DefaultOptionDto;
+import autoever2.cartag.domain.car.TrimDefaultOptionDto;
 import autoever2.cartag.repository.CarRepository;
 import autoever2.cartag.repository.OptionRepository;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,28 +33,28 @@ class CarServiceTest {
 
     private List<CarInfoDto> carInfoDtoList;
 
-    private List<DefaultOptionDto> defaultOptionDtoList;
+    private List<TrimDefaultOptionDto> trimDefaultOptionDtoList;
 
     @BeforeEach
     void setup() {
         carInfoDtoList = new ArrayList<>();
-        defaultOptionDtoList = new ArrayList<>();
+        trimDefaultOptionDtoList = new ArrayList<>();
 
-        defaultOptionDtoList.add(DefaultOptionDto
+        trimDefaultOptionDtoList.add(TrimDefaultOptionDto
                 .builder()
                 .optionName("안전 하차 보조")
                 .optionImage("image_1")
                 .optionDescription("좋은 보조 장치")
                 .OptionUsedCount(42)
                 .build());
-        defaultOptionDtoList.add(DefaultOptionDto
+        trimDefaultOptionDtoList.add(TrimDefaultOptionDto
                 .builder()
                 .optionName("후측방 충둘 경고")
                 .optionImage("image_2")
                 .optionDescription("좋은 보조 장치")
                 .OptionUsedCount(98)
                 .build());
-        defaultOptionDtoList.add(DefaultOptionDto
+        trimDefaultOptionDtoList.add(TrimDefaultOptionDto
                 .builder()
                 .optionName("후방 교차 충돌 보조 장치")
                 .optionImage("image_3")
@@ -115,7 +115,7 @@ class CarServiceTest {
         int carType = 1;
 
         when(carRepository.findCarByCarType(carType)).thenReturn(carInfoDtoList);
-        when(optionRepository.findDefaultOptionByCarId(carId)).thenReturn(defaultOptionDtoList);
+        when(optionRepository.findDefaultOptionByCarId(carId)).thenReturn(trimDefaultOptionDtoList);
 
         List<CarDto> carByCarType = service.findCarByCarType(carType);
 

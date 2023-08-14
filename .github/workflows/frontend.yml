@@ -1,0 +1,58 @@
+name: CI(Frontend)
+
+on:
+    workflow_dispatch:
+    push:
+        branches: ["main"]
+        paths:
+            - "frontend/**"
+
+jobs:
+    build:
+        runs-on: ubuntu-latest
+
+        defaults:
+            run:
+                working-directory: ./frontend
+
+        steps:
+            - name: VM으로 파일을 전송합니다.
+              uses: actions/checkout@v3
+
+            - name: Node.js 환경을 셋팅합니다.
+              uses: actions/setup-node@v3
+              with:
+                  node-version: 20
+
+            - name: 의존성 패키지들을 설치합니다.
+              run: npm ci
+
+            - name: 빌드를 실행합니다.
+              run: npm run build --if-present
+
+            - name: 빌드 결과물을 artifact로 업로드합니다.
+              uses: actions/upload-artifact@v3
+              with:
+                  name: build-frontend
+                  path: frontend/dist
+
+    deploy:
+        needs: build
+
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: 빌드 결과물을 다운로드합니다.
+              uses: actions/download-artifact@v3
+              with:
+                  name: build-frontend
+
+            - name: S3 버킷에 업로드합니다.
+              env:
+                  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+                  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+              run: |
+                  aws s3 sync \
+                  . s3://www.a2cartag.com \
+                  --region ap-northeast-2 \
+                  --delete

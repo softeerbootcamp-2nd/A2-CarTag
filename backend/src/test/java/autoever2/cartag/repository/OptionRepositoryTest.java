@@ -1,8 +1,8 @@
 package autoever2.cartag.repository;
 
-import autoever2.cartag.domain.car.DefaultOptionDto;
+import autoever2.cartag.domain.car.TrimDefaultOptionDto;
 import autoever2.cartag.domain.option.OptionDetailMappedDto;
-import autoever2.cartag.domain.option.SubOptionMappedDto;
+import autoever2.cartag.domain.option.OptionShortMappedDto;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
@@ -15,6 +15,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -44,8 +45,8 @@ class OptionRepositoryTest {
         int carId = 1;
 
         //when
-        List<SubOptionMappedDto> optionList = optionRepository.findAllSubOptionWithCategoryNameByCarId(carId);
-        SubOptionMappedDto expectedResult1 = SubOptionMappedDto.builder()
+        List<OptionShortMappedDto> optionList = optionRepository.findOptionList(carId, false);
+        OptionShortMappedDto expectedResult1 = OptionShortMappedDto.builder()
                 .optionId(1)
                 .optionCategoryName("상세품목")
                 .optionName("2열 통풍 시트")
@@ -54,7 +55,7 @@ class OptionRepositoryTest {
                 .optionBoughtCount(2800L)
                 .optionUsedCount(38.0)
                 .build();
-        SubOptionMappedDto expectedResult2 = SubOptionMappedDto.builder()
+        OptionShortMappedDto expectedResult2 = OptionShortMappedDto.builder()
                 .optionId(2)
                 .optionCategoryName("악세사리")
                 .optionName("적외선 무릎 워머")
@@ -63,7 +64,7 @@ class OptionRepositoryTest {
                 .optionBoughtCount(4200L)
                 .optionUsedCount(42.0)
                 .build();
-        SubOptionMappedDto expectedResult3 = SubOptionMappedDto.builder()
+        OptionShortMappedDto expectedResult3 = OptionShortMappedDto.builder()
                 .optionId(3)
                 .optionCategoryName("악세사리")
                 .optionName("듀얼 머플러 패키지")
@@ -72,7 +73,7 @@ class OptionRepositoryTest {
                 .optionBoughtCount(1300L)
                 .optionUsedCount(55.0)
                 .build();
-        SubOptionMappedDto expectedResult4 = SubOptionMappedDto.builder()
+        OptionShortMappedDto expectedResult4 = OptionShortMappedDto.builder()
                 .optionId(4)
                 .optionCategoryName("휠")
                 .optionName("20인치 다크 스퍼터링 휠")
@@ -113,7 +114,7 @@ class OptionRepositoryTest {
     @Test
     @DisplayName("carId에 해당하는 모든 defaultOption을 가져옵니다.")
     void findDefaultOptions() {
-        List<DefaultOptionDto> defaultOptionByCarId = optionRepository.findDefaultOptionByCarId(1);
+        List<TrimDefaultOptionDto> defaultOptionByCarId = optionRepository.findDefaultOptionByCarId(1);
         assertEquals(3, defaultOptionByCarId.size());
         assertEquals("듀얼 머플러 패키지", defaultOptionByCarId.get(0).getOptionName());
     }
@@ -151,9 +152,9 @@ class OptionRepositoryTest {
                 .build();
 
         //when
-        Optional<OptionDetailMappedDto> packageData = optionRepository.findOptionDetail(carId, optionPackage);
-        Optional<OptionDetailMappedDto> halfHmgData = optionRepository.findOptionDetail(carId, optionWithHalfHmg);
-        Optional<OptionDetailMappedDto> hmgData = optionRepository.findOptionDetail(carId, optionWithHmg);
+        Optional<OptionDetailMappedDto> packageData = optionRepository.findOptionDetail(carId, optionPackage, false);
+        Optional<OptionDetailMappedDto> halfHmgData = optionRepository.findOptionDetail(carId, optionWithHalfHmg, false);
+        Optional<OptionDetailMappedDto> hmgData = optionRepository.findOptionDetail(carId, optionWithHmg, false);
 
         //then
         assertTrue(packageData.isPresent());
@@ -191,6 +192,42 @@ class OptionRepositoryTest {
         assertTrue(singleOptions.isEmpty());
         softAssertions.assertThat(packageSubOptions.get(0)).usingRecursiveComparison().isEqualTo(sub1);
         softAssertions.assertThat(packageSubOptions.get(1)).usingRecursiveComparison().isEqualTo(sub2);
+    }
 
+    @Test
+    @DisplayName("기본 옵션 리스트 반환")
+    void findDefaultOptionList() {
+        int carId = 1;
+
+        OptionShortMappedDto expected1 = OptionShortMappedDto.builder()
+                .optionId(1)
+                .optionName("2열 통풍 시트")
+                .optionCategoryName("상세품목")
+                .optionImage("/images/options/sub/2seats.jpg")
+                .optionUsedCount(38.0)
+                .build();
+        OptionShortMappedDto expected2 = OptionShortMappedDto.builder()
+                .optionId(2)
+                .optionName("적외선 무릎 워머")
+                .optionCategoryName("악세사리")
+                .optionImage("/images/options/sub/warmer.jpg")
+                .optionUsedCount(42.0)
+                .build();
+        OptionShortMappedDto expected3 = OptionShortMappedDto.builder()
+                .optionId(3)
+                .optionName("듀얼 머플러 패키지")
+                .optionCategoryName("악세사리")
+                .optionImage("/images/options/sub/murfler.jpg")
+                .optionUsedCount(55.0)
+                .build();
+
+        List<OptionShortMappedDto> expectedList = new ArrayList<>();
+        expectedList.add(expected1);
+        expectedList.add(expected2);
+        expectedList.add(expected3);
+
+        List<OptionShortMappedDto> data = optionRepository.findOptionList(carId, true);
+
+        softAssertions.assertThat(data).usingRecursiveComparison().isEqualTo(expectedList);
     }
 }

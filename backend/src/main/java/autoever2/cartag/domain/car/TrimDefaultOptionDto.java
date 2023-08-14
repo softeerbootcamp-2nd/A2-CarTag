@@ -10,7 +10,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @Schema(description = "차량 DefaultOption 반환")
-public class DefaultOptionDto {
+public class TrimDefaultOptionDto {
     @Schema(description = "option 이름")
     private String optionName;
     @Schema(description = "option image의 url")
@@ -21,7 +21,7 @@ public class DefaultOptionDto {
     private int OptionUsedCount;
 
     @Builder
-    public DefaultOptionDto(String optionName, String optionImage, String optionDescription, int OptionUsedCount) {
+    public TrimDefaultOptionDto(String optionName, String optionImage, String optionDescription, int OptionUsedCount) {
         this.optionName = optionName;
         this.optionImage = optionImage;
         this.optionDescription = optionDescription;

@@ -38,57 +38,9 @@ class OptionServiceTest {
     @Mock
     private CarRepository carRepository;
 
-    private List<SubOptionMappedDto> optionList;
-
-    private List<String> hashtagList;
-
     @BeforeEach
     void setUp() {
-        hashtagList = new ArrayList<>();
-        optionList = new ArrayList<>();
-        hashtagList.add("여행");
-        hashtagList.add("장거리 운전");
-        hashtagList.add("시원한");
 
-        optionList.add(SubOptionMappedDto.builder()
-                .optionId(1)
-                .optionCategoryName("상세품목")
-                .optionImage("/images/options/sub/2seats.jpg")
-                .optionPrice(100000L)
-                .optionName("2열 통풍 시트")
-                .optionBoughtCount(2800L)
-                .optionUsedCount(30.0)
-                .build());
-
-        optionList.add(SubOptionMappedDto.builder()
-                .optionId(2)
-                .optionCategoryName("악세사리")
-                .optionImage("/images/options/sub/legwarmer.jpg")
-                .optionPrice(230000L)
-                .optionName("적외선 무릎 워머")
-                .optionBoughtCount(4200L)
-                .optionUsedCount(42.0)
-                .build());
-
-        optionList.add(SubOptionMappedDto.builder()
-                .optionId(3)
-                .optionCategoryName("악세사리")
-                .optionImage("/images/options/sub/murfler.jpg")
-                .optionPrice(840000L)
-                .optionName("듀얼 머플러 패키지")
-                .optionBoughtCount(1300L)
-                .optionUsedCount(55.0)
-                .build());
-
-        optionList.add(SubOptionMappedDto.builder()
-                .optionId(4)
-                .optionCategoryName("휠")
-                .optionImage("/images/options/sub/darkwheel.jpg")
-                .optionPrice(840000L)
-                .optionName("20인치 다크 스퍼터링 휠")
-                .optionBoughtCount(3850L)
-                .optionUsedCount(12.0)
-                .build());
     }
 
     @Test
@@ -96,7 +48,51 @@ class OptionServiceTest {
     void getSubOptionList() {
         int carId = 1;
         Long boughtCount = 2000L;
-        when(optionRepository.findAllSubOptionWithCategoryNameByCarId(carId)).thenReturn(optionList);
+
+         List<OptionShortMappedDto> optionList = new ArrayList<>();
+
+         List<String> hashtagList = new ArrayList<>();
+        hashtagList.add("여행");
+        hashtagList.add("장거리 운전");
+        hashtagList.add("시원한");
+
+        optionList.add(OptionShortMappedDto.builder()
+                .optionId(1)
+                .optionCategoryName("상세품목")
+                .optionImage("/images/options/sub/2seats.jpg")
+                .optionPrice(100000L)
+                .optionName("2열 통풍 시트")
+                .optionBoughtCount(2800L)
+                .build());
+
+        optionList.add(OptionShortMappedDto.builder()
+                .optionId(2)
+                .optionCategoryName("악세사리")
+                .optionImage("/images/options/sub/legwarmer.jpg")
+                .optionPrice(230000L)
+                .optionName("적외선 무릎 워머")
+                .optionBoughtCount(4200L)
+                .build());
+
+        optionList.add(OptionShortMappedDto.builder()
+                .optionId(3)
+                .optionCategoryName("악세사리")
+                .optionImage("/images/options/sub/murfler.jpg")
+                .optionPrice(840000L)
+                .optionName("듀얼 머플러 패키지")
+                .optionBoughtCount(1300L)
+                .build());
+
+        optionList.add(OptionShortMappedDto.builder()
+                .optionId(4)
+                .optionCategoryName("휠")
+                .optionImage("/images/options/sub/darkwheel.jpg")
+                .optionPrice(840000L)
+                .optionName("20인치 다크 스퍼터링 휠")
+                .optionBoughtCount(3850L)
+                .build());
+
+        when(optionRepository.findOptionList(carId, false)).thenReturn(optionList);
         when(carRepository.findCarBoughtCountByCarId(carId)).thenReturn(Optional.of(10000L));
         when(optionRepository.findAllHashtagNameBySubOptionId(1)).thenReturn(hashtagList);
         when(optionRepository.findAllHashtagNameBySubOptionId(2)).thenReturn(hashtagList);
@@ -120,7 +116,7 @@ class OptionServiceTest {
     }
 
     @Test
-    @DisplayName("옵션의 상세 데이터를 가져온다.")
+    @DisplayName("추가 옵션의 상세 데이터를 가져온다.")
     void getOptionDetail() {
         int carId = 1;
         int singleOption = 4;
@@ -196,15 +192,82 @@ class OptionServiceTest {
                 .subOptionList(subOptions)
                 .build();
 
-        when(optionRepository.findOptionDetail(carId, singleOption)).thenReturn(Optional.of(data1));
+        when(optionRepository.findOptionDetail(carId, singleOption, false)).thenReturn(Optional.of(data1));
         when(optionRepository.findPackageSubOptions(singleOption)).thenReturn(Collections.emptyList());
-        when(optionRepository.findOptionDetail(carId, packageOption)).thenReturn(Optional.of(data2));
+        when(optionRepository.findOptionDetail(carId, packageOption, false)).thenReturn(Optional.of(data2));
         when(optionRepository.findPackageSubOptions(packageOption)).thenReturn(subPackages);
+        when(carRepository.findCarBoughtCountByCarId(carId)).thenReturn(Optional.of(150000L));
 
         OptionDetailDto singleResult = optionService.getOptionDetailData(carId, singleOption);
         OptionDetailDto packageResult = optionService.getOptionDetailData(carId, packageOption);
 
         softAssertions.assertThat(singleResult).usingRecursiveComparison().isEqualTo(expected1);
         softAssertions.assertThat(packageResult).usingRecursiveComparison().isEqualTo(expected2);
+    }
+
+    @Test
+    @DisplayName("기본옵션의 리스트를 가져온다.")
+    void getDefaultOptionList() {
+        int carId = 1;
+        OptionShortMappedDto data1 = OptionShortMappedDto.builder()
+                .optionId(1)
+                .optionName("2열 통풍 시트")
+                .optionCategoryName("상세품목")
+                .optionImage("/images/options/sub/2seats.jpg")
+                .optionUsedCount(38.0)
+                .build();
+        OptionShortMappedDto data2 = OptionShortMappedDto.builder()
+                .optionId(2)
+                .optionName("적외선 무릎 워머")
+                .optionCategoryName("악세사리")
+                .optionImage("/images/options/sub/warmer.jpg")
+                .build();
+        OptionShortMappedDto data3 = OptionShortMappedDto.builder()
+                .optionId(3)
+                .optionName("듀얼 머플러 패키지")
+                .optionCategoryName("악세사리")
+                .optionImage("/images/options/sub/murfler.jpg")
+                .optionUsedCount(55.0)
+                .build();
+
+        List<OptionShortMappedDto> dataList = new ArrayList<>();
+        dataList.add(data1);
+        dataList.add(data2);
+        dataList.add(data3);
+
+        when(optionRepository.findOptionList(carId, true)).thenReturn(dataList);
+
+        DefaultOptionDto expected1 = DefaultOptionDto.builder()
+                .optionId(1)
+                .optionName("2열 통풍 시트")
+                .optionCategoryName("상세품목")
+                .optionImage("/images/options/sub/2seats.jpg")
+                .hasHmgData(true)
+                .build();
+
+        DefaultOptionDto expected2 = DefaultOptionDto.builder()
+                .optionId(2)
+                .optionName("적외선 무릎 워머")
+                .optionCategoryName("악세사리")
+                .optionImage("/images/options/sub/warmer.jpg")
+                .hasHmgData(false)
+                .build();
+
+        DefaultOptionDto expected3 = DefaultOptionDto.builder()
+                .optionId(3)
+                .optionName("듀얼 머플러 패키지")
+                .optionCategoryName("악세사리")
+                .optionImage("/images/options/sub/murfler.jpg")
+                .hasHmgData(true)
+                .build();
+
+        List<DefaultOptionDto> expectedList = new ArrayList<>();
+        expectedList.add(expected1);
+        expectedList.add(expected2);
+        expectedList.add(expected3);
+
+        List<DefaultOptionDto> actual = optionService.getDefaultOptionList(carId);
+
+        softAssertions.assertThat(actual).usingRecursiveComparison().isEqualTo(expectedList);
     }
 }
