@@ -88,11 +88,11 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
   return (
     <StatusBox
       ref={barRef}
-      {...props}
-      $offset={offset}
       $isover={isOverBudget}
       $isopen={isOpen}
       onMouseDown={handleMouseDown}
+      {...props}
+      $offset={offset}
     >
       <StatusText>
         <StatusTitle>예산 범위</StatusTitle>
@@ -139,15 +139,23 @@ const overBudgetCss = css`
   background: rgba(0, 11, 25, 0.9);
 `;
 
-const StatusBox = styled.div<{ $offset: IOffset; $isover: boolean; $isopen: boolean }>`
+const StatusBox = styled.div.attrs<{
+  $isover: boolean;
+  $isopen: boolean;
+  $offset: IOffset;
+}>(({ $offset }) => ({
+  style: {
+    left: $offset.offsetX,
+    top: $offset.offsetY,
+    transform: $offset.offsetX === '50%' ? 'translateX(-50%)' : 'none',
+  },
+}))`
   ${({ $isover }) => !$isover && withinBudgetCss}
   ${({ $isover }) => $isover && overBudgetCss}
   position: fixed;
   min-width: 343px;
   z-index: 1000;
-  top: ${({ $offset }) => $offset.offsetY};
-  left: ${({ $offset }) => $offset.offsetX};
-  transform: ${({ $offset }) => ($offset.offsetX === '50%' ? 'translateX(-50%)' : null)};
+
   padding: 0px 16px;
   border-radius: 10px;
   backdrop-filter: blur(3px);
