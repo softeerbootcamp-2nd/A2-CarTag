@@ -16,8 +16,7 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
   const { pathname } = useLocation();
   const theme = useTheme();
   const dragRef = useRef(false);
-  const [startX, setStartX] = useState(0);
-  const [startY, setStartY] = useState(0);
+  const [startOffset, setStartOffset] = useState({ startX: 0, startY: 0 });
   const [offset, setOffset] = useState({ offsetX: '50%', offsetY: '76px' });
   const barRef = useRef<HTMLDivElement>(null);
 
@@ -42,8 +41,7 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
   const handleMouseDown = ({ clientX, clientY }: React.MouseEvent) => {
     dragRef.current = true;
     const element = barRef.current!.getBoundingClientRect();
-    setStartX(clientX - element.left);
-    setStartY(clientY - element.top);
+    setStartOffset({ startX: clientX - element.left, startY: clientY - element.top });
   };
 
   const handleMouseMove = (event: MouseEvent, startX: number, startY: number) => {
@@ -70,14 +68,18 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
   }, [budget, getBudgetStatus]);
 
   useEffect(() => {
-    window.addEventListener('mousemove', (e) => handleMouseMove(e, startX, startY));
+    window.addEventListener('mousemove', (e) =>
+      handleMouseMove(e, startOffset.startX, startOffset.startY)
+    );
     window.addEventListener('mouseup', handleMouseUp);
 
     return () => {
-      window.removeEventListener('mousemove', (e) => handleMouseMove(e, startX, startY));
+      window.removeEventListener('mousemove', (e) =>
+        handleMouseMove(e, startOffset.startX, startOffset.startY)
+      );
       window.removeEventListener('mouseup', handleMouseUp);
     };
-  }, [startX, startY]);
+  }, [startOffset]);
 
   if (pathname === PATH.home || pathname === PATH.trim) {
     return <></>;
