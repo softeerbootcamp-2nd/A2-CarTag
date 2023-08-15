@@ -3,9 +3,9 @@ import NavBar from './components/layout/NavBar';
 import PriceStaticBar from './components/priceStaticBar/PriceStaticBar';
 import CustomRouter from './components/router/CustomRouter';
 import ModalContainer from './containers/Modal/ModalContainer';
-import CloseModalProvider from './context/CloseModalContext';
-import SimilarQuoteModalProvider from './context/SimilarQuoteModalContext';
-import GuideModalProvider from './context/GuideMoadlContext';
+import CloseModalProvider from './context/CloseModalProvider';
+import SimilarQuoteModalProvider from './context/SimilarQuoteModalProvider';
+import GuideModalProvider from './context/GuideMoadlProvider';
 import Providers from './components/contextProviders/Providers';
 
 function App() {

@@ -3,7 +3,7 @@ import HmgTag from '../common/hmgTag/HmgTag';
 import { BodyKrMedium2, BodyKrRegular3, HeadingKrMedium6 } from '../../styles/typefaces';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { useContext } from 'react';
-import { SimilarQuoteModalContext } from '../../context/SimilarQuoteModalContext';
+import { SimilarQuoteModalContext } from '../../context/SimilarQuoteModalProvider';
 
 export default function BarHistogram() {
   const { setVisible: setSimilarQuoteModalVisible } = useContext(SimilarQuoteModalContext);
