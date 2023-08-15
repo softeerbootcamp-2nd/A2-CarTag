@@ -11,7 +11,7 @@ import { PATH } from '../../utils/constants';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import DefaultCardStyle from '../../components/common/card/DefaultCardStyle';
 import RectButton from '../../components/common/buttons/RectButton';
-import { TrimContext } from '../../context/TrimContext';
+import { TrimContext } from '../../context/TrimProvider';
 
 export default function TrimSelectContainer() {
   const navigate = useNavigate();
