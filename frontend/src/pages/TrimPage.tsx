@@ -1,35 +1,18 @@
+import { useContext, useEffect } from 'react';
 import TrimBannerContainer from '../containers/TrimPage/TrimBannerContainer';
 import TrimSelectContainer from '../containers/TrimPage/TrimSelectContainer';
 import { useFetch } from '../hooks/useFetch';
 import { TRIM_API } from '../utils/apis';
+import { ICartype, TrimContext } from '../context/TrimContext';
 
-interface ICartype {
-  trim: string;
-  carDefaultPrice: number;
-  outerImage: string;
-  innerImage: string;
-  wheelImage: string;
-  carDescription: string;
-  options: [
-    {
-      optionName: string;
-      optionImage: string;
-      optionDescription: string;
-      optionUsedCount: number;
-    },
-  ];
-}
 export default function TrimPage() {
-  const params = {
-    carType: '1',
-  };
+  const { data, loading } = useFetch<ICartype[]>(`${TRIM_API}?carType=${1}`);
+  const { setData, setLoading } = useContext(TrimContext);
 
-  const query = new URLSearchParams(params).toString();
-  const { data, loading } = useFetch<ICartype[]>(`${TRIM_API}?${query}`);
-
-  if (data) {
-    console.log(data[0].trim, loading);
-  }
+  useEffect(() => {
+    setData(data);
+    setLoading(loading);
+  }, [data, loading, setData, setLoading]);
 
   return (
     <>
