@@ -36,7 +36,7 @@ jobs:
               run: npm ci
 
             - name: 빌드를 실행합니다.
-              run: npm run build --if-present
+              run: npm run build
 
             - name: 빌드 결과물을 artifact로 업로드합니다.
               uses: actions/upload-artifact@v3
