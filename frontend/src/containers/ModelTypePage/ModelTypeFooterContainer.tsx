@@ -1,3 +1,6 @@
+import { useContext } from 'react';
+import { PATH } from '../../utils/constants';
+import { MODEL_TYPE_API } from '../../utils/apis';
 import { styled } from 'styled-components';
 import {
   BodyKrMedium2,
@@ -5,14 +8,11 @@ import {
   BodyKrRegular3,
   HeadingKrRegular1,
 } from '../../styles/typefaces';
+import { useFetch } from '../../hooks/useFetch';
+import CenterWrapper from '../../components/layout/CenterWrapper';
 import PriceSummary from '../../components/summary/PriceSummary';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
-import CenterWrapper from '../../components/layout/CenterWrapper';
-import { useFetch } from '../../hooks/useFetch';
-import { MODEL_TYPE_API } from '../../utils/apis';
-import { useContext } from 'react';
 import { ModelTypeContext } from '../../context/ModelTypeProvider';
-import { PATH } from '../../utils/constants';
 
 interface IHmgEfficiency {
   averageFuel: string;

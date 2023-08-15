@@ -1,13 +1,13 @@
+import { useContext } from 'react';
 import { styled } from 'styled-components';
+import { useFetch } from '../../hooks/useFetch';
 import { BodyKrRegular4 } from '../../styles/typefaces';
-import CenterWrapper from '../../components/layout/CenterWrapper';
 import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
-import { useContext } from 'react';
+import CenterWrapper from '../../components/layout/CenterWrapper';
+import PowerTrainData from '../../components/powerTrainData/PowerTrainData';
 import { ModelTypeContext } from '../../context/ModelTypeProvider';
 import { MODEL_TYPE_API, IMG_URL } from '../../utils/apis';
-import { useFetch } from '../../hooks/useFetch';
-import PowerTrainData from '../../components/powerTrainData/PowerTrainData';
 
 interface IModelTypeDetail {
   modelImage: string;

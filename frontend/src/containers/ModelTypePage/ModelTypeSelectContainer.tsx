@@ -1,10 +1,9 @@
+import React, { useContext } from 'react';
 import { styled } from 'styled-components';
-import CenterWrapper from '../../components/layout/CenterWrapper';
 import { HeadingKrMedium6, HeadingKrMedium7 } from '../../styles/typefaces';
-import { useContext } from 'react';
+import CenterWrapper from '../../components/layout/CenterWrapper';
 import ModelTypeCard from '../../components/cards/ModelTypeCard';
 import { IModelType, ModelTypeContext } from '../../context/ModelTypeProvider';
-import React from 'react';
 
 export default function ModelTypelSelectContainer() {
   const { modelType, selectedModelTypeIdx, setCurrentModelTypeIdx, handleSelectedIdx } =
