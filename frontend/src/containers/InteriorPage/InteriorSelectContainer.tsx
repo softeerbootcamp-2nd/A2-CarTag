@@ -4,7 +4,7 @@ import CenterWrapper from '../../components/layout/CenterWrapper';
 import PriceSummary from '../../components/summary/PriceSummary';
 import InteriorCard from '../../components/cards/InteriorCard';
 import CardSlider from '../../components/cardSlider/CardSlider';
-import { MAX_PAGE, NUM_IN_A_PAGE } from '../../utils/constants';
+import { MAX_PAGE, NUM_IN_A_PAGE, PATH } from '../../utils/constants';
 
 interface ISelected {
   page: number;
@@ -48,7 +48,7 @@ export default function InteriorSelectContainer() {
     <Wrapper>
       <CardSlider title="내장 색상을 선택해주세요." cardList={CardPageList} />
       <Footer>
-        <PriceSummary />
+        <PriceSummary nextPagePath={PATH.option} />
       </Footer>
     </Wrapper>
   );
