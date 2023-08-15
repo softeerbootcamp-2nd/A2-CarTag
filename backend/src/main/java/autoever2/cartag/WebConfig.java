@@ -14,6 +14,7 @@ public class WebConfig implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**")
                 .allowedOrigins("http://www.a2cartag.com/**")
+                .allowedOrigins("*")
                 .allowedHeaders("*")
                 .allowedMethods("GET")
                 .allowedHeaders("*");
