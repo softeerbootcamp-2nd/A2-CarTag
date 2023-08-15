@@ -21,6 +21,7 @@ export default function TrimBannerContainer() {
   const imageUrls = useRef<string[]>([]);
   const [imagesLoading, setImagesLoading] = useState(true);
 
+  console.log(imageUrls);
   const handleSelectImg = useCallback(
     (idx: number) => {
       setSelectedImgIdx(idx);
