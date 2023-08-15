@@ -1,12 +1,12 @@
 import { BrowserRouter } from 'react-router-dom';
 import NavBar from './components/layout/NavBar';
+import Providers from './components/contextProviders/Providers';
 import PriceStaticBar from './components/priceStaticBar/PriceStaticBar';
 import CustomRouter from './components/router/CustomRouter';
 import ModalContainer from './containers/Modal/ModalContainer';
 import CloseModalProvider from './context/CloseModalProvider';
 import SimilarQuoteModalProvider from './context/SimilarQuoteModalProvider';
-import GuideModalProvider from './context/GuideMoadlProvider';
-import Providers from './components/contextProviders/Providers';
+import GuideModalProvider from './context/GuideModalProvider';
 import ItemProvider from './context/ItemProvider';
 
 function App() {

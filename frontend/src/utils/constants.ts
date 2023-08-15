@@ -23,7 +23,6 @@ export const modelTypeToEn: { [key: string]: string } = {
 };
 
 export const HYUNDAI_URL = 'https://www.hyundai.com/kr/ko/e';
-export const FONT_URL = 'fonts/';
 export const PAGE_ANIMATION_DURATION = 500;
 
 Object.freeze({
@@ -32,5 +31,6 @@ Object.freeze({
   MAX_TEXT_CNT,
   HYUNDAI_URL,
   PATH,
+  MESSAGE,
   PAGE_ANIMATION_DURATION,
 });

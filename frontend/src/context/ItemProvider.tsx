@@ -32,7 +32,7 @@ interface IItemProvider {
   children: ReactNode;
 }
 
-const initailSelectedItem = {
+const initialSelectedItem = {
   trim: {
     id: 0,
     name: '',
@@ -79,7 +79,7 @@ const initailSelectedItem = {
 };
 
 const initialItem: IItemContext = {
-  selectedItem: initailSelectedItem,
+  selectedItem: initialSelectedItem,
   totalPrice: 0,
   setSelectedItem: () => {},
   setTotalPrice: () => {},
@@ -118,7 +118,7 @@ const reducer = (state: ISelectedItem, action: actionType): ISelectedItem => {
 export const ItemContext = createContext(initialItem);
 
 export default function ItemProvider({ children }: IItemProvider) {
-  const [selectedItem, setSelectedItem] = useReducer(reducer, initailSelectedItem);
+  const [selectedItem, setSelectedItem] = useReducer(reducer, initialSelectedItem);
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
   return (

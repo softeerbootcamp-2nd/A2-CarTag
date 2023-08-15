@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import CloseModal from '../../components/modal/CloseModal';
 import GuideModal from '../../components/modal/GuideModal';
 import SimilarQuoteModal from '../../components/modal/SimilarQuoteModal';
-import { GuideModalContext } from '../../context/GuideMoadlProvider';
+import { GuideModalContext } from '../../context/GuideModalProvider';
 import { SimilarQuoteModalContext } from '../../context/SimilarQuoteModalProvider';
 import { CloseModalContext } from '../../context/CloseModalProvider';
 
