@@ -118,8 +118,8 @@ const reducer = (state: ISelectedItem, action: actionType): ISelectedItem => {
 export const ItemContext = createContext(initialItem);
 
 export default function ItemProvider({ children }: IItemProvider) {
-  const [totalPrice, setTotalPrice] = useState<number>(0);
   const [selectedItem, setSelectedItem] = useReducer(reducer, initailSelectedItem);
+  const [totalPrice, setTotalPrice] = useState<number>(0);
 
   return (
     <ItemContext.Provider

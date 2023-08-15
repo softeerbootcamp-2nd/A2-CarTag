@@ -3,13 +3,15 @@ import RectButton from '../common/buttons/RectButton';
 import RoundButton from '../common/buttons/RoundButton';
 import { BodyKrRegular4, HeadingKrMedium2 } from '../../styles/typefaces';
 import { useNavigate } from 'react-router-dom';
+import { useContext } from 'react';
+import { ItemContext } from '../../context/ItemProvider';
 
 interface IPriceSummary extends React.HTMLAttributes<HTMLDivElement> {
   nextPagePath: string;
 }
 
 export default function PriceSummary({ nextPagePath, ...props }: IPriceSummary) {
-  const total = 43_560_000;
+  const { totalPrice } = useContext(ItemContext);
   const navigate = useNavigate();
   const handleButtonClick = (price: number) => {
     price; // Todo. price 누적 값 저장
@@ -20,10 +22,10 @@ export default function PriceSummary({ nextPagePath, ...props }: IPriceSummary) 
       <InfoWrapper>
         <RoundButton type="price">견적 요약</RoundButton>
         <TotalPriceText>
-          현재 총 가격<HighLightText>{total.toLocaleString()} 원</HighLightText>
+          현재 총 가격<HighLightText>{totalPrice.toLocaleString()} 원</HighLightText>
         </TotalPriceText>
       </InfoWrapper>
-      <RectButton type="price" onClick={() => handleButtonClick(total)}>
+      <RectButton type="price" onClick={() => handleButtonClick(totalPrice)}>
         다음
       </RectButton>
     </SummaryWrapper>

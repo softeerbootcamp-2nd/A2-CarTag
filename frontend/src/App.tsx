@@ -7,11 +7,17 @@ import CloseModalProvider from './context/CloseModalProvider';
 import SimilarQuoteModalProvider from './context/SimilarQuoteModalProvider';
 import GuideModalProvider from './context/GuideMoadlProvider';
 import Providers from './components/contextProviders/Providers';
+import ItemProvider from './context/ItemProvider';
 
 function App() {
-  const modalProviders = [CloseModalProvider, SimilarQuoteModalProvider, GuideModalProvider];
+  const globalProviders = [
+    CloseModalProvider,
+    SimilarQuoteModalProvider,
+    GuideModalProvider,
+    ItemProvider,
+  ];
   return (
-    <Providers contexts={modalProviders}>
+    <Providers contexts={globalProviders}>
       <BrowserRouter>
         <NavBar />
         <PriceStaticBar />
@@ -23,4 +29,3 @@ function App() {
 }
 
 export default App;
-
