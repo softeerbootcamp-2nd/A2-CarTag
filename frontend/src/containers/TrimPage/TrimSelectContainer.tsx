@@ -1,53 +1,60 @@
+import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-import CenterWrapper from '../../components/layout/CenterWrapper';
 import {
   BodyKrRegular4,
   HeadingEn4,
   HeadingKrMedium6,
   HeadingKrMedium7,
 } from '../../styles/typefaces';
+import { PATH } from '../../utils/constants';
+import CenterWrapper from '../../components/layout/CenterWrapper';
 import DefaultCardStyle from '../../components/common/card/DefaultCardStyle';
-import { useState } from 'react';
 import RectButton from '../../components/common/buttons/RectButton';
+import { TrimContext } from '../../context/TrimContext';
 
 export default function TrimSelectContainer() {
-  const firstTrimIdx = 0;
-  const [selectedTrimIdx, setSelectedTrimIdx] = useState(firstTrimIdx);
+  const navigate = useNavigate();
+  const { selectedTrimIdx, setSelectedTrimIdx, data, loading, setSelectedImgIdx } =
+    useContext(TrimContext);
+  const selectedData = data && data[selectedTrimIdx];
+
   const handleSelectedIdx = (idx: number) => {
     setSelectedTrimIdx(idx);
+    setSelectedImgIdx(0);
+  };
+  const handleButtonClick = (price: number) => {
+    price; // Todo. price 누적 값 저장
+    navigate(PATH.modelType);
+  };
+
+  const displayTrimCards = () => {
+    if (!(selectedData && !loading)) {
+      return <></>;
+    }
+
+    const cardIndices = Array.from({ length: data.length }, (_, index) => index);
+    return cardIndices.map((idx) => (
+      <TrimCard key={idx} onClick={() => handleSelectedIdx(idx)} active={selectedTrimIdx === idx}>
+        <TrimDesc>{data[idx].carDescription}</TrimDesc>
+        <TrimTitle>{data[idx].trim}</TrimTitle>
+        <TrimPrice>{data[idx].carDefaultPrice.toLocaleString()} 원</TrimPrice>
+        <TrimButton type={'trim'} onClick={() => handleButtonClick(data[idx].carDefaultPrice)}>
+          선택하기
+        </TrimButton>
+      </TrimCard>
+    ));
   };
 
   return (
-    <Wrapper>
-      <Title>트림을 선택해주세요.</Title>
-      <TrimSection>
-        {/* Todo. map() 으로 데이터 받아서 만들기! */}
-        <TrimCard onClick={() => handleSelectedIdx(0)} active={selectedTrimIdx === 0}>
-          <TrimDesc>기본기를 갖춘 베이직한 펠리세이드</TrimDesc>
-          <TrimTitle>Exclusive</TrimTitle>
-          <TrimPrice>100원!</TrimPrice>
-          <TrimButton type={'trim'}>선택하기</TrimButton>
-        </TrimCard>
-        <TrimCard onClick={() => handleSelectedIdx(1)} active={selectedTrimIdx === 1}>
-          <TrimDesc>기본기를 갖춘 베이직한 펠리세이드</TrimDesc>
-          <TrimTitle>Exclusive</TrimTitle>
-          <TrimPrice>100원!</TrimPrice>
-          <TrimButton type={'trim'}>선택하기</TrimButton>
-        </TrimCard>
-        <TrimCard onClick={() => handleSelectedIdx(2)} active={selectedTrimIdx === 2}>
-          <TrimDesc>기본기를 갖춘 베이직한 펠리세이드</TrimDesc>
-          <TrimTitle>Exclusive</TrimTitle>
-          <TrimPrice>100원!</TrimPrice>
-          <TrimButton type={'trim'}>선택하기</TrimButton>
-        </TrimCard>
-        <TrimCard onClick={() => handleSelectedIdx(3)} active={selectedTrimIdx === 3}>
-          <TrimDesc>기본기를 갖춘 베이직한 펠리세이드</TrimDesc>
-          <TrimTitle>Exclusive</TrimTitle>
-          <TrimPrice>100원!</TrimPrice>
-          <TrimButton type={'trim'}>선택하기</TrimButton>
-        </TrimCard>
-      </TrimSection>
-    </Wrapper>
+    <>
+      {data ? (
+        <Wrapper>
+          <Title>트림을 선택해주세요.</Title>
+          <TrimSection>{displayTrimCards()}</TrimSection>
+        </Wrapper>
+      ) : null}
+    </>
   );
 }
 
