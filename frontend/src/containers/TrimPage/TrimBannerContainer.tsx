@@ -1,12 +1,12 @@
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { css, styled } from 'styled-components';
 import { BodyKrMedium3, BodyKrRegular5, HeadingKrRegular2 } from '../../styles/typefaces';
+import { flexCenterCss } from '../../utils/commonStyle';
+import { IMG_URL } from '../../utils/apis';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { flexCenterCss } from '../../utils/commonStyle';
 import { ICartype, TrimContext } from '../../context/TrimContext';
-import { IMG_URL } from '../../utils/apis';
 import Loading from '../../components/loading/Loading';
 
 export default function TrimBannerContainer() {
@@ -32,11 +32,11 @@ export default function TrimBannerContainer() {
       const innerImgUrl = data.innerImage !== '' && `${IMG_URL}${data.innerImage}`;
       const outerImgImgUrl = data.outerImage !== '' && `${IMG_URL}${data.outerImage}`;
       const wheelImgUrl = data.wheelImage !== '' && `${IMG_URL}${data.wheelImage}`;
-      const filterdImagesUrl = [innerImgUrl, outerImgImgUrl, wheelImgUrl].filter(
+      const filteredImagesUrl = [innerImgUrl, outerImgImgUrl, wheelImgUrl].filter(
         (url) => url
       ) as string[];
 
-      imageUrls.current.push(...filterdImagesUrl);
+      imageUrls.current.push(...filteredImagesUrl);
     });
   };
   const downloadAndSaveImages = useCallback(async () => {
@@ -53,7 +53,7 @@ export default function TrimBannerContainer() {
     });
     setImagesLoading(false);
   }, [imageUrls, setImagesLoading]);
-  const settingImages = useCallback(() => {
+  const setImages = useCallback(() => {
     if (!trimData) return;
     imageUrls.current = [];
     filterImageUrls(trimData);
@@ -81,7 +81,7 @@ export default function TrimBannerContainer() {
     return imageComponents;
   }, [trimData, selectedImgIdx, selectedTrimIdx, handleSelectImg]);
 
-  useEffect(settingImages, [settingImages]);
+  useEffect(setImages, [setImages]);
 
   const displayData = selectedData?.options.map((option, idx) => (
     <Data key={idx}>

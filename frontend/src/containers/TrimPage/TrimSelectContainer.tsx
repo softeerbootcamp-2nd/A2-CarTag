@@ -1,4 +1,5 @@
 import { useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import {
   BodyKrRegular4,
@@ -6,12 +7,11 @@ import {
   HeadingKrMedium6,
   HeadingKrMedium7,
 } from '../../styles/typefaces';
+import { PATH } from '../../utils/constants';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import DefaultCardStyle from '../../components/common/card/DefaultCardStyle';
 import RectButton from '../../components/common/buttons/RectButton';
 import { TrimContext } from '../../context/TrimContext';
-import { useNavigate } from 'react-router-dom';
-import { PATH } from '../../utils/constants';
 
 export default function TrimSelectContainer() {
   const navigate = useNavigate();
@@ -51,10 +51,7 @@ export default function TrimSelectContainer() {
       {data ? (
         <Wrapper>
           <Title>트림을 선택해주세요.</Title>
-          <TrimSection>
-            {/* Todo. map() 으로 데이터 받아서 만들기! */}
-            {displayTrimCards()}
-          </TrimSection>
+          <TrimSection>{displayTrimCards()}</TrimSection>
         </Wrapper>
       ) : null}
     </>
