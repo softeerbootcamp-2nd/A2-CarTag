@@ -2,7 +2,7 @@ import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { css, styled } from 'styled-components';
 import { BodyKrMedium3, BodyKrRegular5, HeadingKrRegular2 } from '../../styles/typefaces';
 import { flexCenterCss } from '../../utils/commonStyle';
-import { IMG_URL } from '../../utils/apis';
+import { IMG_URL, TRIM_API } from '../../utils/apis';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
@@ -21,7 +21,7 @@ export default function TrimBannerContainer() {
   const imageUrls = useRef<string[]>([]);
   const [imagesLoading, setImagesLoading] = useState(true);
 
-  console.log(imageUrls);
+  console.log(IMG_URL, TRIM_API);
   const handleSelectImg = useCallback(
     (idx: number) => {
       setSelectedImgIdx(idx);
