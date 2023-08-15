@@ -46,7 +46,7 @@ public class ModelService {
 
     //TODO: RuntimeException 처리
     public PowerTrainMappedDto getPowerTrainHmgData(int powerTrainId) {
-        return modelRepository.findPowerTrainData(powerTrainId).orElseThrow(() -> new RuntimeException("데이터가 존재하지 않습니다."));
+        return modelRepository.findPowerTrainData(powerTrainId).orElse(null);
     }
 
     //TODO: RuntimeException 처리
