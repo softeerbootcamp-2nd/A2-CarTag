@@ -36,13 +36,22 @@ public class OptionController {
         return optionService.getSubOptionList(carId);
     }
 
-    @Operation(summary = "옵션 상세정보 조회", description = "옵션 데이터 상세정보 및 이미지, HMG가 존재한다면(비어있다면 비어있는 부분을 Null) 보냄")
+    @Operation(summary = "추가옵션 상세정보 조회", description = "추가옵션 데이터 상세정보 및 이미지, HMG가 존재한다면(비어있다면 비어있는 부분을 Null) 보냄")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = OptionDetailDto.class)))
     })
-    @GetMapping("/optiondetail")
-    public OptionDetailDto getOptionDetail(@Parameter(description = "차량 트림 ID") @RequestParam("carid") int carId, @Parameter(description = "옵션 ID") @RequestParam("optionid") int optionId) {
-        return optionService.getOptionDetailData(carId, optionId);
+    @GetMapping("/sub/detail")
+    public OptionDetailDto getSubOptionDetail(@Parameter(description = "차량 트림 ID") @RequestParam("carid") int carId, @Parameter(description = "옵션 ID") @RequestParam("optionid") int optionId) {
+        return optionService.getOptionDetailData(carId, optionId, false);
+    }
+
+    @Operation(summary = "기본옵션 상세정보 조회", description = "기본옵션 데이터 상세정보 및 이미지, HMG가 존재한다면(비어있다면 비어있는 부분을 Null) 보냄")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = OptionDetailDto.class)))
+    })
+    @GetMapping("/default/detail")
+    public OptionDetailDto getDefaultOptionDetail(@Parameter(description = "차량 트림 ID") @RequestParam("carid") int carId, @Parameter(description = "옵션 ID") @RequestParam("optionid") int optionId) {
+        return optionService.getOptionDetailData(carId, optionId, true);
     }
 
     @Operation(summary = "기본 옵션 리스트 조회", description = "기본 옵션 데이터와 및 HMG 데이터 존재 여부 List 제공")

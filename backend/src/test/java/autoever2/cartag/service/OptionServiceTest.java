@@ -198,8 +198,8 @@ class OptionServiceTest {
         when(optionRepository.findPackageSubOptions(packageOption)).thenReturn(subPackages);
         when(carRepository.findCarBoughtCountByCarId(carId)).thenReturn(Optional.of(150000L));
 
-        OptionDetailDto singleResult = optionService.getOptionDetailData(carId, singleOption);
-        OptionDetailDto packageResult = optionService.getOptionDetailData(carId, packageOption);
+        OptionDetailDto singleResult = optionService.getOptionDetailData(carId, singleOption, false);
+        OptionDetailDto packageResult = optionService.getOptionDetailData(carId, packageOption, false);
 
         softAssertions.assertThat(singleResult).usingRecursiveComparison().isEqualTo(expected1);
         softAssertions.assertThat(packageResult).usingRecursiveComparison().isEqualTo(expected2);

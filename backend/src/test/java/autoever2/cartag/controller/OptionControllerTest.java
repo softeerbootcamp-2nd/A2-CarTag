@@ -154,8 +154,8 @@ class OptionControllerTest {
                 .subOptionList(subOptions)
                 .build();
 
-        given(optionService.getOptionDetailData(carId, optionWithHmg)).willReturn(expected1);
-        given(optionService.getOptionDetailData(carId, optionPackage)).willReturn(expected2);
+        given(optionService.getOptionDetailData(carId, optionWithHmg, false)).willReturn(expected1);
+        given(optionService.getOptionDetailData(carId, optionPackage, false)).willReturn(expected2);
 
         ResultActions singleOption = mockMvc.perform(MockMvcRequestBuilders.get("/api/options/optiondetail").param("carid", String.valueOf(carId)).param("optionid", String.valueOf(optionWithHmg)));
         ResultActions packageOption = mockMvc.perform(MockMvcRequestBuilders.get("/api/options/optiondetail").param("carid", String.valueOf(carId)).param("optionid", String.valueOf(optionPackage)));
