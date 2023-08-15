@@ -55,7 +55,6 @@ public class ModelRepository {
                 .addValue("modelId", modelId);
 
         return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, modelDetailRowMapper())));
-
     }
 
     private RowMapper<ModelDetailMappedDto> modelDetailRowMapper() {
