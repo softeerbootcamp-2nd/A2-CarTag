@@ -1,5 +1,5 @@
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
-import { css, keyframes, styled, useTheme } from 'styled-components';
+import { css, styled, useTheme } from 'styled-components';
 import { BodyKrRegular4, HeadingKrMedium6 } from '../../styles/typefaces';
 import { ArrowUp, ArrowDown } from '../common/icons/Icons';
 import React from 'react';
@@ -38,6 +38,9 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
     setBudget(newValue);
   };
 
+  const stopEvent = (event: React.MouseEvent) => {
+    event.stopPropagation();
+  };
   const handleMouseDown = ({ clientX, clientY }: React.MouseEvent) => {
     dragRef.current = true;
     const element = barRef.current!.getBoundingClientRect();
@@ -116,20 +119,12 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
           isOverBudget={isOverBudget}
           percent={((budget - lowestPrice) / (highestPrice - lowestPrice)) * 100}
           handleChange={handleChange}
+          stopEvent={stopEvent}
         />
       </AnimatedSection>
     </StatusBox>
   );
 }
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
-`;
 
 const withinBudgetCss = css`
   background: ${({ theme }) => theme.color.primaryColor700};
@@ -192,7 +187,8 @@ const StatusDesc = styled.p<{ $isover: boolean }>`
 `;
 const AnimatedSection = styled.div<{ $isopen: boolean }>`
   display: ${({ $isopen }) => ($isopen ? 'block' : 'none')};
-  animation: ${({ $isopen }) => ($isopen ? `${fadeIn} 0.5s ease` : 'none')};
+  opacity: ${({ $isopen }) => ($isopen ? '1' : '0')};
+  transition: opacity 0.5s ease;
 `;
 
 const IconBtn = styled.button``;

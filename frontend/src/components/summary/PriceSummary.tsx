@@ -2,11 +2,19 @@ import { styled } from 'styled-components';
 import RectButton from '../common/buttons/RectButton';
 import RoundButton from '../common/buttons/RoundButton';
 import { BodyKrRegular4, HeadingKrMedium2 } from '../../styles/typefaces';
+import { useNavigate } from 'react-router-dom';
 
-interface IPriceSummary extends React.HTMLAttributes<HTMLDivElement> {}
+interface IPriceSummary extends React.HTMLAttributes<HTMLDivElement> {
+  nextPagePath: string;
+}
 
-export default function PriceSummary({ ...props }: IPriceSummary) {
+export default function PriceSummary({ nextPagePath, ...props }: IPriceSummary) {
   const total = 43_560_000;
+  const navigate = useNavigate();
+  const handleButtonClick = (price: number) => {
+    price; // Todo. price 누적 값 저장
+    navigate(nextPagePath);
+  };
   return (
     <SummaryWrapper {...props}>
       <InfoWrapper>
@@ -15,7 +23,9 @@ export default function PriceSummary({ ...props }: IPriceSummary) {
           현재 총 가격<HighLightText>{total.toLocaleString()} 원</HighLightText>
         </TotalPriceText>
       </InfoWrapper>
-      <RectButton type="price">다음</RectButton>
+      <RectButton type="price" onClick={() => handleButtonClick(total)}>
+        다음
+      </RectButton>
     </SummaryWrapper>
   );
 }

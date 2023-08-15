@@ -12,6 +12,12 @@ export const PATH = {
   result: '/result',
 };
 
+export const modelTypeToEn: { [key: string]: string } = {
+  파워트레인: 'powertrain',
+  바디타입: 'bodytype',
+  구동방식: 'operation',
+};
+
 export const HYUNDAI_URL = 'https://www.hyundai.com/kr/ko/e';
 export const FONT_URL = 'fonts/';
 export const PAGE_ANIMATION_DURATION = 500;

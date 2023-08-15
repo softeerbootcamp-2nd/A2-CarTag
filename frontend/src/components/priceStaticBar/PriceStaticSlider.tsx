@@ -1,7 +1,7 @@
 import { css, styled } from 'styled-components';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular5 } from '../../styles/typefaces';
-import { ChangeEvent } from 'react';
+import { ChangeEvent, useEffect } from 'react';
 
 interface ISlider extends React.HTMLAttributes<HTMLDivElement> {
   lowestPrice: number;
@@ -11,6 +11,7 @@ interface ISlider extends React.HTMLAttributes<HTMLDivElement> {
   total: number;
   percent: number;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  stopEvent: (event: React.MouseEvent) => void;
 }
 export default function Slider({
   lowestPrice,
@@ -20,8 +21,10 @@ export default function Slider({
   total,
   percent,
   handleChange,
+  stopEvent,
   ...props
 }: ISlider) {
+  useEffect(() => {}, []);
   return (
     <PriceBarWrapper {...props}>
       <MarkerSvgWrapper>
@@ -31,6 +34,7 @@ export default function Slider({
           max={highestPrice}
           value={budget}
           onChange={handleChange}
+          onMouseDown={stopEvent}
           step={10}
           $percent={percent}
           $isover={isOverBudget}
