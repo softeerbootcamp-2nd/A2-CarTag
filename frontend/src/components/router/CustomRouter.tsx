@@ -8,20 +8,18 @@ import ResultPage from '../../pages/ResultPage';
 import TrimPage from '../../pages/TrimPage';
 import ModelTypePage from '../../pages/ModelTypePage';
 import { PATH } from '../../utils/constants';
+import TrimProvider from '../../context/TrimContext';
 
 export default function CustomRouter() {
   const { pathname } = useLocation();
 
   return (
     <AnimatePresence>
-      {pathname === PATH.home && (
+      {(pathname === PATH.trim || pathname === PATH.home) && (
         <PageAnimationWrapper key={0}>
-          <TrimPage />
-        </PageAnimationWrapper>
-      )}
-      {pathname === PATH.trim && (
-        <PageAnimationWrapper key={0}>
-          <TrimPage />
+          <TrimProvider>
+            <TrimPage />
+          </TrimProvider>
         </PageAnimationWrapper>
       )}
       {pathname === PATH.modelType && (

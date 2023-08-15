@@ -3,69 +3,125 @@ import { BodyKrMedium3, BodyKrRegular5, HeadingKrRegular2 } from '../../styles/t
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
-import { useState } from 'react';
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { flexCenterCss } from '../../utils/commonStyle';
+import { ICartype, TrimContext } from '../../context/TrimContext';
+import { IMG_URL } from '../../utils/apis';
+import Loading from '../../components/loading/Loading';
 
 export default function TrimBannerContainer() {
-  const [selectedImgIdx, setSelectedImgIdx] = useState(1);
-  const handleSelectImg = (idx: number) => {
-    setSelectedImgIdx(idx);
-  };
+  const {
+    data: trimData,
+    selectedTrimIdx,
+    loading,
+    selectedImgIdx,
+    setSelectedImgIdx,
+  } = useContext(TrimContext);
+  const selectedData = trimData && trimData[selectedTrimIdx];
+  const imageUrls = useRef<string[]>([]);
+  const [imagesLoading, setImagesLoading] = useState(true);
 
-  const images = ['/images/car.png', '/images/inner_car.png', '/images/wheel.png'];
-  const ImgSectionComponent = images.map((imgPath, idx) => {
-    return (
-      <ImgWrapper key={idx} onClick={() => handleSelectImg(idx)} $selected={selectedImgIdx === idx}>
-        <Img src={imgPath}></Img>
-      </ImgWrapper>
+  const handleSelectImg = useCallback(
+    (idx: number) => {
+      setSelectedImgIdx(idx);
+    },
+    [setSelectedImgIdx]
+  );
+  const filterImageUrls = (trimData: ICartype[]) => {
+    trimData.forEach((data) => {
+      const innerImgUrl = data.innerImage !== '' && `${IMG_URL}${data.innerImage}`;
+      const outerImgImgUrl = data.outerImage !== '' && `${IMG_URL}${data.outerImage}`;
+      const wheelImgUrl = data.wheelImage !== '' && `${IMG_URL}${data.wheelImage}`;
+      const filterdImagesUrl = [innerImgUrl, outerImgImgUrl, wheelImgUrl].filter(
+        (url) => url
+      ) as string[];
+
+      imageUrls.current.push(...filterdImagesUrl);
+    });
+  };
+  const downloadAndSaveImages = useCallback(async () => {
+    const imageBlobs = await Promise.all(
+      imageUrls.current.map(async (url) => {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        return blob;
+      })
     );
-  });
+    imageBlobs.forEach((imageBlob, index) => {
+      const imageUrl = imageUrls.current[index];
+      localStorage.setItem(imageUrl, URL.createObjectURL(imageBlob));
+    });
+    setImagesLoading(false);
+  }, [imageUrls, setImagesLoading]);
+  const settingImages = useCallback(() => {
+    if (!trimData) return;
+    imageUrls.current = [];
+    filterImageUrls(trimData);
+    downloadAndSaveImages();
+  }, [trimData, downloadAndSaveImages]);
+  const displayImages = useCallback(() => {
+    if (!trimData) return;
+
+    const outerUrl = `${IMG_URL}${trimData[selectedTrimIdx].outerImage}`;
+    const innerUrl = `${IMG_URL}${trimData[selectedTrimIdx].innerImage}`;
+    const wheelUrl = `${IMG_URL}${trimData[selectedTrimIdx].wheelImage}`;
+    const imageUrls = [outerUrl, innerUrl, wheelUrl].filter((url) => url);
+
+    const imageComponents = imageUrls.map((url, idx) => {
+      const imgSrc = localStorage.getItem(url);
+      if (!imgSrc) return;
+
+      return (
+        <ImgWrapper key={idx} $selected={selectedImgIdx === idx}>
+          <Img $src={imgSrc} onClick={() => handleSelectImg(idx)} />
+        </ImgWrapper>
+      );
+    });
+
+    return imageComponents;
+  }, [trimData, selectedImgIdx, selectedTrimIdx, handleSelectImg]);
+
+  useEffect(settingImages, [settingImages]);
+
+  const displayData = selectedData?.options.map((option, idx) => (
+    <Data key={idx}>
+      <DataTitle>{option.optionName}</DataTitle>
+      <DataInfo>
+        {option.optionUsedCount}
+        <DataCaption>15,000km 당</DataCaption>
+      </DataInfo>
+    </Data>
+  ));
 
   return (
-    <Banner subtitle={'기본에 충실한 펠리세이드'} title={'Le blanc'}>
-      <Container>
-        <HmgDataWrapper>
-          <HmgDataSection>
-            <HmgTag size="small" />
-            <HmgTagDescription>
-              해당 트림 포함된 옵션들의
-              <BlueText> 실활용 데이터</BlueText>예요.
-            </HmgTagDescription>
-            <DataList>
-              <Data>
-                <DataTitle>안전 하차 보조</DataTitle>
-                <DataInfo>
-                  42회
-                  <DataCaption>15,000km 당</DataCaption>
-                </DataInfo>
-              </Data>
-              <Data>
-                <DataTitle>후측방 충돌 경고</DataTitle>
-                <DataInfo>
-                  42회
-                  <DataCaption>15,000km 당</DataCaption>
-                </DataInfo>
-              </Data>
-              <Data>
-                <DataTitle>후방 교차 충돌방지 경고</DataTitle>
-                <DataInfo>
-                  42회
-                  <DataCaption>15,000km 당</DataCaption>
-                </DataInfo>
-              </Data>
-            </DataList>
-          </HmgDataSection>
-        </HmgDataWrapper>
-        <ImgSection>{ImgSectionComponent}</ImgSection>
-      </Container>
-    </Banner>
+    <>
+      {selectedData && !loading ? (
+        <Banner subtitle={selectedData.carDescription} title={selectedData.trim}>
+          <Container>
+            <HmgDataWrapper>
+              {displayData?.length !== 0 && (
+                <HmgDataSection>
+                  <HmgTag size="small" />
+                  <HmgTagDescription>
+                    해당 트림 포함된 옵션들의
+                    <BlueText> 실활용 데이터</BlueText>예요.
+                  </HmgTagDescription>
+                  <DataList>{displayData}</DataList>
+                </HmgDataSection>
+              )}
+            </HmgDataWrapper>
+            <ImgSection>{imagesLoading ? <Loading /> : displayImages()}</ImgSection>
+          </Container>
+        </Banner>
+      ) : null}
+    </>
   );
 }
 
 const Container = styled(CenterWrapper)`
   display: flex;
   justify-content: space-between;
-  height: 100%;
+  height: 360px;
 `;
 const HmgDataWrapper = styled.div`
   z-index: 100000;
@@ -115,7 +171,9 @@ const DataCaption = styled.div`
 
 const ImgSection = styled.div`
   display: flex;
+  width: 677px;
   gap: 16px;
+  justify-content: flex-end;
 `;
 const ImgWrapper = styled.div<{ $selected?: boolean }>`
   ${({ $selected }) => {
@@ -147,7 +205,10 @@ const ImgWrapper = styled.div<{ $selected?: boolean }>`
   transition: all 0.2s;
 `;
 
-const Img = styled.img`
-  height: auto;
+const Img = styled.div<{ $src: string }>`
+  height: 100%;
   width: 700px;
+  background-image: url(${({ $src }) => $src});
+  background-position: center;
+  background-size: cover;
 `;
