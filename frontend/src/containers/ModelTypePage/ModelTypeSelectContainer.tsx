@@ -31,7 +31,7 @@ export default function ModelTypelSelectContainer() {
               <ModelTypeCard
                 onClick={() => {
                   setCurrentModelTypeIdx(el.modelId);
-                  handleSelectedIdx(el.modelTypeName, el.modelId);
+                  handleSelectedIdx(modelTypeToEn[el.modelTypeName], el.modelId);
                 }}
                 active={selectedModelTypeIdx[modelTypeToEn[el.modelTypeName]] === el.modelId}
                 desc={el.percentage + '%의 선택'}
