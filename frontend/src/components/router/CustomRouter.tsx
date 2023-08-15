@@ -9,6 +9,7 @@ import TrimPage from '../../pages/TrimPage';
 import ModelTypePage from '../../pages/ModelTypePage';
 import { PATH } from '../../utils/constants';
 import TrimProvider from '../../context/TrimContext';
+import ModelTypeProvider from '../../context/ModelTypeProvider';
 
 export default function CustomRouter() {
   const { pathname } = useLocation();
@@ -24,7 +25,9 @@ export default function CustomRouter() {
       )}
       {pathname === PATH.modelType && (
         <PageAnimationWrapper key={1}>
-          <ModelTypePage />
+          <ModelTypeProvider>
+            <ModelTypePage />
+          </ModelTypeProvider>
         </PageAnimationWrapper>
       )}
       {pathname === PATH.exterior && (
