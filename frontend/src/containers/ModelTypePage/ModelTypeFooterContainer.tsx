@@ -21,7 +21,7 @@ interface IHmgEfficiency {
 export default function ModelTypeFooterContainer() {
   const { modelType, selectedModelTypeIdx } = useContext(ModelTypeContext);
   const { data: hmgEfficiency, loading: hmgEfficiencyLoading } = useFetch<IHmgEfficiency>(
-    `${MODEL_TYPE_API}/hmg-efficiency/?powertrain=${selectedModelTypeIdx.파워트레인}&operation=${selectedModelTypeIdx.구동방식}`
+    `${MODEL_TYPE_API}/hmg-efficiency/?powertrain=${selectedModelTypeIdx.powertrain}&operation=${selectedModelTypeIdx.operation}`
   );
 
   return (
@@ -32,8 +32,8 @@ export default function ModelTypeFooterContainer() {
             <HmgTag size="small" />
             <HmgInfoWrapper>
               <HmgTagDescription>
-                <BlueText>{modelType[selectedModelTypeIdx.파워트레인 - 1].modelName}</BlueText>와{' '}
-                <BlueText>{modelType[selectedModelTypeIdx.구동방식 - 1].modelName}</BlueText>의
+                <BlueText>{modelType[selectedModelTypeIdx.powertrain - 1].modelName}</BlueText>와{' '}
+                <BlueText>{modelType[selectedModelTypeIdx.operation - 1].modelName}</BlueText>의
                 배기량과 평균연비입니다.
               </HmgTagDescription>
               <DataList>

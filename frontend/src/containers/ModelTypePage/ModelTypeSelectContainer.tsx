@@ -4,6 +4,7 @@ import { HeadingKrMedium6, HeadingKrMedium7 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import ModelTypeCard from '../../components/cards/ModelTypeCard';
 import { IModelType, ModelTypeContext } from '../../context/ModelTypeProvider';
+import { modelTypeToEn } from '../../utils/constants';
 
 export default function ModelTypelSelectContainer() {
   const { modelType, selectedModelTypeIdx, setCurrentModelTypeIdx, handleSelectedIdx } =
@@ -32,7 +33,7 @@ export default function ModelTypelSelectContainer() {
                   setCurrentModelTypeIdx(el.modelId);
                   handleSelectedIdx(el.modelTypeName, el.modelId);
                 }}
-                active={selectedModelTypeIdx[el.modelTypeName] === el.modelId}
+                active={selectedModelTypeIdx[modelTypeToEn[el.modelTypeName]] === el.modelId}
                 desc={el.percentage + '%의 선택'}
                 title={el.modelName}
                 price={el.modelPrice}

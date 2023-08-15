@@ -11,15 +11,18 @@ export interface IModelType {
   modelPrice: number;
   percentage: number;
 }
+interface ISelectedModelTypeIdx {
+  [key: string]: number;
+}
 
 interface IModelTypeContext {
   modelType: IModelType[] | null;
   loading: boolean;
-  selectedModelTypeIdx: Record<string, number>;
+  selectedModelTypeIdx: ISelectedModelTypeIdx;
   currentModelTypeIdx: number;
   setModelType: Dispatch<SetStateAction<IModelType[] | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
-  setSelectedModelTypeIdx: Dispatch<SetStateAction<Record<string, number>>>;
+  setSelectedModelTypeIdx: Dispatch<SetStateAction<ISelectedModelTypeIdx>>;
   handleSelectedIdx: (key: string, idx: number) => void;
   setCurrentModelTypeIdx: Dispatch<SetStateAction<number>>;
 }
@@ -28,9 +31,9 @@ const initialContext = {
   modelType: null,
   loading: true,
   selectedModelTypeIdx: {
-    파워트레인: 0,
-    구동방식: 0,
-    바디타입: 0,
+    powertrain: 0,
+    operation: 0,
+    bodytype: 0,
   },
   currentModelTypeIdx: 1,
   setModelType: () => {},
@@ -45,10 +48,10 @@ export const ModelTypeContext = createContext<IModelTypeContext>(initialContext)
 export default function ModelTypeProvider({ children }: IModelTypeProvider) {
   const [modelType, setModelType] = useState<IModelType[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedModelTypeIdx, setSelectedModelTypeIdx] = useState<Record<string, number>>({
-    파워트레인: 1,
-    구동방식: 3,
-    바디타입: 5,
+  const [selectedModelTypeIdx, setSelectedModelTypeIdx] = useState<ISelectedModelTypeIdx>({
+    powertrain: 1,
+    operation: 3,
+    bodytype: 5,
   });
   const [currentModelTypeIdx, setCurrentModelTypeIdx] = useState(1);
   const handleSelectedIdx = (key: string, idx: number) => {
