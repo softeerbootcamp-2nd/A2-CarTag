@@ -8,7 +8,7 @@ import ResultPage from '../../pages/ResultPage';
 import TrimPage from '../../pages/TrimPage';
 import ModelTypePage from '../../pages/ModelTypePage';
 import { PATH } from '../../utils/constants';
-import TrimProvider from '../../context/TrimContext';
+import TrimProvider from '../../context/TrimProvider';
 import ModelTypeProvider from '../../context/ModelTypeProvider';
 
 export default function CustomRouter() {

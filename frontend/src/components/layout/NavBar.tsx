@@ -5,7 +5,7 @@ import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../styles/ty
 import { ArrowDown, CancelIcon } from '../common/icons/Icons';
 import hyundaiLogo from '/images/logo.svg';
 import { PATH } from '../../utils/constants';
-import { CloseModalContext } from '../../context/CloseModalContext';
+import { CloseModalContext } from '../../context/CloseModalProvider';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
   active: boolean;

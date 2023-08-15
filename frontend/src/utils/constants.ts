@@ -12,6 +12,10 @@ export const PATH = {
   result: '/result',
 };
 
+export const MESSAGE = {
+  trimSelectRequired: '트림을 선택해 주세요.',
+};
+
 export const modelTypeToEn: { [key: string]: string } = {
   파워트레인: 'powertrain',
   바디타입: 'bodytype',
@@ -19,7 +23,6 @@ export const modelTypeToEn: { [key: string]: string } = {
 };
 
 export const HYUNDAI_URL = 'https://www.hyundai.com/kr/ko/e';
-export const FONT_URL = 'fonts/';
 export const PAGE_ANIMATION_DURATION = 500;
 
 Object.freeze({
@@ -28,5 +31,6 @@ Object.freeze({
   MAX_TEXT_CNT,
   HYUNDAI_URL,
   PATH,
+  MESSAGE,
   PAGE_ANIMATION_DURATION,
 });

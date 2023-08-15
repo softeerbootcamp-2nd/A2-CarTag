@@ -58,7 +58,7 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
     const maxY = window.innerHeight - (barRef.current?.offsetHeight || 0);
     const newLeft = Math.min(Math.max(minX, event.clientX - startX), maxX);
     const newTop = Math.min(Math.max(minY, event.clientY - startY), maxY);
-
+    event.preventDefault();
     setOffset({ offsetX: `${newLeft}px`, offsetY: `${newTop}px` });
   };
 
@@ -71,14 +71,14 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
   }, [budget, getBudgetStatus]);
 
   useEffect(() => {
-    window.addEventListener('mousemove', (e) =>
-      handleMouseMove(e, startOffset.startX, startOffset.startY)
+    window.addEventListener('mousemove', (event) =>
+      handleMouseMove(event, startOffset.startX, startOffset.startY)
     );
     window.addEventListener('mouseup', handleMouseUp);
 
     return () => {
-      window.removeEventListener('mousemove', (e) =>
-        handleMouseMove(e, startOffset.startX, startOffset.startY)
+      window.removeEventListener('mousemove', (event) =>
+        handleMouseMove(event, startOffset.startX, startOffset.startY)
       );
       window.removeEventListener('mouseup', handleMouseUp);
     };

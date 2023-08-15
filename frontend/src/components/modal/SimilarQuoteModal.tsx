@@ -14,7 +14,7 @@ import ExtraOptionCard from '../cards/ExtraOptionCard';
 import HmgTag from '../common/hmgTag/HmgTag';
 import RectButton from '../common/buttons/RectButton';
 import { DimmedBackground } from './DimmedBackground';
-import { SimilarQuoteModalContext } from '../../context/SimilarQuoteModalContext';
+import { SimilarQuoteModalContext } from '../../context/SimilarQuoteModalProvider';
 import SimilarPriceBar from '../priceStaticBar/SimilarPriceBar';
 
 interface ISimilarQuoteModal extends HTMLAttributes<HTMLDivElement> {}

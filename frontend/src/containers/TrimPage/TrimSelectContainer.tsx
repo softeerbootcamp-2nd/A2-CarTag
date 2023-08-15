@@ -7,39 +7,62 @@ import {
   HeadingKrMedium6,
   HeadingKrMedium7,
 } from '../../styles/typefaces';
-import { PATH } from '../../utils/constants';
+import { MESSAGE, PATH } from '../../utils/constants';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import DefaultCardStyle from '../../components/common/card/DefaultCardStyle';
 import RectButton from '../../components/common/buttons/RectButton';
-import { TrimContext } from '../../context/TrimContext';
+import { TrimContext } from '../../context/TrimProvider';
+import { ItemContext } from '../../context/ItemProvider';
 
 export default function TrimSelectContainer() {
+  const {
+    selectedTrimIdx,
+    data: trimData,
+    loading,
+    setSelectedTrimIdx,
+    setSelectedImgIdx,
+  } = useContext(TrimContext);
+  const { setSelectedItem, setTotalPrice } = useContext(ItemContext);
+  const selectedTrim = trimData && trimData[selectedTrimIdx];
   const navigate = useNavigate();
-  const { selectedTrimIdx, setSelectedTrimIdx, data, loading, setSelectedImgIdx } =
-    useContext(TrimContext);
-  const selectedData = data && data[selectedTrimIdx];
 
   const handleSelectedIdx = (idx: number) => {
     setSelectedTrimIdx(idx);
     setSelectedImgIdx(0);
   };
-  const handleButtonClick = (price: number) => {
-    price; // Todo. price 누적 값 저장
+  const isAcitve = (idx: number) => selectedTrimIdx === idx;
+  const handleNextButtonClick = (idx: number) => {
+    if (!isAcitve(idx)) {
+      return;
+    }
+    if (!selectedTrim) {
+      alert(MESSAGE.trimSelectRequired);
+      return;
+    }
+    setSelectedItem({
+      type: 'SET_TRIM',
+      value: {
+        id: selectedTrimIdx,
+        name: selectedTrim.trim,
+        price: selectedTrim.carDefaultPrice,
+      },
+    });
+    setTotalPrice(selectedTrim.carDefaultPrice);
     navigate(PATH.modelType);
   };
 
   const displayTrimCards = () => {
-    if (!(selectedData && !loading)) {
+    if (!(selectedTrim && !loading)) {
       return <></>;
     }
 
-    const cardIndices = Array.from({ length: data.length }, (_, index) => index);
+    const cardIndices = Array.from({ length: trimData.length }, (_, index) => index);
     return cardIndices.map((idx) => (
-      <TrimCard key={idx} onClick={() => handleSelectedIdx(idx)} active={selectedTrimIdx === idx}>
-        <TrimDesc>{data[idx].carDescription}</TrimDesc>
-        <TrimTitle>{data[idx].trim}</TrimTitle>
-        <TrimPrice>{data[idx].carDefaultPrice.toLocaleString()} 원</TrimPrice>
-        <TrimButton type={'trim'} onClick={() => handleButtonClick(data[idx].carDefaultPrice)}>
+      <TrimCard key={idx} onClick={() => handleSelectedIdx(idx)} active={isAcitve(idx)}>
+        <TrimDesc>{trimData[idx].carDescription}</TrimDesc>
+        <TrimTitle>{trimData[idx].trim}</TrimTitle>
+        <TrimPrice>{trimData[idx].carDefaultPrice.toLocaleString()} 원</TrimPrice>
+        <TrimButton type={'trim'} onClick={() => handleNextButtonClick(idx)}>
           선택하기
         </TrimButton>
       </TrimCard>
@@ -48,7 +71,7 @@ export default function TrimSelectContainer() {
 
   return (
     <>
-      {data ? (
+      {trimData ? (
         <Wrapper>
           <Title>트림을 선택해주세요.</Title>
           <TrimSection>{displayTrimCards()}</TrimSection>
