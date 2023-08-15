@@ -38,6 +38,9 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
     setBudget(newValue);
   };
 
+  const stopEvent = (event: React.MouseEvent) => {
+    event.stopPropagation();
+  };
   const handleMouseDown = ({ clientX, clientY }: React.MouseEvent) => {
     dragRef.current = true;
     const element = barRef.current!.getBoundingClientRect();
@@ -116,6 +119,7 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
           isOverBudget={isOverBudget}
           percent={((budget - lowestPrice) / (highestPrice - lowestPrice)) * 100}
           handleChange={handleChange}
+          stopEvent={stopEvent}
         />
       </AnimatedSection>
     </StatusBox>
