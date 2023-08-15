@@ -46,6 +46,7 @@ class ModelServiceTest {
         trimModelList.add(ModelShortMappedDto.builder()
                 .modelId(1)
                 .modelName("디젤 2.2")
+                .modelTypeId(1)
                 .modelPrice(0L)
                 .isDefaultModel(true)
                 .modelTypeName("파워트레인")
@@ -56,6 +57,7 @@ class ModelServiceTest {
         trimModelList.add(ModelShortMappedDto.builder()
                 .modelId(2)
                 .modelName("가솔린 3.8")
+                .modelTypeId(1)
                 .modelPrice(280000L)
                 .isDefaultModel(false)
                 .modelTypeName("파워트레인")
@@ -66,6 +68,7 @@ class ModelServiceTest {
         trimModelList.add(ModelShortMappedDto.builder()
                 .modelId(3)
                 .modelName("7인승")
+                .modelTypeId(3)
                 .modelPrice(0L)
                 .isDefaultModel(true)
                 .modelTypeName("바디타입")
@@ -76,6 +79,7 @@ class ModelServiceTest {
         trimModelList.add(ModelShortMappedDto.builder()
                 .modelId(4)
                 .modelName("8인승")
+                .modelTypeId(3)
                 .modelPrice(130000L)
                 .isDefaultModel(false)
                 .modelTypeName("바디타입")
@@ -86,6 +90,7 @@ class ModelServiceTest {
         trimModelList.add(ModelShortMappedDto.builder()
                 .modelId(5)
                 .modelName("2WD")
+                .modelTypeId(2)
                 .modelPrice(0L)
                 .isDefaultModel(true)
                 .modelTypeName("구동방식")
@@ -96,6 +101,7 @@ class ModelServiceTest {
         trimModelList.add(ModelShortMappedDto.builder()
                 .modelId(6)
                 .modelName("4WD")
+                .modelTypeId(2)
                 .modelPrice(237000L)
                 .isDefaultModel(false)
                 .modelTypeName("구동방식")
@@ -156,7 +162,7 @@ class ModelServiceTest {
         PowerTrainMappedDto result1 = modelService.getPowerTrainHmgData(powerTrainId1);
 
         softAssertions.assertThat(result1).usingRecursiveComparison().isEqualTo(powerTrain1);
-        softAssertions.assertThatThrownBy(() -> modelService.getPowerTrainHmgData(powerTrainId2)).isInstanceOf(RuntimeException.class);
+        softAssertions.assertThat(modelService.getPowerTrainHmgData(powerTrainId2)).isNull();
     }
 
     @Test
@@ -168,7 +174,6 @@ class ModelServiceTest {
                 .averageFuel("12.16km/s")
                 .displacement("2,199cc")
                 .build();
-
         when(modelRepository.findEfficiencyData(powerTrainId, operationId)).thenReturn(Optional.of(data));
 
         softAssertions.assertThat(modelService.getEfficiencyData(powerTrainId, operationId)).usingRecursiveComparison().isEqualTo(data);
