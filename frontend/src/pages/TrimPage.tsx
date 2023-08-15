@@ -3,7 +3,7 @@ import TrimBannerContainer from '../containers/TrimPage/TrimBannerContainer';
 import TrimSelectContainer from '../containers/TrimPage/TrimSelectContainer';
 import { useFetch } from '../hooks/useFetch';
 import { TRIM_API } from '../utils/apis';
-import { ICartype, TrimContext } from '../context/TrimContext';
+import { ICartype, TrimContext } from '../context/TrimProvider';
 
 export default function TrimPage() {
   const { data, loading } = useFetch<ICartype[]>(`${TRIM_API}?carType=${1}`);

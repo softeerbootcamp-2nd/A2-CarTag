@@ -1,17 +1,23 @@
 import { BrowserRouter } from 'react-router-dom';
 import NavBar from './components/layout/NavBar';
+import Providers from './components/contextProviders/Providers';
 import PriceStaticBar from './components/priceStaticBar/PriceStaticBar';
 import CustomRouter from './components/router/CustomRouter';
 import ModalContainer from './containers/Modal/ModalContainer';
-import CloseModalProvider from './context/CloseModalContext';
-import SimilarQuoteModalProvider from './context/SimilarQuoteModalContext';
-import GuideModalProvider from './context/GuideMoadlContext';
-import Providers from './components/contextProviders/Providers';
+import CloseModalProvider from './context/CloseModalProvider';
+import SimilarQuoteModalProvider from './context/SimilarQuoteModalProvider';
+import GuideModalProvider from './context/GuideModalProvider';
+import ItemProvider from './context/ItemProvider';
 
 function App() {
-  const modalProviders = [CloseModalProvider, SimilarQuoteModalProvider, GuideModalProvider];
+  const globalProviders = [
+    CloseModalProvider,
+    SimilarQuoteModalProvider,
+    GuideModalProvider,
+    ItemProvider,
+  ];
   return (
-    <Providers contexts={modalProviders}>
+    <Providers contexts={globalProviders}>
       <BrowserRouter>
         <NavBar />
         <PriceStaticBar />
@@ -23,4 +29,3 @@ function App() {
 }
 
 export default App;
-

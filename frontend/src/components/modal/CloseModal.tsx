@@ -5,7 +5,7 @@ import { flexCenterCss } from '../../utils/commonStyle';
 import RectButton from '../common/buttons/RectButton';
 import { HYUNDAI_URL } from '../../utils/constants';
 import { DimmedBackground } from './DimmedBackground';
-import { CloseModalContext } from '../../context/CloseModalContext';
+import { CloseModalContext } from '../../context/CloseModalProvider';
 
 interface ICloseModal extends HTMLAttributes<HTMLDivElement> {}
 
