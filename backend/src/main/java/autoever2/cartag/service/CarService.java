@@ -2,6 +2,8 @@ package autoever2.cartag.service;
 
 import autoever2.cartag.domain.car.CarDto;
 import autoever2.cartag.domain.car.CarInfoDto;
+import autoever2.cartag.exception.EmptyDataException;
+import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.repository.CarRepository;
 import autoever2.cartag.repository.OptionRepository;
 import lombok.RequiredArgsConstructor;
@@ -23,7 +25,7 @@ public class CarService {
     public List<CarDto> findCarByCarType(int carType) {
         List<CarInfoDto> carInfos = carRepository.findCarByCarType(carType);
         if(carInfos.isEmpty()){
-            throw new RuntimeException("미정");
+            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
         }
 
         return carInfos.stream()

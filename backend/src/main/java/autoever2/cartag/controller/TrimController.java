@@ -31,7 +31,7 @@ public class TrimController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = CarDto.class))),
     })
     @GetMapping("/types")
-    public List<CarDto> carTrimInfo(@Parameter(description = "선택한 car_type") @RequestParam int carType) {
+    public List<CarDto> carTrimInfo(@Parameter(description = "선택한 car_type") @RequestParam("cartype") int carType) {
         return service.findCarByCarType(carType);
     }
 

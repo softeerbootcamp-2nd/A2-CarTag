@@ -3,8 +3,11 @@ package autoever2.cartag.service;
 import autoever2.cartag.domain.car.CarDto;
 import autoever2.cartag.domain.car.CarInfoDto;
 import autoever2.cartag.domain.car.TrimDefaultOptionDto;
+import autoever2.cartag.exception.EmptyDataException;
+import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.repository.CarRepository;
 import autoever2.cartag.repository.OptionRepository;
+import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -16,6 +19,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -116,13 +120,13 @@ class CarServiceTest {
 
         when(carRepository.findCarByCarType(carType)).thenReturn(carInfoDtoList);
         when(optionRepository.findDefaultOptionByCarId(carId)).thenReturn(trimDefaultOptionDtoList);
+        when(carRepository.findCarByCarType(2)).thenThrow(new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND));
 
         List<CarDto> carByCarType = service.findCarByCarType(carType);
 
         assertEquals(carByCarType.size(), 4);
         assertEquals(carByCarType.get(0).getOptions().size(), 3);
-
-
+        assertThatThrownBy(() -> service.findCarByCarType(2)).isInstanceOf(EmptyDataException.class);
     }
 
 }
