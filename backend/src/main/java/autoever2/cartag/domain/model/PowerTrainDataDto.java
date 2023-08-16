@@ -1,7 +1,9 @@
 package autoever2.cartag.domain.model;
 
 import lombok.Builder;
+import lombok.Getter;
 
+@Getter
 public class PowerTrainDataDto {
 
     private String maxPs;
