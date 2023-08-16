@@ -2,7 +2,7 @@ import { useContext } from 'react';
 import { styled } from 'styled-components';
 import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
-import { SubOptionContext } from '../../../context/SubOptionProvider';
+import { ISubOption, SubOptionContext } from '../../../context/SubOptionProvider';
 import HmgTag from '../../../components/common/hmgTag/HmgTag';
 export default function SubOptionContainer() {
   const { subOption, selectedOptionIdx, setCurrentOptionIdx, setSelectedOptionIdx } =
@@ -11,6 +11,18 @@ export default function SubOptionContainer() {
   const handleCardClick = (index: number) => {
     setCurrentOptionIdx(index);
   };
+  if (!subOption) return;
+  const groupByCategoryName = (array: ISubOption[]) => {
+    return array.reduce((acc: Record<string, ISubOption[]>, current: ISubOption) => {
+      const optionCategoryName = current.optionCategoryName;
+      if (!acc[optionCategoryName]) {
+        acc[optionCategoryName] = [];
+      }
+      acc[optionCategoryName].push(current);
+      return acc;
+    }, {});
+  };
+  const groupedData = groupByCategoryName(subOption);
 
   const handleSelectOption = (index: number) => {
     setSelectedOptionIdx((prevSelectedOptions) => {
@@ -21,6 +33,11 @@ export default function SubOptionContainer() {
       }
     });
   };
+  const displayCategory = Object.keys(groupedData).map((key, idx) => (
+    <RoundButton key={idx} type="option" inactive={true}>
+      {key}
+    </RoundButton>
+  ));
   const displayData = subOption?.map((option, idx) => (
     <CardWrapper key={idx}>
       {option.hasHmgData && (
@@ -41,21 +58,14 @@ export default function SubOptionContainer() {
       />
     </CardWrapper>
   ));
+
   return (
     <>
       {subOption && (
         <>
           <CategoryWrapper>
             <RoundButton type="option">전체</RoundButton>
-            <RoundButton type="option" inactive={true}>
-              상세품목
-            </RoundButton>
-            <RoundButton type="option" inactive={true}>
-              악세서리
-            </RoundButton>
-            <RoundButton type="option" inactive={true}>
-              휠
-            </RoundButton>
+            {displayCategory}
           </CategoryWrapper>
           <OptionSection>
             <OptionWrapper>{displayData}</OptionWrapper>

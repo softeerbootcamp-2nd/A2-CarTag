@@ -21,8 +21,8 @@ export default function ModelTypelSelectContainer() {
   };
   if (!modelType) return;
   const groupedData = groupByModelTypeName(modelType);
-  const drawModelType = Object.keys(groupedData).map((key) => (
-    <TypeWrapper key={key}>
+  const drawModelType = Object.keys(groupedData).map((key, idx) => (
+    <TypeWrapper key={idx}>
       <TypeTitle>{key}</TypeTitle>
       <ModelTypeSection>
         <ModelTypeCardWrapper>

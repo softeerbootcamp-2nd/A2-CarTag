@@ -68,6 +68,10 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
       });
     }
   };
+  useEffect(() => {
+    setSelectedIdx(0);
+    setPage(0);
+  }, [options]);
 
   useEffect(() => {
     if (tabDivisionRef.current) {

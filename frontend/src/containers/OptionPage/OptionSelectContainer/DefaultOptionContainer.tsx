@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 import { useContext } from 'react';
 import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
-import { DefaultOptionContext } from '../../../context/DefaultOptionProvider';
+import { DefaultOptionContext, IDefaultOption } from '../../../context/DefaultOptionProvider';
 import HmgTag from '../../../components/common/hmgTag/HmgTag';
 
 export default function DefaultOptionContainer() {
@@ -10,6 +10,25 @@ export default function DefaultOptionContainer() {
   const handleClick = (index: number) => {
     setCurrentOptionIdx(index);
   };
+
+  if (!defaultOption) return;
+  const groupByCategoryName = (array: IDefaultOption[]) => {
+    return array.reduce((acc: Record<string, IDefaultOption[]>, current: IDefaultOption) => {
+      const optionCategoryName = current.optionCategoryName;
+      if (!acc[optionCategoryName]) {
+        acc[optionCategoryName] = [];
+      }
+      acc[optionCategoryName].push(current);
+      return acc;
+    }, {});
+  };
+  const groupedData = groupByCategoryName(defaultOption);
+
+  const displayCategory = Object.keys(groupedData).map((key, idx) => (
+    <RoundButton key={idx} type="option" inactive={true}>
+      {key}
+    </RoundButton>
+  ));
   const displayData = defaultOption?.map((option, idx) => (
     <CardWrapper key={idx}>
       {option.hasHmgData && (
@@ -36,15 +55,7 @@ export default function DefaultOptionContainer() {
         <>
           <CategoryWrapper>
             <RoundButton type="option">전체</RoundButton>
-            <RoundButton type="option" inactive={true}>
-              상세품목
-            </RoundButton>
-            <RoundButton type="option" inactive={true}>
-              악세서리
-            </RoundButton>
-            <RoundButton type="option" inactive={true}>
-              휠
-            </RoundButton>
+            {displayCategory}
           </CategoryWrapper>
           <OptionSection>
             <OptionWrapper>{displayData}</OptionWrapper>
