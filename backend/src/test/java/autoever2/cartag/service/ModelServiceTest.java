@@ -138,7 +138,7 @@ class ModelServiceTest {
         ModelDetailMappedDto result1 = modelService.getModelDetail(modelId1);
 
         softAssertions.assertThat(result1).usingRecursiveComparison().isEqualTo(model1);
-        softAssertions.assertThatThrownBy(() -> modelService.getModelDetail(4)).isInstanceOf(RuntimeException.class);
+        softAssertions.assertThatThrownBy(() -> modelService.getModelDetail(4)).isInstanceOf(EmptyDataException.class);
     }
 
     @Test
@@ -157,7 +157,7 @@ class ModelServiceTest {
         PowerTrainMappedDto result1 = modelService.getPowerTrainHmgData(powerTrainId1);
 
         softAssertions.assertThat(result1).usingRecursiveComparison().isEqualTo(powerTrain1);
-        softAssertions.assertThatThrownBy(() -> modelService.getPowerTrainHmgData(powerTrainId2)).isInstanceOf(Emp.class);
+        softAssertions.assertThatThrownBy(() -> modelService.getPowerTrainHmgData(powerTrainId2)).isInstanceOf(EmptyDataException.class);
     }
 
     @Test
