@@ -42,17 +42,17 @@ interface IOptionBannerContainer {
   optionDetail: IOptionDetail;
   optionDetailLoading: boolean;
 }
+
 export default function OptionBannerContainer({
   optionDetail,
   optionDetailLoading,
 }: IOptionBannerContainer) {
+  const [bannerInfo, setBannerInfo] = useState({
+    categoryName: '',
+    descriptionText: '',
+    imgPath: '',
+  });
   const [isBannerVisible, setIsBannerVisible] = useState(false);
-
-  const displayText =
-    optionDetail.optionDescription.length > MAX_TEXT_CNT
-      ? optionDetail.optionDescription.substring(0, MAX_TEXT_CNT) + '...'
-      : optionDetail.optionDescription;
-
   const handleBannerVisibility = () => {
     setIsBannerVisible(!isBannerVisible);
   };
@@ -60,26 +60,45 @@ export default function OptionBannerContainer({
   const handleScroll = () => {
     setWinY(window.scrollY);
   };
+
+  const isOverMaxLine = (desc: string) => {
+    const text = desc.length > MAX_TEXT_CNT ? desc.substring(0, MAX_TEXT_CNT) + '...' : desc;
+    return text;
+  };
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
+  useEffect(() => {
+    const target = optionDetail.subOptionList ? optionDetail.subOptionList[0] : optionDetail;
+
+    setBannerInfo({
+      categoryName: target.categoryName,
+      descriptionText: target.optionDescription,
+      imgPath: target.optionImage,
+    });
+  }, [optionDetail]);
+
   return (
     <>
       {optionDetail && !optionDetailLoading && (
         <Wrapper $isBannerVisible={isBannerVisible}>
-          <OptionBanner subtitle={optionDetail.categoryName} title={optionDetail.optionName}>
+          <OptionBanner subtitle={bannerInfo.categoryName} title={optionDetail.optionName}>
             <ContainerWrapper>
               <Container>
                 <InfoWrapper>
-                  {optionDetail.package && <OptionTab options={optionDetail.subOptionList!} />}
+                  {optionDetail.package && (
+                    <OptionTab
+                      options={optionDetail.subOptionList!}
+                      setBannerInfo={setBannerInfo}
+                    />
+                  )}
                   <AdditionalText>
-                    {displayText}
-                    {optionDetail.optionDescription.length > MAX_TEXT_CNT && <span>더보기</span>}
+                    {isOverMaxLine(bannerInfo.descriptionText)}
+                    {bannerInfo.descriptionText.length > MAX_TEXT_CNT && <span>더보기</span>}
                   </AdditionalText>
                   {optionDetail.hmgData && (
                     <HmgDataSection>
@@ -238,9 +257,4 @@ const ImgSection = styled.img`
   position: absolute;
   width: 632px;
   height: 360px;
-  /* background-image: url('/images/extra_option/roa.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: rgba(211, 211, 211, 0.5); */
 `;

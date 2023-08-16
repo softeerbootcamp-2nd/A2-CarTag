@@ -1,20 +1,21 @@
-import { HTMLAttributes, useCallback, useEffect, useRef, useState } from 'react';
-import {
-  BodyKrMedium3,
-  BodyKrMedium4,
-  BodyKrRegular3,
-  BodyKrRegular4,
-} from '../../styles/typefaces';
+import { Dispatch, HTMLAttributes, SetStateAction, useEffect, useRef, useState } from 'react';
+import { BodyKrMedium3, BodyKrRegular3 } from '../../styles/typefaces';
 import styled, { css, useTheme } from 'styled-components';
 import { ArrowLeft, ArrowRight } from '../common/icons/Icons';
-import { MAX_TEXT_CNT, NUM_IN_A_PAGE } from '../../utils/constants';
+import { NUM_IN_A_PAGE } from '../../utils/constants';
 import { ISubOptionList } from '../../containers/OptionPage/OptionBannerContainer';
 
+interface IBannerInfo {
+  categoryName: string;
+  descriptionText: string;
+  imgPath: string;
+}
 interface ISubOptionTab extends HTMLAttributes<HTMLDivElement> {
   options: ISubOptionList[];
+  setBannerInfo: Dispatch<SetStateAction<IBannerInfo>>;
 }
 
-export default function OptionTab({ options }: ISubOptionTab) {
+export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
   const theme = useTheme();
   const TAB_MAX_PAGE = options.length / NUM_IN_A_PAGE;
   const [selectedIdx, setSelectedIdx] = useState(0);
@@ -23,7 +24,6 @@ export default function OptionTab({ options }: ISubOptionTab) {
   const arrowRightColor = page >= TAB_MAX_PAGE - 1 ? theme.color.gray200 : theme.color.gray600;
   const tabDivisionRef = useRef<HTMLDivElement>(null);
   const [tabDivisionWidth, setTabDivisionWidth] = useState(0);
-  const [displayText, setDisplayText] = useState(options[0].optionDescription);
 
   const displayUnderline = (groupIndex: number, index: number) => {
     return page === groupIndex && index === selectedIdx ? (
@@ -36,19 +36,18 @@ export default function OptionTab({ options }: ISubOptionTab) {
     if (page + 1 >= TAB_MAX_PAGE) return;
     setSelectedIdx(0);
     setPage(page + 1);
-
-    changeDisplayText((page + 1) * NUM_IN_A_PAGE + selectedIdx);
+    changeInfo(0, page + 1);
   };
   const handleOffsetPrev = () => {
     if (page - 1 < 0) return;
     setSelectedIdx(0);
     setPage(page - 1);
-    changeDisplayText((page - 1) * NUM_IN_A_PAGE + selectedIdx);
+    changeInfo(0, page - 1);
   };
 
   const handleOptionClick = (index: number) => {
     setSelectedIdx(index);
-    changeDisplayText(index);
+    changeInfo(index, page);
   };
 
   const chunkArray = (array: ISubOptionList[], size: number) => {
@@ -59,21 +58,17 @@ export default function OptionTab({ options }: ISubOptionTab) {
     return result;
   };
   const chunkedOptions = chunkArray(options, NUM_IN_A_PAGE);
-  const changeDisplayText = useCallback(
-    (index: number) => {
-      if (options && options.length > 0) {
-        const desc = options[index].optionDescription;
-        const text = desc.length > MAX_TEXT_CNT ? desc.substring(0, MAX_TEXT_CNT) + '...' : desc;
-        setDisplayText(text);
-      }
-    },
-    [options]
-  );
+  const changeInfo = (idx: number, page: number) => {
+    const index = page * NUM_IN_A_PAGE + idx;
+    if (options && options.length > 0) {
+      setBannerInfo({
+        categoryName: options[index].categoryName,
+        descriptionText: options[index].optionDescription,
+        imgPath: options[index].optionImage,
+      });
+    }
+  };
 
-  useEffect(() => {
-    setSelectedIdx(0);
-    changeDisplayText(0);
-  }, [changeDisplayText]);
   useEffect(() => {
     if (tabDivisionRef.current) {
       const tabDivisionWidth = tabDivisionRef.current.offsetWidth;
@@ -115,27 +110,10 @@ export default function OptionTab({ options }: ISubOptionTab) {
           <ArrowRight fill={arrowRightColor} />
         </BtnWrapper>
       </TabWrapper>
-      <AdditionalText>
-        {displayText}
-        {displayText.length > MAX_TEXT_CNT && <span>더보기</span>}
-      </AdditionalText>
     </>
   );
 }
 
-const AdditionalText = styled.p`
-  word-break: keep-all;
-
-  width: 456px;
-  color: ${({ theme }) => theme.color.gray800};
-  ${BodyKrRegular4}
-  span {
-    padding-left: 10px;
-    text-decoration: underline;
-    ${BodyKrMedium4}
-    cursor:pointer;
-  }
-`;
 const TabWrapper = styled.div`
   width: 488px;
   display: flex;

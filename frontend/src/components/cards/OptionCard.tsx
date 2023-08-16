@@ -44,7 +44,7 @@ export default function OptionCard({
     <Card active={active} {...props}>
       <ImgWrapper>
         <OptionImg src={`${IMG_URL}${imgPath}`} />
-        <HashTagWrapper> {displayHashTag}</HashTagWrapper>
+        <HashTagWrapper>{displayHashTag}</HashTagWrapper>
       </ImgWrapper>
       <OptionCardInfo onClick={handleSelectOption}>
         <div>
@@ -64,10 +64,6 @@ const Card = styled(DefaultCardStyle)`
 
 const ImgWrapper = styled.div`
   position: relative;
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: rgba(211, 211, 211, 0.5);
 `;
 const OptionImg = styled.img`
   border-radius: 1px 1px 0px 0px;
