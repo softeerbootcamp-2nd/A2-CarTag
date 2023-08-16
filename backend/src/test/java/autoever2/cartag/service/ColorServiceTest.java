@@ -149,6 +149,7 @@ class ColorServiceTest {
         assertEquals(5, result_inner.size());
         assertEquals(60, imageFiles.size());
         assertEquals(2, result_inner.get(4).getColorBoughtPercent());
+        assertEquals("어비스 블랙펄", result_outer.get(0).getColorName());
         assertThatThrownBy(() -> service.changeImageToImages(2)).isInstanceOf(EmptyDataException.class);
         assertThatThrownBy(() -> service.findInnerColorByCarId(2)).isInstanceOf(EmptyDataException.class);
         assertThatThrownBy(() -> service.findOuterColorByCarId(2)).isInstanceOf(EmptyDataException.class);
