@@ -50,6 +50,8 @@ class ModelRepositoryTest {
                 .isDefaultModel(true)
                 .modelBoughtCount(800L)
                 .modelPrice(1480000L)
+                .maxPs("202/3800")
+                .maxKgfm("45.0/1750~2750")
                 .build();
 
         ModelShortMappedDto sixthModel = ModelShortMappedDto.builder()
@@ -100,32 +102,6 @@ class ModelRepositoryTest {
         assertEquals(model1, result1.get());
         assertTrue(result2.isPresent());
         assertEquals(model2, result2.get());
-    }
-
-    @Test
-    @DisplayName("파워트레인의 경우 HMG 데이터를 가져온다.")
-    void findPowerTrainData() {
-        //given
-        int powerTrainId1 = 1;
-        PowerTrainMappedDto powerTrain1 = PowerTrainMappedDto.builder()
-                .maxPs("202/3,800PS/rpm")
-                .maxKgfm("45.0/1,750~2,750kgf-m/rpm")
-                .build();
-        int powerTrainId2 = 2;
-        PowerTrainMappedDto powerTrain2 = PowerTrainMappedDto.builder()
-                .maxPs("295/6,000PS/rpm")
-                .maxKgfm("36.2/5,200kgf-m/rpm")
-                .build();
-
-        //when
-        Optional<PowerTrainMappedDto> result1 = modelRepository.findPowerTrainData(powerTrainId1);
-        Optional<PowerTrainMappedDto> result2 = modelRepository.findPowerTrainData(powerTrainId2);
-
-        //then
-        assertTrue(result1.isPresent());
-        assertTrue(result2.isPresent());
-        assertEquals(powerTrain1, result1.get());
-        assertEquals(powerTrain2, result2.get());
     }
 
     @Test

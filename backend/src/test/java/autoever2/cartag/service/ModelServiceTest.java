@@ -51,6 +51,8 @@ class ModelServiceTest {
                 .isDefaultModel(true)
                 .modelTypeName("파워트레인")
                 .modelBoughtCount(1800L)
+                        .maxPs("202/3800")
+                        .maxKgfm("45.0/1750~2750")
                 .build());
 
         //가솔린 3.8 데이터
@@ -62,6 +64,8 @@ class ModelServiceTest {
                 .isDefaultModel(false)
                 .modelTypeName("파워트레인")
                 .modelBoughtCount(1900L)
+                .maxKgfm("36.2/5200")
+                .maxPs("295/6000")
                 .build());
 
         //7인승 데이터
@@ -144,25 +148,6 @@ class ModelServiceTest {
 
         softAssertions.assertThat(result1).usingRecursiveComparison().isEqualTo(model1);
         softAssertions.assertThatThrownBy(() -> modelService.getModelDetail(4)).isInstanceOf(RuntimeException.class);
-    }
-
-    @Test
-    @DisplayName("파워트레인의 HMG 데이터 반환")
-    void getPowerTrainData() {
-        int powerTrainId1 = 1;
-        PowerTrainMappedDto powerTrain1 = PowerTrainMappedDto.builder()
-                .maxPs("202/3,800PS/rpm")
-                .maxKgfm("45.0/1,750~2,750kgf-m/rpm")
-                .build();
-
-        int powerTrainId2 = 4;
-
-        when(modelRepository.findPowerTrainData(powerTrainId1)).thenReturn(Optional.of(powerTrain1));
-
-        PowerTrainMappedDto result1 = modelService.getPowerTrainHmgData(powerTrainId1);
-
-        softAssertions.assertThat(result1).usingRecursiveComparison().isEqualTo(powerTrain1);
-        softAssertions.assertThat(modelService.getPowerTrainHmgData(powerTrainId2)).isNull();
     }
 
     @Test
