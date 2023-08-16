@@ -129,25 +129,6 @@ class ModelControllerTest {
     }
 
     @Test
-    @DisplayName("파워트레인의 HMG 데이터 호출 API")
-    void getPowerTrainHmgData() throws Exception {
-        int powerTrainId = 1;
-
-        PowerTrainMappedDto data = PowerTrainMappedDto.builder()
-                .maxPs("202/3,800PS/rpm")
-                .maxKgfm("45.0/1,750~2,750kgf-m/rpm")
-                .build();
-
-        given(modelService.getPowerTrainHmgData(powerTrainId)).willReturn(data);
-
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/modeltypes/hmg-powertrain").param("powertrain", String.valueOf(powerTrainId)));
-
-        resultActions.andExpect(status().isOk())
-                .andExpect(jsonPath("$.maxPs").value("202/3,800PS/rpm"))
-                .andExpect(jsonPath("$.maxKgfm").value("45.0/1,750~2,750kgf-m/rpm"));
-    }
-
-    @Test
     @DisplayName("연비와 cc HMG 데이터 호출 API")
     void getEfficiencyData() throws Exception {
         int powerTrainId = 1;

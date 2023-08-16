@@ -47,26 +47,33 @@ class ModelServiceTest {
         trimModelList.add(ModelShortMappedDto.builder()
                 .modelId(1)
                 .modelName("디젤 2.2")
+                .modelTypeId(1)
                 .modelPrice(0L)
                 .isDefaultModel(true)
                 .modelTypeName("파워트레인")
                 .modelBoughtCount(1800L)
+                        .maxPs("202/3800")
+                        .maxKgfm("45.0/1750~2750")
                 .build());
 
         //가솔린 3.8 데이터
         trimModelList.add(ModelShortMappedDto.builder()
                 .modelId(2)
                 .modelName("가솔린 3.8")
+                .modelTypeId(1)
                 .modelPrice(280000L)
                 .isDefaultModel(false)
                 .modelTypeName("파워트레인")
                 .modelBoughtCount(1900L)
+                .maxKgfm("36.2/5200")
+                .maxPs("295/6000")
                 .build());
 
         //7인승 데이터
         trimModelList.add(ModelShortMappedDto.builder()
                 .modelId(3)
                 .modelName("7인승")
+                .modelTypeId(3)
                 .modelPrice(0L)
                 .isDefaultModel(true)
                 .modelTypeName("바디타입")
@@ -77,6 +84,7 @@ class ModelServiceTest {
         trimModelList.add(ModelShortMappedDto.builder()
                 .modelId(4)
                 .modelName("8인승")
+                .modelTypeId(3)
                 .modelPrice(130000L)
                 .isDefaultModel(false)
                 .modelTypeName("바디타입")
@@ -87,6 +95,7 @@ class ModelServiceTest {
         trimModelList.add(ModelShortMappedDto.builder()
                 .modelId(5)
                 .modelName("2WD")
+                .modelTypeId(2)
                 .modelPrice(0L)
                 .isDefaultModel(true)
                 .modelTypeName("구동방식")
@@ -97,11 +106,13 @@ class ModelServiceTest {
         trimModelList.add(ModelShortMappedDto.builder()
                 .modelId(6)
                 .modelName("4WD")
+                .modelTypeId(2)
                 .modelPrice(237000L)
                 .isDefaultModel(false)
                 .modelTypeName("구동방식")
                 .modelBoughtCount(200L)
                 .build());
+
 
         int carId = 1;
         Long boughtCount = 2000L;
@@ -118,6 +129,7 @@ class ModelServiceTest {
         assertEquals("바디타입", result.get(2).getModelTypeName());
         assertEquals(130000L, result.get(3).getModelPrice());
         assertEquals(10, result.get(5).getPercentage());
+        softAssertions.assertThat(result.get(0).getHmgData()).isNotNull();
     }
 
     @Test
@@ -150,7 +162,6 @@ class ModelServiceTest {
                 .averageFuel("12.16km/s")
                 .displacement("2,199cc")
                 .build();
-
         when(modelRepository.findEfficiencyData(powerTrainId, operationId)).thenReturn(Optional.of(data));
 
         softAssertions.assertThat(modelService.getEfficiencyData(powerTrainId, operationId)).usingRecursiveComparison().isEqualTo(data);

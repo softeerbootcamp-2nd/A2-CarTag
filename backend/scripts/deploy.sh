@@ -3,6 +3,7 @@ BUILD_JAR=$(ls /home/ubuntu/cicdproject/build/libs/*.jar)
 JAR_NAME=$(basename $BUILD_JAR)
 echo "> build 파일명: $JAR_NAME" >> /home/ubuntu/cicdproject/deploy.log
 
+
 echo "> build 파일 복사" >> /home/ubuntu/cicdproject/deploy.log
 DEPLOY_PATH=/home/ubuntu/cicdproject/
 cp $BUILD_JAR $DEPLOY_PATH
