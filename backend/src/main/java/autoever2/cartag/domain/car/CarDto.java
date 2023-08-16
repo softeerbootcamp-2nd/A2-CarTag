@@ -11,6 +11,8 @@ import java.util.List;
 @Builder
 @Schema(description = "차량 반환 DTO")
 public class CarDto {
+    @Schema(description = "car_id 명")
+    private int carId;
     @Schema(description = "trim 명", example = "Le Blanc")
     private String trim;
     @Schema(description = "차량의 기본 가격")
@@ -27,6 +29,7 @@ public class CarDto {
 
     public static CarDto toDto(CarInfoDto carInfoDto, List<TrimDefaultOptionDto> optionDtos) {
         return CarDto.builder()
+                .carId(carInfoDto.getCarId())
                 .trim(carInfoDto.getTrim())
                 .carDefaultPrice(carInfoDto.getCarDefaultPrice())
                 .outerImage(carInfoDto.getOuterImage())

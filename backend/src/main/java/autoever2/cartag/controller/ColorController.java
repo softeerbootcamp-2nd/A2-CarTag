@@ -31,7 +31,7 @@ public class ColorController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = OuterColorDto.class))),
     })
     @GetMapping("/colors/outer")
-    public List<OuterColorDto> carOuterColorInfo(@Parameter(description = "선택한 car_id") @RequestParam int carId) {
+    public List<OuterColorDto> carOuterColorInfo(@Parameter(description = "선택한 car_id") @RequestParam("carid") int carId) {
         return service.findOuterColorByCarId(carId);
     }
 
@@ -40,7 +40,7 @@ public class ColorController {
             @ApiResponse(responseCode = "200", description = "조회 성공")
     })
     @GetMapping("/colors/outer/images")
-    public List<String> carOuterColorImageInfo(@Parameter(description = "선택한 color_id") @RequestParam int colorId) {
+    public List<String> carOuterColorImageInfo(@Parameter(description = "선택한 color_id") @RequestParam("colorid") int colorId) {
         return service.changeImageToImages(colorId);
     }
 
@@ -49,7 +49,7 @@ public class ColorController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = InnerColorDto.class))),
     })
     @GetMapping("/colors/inner")
-    public List<InnerColorDto> carInnerColorInfo(@Parameter(description = "선택한 car_id") @RequestParam int carId) {
+    public List<InnerColorDto> carInnerColorInfo(@Parameter(description = "선택한 car_id") @RequestParam("carid") int carId) {
         return service.findInnerColorByCarId(carId);
     }
 }
