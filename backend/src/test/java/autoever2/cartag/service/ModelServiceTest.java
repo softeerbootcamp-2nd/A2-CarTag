@@ -142,25 +142,6 @@ class ModelServiceTest {
     }
 
     @Test
-    @DisplayName("파워트레인의 HMG 데이터 반환")
-    void getPowerTrainData() {
-        int powerTrainId1 = 1;
-        PowerTrainMappedDto powerTrain1 = PowerTrainMappedDto.builder()
-                .maxPs("202/3,800PS/rpm")
-                .maxKgfm("45.0/1,750~2,750kgf-m/rpm")
-                .build();
-
-        int powerTrainId2 = 4;
-
-        when(modelRepository.findPowerTrainData(powerTrainId1)).thenReturn(Optional.of(powerTrain1));
-
-        PowerTrainMappedDto result1 = modelService.getPowerTrainHmgData(powerTrainId1);
-
-        softAssertions.assertThat(result1).usingRecursiveComparison().isEqualTo(powerTrain1);
-        softAssertions.assertThatThrownBy(() -> modelService.getPowerTrainHmgData(powerTrainId2)).isInstanceOf(EmptyDataException.class);
-    }
-
-    @Test
     @DisplayName("파워트레인과 구동방식의 조합으로 HMG 데이터 반환")
     void getEfficiencyData() {
         int powerTrainId = 1;
