@@ -42,7 +42,7 @@ export default function TrimSelectContainer() {
     setSelectedItem({
       type: 'SET_TRIM',
       value: {
-        id: selectedTrimIdx,
+        id: selectedTrim.carId,
         name: selectedTrim.trim,
         price: selectedTrim.carDefaultPrice,
       },

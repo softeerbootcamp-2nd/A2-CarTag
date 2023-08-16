@@ -6,7 +6,7 @@ import { useContext, useEffect } from 'react';
 import { IOuterColor, OuterColorContext } from '../context/OuterColorProvider';
 
 export default function OuterColorPage() {
-  const { data, loading } = useFetch<IOuterColor[]>(`${OUTER_API}?carId=${1}`); // Todo. selectedItem.trim.id로 바꾸기
+  const { data, loading } = useFetch<IOuterColor[]>(`${OUTER_API}?carid=${1}`); // Todo. selectedItem.trim.id로 바꾸기
   const { setData, setLoading } = useContext(OuterColorContext);
 
   useEffect(() => {

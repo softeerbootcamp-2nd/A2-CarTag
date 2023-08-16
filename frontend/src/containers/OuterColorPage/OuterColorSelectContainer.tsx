@@ -8,15 +8,21 @@ import { NUM_IN_A_PAGE, PATH } from '../../utils/constants';
 import { ISelected, OuterColorContext } from '../../context/OuterColorProvider';
 
 export default function OuterColorSelectContainer() {
-  const { data: outerColorData, selectedIdx, setSelectedIdx } = useContext(OuterColorContext);
+  const {
+    data: outerColorData,
+    selectedIdx,
+    setSelectedIdx,
+    setSelectedColorId,
+  } = useContext(OuterColorContext);
   const [cardPageList, setCardPageList] = useState<ReactNode[]>();
   const maxPage = outerColorData ? Math.floor(outerColorData.length / NUM_IN_A_PAGE) + 1 : 0;
 
   const handleSelectedIdx = useCallback(
-    ({ page, idx }: ISelected) => {
+    (id: number, { page, idx }: ISelected) => {
       setSelectedIdx({ page, idx });
+      setSelectedColorId(id);
     },
-    [setSelectedIdx]
+    [setSelectedIdx, setSelectedColorId]
   );
   const isActive = useCallback(
     ({ page, idx }: ISelected) => {
@@ -41,7 +47,7 @@ export default function OuterColorSelectContainer() {
           <OuterColorCard
             key={cardIdx}
             active={isActive({ page: pageIdx, idx: cardIdx })}
-            onClick={() => handleSelectedIdx({ page: pageIdx, idx: cardIdx })}
+            onClick={() => handleSelectedIdx(targetColor.colorId, { page: pageIdx, idx: cardIdx })}
             color={targetColor.colorImage}
             desc={targetColor.colorBoughtCount.toString()}
             name={targetColor.colorName}
