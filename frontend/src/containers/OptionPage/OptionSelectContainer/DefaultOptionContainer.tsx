@@ -26,6 +26,7 @@ export default function DefaultOptionContainer() {
         title={option.optionName}
         price={option.optionPrice}
         imgPath={option.optionImage}
+        hashTag={option.hashtagName}
       />
     </CardWrapper>
   ));

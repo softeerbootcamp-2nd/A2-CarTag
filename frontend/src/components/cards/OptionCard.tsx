@@ -12,6 +12,7 @@ interface IOptionCard extends HTMLAttributes<HTMLDivElement> {
   title: string;
   price: number;
   imgPath: string;
+  hashTag: string[] | null;
   handleSelectOption?: React.MouseEventHandler<HTMLDivElement>;
 }
 
@@ -22,6 +23,7 @@ export default function OptionCard({
   title,
   price,
   imgPath,
+  hashTag,
   handleSelectOption,
   ...props
 }: IOptionCard) {
@@ -34,9 +36,16 @@ export default function OptionCard({
       </OptionPrice>
     );
 
+  const displayHashTag = hashTag?.map((tag, idx) => {
+    return <HashTag key={idx}>{tag}</HashTag>;
+  });
+
   return (
     <Card active={active} {...props}>
-      <OptionImg src={`${IMG_URL}${imgPath}`} />
+      <ImgWrapper>
+        <OptionImg src={`${IMG_URL}${imgPath}`} />
+        <HashTagWrapper> {displayHashTag}</HashTagWrapper>
+      </ImgWrapper>
       <OptionCardInfo onClick={handleSelectOption}>
         <div>
           <OptionDesc>{desc}</OptionDesc>
@@ -53,15 +62,35 @@ const Card = styled(DefaultCardStyle)`
   border-radius: 2px;
 `;
 
+const ImgWrapper = styled.div`
+  position: relative;
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+  background-color: rgba(211, 211, 211, 0.5);
+`;
 const OptionImg = styled.img`
   border-radius: 1px 1px 0px 0px;
   width: 100%;
   height: 160px;
-  /* background-image: url('/images/extra_option/roa.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: rgba(211, 211, 211, 0.5); */
+`;
+const HashTagWrapper = styled.div`
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  display: flex;
+  margin: 8px 12px;
+  gap: 10px;
+  overflow: hidden;
+  flex-wrap: wrap;
+`;
+const HashTag = styled.div`
+  ${BodyKrRegular4}
+  padding: 2px 6px;
+  border-radius: 2px;
+  background: rgba(117, 117, 117, 0.5);
+  color: ${({ theme }) => theme.color.gray50};
+  backdrop-filter: blur(2px);
 `;
 const OptionCardInfo = styled.div`
   padding: 12px 14px;

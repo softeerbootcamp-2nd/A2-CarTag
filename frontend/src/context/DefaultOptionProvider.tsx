@@ -8,7 +8,7 @@ export interface IDefaultOption {
   optionId: number;
   optionName: string;
   optionCategoryName: string;
-  hashtagName: string;
+  hashtagName: string[];
   optionImage: string;
   percentage: number;
   optionPrice: number;

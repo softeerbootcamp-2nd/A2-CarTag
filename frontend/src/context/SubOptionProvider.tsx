@@ -8,7 +8,7 @@ export interface ISubOption {
   subOptionId: number;
   optionName: string;
   optionCategoryName: string;
-  hashtagName: string;
+  hashtagName: string[];
   optionImage: string;
   percentage: number;
   optionPrice: number;

@@ -36,6 +36,7 @@ export default function SubOptionContainer() {
         title={option.optionName}
         price={option.optionPrice}
         imgPath={option.optionImage}
+        hashTag={option.hashtagName}
         handleSelectOption={() => handleSelectOption(option.subOptionId)}
       />
     </CardWrapper>
