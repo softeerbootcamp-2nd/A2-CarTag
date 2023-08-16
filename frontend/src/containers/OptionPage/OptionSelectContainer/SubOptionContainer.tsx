@@ -3,21 +3,42 @@ import { styled } from 'styled-components';
 import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
 import { SubOptionContext } from '../../../context/SubOptionProvider';
-
+import HmgTag from '../../../components/common/hmgTag/HmgTag';
 export default function SubOptionContainer() {
-  const { subOption, selectedOptionIdx, setCurrentOptionIdx } = useContext(SubOptionContext);
+  const { subOption, selectedOptionIdx, setCurrentOptionIdx, setSelectedOptionIdx } =
+    useContext(SubOptionContext);
 
+  const handleCardClick = (index: number) => {
+    setCurrentOptionIdx(index);
+  };
+
+  const handleSelectOption = (index: number) => {
+    setSelectedOptionIdx((prevSelectedOptions) => {
+      if (prevSelectedOptions.includes(index)) {
+        return prevSelectedOptions.filter((item) => item !== index);
+      } else {
+        return [...prevSelectedOptions, index];
+      }
+    });
+  };
   const displayData = subOption?.map((option, idx) => (
-    <OptionCard
-      key={idx}
-      type="sub"
-      active={selectedOptionIdx.includes(idx)}
-      desc={`${option.percentage}%의 선택`}
-      title={option.optionName}
-      price={option.optionPrice}
-      imgPath={option.optionImage}
-      onClick={() => setCurrentOptionIdx(option.subOptionId)}
-    ></OptionCard>
+    <CardWrapper key={idx}>
+      {option.hasHmgData && (
+        <HmgWrapper>
+          <HmgTag />
+        </HmgWrapper>
+      )}
+      <OptionCard
+        onClick={() => handleCardClick(option.subOptionId)}
+        type="sub"
+        active={selectedOptionIdx.includes(option.subOptionId)}
+        desc={`${option.percentage}%의 선택`}
+        title={option.optionName}
+        price={option.optionPrice}
+        imgPath={option.optionImage}
+        handleSelectOption={() => handleSelectOption(option.subOptionId)}
+      />
+    </CardWrapper>
   ));
   return (
     <>
@@ -43,7 +64,15 @@ export default function SubOptionContainer() {
     </>
   );
 }
+const HmgWrapper = styled.div`
+  position: absolute;
+  top: 1px;
+  right: 1px;
+`;
 
+const CardWrapper = styled.div`
+  position: relative;
+`;
 const CategoryWrapper = styled.div`
   display: flex;
   gap: 8px;

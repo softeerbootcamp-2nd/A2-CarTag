@@ -3,20 +3,31 @@ import { useContext } from 'react';
 import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
 import { DefaultOptionContext } from '../../../context/DefaultOptionProvider';
+import HmgTag from '../../../components/common/hmgTag/HmgTag';
 
 export default function DefaultOptionContainer() {
-  const { defaultOption, selectedOptionIdx, setCurrentOptionIdx } =
-    useContext(DefaultOptionContext);
-
+  const { defaultOption, currentOptionIdx, setCurrentOptionIdx } = useContext(DefaultOptionContext);
+  const handleClick = (index: number) => {
+    setCurrentOptionIdx(index);
+  };
   const displayData = defaultOption?.map((option, idx) => (
-    <OptionCard
-      type="default"
-      active={selectedOptionIdx === idx}
-      title={option.optionName}
-      price={option.optionPrice}
-      imgPath={option.optionImage}
-      onClick={() => setCurrentOptionIdx(option.defaultOptionId)}
-    ></OptionCard>
+    <CardWrapper key={idx}>
+      {option.hasHmgData && (
+        <HmgWrapper>
+          <HmgTag />
+        </HmgWrapper>
+      )}
+      <OptionCard
+        onClick={() => {
+          handleClick(option.optionId);
+        }}
+        type="default"
+        active={currentOptionIdx === option.optionId}
+        title={option.optionName}
+        price={option.optionPrice}
+        imgPath={option.optionImage}
+      />
+    </CardWrapper>
   ));
   return (
     <>
@@ -42,7 +53,15 @@ export default function DefaultOptionContainer() {
     </>
   );
 }
+const HmgWrapper = styled.div`
+  position: absolute;
+  top: 1px;
+  right: 1px;
+`;
 
+const CardWrapper = styled.div`
+  position: relative;
+`;
 const CategoryWrapper = styled.div`
   display: flex;
   gap: 8px;

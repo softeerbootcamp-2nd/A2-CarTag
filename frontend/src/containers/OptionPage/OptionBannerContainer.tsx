@@ -10,10 +10,8 @@ import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
 import OptionTab from '../../components/tabs/OptionTab';
 import { MAX_TEXT_CNT } from '../../utils/constants';
-import { useContext, useEffect, useState } from 'react';
-import { OPTION_API } from '../../utils/apis';
-import { useFetch } from '../../hooks/useFetch';
-import { SubOptionContext } from '../../context/SubOptionProvider';
+import { useEffect, useState } from 'react';
+import { IMG_URL } from '../../utils/apis';
 
 interface IOptionDetail {
   categoryName: string;
@@ -39,20 +37,22 @@ export interface ISubOptionList {
   package: false;
   subOptionList: null;
 }
-export default function OptionBannerContainer() {
-  const { currentOptionIdx } = useContext(SubOptionContext);
 
-  const { data: optionDetail, loading: optionDetailLoading } = useFetch<IOptionDetail>(
-    `${OPTION_API}/optiondetail?carid=${1}&optionid=${currentOptionIdx}`
-  );
-
-  console.log(optionDetail);
-
+interface IOptionBannerContainer {
+  optionDetail: IOptionDetail;
+  optionDetailLoading: boolean;
+}
+export default function OptionBannerContainer({
+  optionDetail,
+  optionDetailLoading,
+}: IOptionBannerContainer) {
   const [isBannerVisible, setIsBannerVisible] = useState(false);
-  const optionDesc =
-    '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다. 초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.  ';
+
   const displayText =
-    optionDesc.length > MAX_TEXT_CNT ? optionDesc.substring(0, MAX_TEXT_CNT) + '...' : optionDesc;
+    optionDetail.optionDescription.length > MAX_TEXT_CNT
+      ? optionDetail.optionDescription.substring(0, MAX_TEXT_CNT) + '...'
+      : optionDetail.optionDescription;
+
   const handleBannerVisibility = () => {
     setIsBannerVisible(!isBannerVisible);
   };
@@ -72,36 +72,46 @@ export default function OptionBannerContainer() {
     <>
       {optionDetail && !optionDetailLoading && (
         <Wrapper $isBannerVisible={isBannerVisible}>
-          <OptionBanner subtitle={'TODO'} title={optionDetail.optionName}>
+          <OptionBanner subtitle={optionDetail.categoryName} title={optionDetail.optionName}>
             <ContainerWrapper>
               <Container>
                 <InfoWrapper>
-                  {optionDetail.subOptionList && <OptionTab options={optionDetail.subOptionList} />}
+                  {optionDetail.package && <OptionTab options={optionDetail.subOptionList!} />}
                   <AdditionalText>
                     {displayText}
-                    {optionDetail?.optionDescription.length > MAX_TEXT_CNT && <span>더보기</span>}
+                    {optionDetail.optionDescription.length > MAX_TEXT_CNT && <span>더보기</span>}
                   </AdditionalText>
-                  <HmgDataSection>
-                    <HmgTag size="small" />
-                    <DataList>
-                      <Data>
-                        <DataTitle>구매자의 절반 이상이 선택했어요.</DataTitle>
-                        <DataInfo>
-                          2,384개
-                          <DataCaption>최근 90일 동안</DataCaption>
-                        </DataInfo>
-                      </Data>
-
-                      <Data>
-                        <DataTitle>주행 중 실제로 이만큼 사용해요.</DataTitle>
-                        <DataInfo>
-                          73.2번
-                          <DataCaption>1.5만km 당</DataCaption>
-                        </DataInfo>
-                      </Data>
-                    </DataList>
-                  </HmgDataSection>
+                  {optionDetail.hmgData && (
+                    <HmgDataSection>
+                      <HmgTag size="small" />
+                      <DataList>
+                        {optionDetail.hmgData.overHalf && (
+                          <Data>
+                            <DataTitle>
+                              {optionDetail.hmgData.overHalf
+                                ? '이 트림을 구매한 사람 중 절반 이상이 선택한 옵션이에요.'
+                                : '이 트림을 구매한 사람이 이 옵션을 이만큼 선택했어요.'}
+                            </DataTitle>
+                            <DataInfo>
+                              {Number(optionDetail.hmgData.optionBoughtCount).toLocaleString()}개
+                              <DataCaption>최근 90일 동안</DataCaption>
+                            </DataInfo>
+                          </Data>
+                        )}
+                        {optionDetail.hmgData.optionUsedCount !== null && (
+                          <Data>
+                            <DataTitle>주행 중 실제로 이만큼 사용해요.</DataTitle>
+                            <DataInfo>
+                              {optionDetail.hmgData.optionUsedCount}번
+                              <DataCaption>1.5만km 당</DataCaption>
+                            </DataInfo>
+                          </Data>
+                        )}
+                      </DataList>
+                    </HmgDataSection>
+                  )}
                 </InfoWrapper>
+
                 <ToastPopup
                   $offsetY={winY}
                   $isBannerVisible={isBannerVisible}
@@ -110,7 +120,7 @@ export default function OptionBannerContainer() {
                   {isBannerVisible ? '이미지 접기' : '이미지 확인'}
                 </ToastPopup>
               </Container>
-              <ImgSection />
+              <ImgSection src={`${IMG_URL}${optionDetail.optionImage}`} />
             </ContainerWrapper>
           </OptionBanner>
         </Wrapper>
@@ -124,7 +134,6 @@ const Wrapper = styled.div<{ $isBannerVisible: boolean }>`
   position: sticky;
   top: ${({ $isBannerVisible }) => ($isBannerVisible ? '60' : '-150')}px;
   transition: top 0.3s ease;
-
   left: 0;
 `;
 
@@ -132,8 +141,10 @@ const ContainerWrapper = styled(CenterWrapper)`
   display: flex;
   justify-content: flex-end;
   width: 1280px;
+  height: 100%;
 `;
 const OptionBanner = styled(Banner)`
+  height: 360px;
   background: ${({ theme }) => theme.color.blueBg};
 `;
 
@@ -143,6 +154,7 @@ const Container = styled(CenterWrapper)`
 `;
 
 const AdditionalText = styled.p`
+  word-break: keep-all;
   width: 456px;
   color: ${({ theme }) => theme.color.gray800};
   ${BodyKrRegular4}
@@ -158,7 +170,8 @@ const InfoWrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
-  padding-top: 120px;
+  position: absolute;
+  top: 140px;
 `;
 
 const ToastPopup = styled.button<{ $offsetY: number; $isBannerVisible: boolean }>`
@@ -166,7 +179,7 @@ const ToastPopup = styled.button<{ $offsetY: number; $isBannerVisible: boolean }
   height: 100%;
   position: absolute;
   left: 50%;
-  bottom: 18px;
+  bottom: 50px;
   transform: translate(-50%, 50%);
   z-index: 10;
   width: 76px;
@@ -221,13 +234,13 @@ const DataCaption = styled.div`
   color: ${({ theme }) => theme.color.gray600};
 `;
 
-const ImgSection = styled.div`
+const ImgSection = styled.img`
   position: absolute;
   width: 632px;
   height: 360px;
-  background-image: url('/images/extra_option/roa.png');
+  /* background-image: url('/images/extra_option/roa.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(211, 211, 211, 0.5);
+  background-color: rgba(211, 211, 211, 0.5); */
 `;

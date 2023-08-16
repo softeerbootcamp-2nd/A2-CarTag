@@ -1,6 +1,5 @@
 import { styled } from 'styled-components';
 import { BodyKrRegular4, HeadingEn4, HeadingKrMedium7 } from '../../styles/typefaces';
-import HmgTag from '../common/hmgTag/HmgTag';
 import { CheckIcon } from '../common/icons/Icons';
 import DefaultCardStyle from '../common/card/DefaultCardStyle';
 import { HTMLAttributes } from 'react';
@@ -13,6 +12,7 @@ interface IOptionCard extends HTMLAttributes<HTMLDivElement> {
   title: string;
   price: number;
   imgPath: string;
+  handleSelectOption?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 export default function OptionCard({
@@ -22,6 +22,7 @@ export default function OptionCard({
   title,
   price,
   imgPath,
+  handleSelectOption,
   ...props
 }: IOptionCard) {
   const displayCaption =
@@ -35,11 +36,8 @@ export default function OptionCard({
 
   return (
     <Card active={active} {...props}>
-      <HmgWrapper>
-        <HmgTag />
-      </HmgWrapper>
       <OptionImg src={`${IMG_URL}${imgPath}`} />
-      <OptionCardInfo>
+      <OptionCardInfo onClick={handleSelectOption}>
         <div>
           <OptionDesc>{desc}</OptionDesc>
           <OptionTitle>{title}</OptionTitle>
@@ -51,15 +49,8 @@ export default function OptionCard({
 }
 
 const Card = styled(DefaultCardStyle)`
-  position: relative;
   width: 244px;
   border-radius: 2px;
-`;
-
-const HmgWrapper = styled.div`
-  position: absolute;
-  top: 0;
-  right: 0;
 `;
 
 const OptionImg = styled.img`

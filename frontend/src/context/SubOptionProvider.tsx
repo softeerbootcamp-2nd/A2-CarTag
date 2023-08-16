@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, SetStateAction, createContext, useState } from 'react';
+import { Dispatch, ReactNode, SetStateAction, createContext, useEffect, useState } from 'react';
 
 interface ISubOptionProvider {
   children: ReactNode;
@@ -12,7 +12,7 @@ export interface ISubOption {
   optionImage: string;
   percentage: number;
   optionPrice: number;
-  hasHmgsubOption: boolean;
+  hasHmgData: boolean;
 }
 
 interface ISubOptionContext {
@@ -24,7 +24,6 @@ interface ISubOptionContext {
   setSubOptionLoading: Dispatch<SetStateAction<boolean>>;
   setSelectedOptionIdx: Dispatch<SetStateAction<number[]>>;
   setCurrentOptionIdx: Dispatch<SetStateAction<number>>;
-  handleClick: (index: number) => void;
 }
 
 const initialContext = {
@@ -36,7 +35,6 @@ const initialContext = {
   setSubOptionLoading: () => {},
   setSelectedOptionIdx: () => {},
   setCurrentOptionIdx: () => {},
-  handleClick: () => {},
 };
 
 export const SubOptionContext = createContext<ISubOptionContext>(initialContext);
@@ -46,15 +44,8 @@ export default function SubOptionProvider({ children }: ISubOptionProvider) {
   const [subOptionLoading, setSubOptionLoading] = useState<boolean>(false);
   const [selectedOptionIdx, setSelectedOptionIdx] = useState<number[]>([]);
   const [currentOptionIdx, setCurrentOptionIdx] = useState(69);
-  const handleClick = (index: number) => {
-    setSelectedOptionIdx((prevSelectedOptions) => {
-      if (prevSelectedOptions.includes(index)) {
-        return prevSelectedOptions.filter((item) => item !== index);
-      } else {
-        return [...prevSelectedOptions, index];
-      }
-    });
-  };
+
+  useEffect(() => {}, [selectedOptionIdx]);
   const providerValue = {
     subOption,
     subOptionLoading,
@@ -64,7 +55,6 @@ export default function SubOptionProvider({ children }: ISubOptionProvider) {
     setCurrentOptionIdx,
     setSubOptionLoading,
     setSelectedOptionIdx,
-    handleClick,
   };
 
   return <SubOptionContext.Provider value={providerValue}>{children}</SubOptionContext.Provider>;

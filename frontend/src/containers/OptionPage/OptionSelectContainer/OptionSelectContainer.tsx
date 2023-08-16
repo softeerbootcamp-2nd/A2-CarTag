@@ -2,18 +2,23 @@ import { css, styled } from 'styled-components';
 import CenterWrapper from '../../../components/layout/CenterWrapper';
 import { BodyKrMedium1 } from '../../../styles/typefaces';
 import SearchBar from '../../../components/searchBar/SearchBar';
-import { useState } from 'react';
 import DefaultOptionContainer from './DefaultOptionContainer';
 import SubOptionContainer from './SubOptionContainer';
+import React from 'react';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
   active: boolean;
 }
-export default function OptionSelectContainer() {
-  const [isDefault, setIsDefault] = useState(false);
-  const handleTabItemClick = (isDefault: boolean) => {
-    setIsDefault(isDefault);
-  };
+
+interface IOptionSelectContainer {
+  isDefault: boolean;
+  handleTabItemClick: (isDefault: boolean) => void;
+}
+
+export default function OptionSelectContainer({
+  isDefault,
+  handleTabItemClick,
+}: IOptionSelectContainer) {
   return (
     <Wrapper>
       <Header>
@@ -27,6 +32,7 @@ export default function OptionSelectContainer() {
         </CategoryList>
         <SearchBar placeholder="옵션명, 해시태그, 카테고리로 검색해보세요."></SearchBar>
       </Header>
+
       {isDefault ? <DefaultOptionContainer /> : <SubOptionContainer />}
     </Wrapper>
   );

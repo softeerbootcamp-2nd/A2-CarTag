@@ -1,8 +1,13 @@
-import { HTMLAttributes, useEffect, useRef, useState } from 'react';
-import { BodyKrMedium3, BodyKrRegular3 } from '../../styles/typefaces';
+import { HTMLAttributes, useCallback, useEffect, useRef, useState } from 'react';
+import {
+  BodyKrMedium3,
+  BodyKrMedium4,
+  BodyKrRegular3,
+  BodyKrRegular4,
+} from '../../styles/typefaces';
 import styled, { css, useTheme } from 'styled-components';
 import { ArrowLeft, ArrowRight } from '../common/icons/Icons';
-import { NUM_IN_A_PAGE } from '../../utils/constants';
+import { MAX_TEXT_CNT, NUM_IN_A_PAGE } from '../../utils/constants';
 import { ISubOptionList } from '../../containers/OptionPage/OptionBannerContainer';
 
 interface ISubOptionTab extends HTMLAttributes<HTMLDivElement> {
@@ -18,13 +23,7 @@ export default function OptionTab({ options }: ISubOptionTab) {
   const arrowRightColor = page >= TAB_MAX_PAGE - 1 ? theme.color.gray200 : theme.color.gray600;
   const tabDivisionRef = useRef<HTMLDivElement>(null);
   const [tabDivisionWidth, setTabDivisionWidth] = useState(0);
-
-  useEffect(() => {
-    if (tabDivisionRef.current) {
-      const tabDivisionWidth = tabDivisionRef.current.offsetWidth;
-      setTabDivisionWidth(tabDivisionWidth);
-    }
-  }, [tabDivisionRef]);
+  const [displayText, setDisplayText] = useState(options[0].optionDescription);
 
   const displayUnderline = (groupIndex: number, index: number) => {
     return page === groupIndex && index === selectedIdx ? (
@@ -37,15 +36,19 @@ export default function OptionTab({ options }: ISubOptionTab) {
     if (page + 1 >= TAB_MAX_PAGE) return;
     setSelectedIdx(0);
     setPage(page + 1);
+
+    changeDisplayText((page + 1) * NUM_IN_A_PAGE + selectedIdx);
   };
   const handleOffsetPrev = () => {
     if (page - 1 < 0) return;
     setSelectedIdx(0);
     setPage(page - 1);
+    changeDisplayText((page - 1) * NUM_IN_A_PAGE + selectedIdx);
   };
 
   const handleOptionClick = (index: number) => {
     setSelectedIdx(index);
+    changeDisplayText(index);
   };
 
   const chunkArray = (array: ISubOptionList[], size: number) => {
@@ -56,46 +59,88 @@ export default function OptionTab({ options }: ISubOptionTab) {
     return result;
   };
   const chunkedOptions = chunkArray(options, NUM_IN_A_PAGE);
+  const changeDisplayText = useCallback(
+    (index: number) => {
+      if (options && options.length > 0) {
+        const desc = options[index].optionDescription;
+        const text = desc.length > MAX_TEXT_CNT ? desc.substring(0, MAX_TEXT_CNT) + '...' : desc;
+        setDisplayText(text);
+      }
+    },
+    [options]
+  );
+
+  useEffect(() => {
+    setSelectedIdx(0);
+    changeDisplayText(0);
+  }, [changeDisplayText]);
+  useEffect(() => {
+    if (tabDivisionRef.current) {
+      const tabDivisionWidth = tabDivisionRef.current.offsetWidth;
+      setTabDivisionWidth(tabDivisionWidth);
+    }
+  }, [tabDivisionRef]);
 
   return (
-    <TabWrapper>
-      <BtnWrapper onClick={handleOffsetPrev} style={{ cursor: page <= 0 ? 'default' : 'pointer' }}>
-        <ArrowLeft fill={arrowLeftColor} />
-      </BtnWrapper>
-      <TabWrapperInner ref={tabDivisionRef}>
-        <Tab $offset={page * -tabDivisionWidth}>
-          {chunkedOptions.map((optionGroup: ISubOptionList[], groupIndex) => (
-            <TabDivision key={groupIndex}>
-              {optionGroup.map((option: ISubOptionList, index: number) => (
-                <TabButton
-                  key={index}
-                  onClick={() => handleOptionClick(index)}
-                  $isselected={page === groupIndex && index === selectedIdx}
-                >
-                  <div>{option.optionName}</div>
-                  {displayUnderline(groupIndex, index)}
-                </TabButton>
-              ))}
-            </TabDivision>
-          ))}
-        </Tab>
-      </TabWrapperInner>
-      <BtnWrapper
-        onClick={handleOffsetNext}
-        style={{ cursor: page >= TAB_MAX_PAGE - 1 ? 'default' : 'pointer' }}
-      >
-        <ArrowRight fill={arrowRightColor} />
-      </BtnWrapper>
-    </TabWrapper>
+    <>
+      <TabWrapper>
+        <BtnWrapper
+          onClick={handleOffsetPrev}
+          style={{ cursor: page <= 0 ? 'default' : 'pointer' }}
+        >
+          <ArrowLeft fill={arrowLeftColor} />
+        </BtnWrapper>
+        <TabWrapperInner ref={tabDivisionRef}>
+          <Tab $offset={page * -tabDivisionWidth}>
+            {chunkedOptions.map((optionGroup: ISubOptionList[], groupIndex) => (
+              <TabDivision key={groupIndex}>
+                {optionGroup.map((option: ISubOptionList, index: number) => (
+                  <TabButton
+                    key={index}
+                    onClick={() => handleOptionClick(index)}
+                    $isselected={page === groupIndex && index === selectedIdx}
+                  >
+                    <div>{option.optionName}</div>
+                    {displayUnderline(groupIndex, index)}
+                  </TabButton>
+                ))}
+              </TabDivision>
+            ))}
+          </Tab>
+        </TabWrapperInner>
+        <BtnWrapper
+          onClick={handleOffsetNext}
+          style={{ cursor: page >= TAB_MAX_PAGE - 1 ? 'default' : 'pointer' }}
+        >
+          <ArrowRight fill={arrowRightColor} />
+        </BtnWrapper>
+      </TabWrapper>
+      <AdditionalText>
+        {displayText}
+        {displayText.length > MAX_TEXT_CNT && <span>더보기</span>}
+      </AdditionalText>
+    </>
   );
 }
 
+const AdditionalText = styled.p`
+  word-break: keep-all;
+
+  width: 456px;
+  color: ${({ theme }) => theme.color.gray800};
+  ${BodyKrRegular4}
+  span {
+    padding-left: 10px;
+    text-decoration: underline;
+    ${BodyKrMedium4}
+    cursor:pointer;
+  }
+`;
 const TabWrapper = styled.div`
   width: 488px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 10px;
   height: 40px;
 `;
 
