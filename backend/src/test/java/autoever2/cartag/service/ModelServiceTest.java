@@ -112,6 +112,7 @@ class ModelServiceTest {
                 .modelBoughtCount(200L)
                 .build());
 
+
         int carId = 1;
         Long boughtCount = 2000L;
         when(modelRepository.findAllModelTypeData(carId)).thenReturn(trimModelList);
@@ -127,6 +128,7 @@ class ModelServiceTest {
         assertEquals("바디타입", result.get(2).getModelTypeName());
         assertEquals(130000L, result.get(3).getModelPrice());
         assertEquals(10, result.get(5).getPercentage());
+        softAssertions.assertThat(result.get(0).getHmgData()).isNotNull();
     }
 
     @Test
