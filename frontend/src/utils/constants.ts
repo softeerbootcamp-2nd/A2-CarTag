@@ -6,8 +6,8 @@ export const PATH = {
   home: '/',
   trim: '/trim',
   modelType: '/model-type',
-  exterior: '/exterior',
-  interior: '/interior',
+  outerColor: '/outer-color',
+  innerColor: '/inner-color',
   option: '/option',
   result: '/result',
 };

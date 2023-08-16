@@ -4,7 +4,7 @@ import Banner from '../../components/common/banner/Banner';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import { flexCenterCss } from '../../utils/commonStyle';
 
-export default function ExteriorBannerContainer() {
+export default function OuterColorBannerContainer() {
   const [imgIdx, setImgIdx] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const [startX, setStartX] = useState(0);
@@ -35,7 +35,7 @@ export default function ExteriorBannerContainer() {
 
   return (
     <>
-      <ExteriorBanner onMouseUp={handleMouseup} subtitle={'외장색상'} title={'어비스블랙펄'}>
+      <OuterColorBanner onMouseUp={handleMouseup} subtitle={'외장색상'} title={'어비스블랙펄'}>
         <FlexCenterWrapper>
           <ImgWrapper onMouseMove={handleMousemove} onMouseDown={handleMousedown}>
             <CarImg src={`/images/car360/img${imgIdx}.png`} alt="" />
@@ -44,12 +44,12 @@ export default function ExteriorBannerContainer() {
             </CarShadow>
           </ImgWrapper>
         </FlexCenterWrapper>
-      </ExteriorBanner>
+      </OuterColorBanner>
     </>
   );
 }
 
-const ExteriorBanner = styled(Banner)`
+const OuterColorBanner = styled(Banner)`
   background: ${({ theme }) => theme.color.blueBg};
 `;
 const CarImg = styled.img`

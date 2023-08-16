@@ -2,30 +2,33 @@ import { styled } from 'styled-components';
 import { BodyKrMedium3, BodyKrMedium4 } from '../../styles/typefaces';
 import { flexCenterCss } from '../../utils/commonStyle';
 import DefaultCardStyle from '../common/card/DefaultCardStyle';
-import { HTMLAttributes } from 'react';
 import { CheckIcon } from '../common/icons/Icons';
+import { HTMLAttributes } from 'react';
 
-interface IExteriorCard extends HTMLAttributes<HTMLDivElement> {
+interface IInnerColorCard extends HTMLAttributes<HTMLDivElement> {
+  imgSrc1: string;
+  imgSrc2: string;
   active: boolean;
-  color: string;
   desc: string;
   name: string;
   price: number;
 }
 
-export default function ExteriorCard({
+export default function InnerColorCard({
+  imgSrc1,
+  imgSrc2,
   active,
-  color,
   desc,
   name,
   price,
   ...props
-}: IExteriorCard) {
+}: IInnerColorCard) {
   return (
     <Card active={active} {...props}>
-      <ColorWrapper>
-        <ColorImg $color={color}></ColorImg>
-      </ColorWrapper>
+      <ImgWrapper>
+        <InnerColorImg src={imgSrc1}></InnerColorImg>
+        <InnerColorImg src={imgSrc2}></InnerColorImg>
+      </ImgWrapper>
       <DescWrapper>
         <ColorDesc>{desc}</ColorDesc>
         <ColorName>{name}</ColorName>
@@ -43,21 +46,13 @@ const Card = styled(DefaultCardStyle)`
   align-items: center;
   width: 100%;
   height: 110px;
+  overflow: hidden;
 `;
-
-const ColorImg = styled.div<{ $color: string }>`
-  width: 46px;
-  height: 46px;
-  border-radius: 50%;
-  background-color: ${({ $color }) => $color};
-`;
-const ColorWrapper = styled.div`
+const InnerColorImg = styled.img``;
+const ImgWrapper = styled.div`
   ${flexCenterCss}
-  border-radius: 50%;
-  width: 58px;
-  height: 58px;
-  border: 1px solid ${({ theme }) => theme.color.gray50};
-  margin-left: 12px;
+  flex-direction: column;
+  width: 69px;
 `;
 
 const ColorDesc = styled.div`
