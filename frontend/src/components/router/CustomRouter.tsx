@@ -10,6 +10,7 @@ import ModelTypePage from '../../pages/ModelTypePage';
 import { PATH } from '../../utils/constants';
 import TrimProvider from '../../context/TrimProvider';
 import ModelTypeProvider from '../../context/ModelTypeProvider';
+import OuterColorProvider from '../../context/OuterColorProvider';
 
 export default function CustomRouter() {
   const { pathname } = useLocation();
@@ -32,7 +33,9 @@ export default function CustomRouter() {
       )}
       {pathname === PATH.outerColor && (
         <PageAnimationWrapper key={2}>
-          <OuterColorPage />
+          <OuterColorProvider>
+            <OuterColorPage />
+          </OuterColorProvider>
         </PageAnimationWrapper>
       )}
       {pathname === PATH.innerColor && (

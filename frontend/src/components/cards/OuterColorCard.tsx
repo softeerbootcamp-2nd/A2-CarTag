@@ -4,6 +4,7 @@ import { flexCenterCss } from '../../utils/commonStyle';
 import DefaultCardStyle from '../common/card/DefaultCardStyle';
 import { HTMLAttributes } from 'react';
 import { CheckIcon } from '../common/icons/Icons';
+import { IMG_URL } from '../../utils/apis';
 
 interface IOuterColorCard extends HTMLAttributes<HTMLDivElement> {
   active: boolean;
@@ -24,7 +25,9 @@ export default function OuterColorCard({
   return (
     <Card active={active} {...props}>
       <ColorWrapper>
-        <ColorImg $color={color}></ColorImg>
+        <ColorBorder>
+          <ColorImg $src={`${IMG_URL}${color}`}></ColorImg>
+        </ColorBorder>
       </ColorWrapper>
       <DescWrapper>
         <ColorDesc>{desc}</ColorDesc>
@@ -41,23 +44,28 @@ export default function OuterColorCard({
 const Card = styled(DefaultCardStyle)`
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 256px;
   height: 110px;
 `;
-
-const ColorImg = styled.div<{ $color: string }>`
+const ColorImg = styled.div<{ $src: string }>`
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  background-color: ${({ $color }) => $color};
+  background-image: url(${({ $src }) => $src});
+  background-position: center;
+  background-size: cover;
 `;
 const ColorWrapper = styled.div`
   ${flexCenterCss}
-  border-radius: 50%;
+  flex-grow: 1;
+`;
+
+const ColorBorder = styled.div`
+  ${flexCenterCss}
   width: 58px;
   height: 58px;
-  border: 1px solid ${({ theme }) => theme.color.gray50};
-  margin-left: 12px;
+  border-radius: 50%;
+  border: 1px solid ${({ theme }) => theme.color.gray200};
 `;
 
 const ColorDesc = styled.div`
@@ -72,8 +80,8 @@ const ColorPrice = styled.div`
 `;
 const DescWrapper = styled.div`
   padding: 14px 16px;
-  width: 100%;
   height: 100%;
+  flex-grow: 2;
 `;
 const Row = styled.div`
   display: flex;
