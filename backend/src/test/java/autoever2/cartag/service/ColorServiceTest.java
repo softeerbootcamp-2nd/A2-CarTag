@@ -2,6 +2,8 @@ package autoever2.cartag.service;
 
 import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
+import autoever2.cartag.exception.EmptyDataException;
+import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.repository.ColorRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -15,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -125,7 +128,9 @@ class ColorServiceTest {
         when(repository.findInnerColorCarByCarId(carId)).thenReturn(innerColors);
         when(repository.findOuterColorCarByCarId(carId)).thenReturn(outerColors);
         when(repository.findOuterColorImagesByColorId(colorId)).thenReturn(Optional.of("red_image_*.jpg"));
-
+        when(repository.findOuterColorImagesByColorId(2)).thenThrow(new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND));
+        when(repository.findOuterColorCarByCarId(2)).thenThrow(new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND));
+        when(repository.findInnerColorCarByCarId(2)).thenThrow(new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND));
         //when
         List<OuterColorDto> result_outer = service.findOuterColorByCarId(carId);
         List<InnerColorDto> result_inner = service.findInnerColorByCarId(carId);
@@ -134,7 +139,10 @@ class ColorServiceTest {
         //then
         assertEquals(result_outer.size(), 5);
         assertEquals(result_inner.size(), 5);
-        assertEquals(images.size(), 60);
+        assertEquals(imageFiles.size(), 60);
+        assertThatThrownBy(() -> service.changeImageToImages(2)).isInstanceOf(EmptyDataException.class);
+        assertThatThrownBy(() -> service.findInnerColorByCarId(2)).isInstanceOf(EmptyDataException.class);
+        assertThatThrownBy(() -> service.findOuterColorByCarId(2)).isInstanceOf(EmptyDataException.class);
     }
 
 }

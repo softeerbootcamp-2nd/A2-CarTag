@@ -2,6 +2,8 @@ package autoever2.cartag.service;
 
 import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
+import autoever2.cartag.exception.EmptyDataException;
+import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.repository.ColorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +24,7 @@ public class ColorService {
     public List<String> changeImageToImages(int colorId) {
         Optional<String> images = repository.findOuterColorImagesByColorId(colorId);
         if (images.isEmpty()) {
-            throw new RuntimeException("미정");
+            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
         }
         List<String> outerColorCarImages = new ArrayList<>();
         String value = images.get();
@@ -36,7 +38,7 @@ public class ColorService {
     public List<OuterColorDto> findOuterColorByCarId(int carId) {
         List<OuterColorDto> outerColors = repository.findOuterColorCarByCarId(carId);
         if (outerColors.isEmpty()) {
-            throw new RuntimeException("미정");
+            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
         }
 
         return outerColors;
@@ -45,7 +47,7 @@ public class ColorService {
     public List<InnerColorDto> findInnerColorByCarId(int carId) {
         List<InnerColorDto> innerColors = repository.findInnerColorCarByCarId(carId);
         if (innerColors.isEmpty()) {
-            throw new RuntimeException("미정");
+            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
         }
 
         return innerColors;

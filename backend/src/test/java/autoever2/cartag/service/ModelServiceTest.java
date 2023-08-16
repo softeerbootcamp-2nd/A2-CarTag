@@ -1,6 +1,7 @@
 package autoever2.cartag.service;
 
 import autoever2.cartag.domain.model.*;
+import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.repository.CarRepository;
 import autoever2.cartag.repository.ModelRepository;
 import org.assertj.core.api.SoftAssertions;
@@ -149,7 +150,7 @@ class ModelServiceTest {
         ModelDetailMappedDto result1 = modelService.getModelDetail(modelId1);
 
         softAssertions.assertThat(result1).usingRecursiveComparison().isEqualTo(model1);
-        softAssertions.assertThatThrownBy(() -> modelService.getModelDetail(4)).isInstanceOf(RuntimeException.class);
+        softAssertions.assertThatThrownBy(() -> modelService.getModelDetail(4)).isInstanceOf(EmptyDataException.class);
     }
 
     @Test
@@ -164,6 +165,6 @@ class ModelServiceTest {
         when(modelRepository.findEfficiencyData(powerTrainId, operationId)).thenReturn(Optional.of(data));
 
         softAssertions.assertThat(modelService.getEfficiencyData(powerTrainId, operationId)).usingRecursiveComparison().isEqualTo(data);
-        softAssertions.assertThatThrownBy(() -> modelService.getEfficiencyData(2, 4)).isInstanceOf(RuntimeException.class);
+        softAssertions.assertThatThrownBy(() -> modelService.getEfficiencyData(2, 4)).isInstanceOf(EmptyDataException.class);
     }
 }
