@@ -4,16 +4,26 @@ import HmgTag from '../common/hmgTag/HmgTag';
 import { CheckIcon } from '../common/icons/Icons';
 import DefaultCardStyle from '../common/card/DefaultCardStyle';
 import { HTMLAttributes } from 'react';
+import { IMG_URL } from '../../utils/apis';
 
 interface IOptionCard extends HTMLAttributes<HTMLDivElement> {
-  type: 'default' | 'extra';
+  type: 'default' | 'sub';
   active: boolean;
   desc?: string;
   title: string;
   price: number;
+  imgPath: string;
 }
 
-export default function OptionCard({ type, active, desc, title, price, ...props }: IOptionCard) {
+export default function OptionCard({
+  type,
+  active,
+  desc,
+  title,
+  price,
+  imgPath,
+  ...props
+}: IOptionCard) {
   const displayCaption =
     type === 'default' ? (
       <DefaultInfo>기본포함</DefaultInfo>
@@ -28,7 +38,7 @@ export default function OptionCard({ type, active, desc, title, price, ...props 
       <HmgWrapper>
         <HmgTag />
       </HmgWrapper>
-      <OptionImg />
+      <OptionImg src={`${IMG_URL}${imgPath}`} />
       <OptionCardInfo>
         <div>
           <OptionDesc>{desc}</OptionDesc>
@@ -52,15 +62,15 @@ const HmgWrapper = styled.div`
   right: 0;
 `;
 
-const OptionImg = styled.div`
+const OptionImg = styled.img`
   border-radius: 1px 1px 0px 0px;
   width: 100%;
   height: 160px;
-  background-image: url('/images/extra_option/roa.png');
+  /* background-image: url('/images/extra_option/roa.png');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
-  background-color: rgba(211, 211, 211, 0.5);
+  background-color: rgba(211, 211, 211, 0.5); */
 `;
 const OptionCardInfo = styled.div`
   padding: 12px 14px;

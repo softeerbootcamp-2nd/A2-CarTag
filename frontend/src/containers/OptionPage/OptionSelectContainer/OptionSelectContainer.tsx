@@ -2,9 +2,9 @@ import { css, styled } from 'styled-components';
 import CenterWrapper from '../../../components/layout/CenterWrapper';
 import { BodyKrMedium1 } from '../../../styles/typefaces';
 import SearchBar from '../../../components/searchBar/SearchBar';
-import ExtraOptionContainer from './ExtraOptionContainer';
 import { useState } from 'react';
 import DefaultOptionContainer from './DefaultOptionContainer';
+import SubOptionContainer from './SubOptionContainer';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
   active: boolean;
@@ -27,7 +27,7 @@ export default function OptionSelectContainer() {
         </CategoryList>
         <SearchBar placeholder="옵션명, 해시태그, 카테고리로 검색해보세요."></SearchBar>
       </Header>
-      {isDefault ? <DefaultOptionContainer /> : <ExtraOptionContainer />}
+      {isDefault ? <DefaultOptionContainer /> : <SubOptionContainer />}
     </Wrapper>
   );
 }

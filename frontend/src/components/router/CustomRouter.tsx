@@ -10,6 +10,8 @@ import ModelTypePage from '../../pages/ModelTypePage';
 import { PATH } from '../../utils/constants';
 import TrimProvider from '../../context/TrimProvider';
 import ModelTypeProvider from '../../context/ModelTypeProvider';
+import SubOptionProvider from '../../context/SubOptionProvider';
+import DefaultOptionProvider from '../../context/DefaultOptionProvider';
 
 export default function CustomRouter() {
   const { pathname } = useLocation();
@@ -42,7 +44,11 @@ export default function CustomRouter() {
       )}
       {pathname === PATH.option && (
         <PageAnimationWrapper key={4}>
-          <OptionPage />
+          <SubOptionProvider>
+            <DefaultOptionProvider>
+              <OptionPage />
+            </DefaultOptionProvider>
+          </SubOptionProvider>
         </PageAnimationWrapper>
       )}
       {pathname === PATH.result && (

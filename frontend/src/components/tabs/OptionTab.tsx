@@ -3,9 +3,10 @@ import { BodyKrMedium3, BodyKrRegular3 } from '../../styles/typefaces';
 import styled, { css, useTheme } from 'styled-components';
 import { ArrowLeft, ArrowRight } from '../common/icons/Icons';
 import { NUM_IN_A_PAGE } from '../../utils/constants';
+import { ISubOptionList } from '../../containers/OptionPage/OptionBannerContainer';
 
 interface ISubOptionTab extends HTMLAttributes<HTMLDivElement> {
-  options: string[];
+  options: ISubOptionList[];
 }
 
 export default function OptionTab({ options }: ISubOptionTab) {
@@ -47,7 +48,7 @@ export default function OptionTab({ options }: ISubOptionTab) {
     setSelectedIdx(index);
   };
 
-  const chunkArray = (array: string[], size: number) => {
+  const chunkArray = (array: ISubOptionList[], size: number) => {
     const result = [];
     for (let i = 0; i < array.length; i += size) {
       result.push(array.slice(i, i + size));
@@ -63,15 +64,15 @@ export default function OptionTab({ options }: ISubOptionTab) {
       </BtnWrapper>
       <TabWrapperInner ref={tabDivisionRef}>
         <Tab $offset={page * -tabDivisionWidth}>
-          {chunkedOptions.map((optionGroup: string[], groupIndex) => (
+          {chunkedOptions.map((optionGroup: ISubOptionList[], groupIndex) => (
             <TabDivision key={groupIndex}>
-              {optionGroup.map((option: string, index: number) => (
+              {optionGroup.map((option: ISubOptionList, index: number) => (
                 <TabButton
                   key={index}
                   onClick={() => handleOptionClick(index)}
                   $isselected={page === groupIndex && index === selectedIdx}
                 >
-                  <div>{option}</div>
+                  <div>{option.optionName}</div>
                   {displayUnderline(groupIndex, index)}
                 </TabButton>
               ))}

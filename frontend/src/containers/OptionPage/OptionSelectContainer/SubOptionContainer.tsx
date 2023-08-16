@@ -1,26 +1,27 @@
-import { styled } from 'styled-components';
 import { useContext } from 'react';
+import { styled } from 'styled-components';
 import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
-import { DefaultOptionContext } from '../../../context/DefaultOptionProvider';
+import { SubOptionContext } from '../../../context/SubOptionProvider';
 
-export default function DefaultOptionContainer() {
-  const { defaultOption, selectedOptionIdx, setCurrentOptionIdx } =
-    useContext(DefaultOptionContext);
+export default function SubOptionContainer() {
+  const { subOption, selectedOptionIdx, setCurrentOptionIdx } = useContext(SubOptionContext);
 
-  const displayData = defaultOption?.map((option, idx) => (
+  const displayData = subOption?.map((option, idx) => (
     <OptionCard
-      type="default"
-      active={selectedOptionIdx === idx}
+      key={idx}
+      type="sub"
+      active={selectedOptionIdx.includes(idx)}
+      desc={`${option.percentage}%의 선택`}
       title={option.optionName}
       price={option.optionPrice}
       imgPath={option.optionImage}
-      onClick={() => setCurrentOptionIdx(option.defaultOptionId)}
+      onClick={() => setCurrentOptionIdx(option.subOptionId)}
     ></OptionCard>
   ));
   return (
     <>
-      {defaultOption && (
+      {subOption && (
         <>
           <CategoryWrapper>
             <RoundButton type="option">전체</RoundButton>
@@ -53,6 +54,7 @@ const OptionSection = styled.div`
 `;
 const OptionWrapper = styled.div`
   display: flex;
+
   flex-wrap: wrap;
   gap: 16px;
 `;
