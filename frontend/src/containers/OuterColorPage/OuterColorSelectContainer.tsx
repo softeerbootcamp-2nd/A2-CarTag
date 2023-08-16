@@ -9,7 +9,6 @@ import { ISelected, OuterColorContext } from '../../context/OuterColorProvider';
 
 export default function OuterColorSelectContainer() {
   const { data: outerColorData, selectedIdx, setSelectedIdx } = useContext(OuterColorContext);
-  const cardIndices = Array.from({ length: NUM_IN_A_PAGE }, (_, index) => index);
   const [cardPageList, setCardPageList] = useState<ReactNode[]>();
   const maxPage = outerColorData ? Math.floor(outerColorData.length / NUM_IN_A_PAGE) + 1 : 0;
 
@@ -25,36 +24,37 @@ export default function OuterColorSelectContainer() {
     },
     [selectedIdx]
   );
+
   const createCardList = useCallback(() => {
     if (!outerColorData) return;
 
     const cardPageList = [];
     for (let i = 0; i < maxPage; i++) {
       const pageIdx = i;
-      const newCardPage = (
-        <CardPage key={pageIdx}>
-          {cardIndices.map((cardIdx) => {
-            const colorIdx = pageIdx * NUM_IN_A_PAGE + cardIdx;
-            if (colorIdx >= outerColorData.length) return;
-            const targetColor = outerColorData[colorIdx];
-            return (
-              <OuterColorCard
-                key={cardIdx}
-                active={isActive({ page: pageIdx, idx: cardIdx })}
-                onClick={() => handleSelectedIdx({ page: pageIdx, idx: cardIdx })}
-                color={targetColor.colorImage}
-                desc={targetColor.colorBoughtCount.toString()}
-                name={targetColor.colorName}
-                price={targetColor.colorPrice}
-              />
-            );
-          })}
-        </CardPage>
-      );
-      cardPageList.push(newCardPage);
-      setCardPageList(cardPageList);
+      const newCards = [];
+      for (let j = 0; j < NUM_IN_A_PAGE; j++) {
+        const cardIdx = j;
+        const colorIdx = pageIdx * NUM_IN_A_PAGE + cardIdx;
+        if (colorIdx >= outerColorData.length) break;
+        const targetColor = outerColorData[colorIdx];
+        const newCard = (
+          <OuterColorCard
+            key={cardIdx}
+            active={isActive({ page: pageIdx, idx: cardIdx })}
+            onClick={() => handleSelectedIdx({ page: pageIdx, idx: cardIdx })}
+            color={targetColor.colorImage}
+            desc={targetColor.colorBoughtCount.toString()}
+            name={targetColor.colorName}
+            price={targetColor.colorPrice}
+          />
+        );
+        newCards.push(newCard);
+      }
+      const cardPage = <CardPage>{newCards}</CardPage>;
+      cardPageList.push(cardPage);
     }
-  }, [outerColorData, isActive, cardIndices, handleSelectedIdx, maxPage]);
+    setCardPageList(cardPageList);
+  }, [outerColorData, maxPage, isActive, handleSelectedIdx]);
 
   useEffect(createCardList, [createCardList]);
 
