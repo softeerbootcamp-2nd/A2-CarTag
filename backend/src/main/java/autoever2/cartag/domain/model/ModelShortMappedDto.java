@@ -37,7 +37,7 @@ public class ModelShortMappedDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ModelShortMappedDto that = (ModelShortMappedDto) o;
-        return modelId == that.modelId && isDefaultModel == that.isDefaultModel && modelTypeId == that.modelTypeId && Objects.equals(modelName, that.modelName) && Objects.equals(modelTypeName, that.modelTypeName) && Objects.equals(modelPrice, that.modelPrice) && Objects.equals(modelBoughtCount, that.modelBoughtCount);
+        return modelId == that.modelId && isDefaultModel == that.isDefaultModel && modelTypeId == that.modelTypeId && Objects.equals(modelName, that.modelName) && Objects.equals(modelTypeName, that.modelTypeName) && Objects.equals(modelPrice, that.modelPrice) && Objects.equals(modelBoughtCount, that.modelBoughtCount) && Objects.equals(maxPs, that.maxPs) && Objects.equals(maxKgfm, that.maxKgfm);
     }
 
     public void setIsDefaultModel(int isDefaultModel) {
