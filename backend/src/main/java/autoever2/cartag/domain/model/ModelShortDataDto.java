@@ -20,6 +20,10 @@ public class ModelShortDataDto {
     private Long modelPrice;
     @Schema(description = "선택 비율 퍼센트 값(정수), 데이터가 없다면 0", example = "38")
     private int percentage;
-    @ArraySchema(schema = @Schema(implementation = PowerTrainMappedDto.class, description = "파워트레인의 HMG 데이터"))
-    private PowerTrainMappedDto hmgData;
+    @ArraySchema(schema = @Schema(implementation = PowerTrainDataDto.class, description = "파워트레인의 HMG 데이터"))
+    private PowerTrainDataDto hmgData;
+
+    public void setHmgData(PowerTrainDataDto hmgData) {
+        this.hmgData = hmgData;
+    }
 }
