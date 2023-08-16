@@ -1,26 +1,28 @@
-#!/bin/bash
-BUILD_JAR=$(ls /home/ubuntu/cicdproject/build/libs/*.jar)
-JAR_NAME=$(basename $BUILD_JAR)
-echo "> build 파일명: $JAR_NAME" >> /home/ubuntu/cicdproject/deploy.log
+#!/usr/bin/env bash
 
+PROJECT_ROOT="/home/ubuntu/cicdproject"
+JAR_FILE="$PROJECT_ROOT/a2cartag.jar"
 
-echo "> build 파일 복사" >> /home/ubuntu/cicdproject/deploy.log
-DEPLOY_PATH=/home/ubuntu/cicdproject/
-cp $BUILD_JAR $DEPLOY_PATH
+APP_LOG="$PROJECT_ROOT/application.log"
+ERROR_LOG="$PROJECT_ROOT/error.log"
+DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 
-echo "> 현재 실행중인 애플리케이션 pid 확인" >> /home/ubuntu/cicdproject/deploy.log
-CURRENT_PID=$(pgrep -f $JAR_NAME)
+TIME_NOW=$(date +%c)
 
-if [ -z $CURRENT_PID ]
-then
-  echo "> 현재 구동중인 애플리케이션이 없으므로 종료하지 않습니다." >> /home/ubuntu/cicdproject/deploy.log
+CURRENT_PID=$(pgrep -f $JAR_FILE)
+
+if [ -z $CURRENT_PID ]; then
+  echo "$TIME_NOW > 실행 중인 애플리케이션이 없습니다." >> $DEPLOY_LOG
 else
-  echo "> kill -15 $CURRENT_PID"
+  echo "$TIME_NOW > 실행 중인 $CURRENT_PID 애플리케이션을 종료합니다." >> $DEPLOY_LOG
   kill -15 $CURRENT_PID
-  sleep 5
 fi
 
-DEPLOY_JAR=$DEPLOY_PATH$JAR_NAME
-echo "> DEPLOY_JAR 배포"    >> /home/ubuntu/cicdproject/deploy.log
-chmod +x $DEPLOY_JAR
-nohup java -jar $DEPLOY_JAR >> /home/ubuntu/deploy.log 2>/home/ubuntu/cicdproject/deploy_err.log &
+echo "$TIME_NOW > $JAR_FILE 파일 생성" >> $DEPLOY_LOG
+cp $PROJECT_ROOT/build/libs/*.jar $JAR_FILE
+
+echo "$TIME_NOW > $JAR_FILE 파일 실행" >> $DEPLOY_LOG
+nohup java -jar $JAR_FILE > $APP_LOG 2> $ERROR_LOG &
+
+CURRENT_PID=$(pgrep -f $JAR_FILE)
+echo "$TIME_NOW > 실행된 프로세스 아이디 $CURRENT_PID 입니다." >> $DEPLOY_LOG
