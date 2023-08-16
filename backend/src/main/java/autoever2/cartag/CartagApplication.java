@@ -8,6 +8,7 @@ public class CartagApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(CartagApplication.class, args);
+		
 	}
 
 }
