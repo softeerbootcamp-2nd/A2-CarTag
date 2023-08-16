@@ -134,9 +134,9 @@ class ColorControllerTest {
         given(service.changeImageToImages(colorId)).willReturn(images);
 
         //when
-        ResultActions resultActionsOuter = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/colors/outer/").param("carId", String.valueOf(carId)));
-        ResultActions resultActionsInner = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/colors/inner/").param("carId", String.valueOf(carId)));
-        ResultActions resultActionsImages = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/colors/outer/images").param("colorId", String.valueOf(colorId)));
+        ResultActions resultActionsOuter = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/colors/outer/").param("carid", String.valueOf(carId)));
+        ResultActions resultActionsInner = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/colors/inner/").param("carid", String.valueOf(carId)));
+        ResultActions resultActionsImages = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/colors/outer/images").param("colorid", String.valueOf(colorId)));
         //then
         resultActionsOuter.andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].colorName").value("어비스 블랙펄"))
