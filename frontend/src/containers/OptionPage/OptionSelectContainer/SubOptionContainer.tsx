@@ -1,12 +1,17 @@
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import { styled } from 'styled-components';
 import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
 import { ISubOption, SubOptionContext } from '../../../context/SubOptionProvider';
 import HmgTag from '../../../components/common/hmgTag/HmgTag';
 export default function SubOptionContainer() {
+  const [currentCategory, setCurrentCategory] = useState('전체');
+
   const { subOption, selectedOptionIdx, setCurrentOptionIdx, setSelectedOptionIdx } =
     useContext(SubOptionContext);
+  const handleCategoryClick = (category: string) => {
+    setCurrentCategory(category);
+  };
 
   const handleCardClick = (index: number) => {
     setCurrentOptionIdx(index);
@@ -33,12 +38,18 @@ export default function SubOptionContainer() {
       }
     });
   };
-  const displayCategory = Object.keys(groupedData).map((key, idx) => (
-    <RoundButton key={idx} type="option" inactive={true}>
+  const displayCategory = Object.keys(groupedData).map((key) => (
+    <RoundButton
+      key={key}
+      type="option"
+      inactive={!(currentCategory === key)}
+      onClick={() => handleCategoryClick(key)}
+    >
       {key}
     </RoundButton>
   ));
-  const displayData = subOption?.map((option, idx) => (
+  const filteredByCategory = currentCategory === '전체' ? subOption : groupedData[currentCategory];
+  const displayData = filteredByCategory.map((option, idx) => (
     <CardWrapper key={idx}>
       {option.hasHmgData && (
         <HmgWrapper>
@@ -64,7 +75,13 @@ export default function SubOptionContainer() {
       {subOption && (
         <>
           <CategoryWrapper>
-            <RoundButton type="option">전체</RoundButton>
+            <RoundButton
+              type="option"
+              inactive={!(currentCategory === '전체')}
+              onClick={() => handleCategoryClick('전체')}
+            >
+              전체
+            </RoundButton>
             {displayCategory}
           </CategoryWrapper>
           <OptionSection>

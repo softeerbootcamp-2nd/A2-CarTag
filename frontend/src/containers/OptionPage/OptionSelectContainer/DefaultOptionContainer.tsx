@@ -1,13 +1,18 @@
 import { styled } from 'styled-components';
-import { useContext } from 'react';
+import { useContext, useState } from 'react';
 import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
 import { DefaultOptionContext, IDefaultOption } from '../../../context/DefaultOptionProvider';
 import HmgTag from '../../../components/common/hmgTag/HmgTag';
 
 export default function DefaultOptionContainer() {
+  const [currentCategory, setCurrentCategory] = useState('전체');
   const { defaultOption, currentOptionIdx, setCurrentOptionIdx } = useContext(DefaultOptionContext);
-  const handleClick = (index: number) => {
+  const handleCategoryClick = (category: string) => {
+    setCurrentCategory(category);
+  };
+
+  const handleCardClick = (index: number) => {
     setCurrentOptionIdx(index);
   };
 
@@ -24,12 +29,19 @@ export default function DefaultOptionContainer() {
   };
   const groupedData = groupByCategoryName(defaultOption);
 
-  const displayCategory = Object.keys(groupedData).map((key, idx) => (
-    <RoundButton key={idx} type="option" inactive={true}>
+  const displayCategory = Object.keys(groupedData).map((key) => (
+    <RoundButton
+      key={key}
+      type="option"
+      inactive={!(currentCategory === key)}
+      onClick={() => handleCategoryClick(key)}
+    >
       {key}
     </RoundButton>
   ));
-  const displayData = defaultOption?.map((option, idx) => (
+  const filteredByCategory =
+    currentCategory === '전체' ? defaultOption : groupedData[currentCategory];
+  const displayData = filteredByCategory.map((option, idx) => (
     <CardWrapper key={idx}>
       {option.hasHmgData && (
         <HmgWrapper>
@@ -38,7 +50,7 @@ export default function DefaultOptionContainer() {
       )}
       <OptionCard
         onClick={() => {
-          handleClick(option.optionId);
+          handleCardClick(option.optionId);
         }}
         type="default"
         active={currentOptionIdx === option.optionId}
@@ -54,7 +66,13 @@ export default function DefaultOptionContainer() {
       {defaultOption && (
         <>
           <CategoryWrapper>
-            <RoundButton type="option">전체</RoundButton>
+            <RoundButton
+              type="option"
+              inactive={!(currentCategory === '전체')}
+              onClick={() => handleCategoryClick('전체')}
+            >
+              전체
+            </RoundButton>
             {displayCategory}
           </CategoryWrapper>
           <OptionSection>
