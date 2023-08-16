@@ -23,7 +23,7 @@ public class ColorRepository {
     }
 
     public List<InnerColorDto> findInnerColorCarByCarId(int carId) {
-        String sql = "select color_name, color_image, color_price, color_bought_count, " +
+        String sql = "select c.color_name, color_image, color_price, color_bought_count, " +
                 "color_car_image from ColorCarMapper as cm inner join Color as c " +
                 "on cm.color_id = c.color_id where car_id = :carId and c.is_outer_color = 0";
 
