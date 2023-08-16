@@ -19,8 +19,8 @@ insert into ModelCarMapper (model_car_mapper_id, car_id, model_id, model_bought_
 insert into ModelCarMapper (model_car_mapper_id, car_id, model_id, model_bought_count, is_default_model) VALUES (5, 1, 5, 2300, 1);
 insert into ModelCarMapper (model_car_mapper_id, car_id, model_id, model_bought_count, is_default_model) VALUES (6, 1, 6, 1800, 0);
 
-insert into PowerTrainData values (1, '202/3,800PS/rpm', '45.0/1,750~2,750kgf-m/rpm');
-insert into PowerTrainData values (2, '295/6,000PS/rpm', '36.2/5,200kgf-m/rpm');
+insert into PowerTrainData values (1, '202/3800', '45.0/1750~2750');
+insert into PowerTrainData values (2, '295/6000', '36.2/5200');
 
 insert into PowerTrainOperationEfficiency values (1, 1, 3, '12.16km/s', '2,199cc');
 insert into PowerTrainOperationEfficiency values (2, 1, 4, '11.53km/s', '2,199cc');
