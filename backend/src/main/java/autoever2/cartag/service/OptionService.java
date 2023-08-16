@@ -1,6 +1,8 @@
 package autoever2.cartag.service;
 
 import autoever2.cartag.domain.option.*;
+import autoever2.cartag.exception.EmptyDataException;
+import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.repository.CarRepository;
 import autoever2.cartag.repository.OptionRepository;
 import lombok.RequiredArgsConstructor;
@@ -55,7 +57,7 @@ public class OptionService {
 
     //TODO: RuntimeException 처리
     public OptionDetailDto getOptionDetailData(int carId, int optionId, boolean isDefault) {
-        OptionDetailMappedDto detail = optionRepository.findOptionDetail(carId, optionId, isDefault).orElseThrow(() -> new RuntimeException("데이터가 존재하지 않습니다."));
+        OptionDetailMappedDto detail = optionRepository.findOptionDetail(carId, optionId, isDefault).orElseThrow(() -> new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND));
 
         List<OptionDetailMappedDto> packageSubOptions = optionRepository.findPackageSubOptions(optionId);
 
@@ -68,7 +70,7 @@ public class OptionService {
                 .build();
 
         if(detail.getOptionBoughtCount() != null) {
-            Long totalBoughtCount = carRepository.findCarBoughtCountByCarId(carId).orElseThrow(() -> new RuntimeException("알수 없는 에러"));
+            Long totalBoughtCount = carRepository.findCarBoughtCountByCarId(carId).orElseThrow(() -> new EmptyDataException(ErrorCode.INTERNAL_SERVER_ERROR));
             result.getHmgData().setOverHalf(detail.getOptionBoughtCount() * 2 > totalBoughtCount);
         }
         if(!packageSubOptions.isEmpty()) {

@@ -1,6 +1,8 @@
 package autoever2.cartag.service;
 
 import autoever2.cartag.domain.model.*;
+import autoever2.cartag.exception.EmptyDataException;
+import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.repository.CarRepository;
 import autoever2.cartag.repository.ModelRepository;
 import lombok.RequiredArgsConstructor;
@@ -41,7 +43,7 @@ public class ModelService {
 
     //TODO: RuntimeException 처리
     public ModelDetailMappedDto getModelDetail(int modelId) {
-        return modelRepository.findModelDetailData(modelId).orElseThrow(() -> new RuntimeException("데이터가 존재하지 않습니다."));
+        return modelRepository.findModelDetailData(modelId).orElseThrow(() -> new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND));
     }
 
     //TODO: RuntimeException 처리
@@ -51,6 +53,6 @@ public class ModelService {
 
     //TODO: RuntimeException 처리
     public ModelEfficiencyDataDto getEfficiencyData(int powerTrainId, int operationId) {
-        return modelRepository.findEfficiencyData(powerTrainId, operationId).orElseThrow(() -> new RuntimeException("ID가 일치하지 않습니다,"));
+        return modelRepository.findEfficiencyData(powerTrainId, operationId).orElseThrow(() -> new EmptyDataException(ErrorCode.INVALID_PARAMETER));
     }
 }

@@ -34,7 +34,7 @@ public class ColorRepository {
     }
 
     public List<OuterColorDto> findOuterColorCarByCarId(int carId) {
-        String sql = "select color_name, color_image, color_price, color_bought_count " +
+        String sql = "select color_id, color_name, color_image, color_price, color_bought_count " +
                 "from ColorCarMapper as cm inner join Color as c " +
                 "on cm.color_id = c.color_id where car_id = :carId and c.is_outer_color = 1";
 
