@@ -1,7 +1,12 @@
 package autoever2.cartag.service;
 
 import autoever2.cartag.domain.color.InnerColorDto;
+import autoever2.cartag.domain.color.InnerColorPercentDto;
 import autoever2.cartag.domain.color.OuterColorDto;
+import autoever2.cartag.domain.color.OuterColorPercentDto;
+import autoever2.cartag.exception.EmptyDataException;
+import autoever2.cartag.exception.ErrorCode;
+import autoever2.cartag.repository.CarRepository;
 import autoever2.cartag.repository.ColorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,19 +15,21 @@ import org.springframework.web.multipart.support.StandardMultipartHttpServletReq
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
 @Service
 @RequiredArgsConstructor
 public class ColorService {
-    private final ColorRepository repository;
+    private final ColorRepository colorRepository;
+    private final CarRepository carRepository;
 
     // TODO : 어떤 에러를 반환할지 생각합니다.
 
     public List<String> changeImageToImages(int colorId) {
-        Optional<String> images = repository.findOuterColorImagesByColorId(colorId);
+        Optional<String> images = colorRepository.findOuterColorImagesByColorId(colorId);
         if (images.isEmpty()) {
-            throw new RuntimeException("미정");
+            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
         }
         List<String> outerColorCarImages = new ArrayList<>();
         String value = images.get();
@@ -33,21 +40,32 @@ public class ColorService {
         return outerColorCarImages;
     }
 
-    public List<OuterColorDto> findOuterColorByCarId(int carId) {
-        List<OuterColorDto> outerColors = repository.findOuterColorCarByCarId(carId);
+    public List<OuterColorPercentDto> findOuterColorByCarId(int carId) {
+        List<OuterColorDto> outerColors = colorRepository.findOuterColorCarByCarId(carId);
         if (outerColors.isEmpty()) {
-            throw new RuntimeException("미정");
+            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
         }
-
-        return outerColors;
+        Optional<Long> totalCount = carRepository.findCarBoughtCountByCarId(carId);
+        return outerColors.stream()
+                .map(outerColorDto -> OuterColorPercentDto.toPercent(outerColorDto, getPercent(totalCount, outerColorDto.getColorBoughtCount())))
+                .collect(Collectors.toList());
     }
 
-    public List<InnerColorDto> findInnerColorByCarId(int carId) {
-        List<InnerColorDto> innerColors = repository.findInnerColorCarByCarId(carId);
+    public List<InnerColorPercentDto> findInnerColorByCarId(int carId) {
+        List<InnerColorDto> innerColors = colorRepository.findInnerColorCarByCarId(carId);
         if (innerColors.isEmpty()) {
-            throw new RuntimeException("미정");
+            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
         }
+        Optional<Long> totalCount = carRepository.findCarBoughtCountByCarId(carId);
+        return innerColors.stream()
+                .map(innerColorDto -> InnerColorPercentDto.toPercent(innerColorDto, getPercent(totalCount, innerColorDto.getColorBoughtCount())))
+                .collect(Collectors.toList());
+    }
 
-        return innerColors;
+    public int getPercent(Optional<Long> count, Long boughtCount) {
+        if (count.isEmpty()) {
+            return 0;
+        }
+        return boughtCount.intValue() * 100 / count.get().intValue();
     }
 }

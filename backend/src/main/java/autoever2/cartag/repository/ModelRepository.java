@@ -26,12 +26,14 @@ public class ModelRepository {
     }
 
     public List<ModelShortMappedDto> findAllModelTypeData(int carId) {
-        String sql = "select m.model_id, m.model_name, t.model_type_name, m.model_price, mm.model_bought_count, mm.is_default_model " +
+        String sql = "select m.model_id, m.model_name, t.model_type_id, t.model_type_name, m.model_price, mm.model_bought_count, mm.is_default_model, pd.max_ps, pd.max_kgfm " +
                 "from ModelCarMapper mm " +
                 "inner join Model m " +
                 "on mm.model_id = m.model_id " +
                 "inner join ModelType t " +
                 "on m.model_type_id = t.model_type_id " +
+                "left join PowerTrainData pd " +
+                "on pd.power_train_id = m.model_id " +
                 "where mm.car_id = :carId";
 
         SqlParameterSource param = new MapSqlParameterSource()
@@ -59,21 +61,6 @@ public class ModelRepository {
 
     private RowMapper<ModelDetailMappedDto> modelDetailRowMapper() {
         return BeanPropertyRowMapper.newInstance(ModelDetailMappedDto.class);
-    }
-
-    public Optional<PowerTrainMappedDto> findPowerTrainData(int powerTrainId) {
-        String sql = "select max_ps, max_kgfm " +
-                "from PowerTrainData " +
-                "where power_train_id = :powerTrainId";
-
-        SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("powerTrainId", powerTrainId);
-
-        return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, powerTrainRowMapper())));
-    }
-
-    private RowMapper<PowerTrainMappedDto> powerTrainRowMapper() {
-        return BeanPropertyRowMapper.newInstance(PowerTrainMappedDto.class);
     }
 
     public Optional<ModelEfficiencyDataDto> findEfficiencyData(int powerTrainId, int operationId) {

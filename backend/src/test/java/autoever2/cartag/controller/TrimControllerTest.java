@@ -109,7 +109,7 @@ class TrimControllerTest {
         given(service.findCarByCarType(carType)).willReturn(carDtoList);
 
         //when
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/types").param("carType", String.valueOf(carType)));
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/types").param("cartype", String.valueOf(carType)));
 
         System.out.println("jsonPath(\"$[3].options[0]\") = " + jsonPath("$[3].options[0]"));
         //then
