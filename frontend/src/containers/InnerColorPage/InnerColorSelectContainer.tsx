@@ -21,7 +21,6 @@ export default function InnerColorSelectContainer() {
   const [cardPageList, setCardPageList] = useState<ReactNode[]>();
   const maxPage = innerColorData ? Math.floor(innerColorData.length / NUM_IN_A_PAGE) + 1 : 0;
 
-  console.log(prevTotalPrice);
   const handleCardClick = useCallback(
     (selectedItem: IInnerColor, { page, idx }: ISelected) => {
       setSelectedIdx({ page, idx });
