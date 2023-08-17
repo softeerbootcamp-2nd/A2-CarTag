@@ -19,15 +19,15 @@ interface IHmgEfficiency {
   displacement: string;
 }
 export default function ModelTypeFooterContainer() {
-  const { modelType, selectedModelTypeIdx } = useContext(ModelTypeContext);
+  const { modelType, selectedModelType } = useContext(ModelTypeContext);
   const { data: hmgEfficiency, loading: hmgEfficiencyLoading } = useFetch<IHmgEfficiency>(
-    `${MODEL_TYPE_API}/hmg-efficiency/?powertrain=${selectedModelTypeIdx.powertrain}&operation=${selectedModelTypeIdx.operation}`
+    `${MODEL_TYPE_API}/hmg-efficiency?powertrain=${selectedModelType.powerTrain.id}&operation=${selectedModelType.operation.id}`
   );
   if (!modelType) return;
 
   const getCurrentPrice = () => {
-    const result = Object.values(selectedModelTypeIdx).reduce(
-      (acc, index) => acc + modelType[index - 1].modelPrice,
+    const result = Object.values(selectedModelType).reduce(
+      (acc, current) => acc + modelType[current.id - 1].modelPrice,
       0
     );
     return result;
@@ -41,8 +41,9 @@ export default function ModelTypeFooterContainer() {
             <HmgTag size="small" />
             <HmgInfoWrapper>
               <HmgTagDescription>
-                <BlueText>{modelType[selectedModelTypeIdx.powertrain - 1].modelName}</BlueText>와{' '}
-                <BlueText>{modelType[selectedModelTypeIdx.operation - 1].modelName}</BlueText>의
+                <BlueText>{modelType[selectedModelType.powerTrain.id - 1].modelName}</BlueText>
+                와&nbsp;
+                <BlueText>{modelType[selectedModelType.operation.id - 1].modelName}</BlueText>의
                 배기량과 평균연비입니다.
               </HmgTagDescription>
               <DataList>
@@ -58,7 +59,7 @@ export default function ModelTypeFooterContainer() {
               </DataList>
             </HmgInfoWrapper>
           </HmgDataSection>
-          <PriceSummary price={getCurrentPrice()} nextPagePath={PATH.exterior} />
+          <PriceSummary price={getCurrentPrice()} nextPagePath={PATH.outerColor} />
         </Wrapper>
       )}
     </>

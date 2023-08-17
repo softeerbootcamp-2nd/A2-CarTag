@@ -7,7 +7,7 @@ import { IModelType, ModelTypeContext } from '../../context/ModelTypeProvider';
 import { modelTypeToEn } from '../../utils/constants';
 
 export default function ModelTypelSelectContainer() {
-  const { modelType, selectedModelTypeIdx, setCurrentModelTypeIdx, handleSelectedIdx } =
+  const { modelType, selectedModelType, setCurrentModelTypeIdx, setSelectedModelType } =
     useContext(ModelTypeContext);
   const groupByModelTypeName = (array: IModelType[]) => {
     return array.reduce((acc: Record<string, IModelType[]>, current: IModelType) => {
@@ -19,8 +19,25 @@ export default function ModelTypelSelectContainer() {
       return acc;
     }, {});
   };
+  const handleSelectedModelType = (index: number) => {
+    setCurrentModelTypeIdx(index);
+    const target = modelType![index - 1];
+    const updatedType = {
+      id: target.modelId,
+      name: target.modelName,
+      title: target.modelTypeName,
+      imgSrc: '',
+      price: target.modelPrice,
+    };
+    const key = modelTypeToEn[target.modelTypeName];
+    console.log(key);
+    selectedModelType[key] = updatedType;
+    setSelectedModelType(selectedModelType);
+  };
+
   if (!modelType) return;
   const groupedData = groupByModelTypeName(modelType);
+
   const drawModelType = Object.keys(groupedData).map((key, idx) => (
     <TypeWrapper key={idx}>
       <TypeTitle>{key}</TypeTitle>
@@ -30,10 +47,14 @@ export default function ModelTypelSelectContainer() {
             <React.Fragment key={el.modelId}>
               <ModelTypeCard
                 onClick={() => {
-                  setCurrentModelTypeIdx(el.modelId);
-                  handleSelectedIdx(modelTypeToEn[el.modelTypeName], el.modelId);
+                  handleSelectedModelType(el.modelId);
+                  console.log(
+                    selectedModelType,
+                    selectedModelType['powerTrain'].id,
+                    selectedModelType[modelTypeToEn[el.modelTypeName]].id === el.modelId
+                  );
                 }}
-                active={selectedModelTypeIdx[modelTypeToEn[el.modelTypeName]] === el.modelId}
+                active={selectedModelType[modelTypeToEn[el.modelTypeName]].id === el.modelId}
                 desc={el.percentage + '%의 선택'}
                 title={el.modelName}
                 price={el.modelPrice}

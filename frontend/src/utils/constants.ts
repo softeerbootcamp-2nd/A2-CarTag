@@ -17,8 +17,8 @@ export const MESSAGE = {
 };
 
 export const modelTypeToEn: { [key: string]: string } = {
-  파워트레인: 'powertrain',
-  바디타입: 'bodytype',
+  파워트레인: 'powerTrain',
+  바디타입: 'bodyType',
   구동방식: 'operation',
 };
 

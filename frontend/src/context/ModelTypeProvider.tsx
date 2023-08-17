@@ -17,35 +17,59 @@ export interface IModelType {
   modelPrice: number;
   percentage: number;
 }
-interface ISelectedModelTypeIdx {
-  [key: string]: number;
+
+interface IModelTypeItem {
+  id: number;
+  name: string;
+  title: string;
+  imgSrc: string;
+  price: number;
+}
+interface ISelectedModelType {
+  [key: string]: IModelTypeItem;
 }
 
 interface IModelTypeContext {
   modelType: IModelType[] | null;
   loading: boolean;
-  selectedModelTypeIdx: ISelectedModelTypeIdx;
+  selectedModelType: ISelectedModelType;
   currentModelTypeIdx: number;
   setModelType: Dispatch<SetStateAction<IModelType[] | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
-  setSelectedModelTypeIdx: Dispatch<SetStateAction<ISelectedModelTypeIdx>>;
-  handleSelectedIdx: (key: string, idx: number) => void;
+  setSelectedModelType: Dispatch<SetStateAction<ISelectedModelType>>;
   setCurrentModelTypeIdx: Dispatch<SetStateAction<number>>;
 }
 
 const initialContext = {
   modelType: null,
   loading: true,
-  selectedModelTypeIdx: {
-    powertrain: 0,
-    operation: 0,
-    bodytype: 0,
+  selectedModelType: {
+    powerTrain: {
+      id: 0,
+      name: '',
+      title: '',
+      imgSrc: '',
+      price: 0,
+    },
+    operation: {
+      id: 0,
+      name: '',
+      title: '',
+      imgSrc: '',
+      price: 0,
+    },
+    bodyType: {
+      id: 0,
+      name: '',
+      title: '',
+      imgSrc: '',
+      price: 0,
+    },
   },
   currentModelTypeIdx: 1,
   setModelType: () => {},
   setLoading: () => {},
-  setSelectedModelTypeIdx: () => {},
-  handleSelectedIdx: () => {},
+  setSelectedModelType: () => {},
   setCurrentModelTypeIdx: () => {},
 };
 
@@ -54,28 +78,40 @@ export const ModelTypeContext = createContext<IModelTypeContext>(initialContext)
 export default function ModelTypeProvider({ children }: IModelTypeProvider) {
   const [modelType, setModelType] = useState<IModelType[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
-  const [selectedModelTypeIdx, setSelectedModelTypeIdx] = useState<ISelectedModelTypeIdx>({
-    powertrain: 1,
-    operation: 3,
-    bodytype: 5,
+  const [selectedModelType, setSelectedModelType] = useState<ISelectedModelType>({
+    powerTrain: {
+      id: 1,
+      name: '',
+      title: '',
+      imgSrc: '',
+      price: 0,
+    },
+    operation: {
+      id: 3,
+      name: '',
+      title: '',
+      imgSrc: '',
+      price: 0,
+    },
+    bodyType: {
+      id: 5,
+      name: '',
+      title: '',
+      imgSrc: '',
+      price: 0,
+    },
   });
   const [currentModelTypeIdx, setCurrentModelTypeIdx] = useState(1);
-  const handleSelectedIdx = (key: string, idx: number) => {
-    setSelectedModelTypeIdx((prevSelectedTypeIdx) => ({
-      ...prevSelectedTypeIdx,
-      [key]: idx,
-    }));
-  };
+
   const providerValue = {
     modelType,
     loading,
-    selectedModelTypeIdx,
+    selectedModelType,
     currentModelTypeIdx,
     setModelType,
     setLoading,
-    setSelectedModelTypeIdx,
+    setSelectedModelType,
     setCurrentModelTypeIdx,
-    handleSelectedIdx,
   };
 
   return <ModelTypeContext.Provider value={providerValue}>{children}</ModelTypeContext.Provider>;

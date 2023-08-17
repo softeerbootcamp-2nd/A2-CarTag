@@ -1,6 +1,5 @@
 import styled, { keyframes } from 'styled-components';
 import { BodyKrRegular5, HeadingKrRegular2 } from '../../styles/typefaces';
-import { useEffect } from 'react';
 
 interface IPowerTrainData {
   title: string;
@@ -8,7 +7,6 @@ interface IPowerTrainData {
   ratio: number;
 }
 export default function PowerTrainData({ title, value, ratio }: IPowerTrainData) {
-  useEffect(() => {}, [ratio]);
   return (
     <Data>
       <DataTitle>{title}</DataTitle>

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useCallback, useContext, useEffect } from 'react';
 import { styled } from 'styled-components';
 import { useFetch } from '../../hooks/useFetch';
 import { BodyKrRegular4 } from '../../styles/typefaces';
@@ -8,6 +8,7 @@ import CenterWrapper from '../../components/layout/CenterWrapper';
 import PowerTrainData from '../../components/powerTrainData/PowerTrainData';
 import { ModelTypeContext } from '../../context/ModelTypeProvider';
 import { MODEL_TYPE_API, IMG_URL } from '../../utils/apis';
+import { modelTypeToEn } from '../../utils/constants';
 
 interface IModelTypeDetail {
   modelImage: string;
@@ -17,11 +18,26 @@ interface IModelTypeDetail {
 }
 
 export default function ModelTypePage() {
-  const { modelType, currentModelTypeIdx } = useContext(ModelTypeContext);
+  const { modelType, currentModelTypeIdx, selectedModelType, setSelectedModelType } =
+    useContext(ModelTypeContext);
 
   const { data: modelTypeDetail, loading: modelTypDetailLoading } = useFetch<IModelTypeDetail>(
     `${MODEL_TYPE_API}/detail?modelid=${currentModelTypeIdx}`
   );
+
+  const handleAddImgSrc = useCallback(() => {
+    if (!modelType || !modelTypeDetail) return;
+
+    const target = modelType[currentModelTypeIdx - 1];
+    const key = modelTypeToEn[target.modelTypeName];
+    selectedModelType[key].imgSrc = modelTypeDetail.modelImage;
+    setSelectedModelType(selectedModelType);
+  }, [modelType, modelTypeDetail, currentModelTypeIdx, selectedModelType, setSelectedModelType]);
+
+  useEffect(() => {
+    handleAddImgSrc();
+  }, [handleAddImgSrc]);
+
   if (!modelType || !modelTypeDetail) return;
   const displaySeparator =
     modelType[currentModelTypeIdx - 1].hmgData?.maxPs &&
