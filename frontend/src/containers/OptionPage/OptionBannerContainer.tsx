@@ -104,12 +104,12 @@ export default function OptionBannerContainer({
                     <HmgDataSection>
                       <HmgTag size="small" />
                       <DataList>
-                        {optionDetail.hmgData.overHalf && (
+                        {optionDetail.hmgData.overHalf !== null && (
                           <Data>
                             <DataTitle>
                               {optionDetail.hmgData.overHalf
-                                ? '이 트림을 구매한 사람 중 절반 이상이 선택한 옵션이에요.'
-                                : '이 트림을 구매한 사람이 이 옵션을 이만큼 선택했어요.'}
+                                ? '구매자의 절반 이상이 선택했어요.'
+                                : '구매자가 이 옵션을 이만큼 선택했어요.'}
                             </DataTitle>
                             <DataInfo>
                               {Number(optionDetail.hmgData.optionBoughtCount).toLocaleString()}개
