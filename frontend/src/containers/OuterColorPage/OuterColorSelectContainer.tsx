@@ -49,7 +49,7 @@ export default function OuterColorSelectContainer() {
             active={isActive({ page: pageIdx, idx: cardIdx })}
             onClick={() => handleSelectedIdx(targetColor.colorId, { page: pageIdx, idx: cardIdx })}
             color={targetColor.colorImage}
-            desc={targetColor.colorBoughtCount.toString()}
+            desc={targetColor.colorBoughtPercent.toString()}
             name={targetColor.colorName}
             price={targetColor.colorPrice}
           />
