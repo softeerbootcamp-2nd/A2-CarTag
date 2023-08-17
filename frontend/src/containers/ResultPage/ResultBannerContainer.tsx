@@ -4,16 +4,16 @@ import { BodyKrRegular3, HeadingKrBold1 } from '../../styles/typefaces';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { useState } from 'react';
 
-type buttonType = 'exterior' | 'interior';
+type buttonType = 'outerColor' | 'innerColor';
 
 export default function ResultBannerContainer() {
-  const [selectedButton, setSelectedButton] = useState<buttonType>('exterior');
+  const [selectedButton, setSelectedButton] = useState<buttonType>('outerColor');
 
   const handleSelectedButton = () => {
-    if (selectedButton === 'exterior') {
-      setSelectedButton('interior');
+    if (selectedButton === 'outerColor') {
+      setSelectedButton('innerColor');
     } else {
-      setSelectedButton('exterior');
+      setSelectedButton('outerColor');
     }
   };
 
@@ -23,8 +23,8 @@ export default function ResultBannerContainer() {
         <Title>Le Blanc</Title>
         <CarImg src="images/car.png" alt="" />
         <ButtonContainer onClick={handleSelectedButton}>
-          <Button $active={selectedButton === 'exterior'}>외장</Button>
-          <Button $active={selectedButton === 'interior'}>내장</Button>
+          <Button $active={selectedButton === 'outerColor'}>외장</Button>
+          <Button $active={selectedButton === 'innerColor'}>내장</Button>
         </ButtonContainer>
       </ResultBanner>
     </>

@@ -12,9 +12,9 @@ interface IPriceSummary extends React.HTMLAttributes<HTMLDivElement> {
 
 export default function PriceSummary({ nextPagePath, ...props }: IPriceSummary) {
   const { totalPrice } = useContext(ItemContext);
+
   const navigate = useNavigate();
-  const handleButtonClick = (price: number) => {
-    price; // Todo. price 누적 값 저장
+  const handleButtonClick = () => {
     navigate(nextPagePath);
   };
   return (
@@ -25,7 +25,7 @@ export default function PriceSummary({ nextPagePath, ...props }: IPriceSummary) 
           현재 총 가격<HighLightText>{totalPrice.toLocaleString()} 원</HighLightText>
         </TotalPriceText>
       </InfoWrapper>
-      <RectButton type="price" onClick={() => handleButtonClick(totalPrice)}>
+      <RectButton type="price" onClick={handleButtonClick}>
         다음
       </RectButton>
     </SummaryWrapper>

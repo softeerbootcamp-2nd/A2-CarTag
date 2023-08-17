@@ -5,32 +5,31 @@ import DefaultCardStyle from '../common/card/DefaultCardStyle';
 import { CheckIcon } from '../common/icons/Icons';
 import { HTMLAttributes } from 'react';
 
-interface IInTeriorCard extends HTMLAttributes<HTMLDivElement> {
-  imgSrc1: string;
-  imgSrc2: string;
+interface IInnerColorCard extends HTMLAttributes<HTMLDivElement> {
+  imgSrc: string;
   active: boolean;
   desc: string;
   name: string;
   price: number;
 }
 
-export default function InteriorCard({
-  imgSrc1,
-  imgSrc2,
+export default function InnerColorCard({
+  imgSrc,
   active,
   desc,
   name,
   price,
   ...props
-}: IInTeriorCard) {
+}: IInnerColorCard) {
   return (
     <Card active={active} {...props}>
       <ImgWrapper>
-        <InteriorImg src={imgSrc1}></InteriorImg>
-        <InteriorImg src={imgSrc2}></InteriorImg>
+        <InnerColorImg src={imgSrc} />
       </ImgWrapper>
       <DescWrapper>
-        <ColorDesc>{desc}</ColorDesc>
+        <ColorDesc>
+          <PointText $active={active}>{desc}%</PointText>가 선택했어요.
+        </ColorDesc>
         <ColorName>{name}</ColorName>
         <Row>
           <ColorPrice>+ {price}원</ColorPrice>
@@ -44,11 +43,12 @@ export default function InteriorCard({
 const Card = styled(DefaultCardStyle)`
   display: flex;
   align-items: center;
-  width: 100%;
+
+  width: 256px;
   height: 110px;
   overflow: hidden;
 `;
-const InteriorImg = styled.img``;
+const InnerColorImg = styled.img``;
 const ImgWrapper = styled.div`
   ${flexCenterCss}
   flex-direction: column;
@@ -57,6 +57,9 @@ const ImgWrapper = styled.div`
 
 const ColorDesc = styled.div`
   ${BodyKrMedium4}
+`;
+const PointText = styled.span<{ $active: boolean }>`
+  color: ${({ $active, theme }) => $active && theme.color.activeBlue};
 `;
 const ColorName = styled.div`
   ${BodyKrMedium3}

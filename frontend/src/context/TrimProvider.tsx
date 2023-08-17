@@ -4,6 +4,7 @@ interface ITrimProvider {
   children: ReactNode;
 }
 export interface ICartype {
+  carId: number;
   trim: string;
   carDefaultPrice: number;
   outerImage: string;

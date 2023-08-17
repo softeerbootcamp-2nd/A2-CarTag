@@ -4,13 +4,13 @@ import { CheckIcon } from '../common/icons/Icons';
 import DefaultCardStyle from '../common/card/DefaultCardStyle';
 import { HTMLAttributes } from 'react';
 
-interface IExtraOptionCard extends HTMLAttributes<HTMLDivElement> {
+interface ISubOptionCard extends HTMLAttributes<HTMLDivElement> {
   active: boolean;
   title: string;
   price: number;
 }
 
-export default function ExtraOptionCard({ active, title, price, ...props }: IExtraOptionCard) {
+export default function SubOptionCard({ active, title, price, ...props }: ISubOptionCard) {
   return (
     <Card active={active} {...props}>
       <OptionImg />

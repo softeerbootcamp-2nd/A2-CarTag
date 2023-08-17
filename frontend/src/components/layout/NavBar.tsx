@@ -50,14 +50,14 @@ export default function NavBar() {
               타입
             </NavItem>
             <NavItem
-              onClick={() => handleNavItemClick(PATH.exterior)}
-              active={isActive(PATH.exterior)}
+              onClick={() => handleNavItemClick(PATH.outerColor)}
+              active={isActive(PATH.outerColor)}
             >
               외장
             </NavItem>
             <NavItem
-              onClick={() => handleNavItemClick(PATH.interior)}
-              active={isActive(PATH.interior)}
+              onClick={() => handleNavItemClick(PATH.innerColor)}
+              active={isActive(PATH.innerColor)}
             >
               내장
             </NavItem>

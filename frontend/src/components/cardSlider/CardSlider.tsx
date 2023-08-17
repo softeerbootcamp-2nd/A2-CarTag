@@ -3,22 +3,23 @@ import { BodyKrRegular3, HeadingKrMedium6 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import { ArrowLeft, ArrowRight } from '../../components/common/icons/Icons';
 import { ReactNode, useState } from 'react';
-import { MAX_PAGE } from '../../utils/constants';
+import Loading from '../loading/Loading';
 
 interface ICardSlider {
   title: string;
-  cardList: ReactNode[];
+  cardList?: ReactNode[];
+  maxPage: number;
 }
-export default function CardSlider({ title, cardList }: ICardSlider) {
+export default function CardSlider({ title, cardList, maxPage }: ICardSlider) {
   const [page, setPage] = useState(0);
   const theme = useTheme();
 
   const arrowLeftColor = page <= 0 ? theme.color.gray200 : theme.color.gray600;
-  const arrowRightColor = page >= MAX_PAGE - 1 ? theme.color.gray200 : theme.color.gray600;
+  const arrowRightColor = page >= maxPage - 1 ? theme.color.gray200 : theme.color.gray600;
 
   const handlePageNext = () => {
     setPage((cur) => {
-      const nextPage = cur + 1 >= MAX_PAGE ? cur : cur + 1;
+      const nextPage = cur + 1 >= maxPage ? cur : cur + 1;
       return nextPage;
     });
   };
@@ -34,18 +35,22 @@ export default function CardSlider({ title, cardList }: ICardSlider) {
       <Header>
         <Title>{title}</Title>
         <PageButtonWrapper>
-          <PageButton onClick={handlePagePrev}>
-            <ArrowLeft fill={arrowLeftColor} />
-          </PageButton>
-          <Page>
-            {page + 1}/{MAX_PAGE}
-          </Page>
-          <PageButton onClick={handlePageNext}>
-            <ArrowRight fill={arrowRightColor} />
-          </PageButton>
+          {maxPage > 1 && (
+            <>
+              <PageButton onClick={handlePagePrev}>
+                <ArrowLeft fill={arrowLeftColor} />
+              </PageButton>
+              <Page>
+                {page + 1}/{maxPage}
+              </Page>
+              <PageButton onClick={handlePageNext}>
+                <ArrowRight fill={arrowRightColor} />
+              </PageButton>
+            </>
+          )}
         </PageButtonWrapper>
       </Header>
-      <SelectSection>{cardList[page]}</SelectSection>
+      <SelectSection>{cardList ? cardList[page] : <Loading />}</SelectSection>
     </Wrapper>
   );
 }

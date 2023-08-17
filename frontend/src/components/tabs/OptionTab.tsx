@@ -1,14 +1,21 @@
-import { HTMLAttributes, useEffect, useRef, useState } from 'react';
+import { Dispatch, HTMLAttributes, SetStateAction, useEffect, useRef, useState } from 'react';
 import { BodyKrMedium3, BodyKrRegular3 } from '../../styles/typefaces';
 import styled, { css, useTheme } from 'styled-components';
 import { ArrowLeft, ArrowRight } from '../common/icons/Icons';
 import { NUM_IN_A_PAGE } from '../../utils/constants';
+import { ISubOptionList } from '../../containers/OptionPage/OptionBannerContainer';
 
+interface IBannerInfo {
+  categoryName: string;
+  descriptionText: string;
+  imgPath: string;
+}
 interface ISubOptionTab extends HTMLAttributes<HTMLDivElement> {
-  options: string[];
+  options: ISubOptionList[];
+  setBannerInfo: Dispatch<SetStateAction<IBannerInfo>>;
 }
 
-export default function OptionTab({ options }: ISubOptionTab) {
+export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
   const theme = useTheme();
   const TAB_MAX_PAGE = options.length / NUM_IN_A_PAGE;
   const [selectedIdx, setSelectedIdx] = useState(0);
@@ -17,13 +24,6 @@ export default function OptionTab({ options }: ISubOptionTab) {
   const arrowRightColor = page >= TAB_MAX_PAGE - 1 ? theme.color.gray200 : theme.color.gray600;
   const tabDivisionRef = useRef<HTMLDivElement>(null);
   const [tabDivisionWidth, setTabDivisionWidth] = useState(0);
-
-  useEffect(() => {
-    if (tabDivisionRef.current) {
-      const tabDivisionWidth = tabDivisionRef.current.offsetWidth;
-      setTabDivisionWidth(tabDivisionWidth);
-    }
-  }, [tabDivisionRef]);
 
   const displayUnderline = (groupIndex: number, index: number) => {
     return page === groupIndex && index === selectedIdx ? (
@@ -36,18 +36,21 @@ export default function OptionTab({ options }: ISubOptionTab) {
     if (page + 1 >= TAB_MAX_PAGE) return;
     setSelectedIdx(0);
     setPage(page + 1);
+    changeInfo(0, page + 1);
   };
   const handleOffsetPrev = () => {
     if (page - 1 < 0) return;
     setSelectedIdx(0);
     setPage(page - 1);
+    changeInfo(0, page - 1);
   };
 
   const handleOptionClick = (index: number) => {
     setSelectedIdx(index);
+    changeInfo(index, page);
   };
 
-  const chunkArray = (array: string[], size: number) => {
+  const chunkArray = (array: ISubOptionList[], size: number) => {
     const result = [];
     for (let i = 0; i < array.length; i += size) {
       result.push(array.slice(i, i + size));
@@ -55,37 +58,63 @@ export default function OptionTab({ options }: ISubOptionTab) {
     return result;
   };
   const chunkedOptions = chunkArray(options, NUM_IN_A_PAGE);
+  const changeInfo = (idx: number, page: number) => {
+    const index = page * NUM_IN_A_PAGE + idx;
+    if (options && options.length > 0) {
+      setBannerInfo({
+        categoryName: options[index].categoryName,
+        descriptionText: options[index].optionDescription,
+        imgPath: options[index].optionImage,
+      });
+    }
+  };
+  useEffect(() => {
+    setSelectedIdx(0);
+    setPage(0);
+  }, [options]);
+
+  useEffect(() => {
+    if (tabDivisionRef.current) {
+      const tabDivisionWidth = tabDivisionRef.current.offsetWidth;
+      setTabDivisionWidth(tabDivisionWidth);
+    }
+  }, [tabDivisionRef]);
 
   return (
-    <TabWrapper>
-      <BtnWrapper onClick={handleOffsetPrev} style={{ cursor: page <= 0 ? 'default' : 'pointer' }}>
-        <ArrowLeft fill={arrowLeftColor} />
-      </BtnWrapper>
-      <TabWrapperInner ref={tabDivisionRef}>
-        <Tab $offset={page * -tabDivisionWidth}>
-          {chunkedOptions.map((optionGroup: string[], groupIndex) => (
-            <TabDivision key={groupIndex}>
-              {optionGroup.map((option: string, index: number) => (
-                <TabButton
-                  key={index}
-                  onClick={() => handleOptionClick(index)}
-                  $isselected={page === groupIndex && index === selectedIdx}
-                >
-                  <div>{option}</div>
-                  {displayUnderline(groupIndex, index)}
-                </TabButton>
-              ))}
-            </TabDivision>
-          ))}
-        </Tab>
-      </TabWrapperInner>
-      <BtnWrapper
-        onClick={handleOffsetNext}
-        style={{ cursor: page >= TAB_MAX_PAGE - 1 ? 'default' : 'pointer' }}
-      >
-        <ArrowRight fill={arrowRightColor} />
-      </BtnWrapper>
-    </TabWrapper>
+    <>
+      <TabWrapper>
+        <BtnWrapper
+          onClick={handleOffsetPrev}
+          style={{ cursor: page <= 0 ? 'default' : 'pointer' }}
+        >
+          <ArrowLeft fill={arrowLeftColor} />
+        </BtnWrapper>
+        <TabWrapperInner ref={tabDivisionRef}>
+          <Tab $offset={page * -tabDivisionWidth}>
+            {chunkedOptions.map((optionGroup: ISubOptionList[], groupIndex) => (
+              <TabDivision key={groupIndex}>
+                {optionGroup.map((option: ISubOptionList, index: number) => (
+                  <TabButton
+                    key={index}
+                    onClick={() => handleOptionClick(index)}
+                    $isselected={page === groupIndex && index === selectedIdx}
+                  >
+                    <div>{option.optionName}</div>
+                    {displayUnderline(groupIndex, index)}
+                  </TabButton>
+                ))}
+              </TabDivision>
+            ))}
+          </Tab>
+        </TabWrapperInner>
+        <BtnWrapper
+          onClick={handleOffsetNext}
+          style={{ cursor: page >= TAB_MAX_PAGE - 1 ? 'default' : 'pointer' }}
+        >
+          <ArrowRight fill={arrowRightColor} />
+        </BtnWrapper>
+      </TabWrapper>
+    </>
   );
 }
 
@@ -94,7 +123,6 @@ const TabWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-top: 10px;
   height: 40px;
 `;
 
