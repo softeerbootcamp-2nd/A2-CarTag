@@ -6,19 +6,19 @@ import { ArrowDown, ArrowUp } from '../common/icons/Icons';
 interface IDetails extends HTMLAttributes<HTMLDivElement> {
   title: string;
   open?: boolean;
+  price: number;
 }
 
-export default function Details({ title, open = false, ...props }: IDetails) {
+export default function Details({ title, open = false, price, ...props }: IDetails) {
   const theme = useTheme();
   const arrowColor = theme.color.gray900;
-  const totalPrice = 1_000_000;
 
   return (
     <Wrapper>
       <Summary {...props}>
         <span>{title}</span>
         <RightDiv>
-          <Price>+{totalPrice.toLocaleString()}원</Price>
+          <Price>+{price.toLocaleString()}원</Price>
           {open ? <ArrowUp fill={arrowColor} /> : <ArrowDown fill={arrowColor} />}
         </RightDiv>
       </Summary>

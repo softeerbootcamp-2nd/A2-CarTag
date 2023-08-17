@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import { BodyKrRegular3 } from '../../styles/typefaces';
+import { IMG_URL } from '../../utils/apis';
 
 export interface ISummaryItem {
   imgSrc: string;
@@ -11,7 +12,7 @@ export interface ISummaryItem {
 export default function SummaryItem({ imgSrc, itemName, selectedName, price }: ISummaryItem) {
   return (
     <Item>
-      <Img src={imgSrc} alt="" />
+      <Img src={IMG_URL + imgSrc} alt="" />
       <InfoWrapper>
         <LeftInfo>
           <ItemName>{itemName}</ItemName>
@@ -19,7 +20,7 @@ export default function SummaryItem({ imgSrc, itemName, selectedName, price }: I
         </LeftInfo>
         <RightInfo>
           <ModifyButton>수정하기</ModifyButton>
-          <Price>+ {price}원</Price>
+          <Price>+ {price.toLocaleString()}원</Price>
         </RightInfo>
       </InfoWrapper>
     </Item>
@@ -61,6 +62,7 @@ const ItemName = styled.div`
   color: ${({ theme }) => theme.color.gray500};
 `;
 const ModifyButton = styled.button`
+  text-align: end;
   color: ${({ theme }) => theme.color.primaryColor};
 `;
 const SelectedName = styled.div``;
