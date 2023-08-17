@@ -15,7 +15,6 @@ export default function ModelTypePage() {
     setModelType(data);
     setLoading(loading);
   }, [data, loading, setModelType, setLoading]);
-
   return (
     <>
       <ModelBannerContainer />

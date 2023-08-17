@@ -13,12 +13,11 @@ import ModelTypeProvider from '../../context/ModelTypeProvider';
 import OuterColorProvider from '../../context/OuterColorProvider';
 import SubOptionProvider from '../../context/SubOptionProvider';
 import DefaultOptionProvider from '../../context/DefaultOptionProvider';
-import ItemProvider from '../../context/ItemProvider';
 import Providers from '../contextProviders/Providers';
 import InnerColorProvider from '../../context/InnerColorProvider';
 
 export default function CustomRouter() {
-  const optionProviders = [SubOptionProvider, DefaultOptionProvider, ItemProvider];
+  const optionProviders = [SubOptionProvider, DefaultOptionProvider];
 
   const { pathname } = useLocation();
 
