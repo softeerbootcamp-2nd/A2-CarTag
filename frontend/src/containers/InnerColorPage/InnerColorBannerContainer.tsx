@@ -1,15 +1,15 @@
 import { styled } from 'styled-components';
 import Banner from '../../components/common/banner/Banner';
 
-export default function InteriorBannerContainer() {
+export default function InnerColorBannerContainer() {
   return (
     <>
-      <InteriorBanner subtitle={'내장색상'} title={'퀼팅천연(블랙)'} />{' '}
+      <InnerColorBanner subtitle={'내장색상'} title={'퀼팅천연(블랙)'} />{' '}
     </>
   );
 }
 
-const InteriorBanner = styled(Banner)`
+const InnerColorBanner = styled(Banner)`
   overflow: hidden;
   padding: 0;
   p {

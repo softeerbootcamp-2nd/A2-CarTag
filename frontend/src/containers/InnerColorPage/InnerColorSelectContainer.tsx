@@ -2,7 +2,7 @@ import { ReactNode, useState } from 'react';
 import { styled } from 'styled-components';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import PriceSummary from '../../components/summary/PriceSummary';
-import InteriorCard from '../../components/cards/InteriorCard';
+import InnerColorCard from '../../components/cards/InnerColorCard';
 import CardSlider from '../../components/cardSlider/CardSlider';
 import { MAX_PAGE, NUM_IN_A_PAGE, PATH } from '../../utils/constants';
 
@@ -11,7 +11,7 @@ interface ISelected {
   idx: number;
 }
 
-export default function InteriorSelectContainer() {
+export default function InnerColorSelectContainer() {
   const [selectedIdx, setSelectedIdx] = useState<ISelected>({ page: 0, idx: 0 });
 
   const cardIndices = Array.from({ length: NUM_IN_A_PAGE }, (_, index) => index + 1);
@@ -28,7 +28,7 @@ export default function InteriorSelectContainer() {
     const newCardPage: ReactNode = (
       <CardPage key={i}>
         {cardIndices.map((idx) => (
-          <InteriorCard
+          <InnerColorCard
             key={idx}
             imgSrc1={'images/inner_color1.png'}
             imgSrc2={'images/inner_color2.png'}
