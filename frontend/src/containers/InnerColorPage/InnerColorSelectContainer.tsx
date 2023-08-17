@@ -1,12 +1,13 @@
-import { ReactNode, useCallback, useContext, useEffect, useState } from 'react';
+import { ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import PriceSummary from '../../components/summary/PriceSummary';
 import InnerColorCard from '../../components/cards/InnerColorCard';
 import CardSlider from '../../components/cardSlider/CardSlider';
 import { NUM_IN_A_PAGE, PATH } from '../../utils/constants';
-import { InnerColorContext } from '../../context/InnerColorProvider';
+import { IInnerColor, InnerColorContext } from '../../context/InnerColorProvider';
 import { IMG_URL } from '../../utils/apis';
+import { ItemContext } from '../../context/ItemProvider';
 
 interface ISelected {
   page: number;
@@ -15,19 +16,34 @@ interface ISelected {
 
 export default function InnerColorSelectContainer() {
   const { data: innerColorData, selectedIdx, setSelectedIdx } = useContext(InnerColorContext);
+  const { setSelectedItem, setTotalPrice, totalPrice } = useContext(ItemContext);
+  const prevTotalPrice = useRef<number>(totalPrice);
   const [cardPageList, setCardPageList] = useState<ReactNode[]>();
   const maxPage = innerColorData ? Math.floor(innerColorData.length / NUM_IN_A_PAGE) + 1 : 0;
 
-  const handleSelectedIdx = useCallback(
-    ({ page, idx }: ISelected) => {
+  console.log(prevTotalPrice);
+  const handleCardClick = useCallback(
+    (selectedItem: IInnerColor, { page, idx }: ISelected) => {
       setSelectedIdx({ page, idx });
+      setSelectedItem({
+        type: 'SET_INNER_COLOR',
+        value: {
+          id: 0,
+          name: selectedItem.colorName,
+          price: selectedItem.colorPrice,
+          title: '내장 색상',
+          imgSrc: selectedItem.colorImage,
+        },
+      });
+      setTotalPrice(prevTotalPrice.current + selectedItem.colorPrice);
     },
-    [setSelectedIdx]
+    [setSelectedIdx, setSelectedItem, setTotalPrice]
   );
   const isActive = useCallback(
     ({ page, idx }: ISelected) => {
       return page === selectedIdx.page && idx === selectedIdx.idx;
     },
+
     [selectedIdx]
   );
 
@@ -48,7 +64,7 @@ export default function InnerColorSelectContainer() {
             key={cardIdx}
             imgSrc={`${IMG_URL}${targetColor.colorImage}`}
             active={isActive({ page: pageIdx, idx: cardIdx })}
-            onClick={() => handleSelectedIdx({ page: pageIdx, idx: cardIdx })}
+            onClick={() => handleCardClick(targetColor, { page: pageIdx, idx: cardIdx })}
             color={targetColor.colorImage}
             desc={targetColor.colorBoughtPercent.toString()}
             name={targetColor.colorName}
@@ -61,13 +77,13 @@ export default function InnerColorSelectContainer() {
       cardPageList.push(cardPage);
     }
     setCardPageList(cardPageList);
-  }, [innerColorData, maxPage, isActive, handleSelectedIdx]);
+  }, [innerColorData, maxPage, isActive, handleCardClick]);
 
   useEffect(createCardList, [createCardList]);
 
   return (
     <Wrapper>
-      <CardSlider title="내장 색상을 선택해주세요." cardList={cardPageList} maxPage={0} />
+      <CardSlider title="내장 색상을 선택해주세요." cardList={cardPageList} maxPage={maxPage} />
       <Footer>
         <PriceSummary nextPagePath={PATH.option} />
       </Footer>
