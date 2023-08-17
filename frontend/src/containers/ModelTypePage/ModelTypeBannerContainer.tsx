@@ -16,57 +16,51 @@ interface IModelTypeDetail {
   optionDescription: string;
 }
 
-interface IHmgData {
-  maxKgfm: string;
-  maxPs: string;
-}
-
 export default function ModelTypePage() {
-  const { currentModelTypeIdx } = useContext(ModelTypeContext);
-  const { data: hmgData, loading: hmgDataLoading } = useFetch<IHmgData>(
-    `${MODEL_TYPE_API}/hmg-powertrain?powertrain=${currentModelTypeIdx}`
-  );
-  const { data: modelTypDetail, loading: modelTypDetailLoading } = useFetch<IModelTypeDetail>(
+  const { modelType, currentModelTypeIdx } = useContext(ModelTypeContext);
+
+  const { data: modelTypeDetail, loading: modelTypDetailLoading } = useFetch<IModelTypeDetail>(
     `${MODEL_TYPE_API}/detail?modelid=${currentModelTypeIdx}`
   );
-  const parseStringData = (dataString: string) => {
-    const powerUnitRegEx = /kgf-m\/rpm/g;
-    const torqueUnitRegEx = /PS\/rpm/g;
-    const result = dataString.replace(powerUnitRegEx, '').replace(torqueUnitRegEx, '');
-    return result;
-  };
-
+  if (!modelType || !modelTypeDetail) return;
+  const displaySeparator =
+    modelType[currentModelTypeIdx - 1].hmgData?.maxPs &&
+    modelType[currentModelTypeIdx - 1].hmgData?.maxKgfm;
   return (
     <>
-      {modelTypDetail && !modelTypDetailLoading && (
-        <Banner subtitle={modelTypDetail.modelTypeName} title={modelTypDetail.modelName}>
+      {modelType && modelTypeDetail && !modelTypDetailLoading && (
+        <Banner subtitle={modelTypeDetail.modelTypeName} title={modelTypeDetail.modelName}>
           <Wrapper>
             <Container>
               <InfoWrapper>
-                <AdditionalText>{modelTypDetail.optionDescription}</AdditionalText>
-                {modelTypDetail.modelTypeName === '파워트레인' && hmgData && !hmgDataLoading ? (
+                <AdditionalText>{modelTypeDetail.optionDescription}</AdditionalText>
+                {modelTypeDetail.modelTypeName === '파워트레인' && modelType[0].hmgData ? (
                   <HmgDataSection>
                     <HmgTag size="small" />
                     <DataList>
-                      <PowerTrainData
-                        title="최고출력(PS/rpm)"
-                        value={parseStringData(hmgData.maxPs)}
-                        current={0.49}
-                        max={0.53}
-                      />
-                      <Separator />
-                      <PowerTrainData
-                        title="최대토크(kgf·m/rpm)"
-                        value={parseStringData(hmgData.maxKgfm)}
-                        current={0.005}
-                        max={0.02}
-                      />
+                      {modelType[currentModelTypeIdx - 1].hmgData?.maxPs && (
+                        <PowerTrainData
+                          title="최고출력(PS/rpm)"
+                          value={modelType[currentModelTypeIdx - 1].hmgData!.maxPs} //TODO : 콤마찍기
+                          ratio={modelType[currentModelTypeIdx - 1].hmgData!.ratioPs}
+                        />
+                      )}
+                      {displaySeparator && <Separator />}
+                      {modelType[currentModelTypeIdx - 1].hmgData?.maxKgfm && (
+                        <>
+                          <PowerTrainData
+                            title="최대토크(kgf·m/rpm)"
+                            value={modelType[currentModelTypeIdx - 1].hmgData!.maxKgfm}
+                            ratio={modelType[currentModelTypeIdx - 1].hmgData!.ratioKgfm}
+                          />
+                        </>
+                      )}
                     </DataList>
                   </HmgDataSection>
                 ) : null}
               </InfoWrapper>
             </Container>
-            <ImgSection src={`${IMG_URL}${modelTypDetail.modelImage}`} />
+            <ImgSection src={`${IMG_URL}${modelTypeDetail.modelImage}`} />
           </Wrapper>
         </Banner>
       )}
@@ -103,22 +97,10 @@ const DataList = styled.ul`
   width: 448px;
   margin-top: 16px;
   align-items: center;
-`;
-const Data = styled.li`
-  width: 100%;
-  height: 67px;
-  display: flex;
-  flex-direction: column;
-  &:first-child {
-    padding-right: 24px;
-  }
-
-  &:last-child {
-    padding-left: 24px;
-  }
+  gap: 24px;
 `;
 
-const Separator = styled(Data)`
+const Separator = styled.li`
   width: 1px;
   height: 41px;
   background-color: ${({ theme }) => theme.color.gray200};

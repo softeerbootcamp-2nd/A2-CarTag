@@ -3,8 +3,14 @@ import { Dispatch, ReactNode, SetStateAction, createContext, useState } from 're
 interface IModelTypeProvider {
   children: ReactNode;
 }
-
+interface IHmgData {
+  maxKgfm: string;
+  maxPs: string;
+  ratioKgfm: number;
+  ratioPs: number;
+}
 export interface IModelType {
+  hmgData: IHmgData | null;
   modelId: number;
   modelName: string;
   modelTypeName: string;

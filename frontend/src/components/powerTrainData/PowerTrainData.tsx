@@ -1,21 +1,22 @@
 import styled, { keyframes } from 'styled-components';
 import { BodyKrRegular5, HeadingKrRegular2 } from '../../styles/typefaces';
+import { useEffect } from 'react';
 
 interface IPowerTrainData {
   title: string;
   value: string;
-  current: number;
-  max: number;
+  ratio: number;
 }
-export default function PowerTrainData({ title, value, current, max }: IPowerTrainData) {
+export default function PowerTrainData({ title, value, ratio }: IPowerTrainData) {
+  useEffect(() => {}, [ratio]);
   return (
     <Data>
       <DataTitle>{title}</DataTitle>
       <DataInfo>
         {value}
         <DataRatio>
-          <Ratio $current={current} $max={max}>
-            <Highlight />
+          <Ratio $ratio={ratio}>
+            <Highlight key={ratio} />
           </Ratio>
         </DataRatio>
       </DataInfo>
@@ -24,17 +25,8 @@ export default function PowerTrainData({ title, value, current, max }: IPowerTra
 }
 
 const Data = styled.li`
-  width: 100%;
+  width: 200px;
   height: 67px;
-  display: flex;
-  flex-direction: column;
-  &:first-child {
-    padding-right: 24px;
-  }
-
-  &:last-child {
-    padding-left: 24px;
-  }
 `;
 
 const DataTitle = styled.div`
@@ -50,9 +42,9 @@ const DataRatio = styled.div`
   background-color: ${({ theme }) => theme.color.gray200};
 `;
 
-const Ratio = styled.div<{ $current: number; $max: number }>`
+const Ratio = styled.div<{ $ratio: number }>`
   height: 4px;
-  width: ${({ $current, $max }) => ($current / $max) * 100}%;
+  width: ${({ $ratio }) => $ratio * 100}%;
 `;
 
 const widthKeyframe = keyframes`
