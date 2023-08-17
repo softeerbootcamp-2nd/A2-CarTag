@@ -81,7 +81,6 @@ const Wrapper = styled(CenterWrapper)`
 
 const CardPage = styled.div`
   display: flex;
-  justify-content: flex-start;
   gap: 16px;
   margin-top: 12px;
 `;
