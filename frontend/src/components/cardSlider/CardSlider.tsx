@@ -35,15 +35,19 @@ export default function CardSlider({ title, cardList, maxPage }: ICardSlider) {
       <Header>
         <Title>{title}</Title>
         <PageButtonWrapper>
-          <PageButton onClick={handlePagePrev}>
-            <ArrowLeft fill={arrowLeftColor} />
-          </PageButton>
-          <Page>
-            {page + 1}/{maxPage}
-          </Page>
-          <PageButton onClick={handlePageNext}>
-            <ArrowRight fill={arrowRightColor} />
-          </PageButton>
+          {maxPage > 1 && (
+            <>
+              <PageButton onClick={handlePagePrev}>
+                <ArrowLeft fill={arrowLeftColor} />
+              </PageButton>
+              <Page>
+                {page + 1}/{maxPage}
+              </Page>
+              <PageButton onClick={handlePageNext}>
+                <ArrowRight fill={arrowRightColor} />
+              </PageButton>
+            </>
+          )}
         </PageButtonWrapper>
       </Header>
       <SelectSection>{cardList ? cardList[page] : <Loading />}</SelectSection>

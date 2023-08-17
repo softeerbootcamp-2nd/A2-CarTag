@@ -6,8 +6,7 @@ import { CheckIcon } from '../common/icons/Icons';
 import { HTMLAttributes } from 'react';
 
 interface IInnerColorCard extends HTMLAttributes<HTMLDivElement> {
-  imgSrc1: string;
-  imgSrc2: string;
+  imgSrc: string;
   active: boolean;
   desc: string;
   name: string;
@@ -15,8 +14,7 @@ interface IInnerColorCard extends HTMLAttributes<HTMLDivElement> {
 }
 
 export default function InnerColorCard({
-  imgSrc1,
-  imgSrc2,
+  imgSrc,
   active,
   desc,
   name,
@@ -26,11 +24,12 @@ export default function InnerColorCard({
   return (
     <Card active={active} {...props}>
       <ImgWrapper>
-        <InnerColorImg src={imgSrc1}></InnerColorImg>
-        <InnerColorImg src={imgSrc2}></InnerColorImg>
+        <InnerColorImg src={imgSrc} />
       </ImgWrapper>
       <DescWrapper>
-        <ColorDesc>{desc}</ColorDesc>
+        <ColorDesc>
+          <PointText $active={active}>{desc}%</PointText>가 선택했어요.
+        </ColorDesc>
         <ColorName>{name}</ColorName>
         <Row>
           <ColorPrice>+ {price}원</ColorPrice>
@@ -44,7 +43,8 @@ export default function InnerColorCard({
 const Card = styled(DefaultCardStyle)`
   display: flex;
   align-items: center;
-  width: 100%;
+
+  width: 256px;
   height: 110px;
   overflow: hidden;
 `;
@@ -57,6 +57,9 @@ const ImgWrapper = styled.div`
 
 const ColorDesc = styled.div`
   ${BodyKrMedium4}
+`;
+const PointText = styled.span<{ $active: boolean }>`
+  color: ${({ $active, theme }) => $active && theme.color.activeBlue};
 `;
 const ColorName = styled.div`
   ${BodyKrMedium3}
