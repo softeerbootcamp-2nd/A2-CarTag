@@ -1,4 +1,4 @@
-import { useContext, useRef } from 'react';
+import { useCallback, useContext, useEffect, useRef } from 'react';
 import { styled } from 'styled-components';
 import { HeadingKrMedium6, HeadingKrMedium7 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
@@ -23,20 +23,38 @@ export default function ModelTypelSelectContainer() {
       return acc;
     }, {});
   };
+  const updateSelectedModelType = useCallback(
+    (target: IModelType) => {
+      const updatedType = {
+        id: target.modelId,
+        name: target.modelName,
+        title: target.modelTypeName,
+        imgSrc: '',
+        price: target.modelPrice,
+      };
+      const key = modelTypeToEn[target.modelTypeName];
+      selectedModelType[key] = updatedType;
+      setSelectedModelType(selectedModelType);
+    },
+    [selectedModelType, setSelectedModelType]
+  );
+
+  const initDefaultInfo = useCallback(() => {
+    if (!modelType) return 0;
+    const result = Object.values(selectedModelType).reduce((acc, current) => {
+      const target = modelType![current.id - 1];
+      updateSelectedModelType(target);
+      setSelectedModelType(selectedModelType);
+      return acc + modelType[current.id - 1].modelPrice;
+    }, 0);
+    return result;
+  }, [selectedModelType, modelType, setSelectedModelType, updateSelectedModelType]);
   const handleSelectedModelType = (index: number) => {
+    if (!modelType) return;
     setCurrentModelTypeIdx(index);
     const target = modelType![index - 1];
-    const updatedType = {
-      id: target.modelId,
-      name: target.modelName,
-      title: target.modelTypeName,
-      imgSrc: '',
-      price: target.modelPrice,
-    };
-    const key = modelTypeToEn[target.modelTypeName];
-    selectedModelType[key] = updatedType;
+    updateSelectedModelType(target);
     setSelectedModelType(selectedModelType);
-
     setSelectedItem({
       type: 'SET_POWER_TRAIN',
       value: selectedModelType['powerTrain'],
@@ -49,11 +67,26 @@ export default function ModelTypelSelectContainer() {
       type: 'SET_BODY_TYPE',
       value: selectedModelType['bodyType'],
     });
-
     setTotalPrice(prevTotalPrice.current + target.modelPrice);
   };
 
+  useEffect(() => {
+    setTotalPrice(prevTotalPrice.current + initDefaultInfo());
+    setSelectedItem({
+      type: 'SET_POWER_TRAIN',
+      value: selectedModelType['powerTrain'],
+    });
+    setSelectedItem({
+      type: 'SET_OPERATION',
+      value: selectedModelType['operation'],
+    });
+    setSelectedItem({
+      type: 'SET_BODY_TYPE',
+      value: selectedModelType['bodyType'],
+    });
+  }, [modelType, initDefaultInfo, selectedModelType, setSelectedItem, setTotalPrice]);
   if (!modelType) return;
+
   const groupedData = groupByModelTypeName(modelType);
 
   const drawModelType = Object.keys(groupedData).map((key, idx) => (
