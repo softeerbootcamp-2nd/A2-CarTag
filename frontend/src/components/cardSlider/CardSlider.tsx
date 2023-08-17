@@ -35,7 +35,7 @@ export default function CardSlider({ title, cardList, maxPage }: ICardSlider) {
       <Header>
         <Title>{title}</Title>
         <PageButtonWrapper>
-          {maxPage !== 0 && (
+          {maxPage > 1 && (
             <>
               <PageButton onClick={handlePagePrev}>
                 <ArrowLeft fill={arrowLeftColor} />
