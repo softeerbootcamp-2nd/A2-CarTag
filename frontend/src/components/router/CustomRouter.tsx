@@ -11,8 +11,14 @@ import { PATH } from '../../utils/constants';
 import TrimProvider from '../../context/TrimProvider';
 import ModelTypeProvider from '../../context/ModelTypeProvider';
 import OuterColorProvider from '../../context/OuterColorProvider';
+import SubOptionProvider from '../../context/SubOptionProvider';
+import DefaultOptionProvider from '../../context/DefaultOptionProvider';
+import ItemProvider from '../../context/ItemProvider';
+import Providers from '../contextProviders/Providers';
 
 export default function CustomRouter() {
+  const optionProviders = [SubOptionProvider, DefaultOptionProvider, ItemProvider];
+
   const { pathname } = useLocation();
 
   return (
@@ -45,7 +51,9 @@ export default function CustomRouter() {
       )}
       {pathname === PATH.option && (
         <PageAnimationWrapper key={4}>
-          <OptionPage />
+          <Providers contexts={optionProviders}>
+            <OptionPage />
+          </Providers>
         </PageAnimationWrapper>
       )}
       {pathname === PATH.result && (

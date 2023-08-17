@@ -130,6 +130,6 @@ const ImgSection = styled.img`
   right: 0;
   width: 632px;
   height: 360px;
-  object-fit: contain;
+  object-fit: cover;
   object-position: center;
 `;
