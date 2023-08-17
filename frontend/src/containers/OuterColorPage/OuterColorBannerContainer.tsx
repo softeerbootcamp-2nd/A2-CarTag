@@ -1,4 +1,4 @@
-import { MouseEventHandler, useCallback, useContext, useEffect, useState } from 'react';
+import { MouseEventHandler, useCallback, useContext, useEffect, useReducer } from 'react';
 import { styled } from 'styled-components';
 import Banner from '../../components/common/banner/Banner';
 import CenterWrapper from '../../components/layout/CenterWrapper';
@@ -7,41 +7,43 @@ import { useFetch } from '../../hooks/useFetch';
 import { IMG_URL, OUTER_IMG_API } from '../../utils/apis';
 import Loading from '../../components/loading/Loading';
 import { OuterColorContext } from '../../context/OuterColorProvider';
+import car360Reducer from '../../reducer/car360reducer';
 
 export default function OuterColorBannerContainer() {
   const { seletedColorId } = useContext(OuterColorContext);
   const { data: car360ImgUrls, loading } = useFetch<string[]>(
     `${OUTER_IMG_API}?colorid=${seletedColorId}`
   );
-  // Todo. useReducer or Object로 관리하기
-  const [imgIdx, setImgIdx] = useState(0);
-  const [isDragging, setIsDragging] = useState(false);
-  const [startX, setStartX] = useState(0);
-  const [startIdx, setStartIdx] = useState(0);
-  const [imgLoading, setImgLoading] = useState(true);
+  const [imgState, setImgState] = useReducer(car360Reducer, {
+    visibleIdx: 0,
+    isDragging: false,
+    startX: 0,
+    startIdx: 0,
+    imgLoading: true,
+  });
   const imgLen = car360ImgUrls ? car360ImgUrls.length : 0;
 
   const handleMousedown: MouseEventHandler<HTMLDivElement> = ({ pageX }) => {
-    setIsDragging(true);
-    setStartX(pageX);
-    setStartIdx(imgIdx);
+    setImgState({ type: 'SET_IS_DRAGGING', value: true });
+    setImgState({ type: 'SET_START_X', value: pageX });
+    setImgState({ type: 'SET_VISIBLE_IDX', value: imgState.visibleIdx });
   };
   const handleMousemove: MouseEventHandler<HTMLDivElement> = ({ pageX, currentTarget }) => {
-    if (!isDragging) return;
+    if (!imgState.isDragging) return;
     const { offsetWidth } = currentTarget;
-    const moveX = startX - pageX;
+    const moveX = imgState.startX - pageX;
     const percent = moveX / offsetWidth;
     const moveIdx = Math.round(imgLen * percent);
-    let resultIdx = startIdx + moveIdx;
+    let resultIdx = imgState.startIdx + moveIdx;
     if (resultIdx < 0) {
       resultIdx += imgLen;
     }
     resultIdx %= imgLen;
-    setImgIdx(resultIdx);
+    setImgState({ type: 'SET_VISIBLE_IDX', value: resultIdx });
   };
   const handleMouseup: MouseEventHandler<HTMLDivElement> = ({ pageX }) => {
-    setIsDragging(false);
-    setStartX(pageX);
+    setImgState({ type: 'SET_IS_DRAGGING', value: false });
+    setImgState({ type: 'SET_START_X', value: pageX });
   };
 
   const isLoadComplete = useCallback((urls: string[]) => {
@@ -56,10 +58,10 @@ export default function OuterColorBannerContainer() {
   const downloadAndSaveImages = useCallback(
     async (car360ImgUrls: string[], abortController: AbortController) => {
       if (isLoadComplete(car360ImgUrls)) {
-        setImgLoading(false);
+        setImgState({ type: 'SET_IMG_LOADING', value: false });
         return;
       }
-      setImgLoading(true);
+      setImgState({ type: 'SET_IMG_LOADING', value: true });
 
       await Promise.all(
         car360ImgUrls.map(async (url, idx) => {
@@ -74,7 +76,7 @@ export default function OuterColorBannerContainer() {
           return imgBlob;
         })
       );
-      setImgLoading(false);
+      setImgState({ type: 'SET_IMG_LOADING', value: false });
     },
     [isLoadComplete]
   );
@@ -91,7 +93,7 @@ export default function OuterColorBannerContainer() {
   const car360Components = car360ImgUrls?.map((url, idx) => {
     const imgSrc = localStorage.getItem(url);
     if (!imgSrc) return;
-    return <CarImg key={idx} src={imgSrc} $visible={imgIdx === idx} />;
+    return <CarImg key={idx} src={imgSrc} $visible={imgState.visibleIdx === idx} />;
   });
 
   return (
@@ -102,7 +104,7 @@ export default function OuterColorBannerContainer() {
             <CarShadow>
               <DegreeCaption>360°</DegreeCaption>
             </CarShadow>
-            {imgLoading ? <Loading /> : car360Components}
+            {imgState.imgLoading ? <Loading /> : car360Components}
           </ImgWrapper>
         </FlexCenterWrapper>
       </OuterColorBanner>
