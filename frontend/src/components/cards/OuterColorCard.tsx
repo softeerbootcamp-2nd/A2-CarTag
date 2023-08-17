@@ -31,8 +31,7 @@ export default function OuterColorCard({
       </ColorWrapper>
       <DescWrapper>
         <ColorDesc>
-          <PointText $active={active}>{desc}</PointText>
-          %가 선택했어요.
+          <PointText $active={active}>{desc}%</PointText>가 선택했어요.
         </ColorDesc>
         <ColorName>{name}</ColorName>
         <Row>
