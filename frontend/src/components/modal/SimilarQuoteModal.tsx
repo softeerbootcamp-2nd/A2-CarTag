@@ -10,12 +10,12 @@ import {
   HeadingKrMedium6,
 } from '../../styles/typefaces';
 import { flexCenterCss } from '../../utils/commonStyle';
-import ExtraOptionCard from '../cards/ExtraOptionCard';
 import HmgTag from '../common/hmgTag/HmgTag';
 import RectButton from '../common/buttons/RectButton';
 import { DimmedBackground } from './DimmedBackground';
 import { SimilarQuoteModalContext } from '../../context/SimilarQuoteModalProvider';
 import SimilarPriceBar from '../priceStaticBar/SimilarPriceBar';
+import SubOptionCard from '../cards/SubOptionCard';
 
 interface ISimilarQuoteModal extends HTMLAttributes<HTMLDivElement> {}
 
@@ -70,18 +70,18 @@ export default function SimilarQuoteModal({ ...props }: ISimilarQuoteModal) {
             <OptionSection>
               <p>내 견적에 없는 옵션이에요.</p>
               <OptionCardWrapper>
-                <ExtraOptionCard
+                <SubOptionCard
                   active={false}
                   title="디젤 2.2"
                   price={0}
                   onClick={() => null}
-                ></ExtraOptionCard>
-                <ExtraOptionCard
+                ></SubOptionCard>
+                <SubOptionCard
                   active={false}
                   title="디젤 2.2"
                   price={0}
                   onClick={() => null}
-                ></ExtraOptionCard>
+                ></SubOptionCard>
               </OptionCardWrapper>
             </OptionSection>
             <IconBtn>

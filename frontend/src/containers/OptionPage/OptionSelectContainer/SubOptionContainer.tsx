@@ -1,13 +1,14 @@
-import { styled } from 'styled-components';
 import { useContext, useState } from 'react';
+import { styled } from 'styled-components';
 import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
-import { DefaultOptionContext, IDefaultOption } from '../../../context/DefaultOptionProvider';
+import { ISubOption, SubOptionContext } from '../../../context/SubOptionProvider';
 import HmgTag from '../../../components/common/hmgTag/HmgTag';
-
-export default function DefaultOptionContainer() {
+export default function SubOptionContainer() {
   const [currentCategory, setCurrentCategory] = useState('전체');
-  const { defaultOption, currentOptionIdx, setCurrentOptionIdx } = useContext(DefaultOptionContext);
+
+  const { subOption, selectedOptionIdx, setCurrentOptionIdx, setSelectedOptionIdx } =
+    useContext(SubOptionContext);
   const handleCategoryClick = (category: string) => {
     setCurrentCategory(category);
   };
@@ -15,10 +16,9 @@ export default function DefaultOptionContainer() {
   const handleCardClick = (index: number) => {
     setCurrentOptionIdx(index);
   };
-
-  if (!defaultOption) return;
-  const groupByCategoryName = (array: IDefaultOption[]) => {
-    return array.reduce((acc: Record<string, IDefaultOption[]>, current: IDefaultOption) => {
+  if (!subOption) return;
+  const groupByCategoryName = (array: ISubOption[]) => {
+    return array.reduce((acc: Record<string, ISubOption[]>, current: ISubOption) => {
       const optionCategoryName = current.optionCategoryName;
       if (!acc[optionCategoryName]) {
         acc[optionCategoryName] = [];
@@ -27,8 +27,17 @@ export default function DefaultOptionContainer() {
       return acc;
     }, {});
   };
-  const groupedData = groupByCategoryName(defaultOption);
+  const groupedData = groupByCategoryName(subOption);
 
+  const handleSelectOption = (index: number) => {
+    setSelectedOptionIdx((prevSelectedOptions) => {
+      if (prevSelectedOptions.includes(index)) {
+        return prevSelectedOptions.filter((item) => item !== index);
+      } else {
+        return [...prevSelectedOptions, index];
+      }
+    });
+  };
   const displayCategory = Object.keys(groupedData).map((key) => (
     <RoundButton
       key={key}
@@ -39,8 +48,7 @@ export default function DefaultOptionContainer() {
       {key}
     </RoundButton>
   ));
-  const filteredByCategory =
-    currentCategory === '전체' ? defaultOption : groupedData[currentCategory];
+  const filteredByCategory = currentCategory === '전체' ? subOption : groupedData[currentCategory];
   const displayData = filteredByCategory.map((option, idx) => (
     <CardWrapper key={idx}>
       {option.hasHmgData && (
@@ -49,21 +57,22 @@ export default function DefaultOptionContainer() {
         </HmgWrapper>
       )}
       <OptionCard
-        onClick={() => {
-          handleCardClick(option.optionId);
-        }}
-        type="default"
-        active={currentOptionIdx === option.optionId}
+        onClick={() => handleCardClick(option.subOptionId)}
+        type="sub"
+        active={selectedOptionIdx.includes(option.subOptionId)}
+        desc={`${option.percentage}%의 선택`}
         title={option.optionName}
         price={option.optionPrice}
         imgPath={option.optionImage}
         hashTag={option.hashtagName}
+        handleSelectOption={() => handleSelectOption(option.subOptionId)}
       />
     </CardWrapper>
   ));
+
   return (
     <>
-      {defaultOption && (
+      {subOption && (
         <>
           <CategoryWrapper>
             <RoundButton
@@ -102,6 +111,7 @@ const OptionSection = styled.div`
 `;
 const OptionWrapper = styled.div`
   display: flex;
+
   flex-wrap: wrap;
   gap: 16px;
 `;
