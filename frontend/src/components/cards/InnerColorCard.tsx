@@ -24,7 +24,7 @@ export default function InnerColorCard({
   return (
     <Card active={active} {...props}>
       <ImgWrapper>
-        <InnerColorImg src={imgSrc}></InnerColorImg>
+        <InnerColorImg src={imgSrc} />
       </ImgWrapper>
       <DescWrapper>
         <ColorDesc>
