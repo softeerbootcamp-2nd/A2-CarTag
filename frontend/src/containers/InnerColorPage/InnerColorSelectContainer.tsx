@@ -22,7 +22,7 @@ export default function InnerColorSelectContainer() {
   const maxPage = innerColorData ? Math.floor(innerColorData.length / NUM_IN_A_PAGE) + 1 : 0;
 
   const handleCardClick = useCallback(
-    (selectedItem: IInnerColor, { page, idx }: ISelected) => {
+    ({ selectedItem, page, idx }: { selectedItem: IInnerColor; page: number; idx: number }) => {
       setSelectedIdx({ page, idx });
       setSelectedItem({
         type: 'SET_INNER_COLOR',
@@ -63,7 +63,9 @@ export default function InnerColorSelectContainer() {
             key={cardIdx}
             imgSrc={`${IMG_URL}${targetColor.colorImage}`}
             active={isActive({ page: pageIdx, idx: cardIdx })}
-            onClick={() => handleCardClick(targetColor, { page: pageIdx, idx: cardIdx })}
+            onClick={() =>
+              handleCardClick({ selectedItem: targetColor, page: pageIdx, idx: cardIdx })
+            }
             color={targetColor.colorImage}
             desc={targetColor.colorBoughtPercent.toString()}
             name={targetColor.colorName}
