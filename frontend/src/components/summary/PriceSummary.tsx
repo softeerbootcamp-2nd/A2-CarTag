@@ -5,42 +5,27 @@ import { BodyKrRegular4, HeadingKrMedium2 } from '../../styles/typefaces';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { ItemContext } from '../../context/ItemProvider';
-import { ModelTypeContext } from '../../context/ModelTypeProvider';
 
 interface IPriceSummary extends React.HTMLAttributes<HTMLDivElement> {
-  price: number;
   nextPagePath: string;
 }
 
-export default function PriceSummary({ price, nextPagePath, ...props }: IPriceSummary) {
-  const { selectedModelType } = useContext(ModelTypeContext);
-  const { totalPrice, setTotalPrice, setSelectedItem } = useContext(ItemContext);
+export default function PriceSummary({ nextPagePath, ...props }: IPriceSummary) {
+  const { totalPrice } = useContext(ItemContext);
+
   const navigate = useNavigate();
-  const handleButtonClick = (price: number) => {
+  const handleButtonClick = () => {
     navigate(nextPagePath);
-    setTotalPrice(price);
-    setSelectedItem({
-      type: 'SET_POWER_TRAIN',
-      value: selectedModelType['powerTrain'],
-    });
-    setSelectedItem({
-      type: 'SET_OPERATION',
-      value: selectedModelType['operation'],
-    });
-    setSelectedItem({
-      type: 'SET_BODY_TYPE',
-      value: selectedModelType['bodyType'],
-    });
   };
   return (
     <SummaryWrapper {...props}>
       <InfoWrapper>
         <RoundButton type="price">견적 요약</RoundButton>
         <TotalPriceText>
-          현재 총 가격<HighLightText>{(totalPrice + price).toLocaleString()} 원</HighLightText>
+          현재 총 가격<HighLightText>{totalPrice.toLocaleString()} 원</HighLightText>
         </TotalPriceText>
       </InfoWrapper>
-      <RectButton type="price" onClick={() => handleButtonClick(totalPrice + price)}>
+      <RectButton type="price" onClick={handleButtonClick}>
         다음
       </RectButton>
     </SummaryWrapper>

@@ -25,14 +25,6 @@ export default function ModelTypeFooterContainer() {
   );
   if (!modelType) return;
 
-  const getCurrentPrice = () => {
-    const result = Object.values(selectedModelType).reduce(
-      (acc, current) => acc + modelType[current.id - 1].modelPrice,
-      0
-    );
-    return result;
-  };
-
   return (
     <>
       {modelType && hmgEfficiency && !hmgEfficiencyLoading && (
@@ -59,7 +51,7 @@ export default function ModelTypeFooterContainer() {
               </DataList>
             </HmgInfoWrapper>
           </HmgDataSection>
-          <PriceSummary price={getCurrentPrice()} nextPagePath={PATH.outerColor} />
+          <PriceSummary nextPagePath={PATH.outerColor} />
         </Wrapper>
       )}
     </>
