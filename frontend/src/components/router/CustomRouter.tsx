@@ -12,11 +12,10 @@ import TrimProvider from '../../context/TrimProvider';
 import ModelTypeProvider from '../../context/ModelTypeProvider';
 import SubOptionProvider from '../../context/SubOptionProvider';
 import DefaultOptionProvider from '../../context/DefaultOptionProvider';
-import ItemProvider from '../../context/ItemProvider';
 import Providers from '../contextProviders/Providers';
 
 export default function CustomRouter() {
-  const optionProviders = [SubOptionProvider, DefaultOptionProvider, ItemProvider];
+  const optionProviders = [SubOptionProvider, DefaultOptionProvider];
 
   const { pathname } = useLocation();
 
