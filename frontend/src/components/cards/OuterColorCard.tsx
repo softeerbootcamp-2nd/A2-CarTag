@@ -25,12 +25,15 @@ export default function OuterColorCard({
   return (
     <Card active={active} {...props}>
       <ColorWrapper>
-        <ColorBorder>
+        <ColorBorder $active={active}>
           <ColorImg $src={`${IMG_URL}${color}`}></ColorImg>
         </ColorBorder>
       </ColorWrapper>
       <DescWrapper>
-        <ColorDesc>{desc}</ColorDesc>
+        <ColorDesc>
+          <PointText $active={active}>{desc}</PointText>
+          %가 선택했어요.
+        </ColorDesc>
         <ColorName>{name}</ColorName>
         <Row>
           <ColorPrice>+ {price}원</ColorPrice>
@@ -60,16 +63,19 @@ const ColorWrapper = styled.div`
   flex-grow: 1;
 `;
 
-const ColorBorder = styled.div`
+const ColorBorder = styled.div<{ $active: boolean }>`
   ${flexCenterCss}
   width: 58px;
   height: 58px;
   border-radius: 50%;
-  border: 1px solid ${({ theme }) => theme.color.gray200};
+  border: 1px solid ${({ theme, $active }) => ($active ? theme.color.gray900 : theme.color.gray200)};
 `;
 
 const ColorDesc = styled.div`
   ${BodyKrMedium4}
+`;
+const PointText = styled.span<{ $active: boolean }>`
+  color: ${({ $active, theme }) => $active && theme.color.activeBlue};
 `;
 const ColorName = styled.div`
   ${BodyKrMedium3}
