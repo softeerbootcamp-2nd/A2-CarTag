@@ -1,10 +1,12 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import PriceSummary from '../../components/summary/PriceSummary';
 import InnerColorCard from '../../components/cards/InnerColorCard';
 import CardSlider from '../../components/cardSlider/CardSlider';
-import { MAX_PAGE, NUM_IN_A_PAGE, PATH } from '../../utils/constants';
+import { NUM_IN_A_PAGE, PATH } from '../../utils/constants';
+import { InnerColorContext } from '../../context/InnerColorProvider';
+import { IMG_URL } from '../../utils/apis';
 
 interface ISelected {
   page: number;
@@ -12,41 +14,60 @@ interface ISelected {
 }
 
 export default function InnerColorSelectContainer() {
-  const [selectedIdx, setSelectedIdx] = useState<ISelected>({ page: 0, idx: 0 });
+  const { data: innerColorData, selectedIdx, setSelectedIdx } = useContext(InnerColorContext);
+  const [cardPageList, setCardPageList] = useState<ReactNode[]>();
+  const maxPage = innerColorData ? Math.floor(innerColorData.length / NUM_IN_A_PAGE) + 1 : 0;
 
-  const cardIndices = Array.from({ length: NUM_IN_A_PAGE }, (_, index) => index + 1);
+  const handleSelectedIdx = useCallback(
+    ({ page, idx }: ISelected) => {
+      setSelectedIdx({ page, idx });
+    },
+    [setSelectedIdx]
+  );
+  const isActive = useCallback(
+    ({ page, idx }: ISelected) => {
+      return page === selectedIdx.page && idx === selectedIdx.idx;
+    },
+    [selectedIdx]
+  );
 
-  const handleSelectedIdx = ({ page, idx }: ISelected) => {
-    setSelectedIdx({ page, idx });
-  };
-  const isActive = ({ page, idx }: ISelected) => {
-    return page === selectedIdx.page && idx === selectedIdx.idx;
-  };
+  const createCardList = useCallback(() => {
+    if (!innerColorData) return;
 
-  const CardPageList: ReactNode[] = [];
-  for (let i = 0; i < MAX_PAGE; i++) {
-    const newCardPage: ReactNode = (
-      <CardPage key={i}>
-        {cardIndices.map((idx) => (
+    const cardPageList = [];
+    for (let i = 0; i < maxPage; i++) {
+      const pageIdx = i;
+      const newCards = [];
+      for (let j = 0; j < NUM_IN_A_PAGE; j++) {
+        const cardIdx = j;
+        const colorIdx = pageIdx * NUM_IN_A_PAGE + cardIdx;
+        if (colorIdx >= innerColorData.length) break;
+        const targetColor = innerColorData[colorIdx];
+        const newCard = (
           <InnerColorCard
-            key={idx}
-            imgSrc1={'images/inner_color1.png'}
-            imgSrc2={'images/inner_color2.png'}
-            active={isActive({ page: i, idx })}
-            onClick={() => handleSelectedIdx({ page: i, idx })}
-            desc="38%가 선택했어요"
-            name={`블랙_${i}_${idx}`}
-            price={0}
+            key={cardIdx}
+            imgSrc={`${IMG_URL}${targetColor.colorImage}`}
+            active={isActive({ page: pageIdx, idx: cardIdx })}
+            onClick={() => handleSelectedIdx({ page: pageIdx, idx: cardIdx })}
+            color={targetColor.colorImage}
+            desc={targetColor.colorBoughtPercent.toString()}
+            name={targetColor.colorName}
+            price={targetColor.colorPrice}
           />
-        ))}
-      </CardPage>
-    );
-    CardPageList.push(newCardPage);
-  }
+        );
+        newCards.push(newCard);
+      }
+      const cardPage = <CardPage>{newCards}</CardPage>;
+      cardPageList.push(cardPage);
+    }
+    setCardPageList(cardPageList);
+  }, [innerColorData, maxPage, isActive, handleSelectedIdx]);
+
+  useEffect(createCardList, [createCardList]);
 
   return (
     <Wrapper>
-      <CardSlider title="내장 색상을 선택해주세요." cardList={CardPageList} />
+      <CardSlider title="내장 색상을 선택해주세요." cardList={cardPageList} maxPage={0} />
       <Footer>
         <PriceSummary nextPagePath={PATH.option} />
       </Footer>
@@ -60,7 +81,6 @@ const Wrapper = styled(CenterWrapper)`
 `;
 const CardPage = styled.div`
   display: flex;
-  justify-content: space-between;
   gap: 16px;
   margin-top: 12px;
   transition: all 1s;

@@ -15,6 +15,7 @@ import SubOptionProvider from '../../context/SubOptionProvider';
 import DefaultOptionProvider from '../../context/DefaultOptionProvider';
 import ItemProvider from '../../context/ItemProvider';
 import Providers from '../contextProviders/Providers';
+import InnerColorProvider from '../../context/InnerColorProvider';
 
 export default function CustomRouter() {
   const optionProviders = [SubOptionProvider, DefaultOptionProvider, ItemProvider];
@@ -46,7 +47,9 @@ export default function CustomRouter() {
       )}
       {pathname === PATH.innerColor && (
         <PageAnimationWrapper key={3}>
-          <InnerColorPage />
+          <InnerColorProvider>
+            <InnerColorPage />
+          </InnerColorProvider>
         </PageAnimationWrapper>
       )}
       {pathname === PATH.option && (
