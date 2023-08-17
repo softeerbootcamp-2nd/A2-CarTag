@@ -23,6 +23,15 @@ export default function ModelTypeFooterContainer() {
   const { data: hmgEfficiency, loading: hmgEfficiencyLoading } = useFetch<IHmgEfficiency>(
     `${MODEL_TYPE_API}/hmg-efficiency/?powertrain=${selectedModelTypeIdx.powertrain}&operation=${selectedModelTypeIdx.operation}`
   );
+  if (!modelType) return;
+
+  const getCurrentPrice = () => {
+    const result = Object.values(selectedModelTypeIdx).reduce(
+      (acc, index) => acc + modelType[index - 1].modelPrice,
+      0
+    );
+    return result;
+  };
 
   return (
     <>
@@ -49,7 +58,7 @@ export default function ModelTypeFooterContainer() {
               </DataList>
             </HmgInfoWrapper>
           </HmgDataSection>
-          <PriceSummary nextPagePath={PATH.exterior} />
+          <PriceSummary price={getCurrentPrice()} nextPagePath={PATH.exterior} />
         </Wrapper>
       )}
     </>

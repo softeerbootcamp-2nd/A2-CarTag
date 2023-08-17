@@ -7,22 +7,31 @@ import { useContext } from 'react';
 import { ItemContext } from '../../context/ItemProvider';
 
 interface IPriceSummary extends React.HTMLAttributes<HTMLDivElement> {
+  price: number;
   nextPagePath: string;
 }
 
-export default function PriceSummary({ nextPagePath, ...props }: IPriceSummary) {
+export default function PriceSummary({ price, nextPagePath, ...props }: IPriceSummary) {
   const { totalPrice } = useContext(ItemContext);
   const navigate = useNavigate();
   const handleButtonClick = (price: number) => {
     price; // Todo. price 누적 값 저장
     navigate(nextPagePath);
+    // Object.keys(selectedModelTypeIdx).reduce((acc: any, current: string) => {
+    //   const modelTypeName = current;
+    //   if (!acc[modelTypeName]) {
+    //     acc[modelTypeName] = [];
+    //   }
+    //   acc[modelTypeName].push(current);
+    //   return acc;
+    // }, {});
   };
   return (
     <SummaryWrapper {...props}>
       <InfoWrapper>
         <RoundButton type="price">견적 요약</RoundButton>
         <TotalPriceText>
-          현재 총 가격<HighLightText>{totalPrice.toLocaleString()} 원</HighLightText>
+          현재 총 가격<HighLightText>{price.toLocaleString()} 원</HighLightText>
         </TotalPriceText>
       </InfoWrapper>
       <RectButton type="price" onClick={() => handleButtonClick(totalPrice)}>
