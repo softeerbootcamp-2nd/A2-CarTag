@@ -5,7 +5,7 @@ import DefaultCardStyle from '../common/card/DefaultCardStyle';
 import { CheckIcon } from '../common/icons/Icons';
 import { HTMLAttributes } from 'react';
 
-interface IInTeriorCard extends HTMLAttributes<HTMLDivElement> {
+interface IInnerColorCard extends HTMLAttributes<HTMLDivElement> {
   imgSrc1: string;
   imgSrc2: string;
   active: boolean;
@@ -14,7 +14,7 @@ interface IInTeriorCard extends HTMLAttributes<HTMLDivElement> {
   price: number;
 }
 
-export default function InteriorCard({
+export default function InnerColorCard({
   imgSrc1,
   imgSrc2,
   active,
@@ -22,12 +22,12 @@ export default function InteriorCard({
   name,
   price,
   ...props
-}: IInTeriorCard) {
+}: IInnerColorCard) {
   return (
     <Card active={active} {...props}>
       <ImgWrapper>
-        <InteriorImg src={imgSrc1}></InteriorImg>
-        <InteriorImg src={imgSrc2}></InteriorImg>
+        <InnerColorImg src={imgSrc1}></InnerColorImg>
+        <InnerColorImg src={imgSrc2}></InnerColorImg>
       </ImgWrapper>
       <DescWrapper>
         <ColorDesc>{desc}</ColorDesc>
@@ -48,7 +48,7 @@ const Card = styled(DefaultCardStyle)`
   height: 110px;
   overflow: hidden;
 `;
-const InteriorImg = styled.img``;
+const InnerColorImg = styled.img``;
 const ImgWrapper = styled.div`
   ${flexCenterCss}
   flex-direction: column;

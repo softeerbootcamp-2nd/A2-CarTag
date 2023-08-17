@@ -29,12 +29,14 @@ const spin = keyframes`
 `;
 
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 100%;
   height: 100%;
+  z-index: 2;
 `;
 
 const Spinner = styled.div`

@@ -49,7 +49,7 @@ export default function ModelTypeFooterContainer() {
               </DataList>
             </HmgInfoWrapper>
           </HmgDataSection>
-          <PriceSummary nextPagePath={PATH.exterior} />
+          <PriceSummary nextPagePath={PATH.outerColor} />
         </Wrapper>
       )}
     </>
