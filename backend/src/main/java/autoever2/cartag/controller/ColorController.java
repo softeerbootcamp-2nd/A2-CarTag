@@ -1,7 +1,9 @@
 package autoever2.cartag.controller;
 
 import autoever2.cartag.domain.color.InnerColorDto;
+import autoever2.cartag.domain.color.InnerColorPercentDto;
 import autoever2.cartag.domain.color.OuterColorDto;
+import autoever2.cartag.domain.color.OuterColorPercentDto;
 import autoever2.cartag.service.ColorService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -31,7 +33,7 @@ public class ColorController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = OuterColorDto.class))),
     })
     @GetMapping("/colors/outer")
-    public List<OuterColorDto> carOuterColorInfo(@Parameter(description = "선택한 car_id") @RequestParam int carId) {
+    public List<OuterColorPercentDto> carOuterColorInfo(@Parameter(description = "선택한 car_id") @RequestParam("carid") int carId) {
         return service.findOuterColorByCarId(carId);
     }
 
@@ -40,7 +42,7 @@ public class ColorController {
             @ApiResponse(responseCode = "200", description = "조회 성공")
     })
     @GetMapping("/colors/outer/images")
-    public List<String> carOuterColorImageInfo(@Parameter(description = "선택한 color_id") @RequestParam int colorId) {
+    public List<String> carOuterColorImageInfo(@Parameter(description = "선택한 color_id") @RequestParam("colorid") int colorId) {
         return service.changeImageToImages(colorId);
     }
 
@@ -49,7 +51,7 @@ public class ColorController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = InnerColorDto.class))),
     })
     @GetMapping("/colors/inner")
-    public List<InnerColorDto> carInnerColorInfo(@Parameter(description = "선택한 car_id") @RequestParam int carId) {
+    public List<InnerColorPercentDto> carInnerColorInfo(@Parameter(description = "선택한 car_id") @RequestParam("carid") int carId) {
         return service.findInnerColorByCarId(carId);
     }
 }

@@ -49,15 +49,6 @@ public class ModelController {
         return modelTypeService.getModelDetail(modelId);
     }
 
-    @Operation(summary = "파워트레인 HMG 데이터 호출", description = "파워트레인의 마력과 토크값 반환")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = PowerTrainMappedDto.class)))
-    })
-    @GetMapping("/hmg-powertrain")
-    public PowerTrainMappedDto getPowerTrainData(@Parameter(description = "파워트레인 모델 타입 ID") @RequestParam("powertrain") int powerTrainId) {
-        return modelTypeService.getPowerTrainHmgData(powerTrainId);
-    }
-
     @Operation(summary = "효율 HMG 데이터 호출", description = "파워트레인과 구동방식의 조합으로 나온 효츌 HMG값 반환")
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = ModelEfficiencyDataDto.class)))

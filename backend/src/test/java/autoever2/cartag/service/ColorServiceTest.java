@@ -1,7 +1,12 @@
 package autoever2.cartag.service;
 
 import autoever2.cartag.domain.color.InnerColorDto;
+import autoever2.cartag.domain.color.InnerColorPercentDto;
 import autoever2.cartag.domain.color.OuterColorDto;
+import autoever2.cartag.domain.color.OuterColorPercentDto;
+import autoever2.cartag.exception.EmptyDataException;
+import autoever2.cartag.exception.ErrorCode;
+import autoever2.cartag.repository.CarRepository;
 import autoever2.cartag.repository.ColorRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -11,10 +16,12 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
+import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
@@ -23,9 +30,10 @@ class ColorServiceTest {
 
     @InjectMocks
     private ColorService service;
-
     @Mock
-    private ColorRepository repository;
+    private ColorRepository colorRepository;
+    @Mock
+    private CarRepository carRepository;
     private List<String> images = new ArrayList<>();
     private List<InnerColorDto> innerColors;
 
@@ -122,19 +130,29 @@ class ColorServiceTest {
         int carId = 1;
         int colorId = 1;
 
-        when(repository.findInnerColorCarByCarId(carId)).thenReturn(innerColors);
-        when(repository.findOuterColorCarByCarId(carId)).thenReturn(outerColors);
-        when(repository.findOuterColorImagesByColorId(colorId)).thenReturn(Optional.of("red_image_*.jpg"));
+        when(colorRepository.findInnerColorCarByCarId(carId)).thenReturn(innerColors);
+        when(colorRepository.findOuterColorCarByCarId(carId)).thenReturn(outerColors);
+        when(colorRepository.findOuterColorImagesByColorId(colorId)).thenReturn(Optional.of("red_image_*.jpg"));
+        when(carRepository.findCarBoughtCountByCarId(carId)).thenReturn(Optional.of(10000L));
+        when(colorRepository.findOuterColorImagesByColorId(2)).thenThrow(new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND));
+        when(colorRepository.findOuterColorCarByCarId(2)).thenThrow(new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND));
+        when(colorRepository.findInnerColorCarByCarId(2)).thenThrow(new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND));
 
         //when
-        List<OuterColorDto> result_outer = service.findOuterColorByCarId(carId);
-        List<InnerColorDto> result_inner = service.findInnerColorByCarId(carId);
+
+        List<OuterColorPercentDto> result_outer = service.findOuterColorByCarId(carId);
+        List<InnerColorPercentDto> result_inner = service.findInnerColorByCarId(carId);
         List<String> imageFiles = service.changeImageToImages(colorId);
 
         //then
-        assertEquals(result_outer.size(), 5);
-        assertEquals(result_inner.size(), 5);
-        assertEquals(images.size(), 60);
+        assertEquals(5, result_outer.size());
+        assertEquals(5, result_inner.size());
+        assertEquals(60, imageFiles.size());
+        assertEquals(2, result_inner.get(4).getColorBoughtPercent());
+        assertEquals("어비스 블랙펄", result_outer.get(0).getColorName());
+        assertThatThrownBy(() -> service.changeImageToImages(2)).isInstanceOf(EmptyDataException.class);
+        assertThatThrownBy(() -> service.findInnerColorByCarId(2)).isInstanceOf(EmptyDataException.class);
+        assertThatThrownBy(() -> service.findOuterColorByCarId(2)).isInstanceOf(EmptyDataException.class);
     }
 
 }

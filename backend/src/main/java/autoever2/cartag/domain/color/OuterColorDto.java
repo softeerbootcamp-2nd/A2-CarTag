@@ -10,6 +10,8 @@ import lombok.Setter;
 @NoArgsConstructor
 @Schema(description = "차량 외부 색상 반환 DTO")
 public class OuterColorDto {
+    @Schema(description = "외부 색상 이미지 id")
+    private int colorId;
     @Schema(description = "외부 색상 이름")
     private String colorName;
     @Schema(description = "외부 색상 이미지 url")
