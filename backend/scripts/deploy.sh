@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 PROJECT_ROOT="/home/ubuntu/cicdproject"
-JAR_FILE="$PROJECT_ROOT/*.jar"
+JAR_FILE="$PROJECT_ROOT/a2cartag.jar"
 
 APP_LOG="$PROJECT_ROOT/application.log"
 ERROR_LOG="$PROJECT_ROOT/error.log"
@@ -18,7 +18,7 @@ else
   echo "$TIME_NOW > 실행 중인 $CURRENT_PID 애플리케이션을 종료합니다." >> $DEPLOY_LOG
   kill -9 $CURRENT_PID
 fi
-./gradlew clean build
+
 echo "$TIME_NOW > $JAR_FILE 파일 생성" >> $DEPLOY_LOG
 cp $PROJECT_ROOT/build/libs/*.jar $JAR_FILE
 
