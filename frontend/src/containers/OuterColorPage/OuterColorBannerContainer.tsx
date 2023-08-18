@@ -23,28 +23,39 @@ export default function OuterColorBannerContainer() {
   });
   const imgLen = car360ImgUrls ? car360ImgUrls.length : 0;
 
-  const handleMousedown: MouseEventHandler<HTMLDivElement> = ({ pageX }) => {
-    setImgState({ type: 'SET_IS_DRAGGING', value: true });
-    setImgState({ type: 'SET_START_X', value: pageX });
-    setImgState({ type: 'SET_VISIBLE_IDX', value: imgState.visibleIdx });
-  };
-  const handleMousemove: MouseEventHandler<HTMLDivElement> = ({ pageX, currentTarget }) => {
-    if (!imgState.isDragging) return;
-    const { offsetWidth } = currentTarget;
-    const moveX = imgState.startX - pageX;
-    const percent = moveX / offsetWidth;
-    const moveIdx = Math.round(imgLen * percent);
-    let resultIdx = imgState.startIdx + moveIdx;
-    if (resultIdx < 0) {
-      resultIdx += imgLen;
-    }
-    resultIdx %= imgLen;
-    setImgState({ type: 'SET_VISIBLE_IDX', value: resultIdx });
-  };
-  const handleMouseup: MouseEventHandler<HTMLDivElement> = ({ pageX }) => {
-    setImgState({ type: 'SET_IS_DRAGGING', value: false });
-    setImgState({ type: 'SET_START_X', value: pageX });
-  };
+  const handleMousedown: MouseEventHandler<HTMLDivElement> = useCallback(
+    ({ pageX }) => {
+      setImgState({ type: 'SET_IS_DRAGGING', value: true });
+      setImgState({ type: 'SET_START_X', value: pageX });
+      setImgState({ type: 'SET_START_IDX', value: imgState.visibleIdx });
+      console.log(imgState.visibleIdx);
+    },
+    [imgState]
+  );
+  const handleMousemove: MouseEventHandler<HTMLDivElement> = useCallback(
+    ({ pageX, currentTarget }) => {
+      if (!imgState.isDragging) return;
+      const { offsetWidth } = currentTarget;
+      const moveX = imgState.startX - pageX;
+      const percent = moveX / offsetWidth;
+      const moveIdx = Math.round(imgLen * percent);
+      let resultIdx = imgState.startIdx + moveIdx;
+      if (resultIdx < 0) {
+        resultIdx += imgLen;
+      }
+      resultIdx %= imgLen;
+      setImgState({ type: 'SET_VISIBLE_IDX', value: resultIdx });
+    },
+    [setImgState, imgState, imgLen]
+  );
+
+  const handleMouseup: MouseEventHandler<HTMLDivElement> = useCallback(
+    ({ pageX }) => {
+      setImgState({ type: 'SET_IS_DRAGGING', value: false });
+      setImgState({ type: 'SET_START_X', value: pageX });
+    },
+    [setImgState]
+  );
 
   const isLoaded = useCallback((urls: string[]) => {
     for (const url of urls) {
