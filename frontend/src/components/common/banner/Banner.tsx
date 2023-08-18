@@ -46,6 +46,8 @@ const SubTitle = styled.p`
 `;
 
 const Title = styled.p`
+  position: relative;
+  z-index: 3;
   color: ${({ theme }) => theme.color.primaryColor700};
   ${HeadingKrBold1}
 `;

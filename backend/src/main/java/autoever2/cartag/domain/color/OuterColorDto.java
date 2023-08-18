@@ -21,11 +21,14 @@ public class OuterColorDto {
     @Schema(description = "판매된 외부 색상 갯수")
     private Long colorBoughtCount;
 
+    private String colorCarImage;
+
     @Builder
-    public OuterColorDto(String colorName, String colorImage, Long colorPrice, Long colorBoughtCount) {
+    public OuterColorDto(String colorName, String colorImage, Long colorPrice, Long colorBoughtCount, String colorCarImage) {
         this.colorName = colorName;
         this.colorImage = colorImage;
         this.colorPrice = colorPrice;
         this.colorBoughtCount = colorBoughtCount;
+        this.colorCarImage = colorCarImage;
     }
 }

@@ -1,5 +1,5 @@
 import { Dispatch, HTMLAttributes, SetStateAction, useEffect, useRef, useState } from 'react';
-import { BodyKrMedium3, BodyKrRegular3 } from '../../styles/typefaces';
+import { BodyKrMedium3, BodyKrRegular3, BodyKrRegular4 } from '../../styles/typefaces';
 import styled, { css, useTheme } from 'styled-components';
 import { ArrowLeft, ArrowRight } from '../common/icons/Icons';
 import { NUM_IN_A_PAGE } from '../../utils/constants';
@@ -92,18 +92,22 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
         <TabWrapperInner ref={tabDivisionRef}>
           <Tab $offset={page * -tabDivisionWidth}>
             {chunkedOptions.map((optionGroup: ISubOptionList[], groupIndex) => (
-              <TabDivision key={groupIndex}>
-                {optionGroup.map((option: ISubOptionList, index: number) => (
-                  <TabButton
-                    key={index}
-                    onClick={() => handleOptionClick(index)}
-                    $isselected={page === groupIndex && index === selectedIdx}
-                  >
-                    <div>{option.optionName}</div>
-                    {displayUnderline(groupIndex, index)}
-                  </TabButton>
-                ))}
-              </TabDivision>
+              <>
+                <TabDivision key={groupIndex} $display={page === groupIndex}>
+                  {optionGroup.map((option: ISubOptionList, index: number) => (
+                    <TabButtonWrapper key={index}>
+                      <TabButton
+                        onClick={() => handleOptionClick(index)}
+                        $isselected={page === groupIndex && index === selectedIdx}
+                      >
+                        <div>{option.optionName}</div>
+                        {displayUnderline(groupIndex, index)}
+                      </TabButton>
+                      <HoverCaption>{option.optionName}</HoverCaption>
+                    </TabButtonWrapper>
+                  ))}
+                </TabDivision>
+              </>
             ))}
           </Tab>
         </TabWrapperInner>
@@ -117,44 +121,76 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
     </>
   );
 }
-
+const HoverCaption = styled.div`
+  display: none;
+  white-space: nowrap;
+  left: 0;
+  top: -30px;
+  position: absolute;
+  padding: 4px 12px;
+  text-align: center;
+  border-radius: 10px;
+  background-color: ${({ theme }) => theme.color.gray900};
+  color: ${({ theme }) => theme.color.white};
+  ${BodyKrRegular4}
+  &:after {
+    content: '';
+    position: absolute;
+    left: 30%;
+    top: 100%;
+    width: 0;
+    height: 0;
+    margin-left: -10px;
+    border: solid transparent;
+    border-top-color: ${({ theme }) => theme.color.gray900};
+    border-width: 3px;
+  }
+`;
 const TabWrapper = styled.div`
   width: 488px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 40px;
 `;
 
 const BtnWrapper = styled.button`
   z-index: 10;
 `;
 const Tab = styled.div<{ $offset: number }>`
-  display: flex;
-
-  transition: transform 1s ease;
-  transform: translateX(${({ $offset }) => $offset}px);
+  /* display: flex; */
+  /* transition: transform 0.4s ease; */
+  /* transform: translateX(${({ $offset }) => $offset}px); */
 `;
 const TabWrapperInner = styled.div`
-  overflow: hidden;
+  /* overflow: hidden; */
   width: 408px;
+  height: 100%;
 `;
-const TabDivision = styled.ul`
-  display: flex;
-  justify-content: space-between;
+const TabDivision = styled.ul<{ $display: boolean }>`
   width: 408px;
   padding: 0 16px;
+  display: ${({ $display }) => ($display ? 'flex' : 'none')};
 `;
-
+const TabButtonWrapper = styled.div`
+  display: flex;
+  align-items: end;
+  position: relative;
+  height: 100%;
+  &:hover {
+    ${HoverCaption} {
+      display: block;
+    }
+  }
+`;
 const TabButton = styled.div<{ $isselected: boolean }>`
   display: flex;
-  overflow: hidden;
   align-items: center;
   flex-direction: column;
   gap: 4px;
   width: 78px;
   margin: 0 8px;
   height: 28px;
+
   cursor: pointer;
   ${({ theme, $isselected }) => {
     if ($isselected) {

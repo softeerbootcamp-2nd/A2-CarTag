@@ -87,8 +87,7 @@ export default function TrimBannerContainer() {
     <Data key={idx}>
       <DataTitle>{option.optionName}</DataTitle>
       <DataInfo>
-        {option.optionUsedCount}
-        <DataCaption>15,000km 당</DataCaption>
+        {option.optionUsedCount}회<DataCaption>15,000km 당</DataCaption>
       </DataInfo>
     </Data>
   ));

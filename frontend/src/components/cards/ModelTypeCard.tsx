@@ -23,7 +23,7 @@ export default function ModelTypeCard({
       <ModelTypeDesc>{desc}</ModelTypeDesc>
       <ModelTypeTitle>{title}</ModelTypeTitle>
       <ModelTypePrice>
-        +{price} 원 <CheckIcon active={active} />
+        +{price.toLocaleString()} 원 <CheckIcon active={active} />
       </ModelTypePrice>
     </Wrapper>
   );

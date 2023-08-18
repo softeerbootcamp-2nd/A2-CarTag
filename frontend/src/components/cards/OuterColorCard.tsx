@@ -35,7 +35,7 @@ export default function OuterColorCard({
         </ColorDesc>
         <ColorName>{name}</ColorName>
         <Row>
-          <ColorPrice>+ {price}원</ColorPrice>
+          <ColorPrice>+ {price.toLocaleString()} 원</ColorPrice>
           <CheckIcon active={active} />
         </Row>
       </DescWrapper>

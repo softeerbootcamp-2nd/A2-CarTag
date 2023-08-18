@@ -2,6 +2,7 @@ package autoever2.cartag.repository;
 
 import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -34,7 +35,7 @@ public class ColorRepository {
     }
 
     public List<OuterColorDto> findOuterColorCarByCarId(int carId) {
-        String sql = "select c.color_id, color_name, color_image, color_price, color_bought_count " +
+        String sql = "select c.color_id, color_name, color_image, color_car_image, color_price, color_bought_count " +
                 "from ColorCarMapper as cm inner join Color as c " +
                 "on cm.color_id = c.color_id where car_id = :carId and c.is_outer_color = 1";
 
@@ -43,7 +44,7 @@ public class ColorRepository {
         return template.query(sql, param, OuterColorCarMapper());
     }
 
-    public Optional<String> findOuterColorImagesByColorId(int colorId){
+    public Optional<String> findOuterColorImagesByColorId(int colorId) {
         String sql = "select color_car_image from ColorCarMapper cm inner join Color as c " +
                 "on cm.color_id = c.color_id where c.color_id = :colorId and c.is_outer_color = 1";
         try {
@@ -53,7 +54,30 @@ public class ColorRepository {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
+    }
 
+    public Optional<Integer> findMaxOuterColor(int carId) {
+        String sql = "select max(color_price) from ColorCarMapper as cm inner join Color as c " +
+                "on cm.color_id = c.color_id where car_id = :carId and is_outer_color = 1";
+        try {
+            SqlParameterSource param = new MapSqlParameterSource()
+                    .addValue("carId", carId);
+            return Optional.of(template.queryForObject(sql, param, Integer.class));
+        } catch (DataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    public Optional<Integer> findMaxInnerColor(int carId) {
+        String sql = "select max(color_price) from ColorCarMapper as cm inner join Color as c " +
+                "on cm.color_id = c.color_id where car_id = :carId and is_outer_color = 0";
+        try {
+            SqlParameterSource param = new MapSqlParameterSource()
+                    .addValue("carId", carId);
+            return Optional.of(template.queryForObject(sql, param, Integer.class));
+        } catch (DataAccessException e) {
+            return Optional.empty();
+        }
     }
 
     private RowMapper<OuterColorDto> OuterColorCarMapper() {
