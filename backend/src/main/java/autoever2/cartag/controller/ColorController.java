@@ -30,7 +30,7 @@ public class ColorController {
 
     @Operation(summary = "차량 외장 색상 조회", description = "차량 외장 색상 조회 method")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = OuterColorDto.class))),
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = OuterColorPercentDto.class))),
     })
     @GetMapping("/colors/outer")
     public List<OuterColorPercentDto> carOuterColorInfo(@Parameter(description = "선택한 car_id") @RequestParam("carid") int carId) {
@@ -48,7 +48,7 @@ public class ColorController {
 
     @Operation(summary = "차량 내장 색상 조회", description = "차량 내장 색상 조회 method")
     @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = InnerColorDto.class))),
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = InnerColorPercentDto.class))),
     })
     @GetMapping("/colors/inner")
     public List<InnerColorPercentDto> carInnerColorInfo(@Parameter(description = "선택한 car_id") @RequestParam("carid") int carId) {
