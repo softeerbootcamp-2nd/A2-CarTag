@@ -220,20 +220,13 @@ const DataList = styled.ul`
   width: 448px;
   margin-top: 16px;
   align-items: center;
+  gap: 24px;
 `;
 const Data = styled.li`
   width: 100%;
-
   height: 67px;
   display: flex;
   flex-direction: column;
-  &:first-child {
-    padding-right: 24px;
-  }
-
-  &:last-child {
-    padding-left: 24px;
-  }
 `;
 
 const DataTitle = styled.div`

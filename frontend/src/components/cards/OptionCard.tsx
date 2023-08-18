@@ -98,7 +98,13 @@ const OptionCardInfo = styled.div`
 
 const OptionTitle = styled.div`
   ${HeadingEn4}
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 `;
+
 const OptionPrice = styled.div`
   ${HeadingKrMedium7}
   display: flex;
