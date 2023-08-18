@@ -93,7 +93,7 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
           <Tab $offset={page * -tabDivisionWidth}>
             {chunkedOptions.map((optionGroup: ISubOptionList[], groupIndex) => (
               <>
-                <TabDivision key={groupIndex}>
+                <TabDivision key={groupIndex} $display={page === groupIndex}>
                   {optionGroup.map((option: ISubOptionList, index: number) => (
                     <TabButtonWrapper key={index}>
                       <TabButton
@@ -103,6 +103,7 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
                         <div>{option.optionName}</div>
                         {displayUnderline(groupIndex, index)}
                       </TabButton>
+                      <HoverCaption>{option.optionName}</HoverCaption>
                     </TabButtonWrapper>
                   ))}
                 </TabDivision>
@@ -123,7 +124,8 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
 const HoverCaption = styled.div`
   display: none;
   white-space: nowrap;
-  right: 0;
+  left: 0;
+  top: -30px;
   position: absolute;
   padding: 4px 12px;
   text-align: center;
@@ -131,6 +133,18 @@ const HoverCaption = styled.div`
   background-color: ${({ theme }) => theme.color.gray900};
   color: ${({ theme }) => theme.color.white};
   ${BodyKrRegular4}
+  &:after {
+    content: '';
+    position: absolute;
+    left: 30%;
+    top: 100%;
+    width: 0;
+    height: 0;
+    margin-left: -10px;
+    border: solid transparent;
+    border-top-color: ${({ theme }) => theme.color.gray900};
+    border-width: 3px;
+  }
 `;
 const TabWrapper = styled.div`
   width: 488px;
@@ -143,19 +157,19 @@ const BtnWrapper = styled.button`
   z-index: 10;
 `;
 const Tab = styled.div<{ $offset: number }>`
-  display: flex;
-  transition: transform 0.4s ease;
-  transform: translateX(${({ $offset }) => $offset}px);
+  /* display: flex; */
+  /* transition: transform 0.4s ease; */
+  /* transform: translateX(${({ $offset }) => $offset}px); */
 `;
 const TabWrapperInner = styled.div`
-  overflow: hidden;
+  /* overflow: hidden; */
   width: 408px;
   height: 100%;
 `;
-const TabDivision = styled.ul`
-  display: flex;
+const TabDivision = styled.ul<{ $display: boolean }>`
   width: 408px;
   padding: 0 16px;
+  display: ${({ $display }) => ($display ? 'flex' : 'none')};
 `;
 const TabButtonWrapper = styled.div`
   display: flex;
