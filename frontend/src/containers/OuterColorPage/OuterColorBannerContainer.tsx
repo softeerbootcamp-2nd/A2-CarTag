@@ -7,7 +7,7 @@ import { useFetch } from '../../hooks/useFetch';
 import { IMG_URL, OUTER_IMG_API } from '../../utils/apis';
 import Loading from '../../components/loading/Loading';
 import { OuterColorContext } from '../../context/OuterColorProvider';
-import car360Reducer from '../../reducer/car360reducer';
+import car360Reducer from '../../reducer/car360Reducer';
 
 export default function OuterColorBannerContainer() {
   const { seletedColorId } = useContext(OuterColorContext);
