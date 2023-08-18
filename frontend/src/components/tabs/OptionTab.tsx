@@ -1,4 +1,12 @@
-import { Dispatch, HTMLAttributes, SetStateAction, useEffect, useRef, useState } from 'react';
+import {
+  Dispatch,
+  Fragment,
+  HTMLAttributes,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { BodyKrMedium3, BodyKrRegular3, BodyKrRegular4 } from '../../styles/typefaces';
 import styled, { css, useTheme } from 'styled-components';
 import { ArrowLeft, ArrowRight } from '../common/icons/Icons';
@@ -92,8 +100,8 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
         <TabWrapperInner ref={tabDivisionRef}>
           <Tab $offset={page * -tabDivisionWidth}>
             {chunkedOptions.map((optionGroup: ISubOptionList[], groupIndex) => (
-              <>
-                <TabDivision key={groupIndex} $display={page === groupIndex}>
+              <Fragment key={groupIndex}>
+                <TabDivision $display={page === groupIndex}>
                   {optionGroup.map((option: ISubOptionList, index: number) => (
                     <TabButtonWrapper key={index}>
                       <TabButton
@@ -107,7 +115,7 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
                     </TabButtonWrapper>
                   ))}
                 </TabDivision>
-              </>
+              </Fragment>
             ))}
           </Tab>
         </TabWrapperInner>
