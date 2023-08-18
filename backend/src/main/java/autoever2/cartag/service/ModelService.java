@@ -20,6 +20,9 @@ public class ModelService {
 
     public List<ModelShortDataDto> getModelTypeData(int carId) {
         List<ModelShortMappedDto> modelData = modelRepository.findAllModelTypeData(carId);
+        if (modelData.isEmpty()) {
+            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
+        }
         Long carBoughtCount = carRepository.findCarBoughtCountByCarId(carId).orElse(0L);
         List<ModelShortMappedDto> powerTrainData = modelData.stream().filter(modelShortMappedDto -> modelShortMappedDto.getModelTypeId() == 1).collect(Collectors.toList());
 

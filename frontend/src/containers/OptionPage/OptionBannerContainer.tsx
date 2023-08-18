@@ -9,7 +9,6 @@ import CenterWrapper from '../../components/layout/CenterWrapper';
 import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
 import OptionTab from '../../components/tabs/OptionTab';
-import { MAX_TEXT_CNT } from '../../utils/constants';
 import { useEffect, useState } from 'react';
 import { IMG_URL } from '../../utils/apis';
 
@@ -61,10 +60,6 @@ export default function OptionBannerContainer({
     setWinY(window.scrollY);
   };
 
-  const isOverMaxLine = (desc: string) => {
-    const text = desc.length > MAX_TEXT_CNT ? desc.substring(0, MAX_TEXT_CNT) + '...' : desc;
-    return text;
-  };
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -96,20 +91,23 @@ export default function OptionBannerContainer({
                       setBannerInfo={setBannerInfo}
                     />
                   )}
-                  <AdditionalText>
-                    {isOverMaxLine(bannerInfo.descriptionText)}
-                    {bannerInfo.descriptionText.length > MAX_TEXT_CNT && <span>더보기</span>}
-                  </AdditionalText>
+                  {bannerInfo.descriptionText && (
+                    <Description>
+                      <AdditionalText>{bannerInfo.descriptionText}</AdditionalText>
+                      <HoverCaption>{bannerInfo.descriptionText}</HoverCaption>
+                    </Description>
+                  )}
+
                   {optionDetail.hmgData && (
                     <HmgDataSection>
                       <HmgTag size="small" />
                       <DataList>
-                        {optionDetail.hmgData.overHalf && (
+                        {optionDetail.hmgData.overHalf !== null && (
                           <Data>
                             <DataTitle>
                               {optionDetail.hmgData.overHalf
-                                ? '이 트림을 구매한 사람 중 절반 이상이 선택한 옵션이에요.'
-                                : '이 트림을 구매한 사람이 이 옵션을 이만큼 선택했어요.'}
+                                ? '구매자의 절반 이상이 선택했어요.'
+                                : '구매자가 이 옵션을 이만큼 선택했어요.'}
                             </DataTitle>
                             <DataInfo>
                               {Number(optionDetail.hmgData.optionBoughtCount).toLocaleString()}개
@@ -147,7 +145,31 @@ export default function OptionBannerContainer({
     </>
   );
 }
+const HoverCaption = styled.div`
+  display: none;
+  white-space: pre-wrap;
+  position: absolute;
+  padding: 4px 12px;
+  border-radius: 10px;
+  top: 120%;
+  color: ${({ theme }) => theme.color.gray50};
+  opacity: 90%;
+  background-color: ${({ theme }) => theme.color.gray900};
+  ${BodyKrRegular4}
 
+  &:after {
+    content: '';
+    position: absolute;
+    left: 10%;
+    bottom: 100%;
+    width: 0;
+    height: 0;
+    margin-left: -10px;
+    border: solid transparent;
+    border-bottom-color: ${({ theme }) => theme.color.gray900};
+    border-width: 3px;
+  }
+`;
 const Wrapper = styled.div<{ $isBannerVisible: boolean }>`
   z-index: 5;
   position: sticky;
@@ -172,17 +194,27 @@ const Container = styled(CenterWrapper)`
   height: 100%;
 `;
 
-const AdditionalText = styled.p`
+const Description = styled.div`
+  position: relative;
+
+  &:hover {
+    ${HoverCaption} {
+      display: block;
+    }
+  }
+`;
+
+const AdditionalText = styled.div`
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: pre-wrap;
   word-break: keep-all;
   width: 456px;
   color: ${({ theme }) => theme.color.gray800};
   ${BodyKrRegular4}
-  span {
-    padding-left: 10px;
-    text-decoration: underline;
-    ${BodyKrMedium4}
-    cursor:pointer;
-  }
 `;
 
 const InfoWrapper = styled.div`
@@ -220,20 +252,13 @@ const DataList = styled.ul`
   width: 448px;
   margin-top: 16px;
   align-items: center;
+  gap: 24px;
 `;
 const Data = styled.li`
   width: 100%;
-
   height: 67px;
   display: flex;
   flex-direction: column;
-  &:first-child {
-    padding-right: 24px;
-  }
-
-  &:last-child {
-    padding-left: 24px;
-  }
 `;
 
 const DataTitle = styled.div`

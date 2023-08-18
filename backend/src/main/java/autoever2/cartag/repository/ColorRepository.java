@@ -44,7 +44,8 @@ public class ColorRepository {
     }
 
     public Optional<String> findOuterColorImagesByColorId(int colorId){
-        String sql = "select color_car_image from ColorCarMapper where color_id = :colorId";
+        String sql = "select color_car_image from ColorCarMapper cm inner join Color as c " +
+                "on cm.color_id = c.color_id where c.color_id = :colorId and c.is_outer_color = 1";
         try {
             SqlParameterSource param = new MapSqlParameterSource()
                     .addValue("colorId", colorId);
