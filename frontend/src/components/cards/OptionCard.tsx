@@ -32,7 +32,7 @@ export default function OptionCard({
       <DefaultInfo>기본포함</DefaultInfo>
     ) : (
       <OptionPrice>
-        +{price} 원 <CheckIcon active={active} />
+        +{price.toLocaleString()} 원 <CheckIcon active={active} />
       </OptionPrice>
     );
 
