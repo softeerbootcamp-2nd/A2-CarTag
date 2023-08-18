@@ -1,13 +1,15 @@
 package autoever2.cartag.service;
 
-import autoever2.cartag.domain.model.*;
+import autoever2.cartag.domain.model.ModelDetailMappedDto;
+import autoever2.cartag.domain.model.ModelEfficiencyDataDto;
+import autoever2.cartag.domain.model.ModelShortDataDto;
+import autoever2.cartag.domain.model.ModelShortMappedDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.repository.CarRepository;
 import autoever2.cartag.repository.ModelRepository;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +22,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.when;
 
 @ExtendWith({MockitoExtension.class, SoftAssertionsExtension.class})
