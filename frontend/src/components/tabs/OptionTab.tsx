@@ -92,20 +92,21 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
         <TabWrapperInner ref={tabDivisionRef}>
           <Tab $offset={page * -tabDivisionWidth}>
             {chunkedOptions.map((optionGroup: ISubOptionList[], groupIndex) => (
-              <TabDivision key={groupIndex}>
-                {optionGroup.map((option: ISubOptionList, index: number) => (
-                  <TabButtonWrapper key={index}>
-                    <TabButton
-                      onClick={() => handleOptionClick(index)}
-                      $isselected={page === groupIndex && index === selectedIdx}
-                    >
-                      <div>{option.optionName}</div>
-                      {displayUnderline(groupIndex, index)}
-                    </TabButton>
-                    <HoverCaption>{option.optionName}</HoverCaption>
-                  </TabButtonWrapper>
-                ))}
-              </TabDivision>
+              <>
+                <TabDivision key={groupIndex}>
+                  {optionGroup.map((option: ISubOptionList, index: number) => (
+                    <TabButtonWrapper key={index}>
+                      <TabButton
+                        onClick={() => handleOptionClick(index)}
+                        $isselected={page === groupIndex && index === selectedIdx}
+                      >
+                        <div>{option.optionName}</div>
+                        {displayUnderline(groupIndex, index)}
+                      </TabButton>
+                    </TabButtonWrapper>
+                  ))}
+                </TabDivision>
+              </>
             ))}
           </Tab>
         </TabWrapperInner>
@@ -120,39 +121,22 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
   );
 }
 const HoverCaption = styled.div`
-  /* display: none; */
-  /* overflow: visible; */
+  display: none;
   white-space: nowrap;
+  right: 0;
   position: absolute;
   padding: 4px 12px;
   text-align: center;
-  left: 0;
-  top: -20px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.color.gray900};
-  opacity: 80%;
   color: ${({ theme }) => theme.color.white};
   ${BodyKrRegular4}
-
-  &:after {
-    content: '';
-    position: absolute;
-    left: 40%;
-    top: 100%;
-    width: 0;
-    height: 0;
-    margin-left: -10px;
-    border: solid transparent;
-    border-top-color: ${({ theme }) => theme.color.gray900};
-    border-width: 3px;
-  }
 `;
 const TabWrapper = styled.div`
   width: 488px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  /* overflow: hidden; */
 `;
 
 const BtnWrapper = styled.button`
@@ -164,7 +148,7 @@ const Tab = styled.div<{ $offset: number }>`
   transform: translateX(${({ $offset }) => $offset}px);
 `;
 const TabWrapperInner = styled.div`
-  /* overflow: hidden; */
+  overflow: hidden;
   width: 408px;
   height: 100%;
 `;
@@ -186,7 +170,6 @@ const TabButtonWrapper = styled.div`
 `;
 const TabButton = styled.div<{ $isselected: boolean }>`
   display: flex;
-  /* overflow: hidden; */
   align-items: center;
   flex-direction: column;
   gap: 4px;
