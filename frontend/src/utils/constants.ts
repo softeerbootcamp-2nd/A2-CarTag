@@ -1,6 +1,5 @@
 export const MAX_PAGE = 3;
 export const NUM_IN_A_PAGE = 4;
-export const MAX_TEXT_CNT = 98;
 
 export const PATH = {
   home: '/',
@@ -30,7 +29,6 @@ Object.freeze({
   MAX_PAGE,
   CAR_TYPE,
   NUM_IN_A_PAGE,
-  MAX_TEXT_CNT,
   HYUNDAI_URL,
   PATH,
   MESSAGE,

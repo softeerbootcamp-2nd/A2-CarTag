@@ -43,11 +43,6 @@ export default function DefaultOptionContainer() {
     currentCategory === '전체' ? defaultOption : groupedData[currentCategory];
   const displayData = filteredByCategory.map((option, idx) => (
     <CardWrapper key={idx}>
-      {option.hasHmgData && (
-        <HmgWrapper>
-          <HmgTag />
-        </HmgWrapper>
-      )}
       <OptionCard
         onClick={() => {
           handleCardClick(option.optionId);
@@ -59,6 +54,11 @@ export default function DefaultOptionContainer() {
         imgPath={option.optionImage}
         hashTag={option.hashtagName}
       />
+      {option.hasHmgData && (
+        <HmgWrapper>
+          <HmgTag />
+        </HmgWrapper>
+      )}
     </CardWrapper>
   ));
   return (
