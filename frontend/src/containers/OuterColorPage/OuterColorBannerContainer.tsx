@@ -46,7 +46,7 @@ export default function OuterColorBannerContainer() {
     setImgState({ type: 'SET_START_X', value: pageX });
   };
 
-  const isLoadComplete = useCallback((urls: string[]) => {
+  const isLoaded = useCallback((urls: string[]) => {
     for (const url of urls) {
       if (!localStorage.getItem(url)) {
         return false;
@@ -57,7 +57,7 @@ export default function OuterColorBannerContainer() {
 
   const downloadAndSaveImages = useCallback(
     async (car360ImgUrls: string[], abortController: AbortController) => {
-      if (isLoadComplete(car360ImgUrls)) {
+      if (isLoaded(car360ImgUrls)) {
         setImgState({ type: 'SET_IMG_LOADING', value: false });
         return;
       }
@@ -78,7 +78,7 @@ export default function OuterColorBannerContainer() {
       );
       setImgState({ type: 'SET_IMG_LOADING', value: false });
     },
-    [isLoadComplete]
+    [isLoaded]
   );
 
   useEffect(() => {
