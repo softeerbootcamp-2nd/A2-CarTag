@@ -1,5 +1,6 @@
 package autoever2.cartag.controller;
 
+import autoever2.cartag.domain.car.CarDefaultDto;
 import autoever2.cartag.domain.car.CarDto;
 import autoever2.cartag.service.CarService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -35,5 +36,13 @@ public class TrimController {
         return service.findCarByCarType(carType);
     }
 
+    @Operation(summary = "차량 기본 정보 조회", description = "차량 기본 정보 조회 method")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = CarDefaultDto.class))),
+    })
+    @GetMapping("/infos/defaults")
+    public CarDefaultDto carDefaultDto(@Parameter(description = "선택한 car_id") @RequestParam("carid") int carId) {
+        return service.findCarDefaultDtoByCarId(carId);
+    }
 
 }
