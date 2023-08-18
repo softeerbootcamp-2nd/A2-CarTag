@@ -51,11 +51,6 @@ export default function SubOptionContainer() {
   const filteredByCategory = currentCategory === '전체' ? subOption : groupedData[currentCategory];
   const displayData = filteredByCategory.map((option, idx) => (
     <CardWrapper key={idx}>
-      {option.hasHmgData && (
-        <HmgWrapper>
-          <HmgTag />
-        </HmgWrapper>
-      )}
       <OptionCard
         onClick={() => handleCardClick(option.subOptionId)}
         type="sub"
@@ -67,6 +62,11 @@ export default function SubOptionContainer() {
         hashTag={option.hashtagName}
         handleSelectOption={() => handleSelectOption(option.subOptionId)}
       />
+      {option.hasHmgData && (
+        <HmgWrapper>
+          <HmgTag />
+        </HmgWrapper>
+      )}
     </CardWrapper>
   ));
 
@@ -111,7 +111,6 @@ const OptionSection = styled.div`
 `;
 const OptionWrapper = styled.div`
   display: flex;
-
   flex-wrap: wrap;
   gap: 16px;
 `;

@@ -32,7 +32,7 @@ export default function OptionCard({
       <DefaultInfo>기본포함</DefaultInfo>
     ) : (
       <OptionPrice>
-        +{price} 원 <CheckIcon active={active} />
+        +{price.toLocaleString()} 원 <CheckIcon active={active} />
       </OptionPrice>
     );
 
@@ -98,7 +98,13 @@ const OptionCardInfo = styled.div`
 
 const OptionTitle = styled.div`
   ${HeadingEn4}
+  overflow: hidden;
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
 `;
+
 const OptionPrice = styled.div`
   ${HeadingKrMedium7}
   display: flex;
