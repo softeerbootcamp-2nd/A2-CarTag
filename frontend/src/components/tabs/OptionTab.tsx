@@ -120,14 +120,14 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
   );
 }
 const HoverCaption = styled.div`
-  display: none;
+  /* display: none; */
   /* overflow: visible; */
   white-space: nowrap;
   position: absolute;
   padding: 4px 12px;
   text-align: center;
   left: 0;
-  top: -5px;
+  top: -20px;
   border-radius: 10px;
   background-color: ${({ theme }) => theme.color.gray900};
   opacity: 80%;
@@ -152,6 +152,7 @@ const TabWrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  /* overflow: hidden; */
 `;
 
 const BtnWrapper = styled.button`
@@ -163,7 +164,7 @@ const Tab = styled.div<{ $offset: number }>`
   transform: translateX(${({ $offset }) => $offset}px);
 `;
 const TabWrapperInner = styled.div`
-  overflow: hidden;
+  /* overflow: hidden; */
   width: 408px;
   height: 100%;
 `;
@@ -185,7 +186,7 @@ const TabButtonWrapper = styled.div`
 `;
 const TabButton = styled.div<{ $isselected: boolean }>`
   display: flex;
-  overflow: hidden;
+  /* overflow: hidden; */
   align-items: center;
   flex-direction: column;
   gap: 4px;
