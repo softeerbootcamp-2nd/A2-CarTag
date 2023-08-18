@@ -42,10 +42,6 @@ public class ModelRepository {
         return template.query(sql, param, modelShortRowMapper());
     }
 
-    private RowMapper<ModelShortMappedDto> modelShortRowMapper() {
-        return BeanPropertyRowMapper.newInstance(ModelShortMappedDto.class);
-    }
-
     public Optional<ModelDetailMappedDto> findModelDetailData(int modelId) {
         String sql = "select mt.model_type_name, m.model_name, m.option_description, m.model_image " +
                 "from Model m " +
@@ -57,10 +53,6 @@ public class ModelRepository {
                 .addValue("modelId", modelId);
 
         return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, modelDetailRowMapper())));
-    }
-
-    private RowMapper<ModelDetailMappedDto> modelDetailRowMapper() {
-        return BeanPropertyRowMapper.newInstance(ModelDetailMappedDto.class);
     }
 
     public Optional<ModelEfficiencyDataDto> findEfficiencyData(int powerTrainId, int operationId) {
@@ -75,8 +67,17 @@ public class ModelRepository {
         return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, efficiencyMapper())));
     }
 
+
     private RowMapper<ModelEfficiencyDataDto> efficiencyMapper() {
         return BeanPropertyRowMapper.newInstance(ModelEfficiencyDataDto.class);
+    }
+
+    private RowMapper<ModelDetailMappedDto> modelDetailRowMapper() {
+        return BeanPropertyRowMapper.newInstance(ModelDetailMappedDto.class);
+    }
+
+    private RowMapper<ModelShortMappedDto> modelShortRowMapper() {
+        return BeanPropertyRowMapper.newInstance(ModelShortMappedDto.class);
     }
 
 
