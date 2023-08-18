@@ -111,7 +111,6 @@ class TrimControllerTest {
         //when
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/types").param("cartype", String.valueOf(carType)));
 
-        System.out.println("jsonPath(\"$[3].options[0]\") = " + jsonPath("$[3].options[0]"));
         //then
         resultActions.andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].trim").value("Le Blanc"))

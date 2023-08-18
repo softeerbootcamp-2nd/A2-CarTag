@@ -16,7 +16,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -150,6 +149,8 @@ class ColorServiceTest {
         assertEquals(60, imageFiles.size());
         assertEquals(2, result_inner.get(4).getColorBoughtPercent());
         assertEquals("어비스 블랙펄", result_outer.get(0).getColorName());
+        assertEquals(100000L, result_inner.get(0).getColorPrice());
+        assertEquals(2, result_inner.get(1).getColorBoughtPercent());
         assertThatThrownBy(() -> service.changeImageToImages(2)).isInstanceOf(EmptyDataException.class);
         assertThatThrownBy(() -> service.findInnerColorByCarId(2)).isInstanceOf(EmptyDataException.class);
         assertThatThrownBy(() -> service.findOuterColorByCarId(2)).isInstanceOf(EmptyDataException.class);
