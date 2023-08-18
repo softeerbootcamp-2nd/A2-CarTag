@@ -1,9 +1,6 @@
 package autoever2.cartag.repository;
 
-import autoever2.cartag.domain.model.ModelDetailMappedDto;
-import autoever2.cartag.domain.model.ModelEfficiencyDataDto;
-import autoever2.cartag.domain.model.ModelShortMappedDto;
-import autoever2.cartag.domain.model.PowerTrainMappedDto;
+import autoever2.cartag.domain.model.*;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -42,6 +39,16 @@ public class ModelRepository {
         return template.query(sql, param, modelShortRowMapper());
     }
 
+    public List<ModelDefaultDto> findModelDefaultDtoByCarId(int carId) {
+        String sql = "select model_name, model_price, model_image from ModelCarMapper as mcm " +
+                "inner join Model as m on mcm.model_id = m.model_id where car_id = :carId and is_default_model = 1";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("carId", carId);
+
+        return template.query(sql, param, ModelDefaultRowMapper());
+    }
+
     public Optional<ModelDetailMappedDto> findModelDetailData(int modelId) {
         String sql = "select mt.model_type_name, m.model_name, m.option_description, m.model_image " +
                 "from Model m " +
@@ -78,6 +85,10 @@ public class ModelRepository {
 
     private RowMapper<ModelShortMappedDto> modelShortRowMapper() {
         return BeanPropertyRowMapper.newInstance(ModelShortMappedDto.class);
+    }
+
+    private RowMapper<ModelDefaultDto> ModelDefaultRowMapper() {
+        return BeanPropertyRowMapper.newInstance(ModelDefaultDto.class);
     }
 
 
