@@ -12,7 +12,7 @@ import OptionTab from '../../components/tabs/OptionTab';
 import { useEffect, useState } from 'react';
 import { IMG_URL } from '../../utils/apis';
 
-interface IOptionDetail {
+export interface IOptionDetail {
   categoryName: string;
   optionName: string;
   optionDescription: string;
@@ -46,10 +46,14 @@ export default function OptionBannerContainer({
   optionDetail,
   optionDetailLoading,
 }: IOptionBannerContainer) {
-  const [bannerInfo, setBannerInfo] = useState({
+  const [bannerInfo, setBannerInfo] = useState<IOptionDetail>({
     categoryName: '',
-    descriptionText: '',
-    imgPath: '',
+    hmgData: null,
+    optionDescription: '',
+    optionImage: '',
+    optionName: '',
+    package: false,
+    subOptionList: null,
   });
   const [isBannerVisible, setIsBannerVisible] = useState(false);
   const handleBannerVisibility = () => {
@@ -72,8 +76,12 @@ export default function OptionBannerContainer({
 
     setBannerInfo({
       categoryName: target.categoryName,
-      descriptionText: target.optionDescription,
-      imgPath: target.optionImage,
+      hmgData: target.hmgData,
+      optionDescription: target.optionDescription,
+      optionImage: target.optionImage,
+      optionName: target.optionName,
+      package: target.package,
+      subOptionList: target.subOptionList,
     });
   }, [optionDetail]);
 
@@ -91,35 +99,35 @@ export default function OptionBannerContainer({
                       setBannerInfo={setBannerInfo}
                     />
                   )}
-                  {bannerInfo.descriptionText && (
+                  {bannerInfo.optionDescription && (
                     <Description>
-                      <AdditionalText>{bannerInfo.descriptionText}</AdditionalText>
-                      <HoverCaption>{bannerInfo.descriptionText}</HoverCaption>
+                      <AdditionalText>{bannerInfo.optionDescription}</AdditionalText>
+                      <HoverCaption>{bannerInfo.optionDescription}</HoverCaption>
                     </Description>
                   )}
 
-                  {optionDetail.hmgData && (
+                  {bannerInfo.hmgData && (
                     <HmgDataSection>
                       <HmgTag size="small" />
                       <DataList>
-                        {optionDetail.hmgData.overHalf !== null && (
+                        {bannerInfo.hmgData.overHalf !== null && (
                           <Data>
                             <DataTitle>
-                              {optionDetail.hmgData.overHalf
+                              {bannerInfo.hmgData.overHalf
                                 ? '구매자의 절반 이상이 선택했어요.'
                                 : '구매자가 이 옵션을 이만큼 선택했어요.'}
                             </DataTitle>
                             <DataInfo>
-                              {Number(optionDetail.hmgData.optionBoughtCount).toLocaleString()}개
+                              {Number(bannerInfo.hmgData.optionBoughtCount).toLocaleString()}개
                               <DataCaption>최근 90일 동안</DataCaption>
                             </DataInfo>
                           </Data>
                         )}
-                        {optionDetail.hmgData.optionUsedCount !== null && (
+                        {bannerInfo.hmgData.optionUsedCount !== null && (
                           <Data>
                             <DataTitle>주행 중 실제로 이만큼 사용해요.</DataTitle>
                             <DataInfo>
-                              {optionDetail.hmgData.optionUsedCount}번
+                              {bannerInfo.hmgData.optionUsedCount}번
                               <DataCaption>1.5만km 당</DataCaption>
                             </DataInfo>
                           </Data>
@@ -137,7 +145,11 @@ export default function OptionBannerContainer({
                   {isBannerVisible ? '이미지 접기' : '이미지 확인'}
                 </ToastPopup>
               </Container>
-              <ImgSection src={`${IMG_URL}${optionDetail.optionImage}`} />
+              {bannerInfo.optionImage ? (
+                <ImgSection src={`${IMG_URL}${bannerInfo.optionImage}`} />
+              ) : (
+                <ImgSection src={`${IMG_URL}${optionDetail.optionImage}`} />
+              )}
             </ContainerWrapper>
           </OptionBanner>
         </Wrapper>
