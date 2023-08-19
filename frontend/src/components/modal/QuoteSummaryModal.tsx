@@ -18,15 +18,22 @@ import { DimmedBackground } from './DimmedBackground';
 import WhiteModal from './WhiteModal';
 
 interface IQuoteSummaryModal extends HTMLAttributes<HTMLDivElement> {}
-
+interface IDetail {
+  title: string;
+  name: string;
+  price: number;
+}
 export default function QuoteSummaryModal({ ...props }: IQuoteSummaryModal) {
   const { selectedItem, totalPrice } = useContext(ItemContext);
   const { visible, setVisible } = useContext(QuoteSummaryModalContext);
   const navigate = useNavigate();
 
-  const handleOkButton = () => {
+  const handleOkButtonClick = () => {
     setVisible(false);
     navigate(PATH.result);
+  };
+  const handleCloseButtonClicke = () => {
+    setVisible(false);
   };
 
   const optionNames = ['차량', '옵션', '들의', '임시', '목록', '목록입니다', '목록입니다'];
@@ -39,7 +46,7 @@ export default function QuoteSummaryModal({ ...props }: IQuoteSummaryModal) {
       <QuoteModal onClick={(e) => e.stopPropagation()}>
         <Header>
           <ModalTitle>견적요약</ModalTitle>
-          <CloseButton>
+          <CloseButton onClick={handleCloseButtonClicke}>
             <CloseIcon />
           </CloseButton>
         </Header>
@@ -93,7 +100,7 @@ export default function QuoteSummaryModal({ ...props }: IQuoteSummaryModal) {
           </PriceSection>
         </Body>
         <Footer>
-          <OkButton type="popup" onClick={handleOkButton}>
+          <OkButton type="popup" onClick={handleOkButtonClick}>
             견적 완료하기
           </OkButton>
         </Footer>
@@ -102,12 +109,12 @@ export default function QuoteSummaryModal({ ...props }: IQuoteSummaryModal) {
   );
 }
 
-function Detail({ title, name, price }: { title: string; name: string; price: number }) {
+function Detail({ title, name, price }: IDetail) {
   return (
     <DetailWrapper>
       <DetailTitle>{title}</DetailTitle>
       <DetailName>{name}</DetailName>
-      <DetailPrice>+ {price.toLocaleString()}원</DetailPrice>
+      <DetailPrice>+ {price.toLocaleString()} 원</DetailPrice>
     </DetailWrapper>
   );
 }
@@ -170,14 +177,14 @@ const DetailName = styled.div`
   display: inline-block;
   color: ${({ theme }) => theme.color.gray900};
   text-align: start;
-  width: 210px;
-  overflow-x: scroll;
-  overflow-x: auto;
+  width: 140px;
+  overflow-x: hidden;
   overflow-y: hidden;
   white-space: nowrap;
   &::-webkit-scrollbar {
     display: none;
   }
+  text-overflow: ellipsis;
 `;
 const DetailPrice = styled.div`
   color: ${({ theme }) => theme.color.gray900};
