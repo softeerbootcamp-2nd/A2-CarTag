@@ -2,13 +2,17 @@ import { styled } from 'styled-components';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import { BodyKrRegular3, HeadingKrMedium2 } from '../../styles/typefaces';
 import RectButton from '../../components/common/buttons/RectButton';
+import { useContext } from 'react';
+import { ItemContext } from '../../context/ItemProvider';
 
 export default function ResultFooterContainer() {
+  const { totalPrice } = useContext(ItemContext);
+
   return (
     <Wrapper>
       <PriceSection>
         <PriceCaption>최종 견적 가격</PriceCaption>
-        <Price>100원</Price>
+        <Price>{totalPrice.toLocaleString()} 원</Price>
       </PriceSection>
       <ButtonSection>
         <GrayButton type={'price'}>공유하기</GrayButton>

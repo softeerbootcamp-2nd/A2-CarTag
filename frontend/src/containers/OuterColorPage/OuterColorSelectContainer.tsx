@@ -9,12 +9,8 @@ import { IOuterColor, ISelected, OuterColorContext } from '../../context/OuterCo
 import { ItemContext } from '../../context/ItemProvider';
 
 export default function OuterColorSelectContainer() {
-  const {
-    data: outerColorData,
-    selectedIdx,
-    setSelectedIdx,
-    setSelectedColorId,
-  } = useContext(OuterColorContext);
+  const { outerColorData, selectedIdx, setSelectedIdx, setSelectedColorId } =
+    useContext(OuterColorContext);
   const [cardPageList, setCardPageList] = useState<ReactNode[]>();
   const { totalPrice, setSelectedItem, setTotalPrice } = useContext(ItemContext);
   const prevTotalPrice = useRef(totalPrice);
@@ -31,6 +27,7 @@ export default function OuterColorSelectContainer() {
           id: selectedItem.colorId,
           name: selectedItem.colorName,
           imgSrc: selectedItem.colorImage,
+          carImgSrc: '',
           price: selectedItem.colorPrice,
           title: '외장 색상',
         },
