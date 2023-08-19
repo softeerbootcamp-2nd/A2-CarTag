@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useCallback, useContext, useLayoutEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
@@ -7,17 +7,47 @@ import HmgTag from '../../../components/common/hmgTag/HmgTag';
 import { ItemContext } from '../../../context/ItemProvider';
 export default function SubOptionContainer() {
   const [currentCategory, setCurrentCategory] = useState('전체');
-  const { subOption, selectedOptionIdx, setCurrentOptionIdx, setSelectedOptionIdx } =
-    useContext(SubOptionContext);
-  const { selectedItem, totalPrice, setTotalPrice, setSelectedItem } = useContext(ItemContext);
+  const { subOption, setCurrentOptionIdx } = useContext(SubOptionContext);
+  const { selectedItem, setTotalPrice, setSelectedItem } = useContext(ItemContext);
+  const handleSelectOption = useCallback(
+    (option: ISubOption) => {
+      if (!subOption) return;
+      setSelectedItem({
+        type: 'SET_OPTIONS',
+        value: selectedItem.options.some((item) => item.id === option.subOptionId)
+          ? selectedItem.options.filter((item) => item.id !== option.subOptionId)
+          : [
+              ...selectedItem.options,
+              {
+                id: option.subOptionId,
+                name: option.optionName,
+                title: option.optionCategoryName,
+                imgSrc: option.optionImage,
+                price: option.optionPrice,
+              },
+            ],
+      });
+
+      setTotalPrice((prevTotalPrice) =>
+        selectedItem.options.some((item) => item.id === option.subOptionId)
+          ? prevTotalPrice - option.optionPrice
+          : prevTotalPrice + option.optionPrice
+      );
+    },
+    [subOption, selectedItem, setSelectedItem, setTotalPrice]
+  );
+
+  useLayoutEffect(() => {
+    handleSelectOption;
+  }, [subOption, selectedItem, setSelectedItem, setTotalPrice, handleSelectOption]);
 
   const handleCategoryClick = (category: string) => {
     setCurrentCategory(category);
   };
-
   const handleCardClick = (index: number) => {
     setCurrentOptionIdx(index);
   };
+
   if (!subOption) return;
   const groupByCategoryName = (array: ISubOption[]) => {
     return array.reduce((acc: Record<string, ISubOption[]>, current: ISubOption) => {
@@ -29,40 +59,9 @@ export default function SubOptionContainer() {
       return acc;
     }, {});
   };
+
   const groupedData = groupByCategoryName(subOption);
 
-  const handleSelectOption = (option: ISubOption) => {
-    if (!subOption) return;
-
-    setSelectedOptionIdx((prevSelectedOptions) => {
-      if (prevSelectedOptions.includes(option.subOptionId)) {
-        setSelectedItem({
-          type: 'SET_OPTIONS',
-          value: selectedItem.options.filter((item) => item.id !== option.subOptionId),
-        });
-        setTotalPrice(totalPrice - option.optionPrice);
-
-        return prevSelectedOptions.filter((item) => item !== option.subOptionId);
-      } else {
-        setSelectedItem({
-          type: 'SET_OPTIONS',
-          value: [
-            ...selectedItem.options,
-            {
-              id: option.subOptionId,
-              name: option.optionName,
-              title: option.optionCategoryName,
-              imgSrc: option.optionImage,
-              price: option.optionPrice,
-            },
-          ],
-        });
-        setTotalPrice(totalPrice + option.optionPrice);
-
-        return [...prevSelectedOptions, option.subOptionId];
-      }
-    });
-  };
   const displayCategory = Object.keys(groupedData).map((key) => (
     <RoundButton
       key={key}
@@ -79,7 +78,7 @@ export default function SubOptionContainer() {
       <OptionCard
         onClick={() => handleCardClick(option.subOptionId)}
         type="sub"
-        active={selectedOptionIdx.includes(option.subOptionId)}
+        active={!!selectedItem.options.find((item) => item.id === option.subOptionId)}
         desc={`${option.percentage}%의 선택`}
         title={option.optionName}
         price={option.optionPrice}
