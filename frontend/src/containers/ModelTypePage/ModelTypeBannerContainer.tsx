@@ -6,7 +6,7 @@ import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import PowerTrainData from '../../components/powerTrainData/PowerTrainData';
-import { ModelTypeContext } from '../../context/ModelTypeProvider';
+import { IHmgData, ModelTypeContext } from '../../context/ModelTypeProvider';
 import { MODEL_TYPE_API, IMG_URL } from '../../utils/apis';
 import { modelTypeToEn } from '../../utils/constants';
 
@@ -42,6 +42,24 @@ export default function ModelTypePage() {
   const displaySeparator =
     modelType[currentModelTypeIdx - 1].hmgData?.maxPs &&
     modelType[currentModelTypeIdx - 1].hmgData?.maxKgfm;
+
+  const parse = (hmgData: IHmgData | null) => {
+    if (!hmgData) return { psValue: '', kgfmValue: '' };
+    const [maxKgfm, kgfmRpm] = hmgData.maxKgfm.split('/');
+    const [kgfmMinRpm, kgfmMaxRpm] = kgfmRpm.split('~');
+    const [maxPs, maxPsRpm] = hmgData.maxPs.split('/');
+    const psValue = parseInt(maxPs).toLocaleString() + '/' + parseInt(maxPsRpm).toLocaleString();
+    const kgfmValue = kgfmMaxRpm
+      ? parseFloat(maxKgfm).toLocaleString() +
+        '/' +
+        parseInt(kgfmMinRpm).toLocaleString() +
+        '-' +
+        parseInt(kgfmMaxRpm).toLocaleString()
+      : parseFloat(maxKgfm).toLocaleString() + '/' + parseInt(kgfmMinRpm).toLocaleString();
+
+    return { psValue, kgfmValue };
+  };
+
   return (
     <>
       {modelType && modelTypeDetail && !modelTypDetailLoading && (
@@ -56,7 +74,7 @@ export default function ModelTypePage() {
                   {modelType[currentModelTypeIdx - 1].hmgData?.maxPs && (
                     <PowerTrainData
                       title="최고출력(PS/rpm)"
-                      value={modelType[currentModelTypeIdx - 1].hmgData!.maxPs} //TODO : 콤마찍기
+                      value={parse(modelType[currentModelTypeIdx - 1].hmgData).psValue} //TODO : 콤마찍기
                       ratio={modelType[currentModelTypeIdx - 1].hmgData!.ratioPs}
                     />
                   )}
@@ -64,7 +82,7 @@ export default function ModelTypePage() {
                   {modelType[currentModelTypeIdx - 1].hmgData?.maxKgfm && (
                     <PowerTrainData
                       title="최대토크(kgf·m/rpm)"
-                      value={modelType[currentModelTypeIdx - 1].hmgData!.maxKgfm}
+                      value={parse(modelType[currentModelTypeIdx - 1].hmgData).kgfmValue}
                       ratio={modelType[currentModelTypeIdx - 1].hmgData!.ratioKgfm}
                     />
                   )}
