@@ -9,6 +9,9 @@ interface detailItemType extends defaultItemType {
   title: string;
   imgSrc: string;
 }
+interface IOuterColorItemType extends detailItemType {
+  carImgSrc: string;
+}
 interface ISelectedItem {
   trim: defaultItemType;
   modelType: {
@@ -17,7 +20,7 @@ interface ISelectedItem {
     operation: detailItemType;
   };
   innerColor: detailItemType;
-  outerColor: detailItemType;
+  outerColor: IOuterColorItemType;
   options: detailItemType[];
 }
 
@@ -73,9 +76,10 @@ const initialSelectedItem = {
     name: '',
     title: '',
     imgSrc: '',
+    carImgSrc: '',
     price: 0,
   },
-  options: [{ id: 0, name: '', title: '', imgSrc: '', price: 0 }],
+  options: [],
 };
 
 const initialItem: IItemContext = {
@@ -91,7 +95,7 @@ type actionType =
   | { type: 'SET_OPERATION'; value: detailItemType }
   | { type: 'SET_BODY_TYPE'; value: detailItemType }
   | { type: 'SET_INNER_COLOR'; value: detailItemType }
-  | { type: 'SET_OUTER_COLOR'; value: detailItemType }
+  | { type: 'SET_OUTER_COLOR'; value: IOuterColorItemType }
   | { type: 'SET_OPTIONS'; value: detailItemType[] };
 
 const reducer = (state: ISelectedItem, action: actionType): ISelectedItem => {

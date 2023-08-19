@@ -4,11 +4,13 @@ import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
 import { ISubOption, SubOptionContext } from '../../../context/SubOptionProvider';
 import HmgTag from '../../../components/common/hmgTag/HmgTag';
+import { ItemContext } from '../../../context/ItemProvider';
 export default function SubOptionContainer() {
   const [currentCategory, setCurrentCategory] = useState('전체');
-
   const { subOption, selectedOptionIdx, setCurrentOptionIdx, setSelectedOptionIdx } =
     useContext(SubOptionContext);
+  const { selectedItem, totalPrice, setTotalPrice, setSelectedItem } = useContext(ItemContext);
+
   const handleCategoryClick = (category: string) => {
     setCurrentCategory(category);
   };
@@ -29,12 +31,35 @@ export default function SubOptionContainer() {
   };
   const groupedData = groupByCategoryName(subOption);
 
-  const handleSelectOption = (index: number) => {
+  const handleSelectOption = (option: ISubOption) => {
+    if (!subOption) return;
+
     setSelectedOptionIdx((prevSelectedOptions) => {
-      if (prevSelectedOptions.includes(index)) {
-        return prevSelectedOptions.filter((item) => item !== index);
+      if (prevSelectedOptions.includes(option.subOptionId)) {
+        setSelectedItem({
+          type: 'SET_OPTIONS',
+          value: selectedItem.options.filter((item) => item.id !== option.subOptionId),
+        });
+        setTotalPrice(totalPrice - option.optionPrice);
+
+        return prevSelectedOptions.filter((item) => item !== option.subOptionId);
       } else {
-        return [...prevSelectedOptions, index];
+        setSelectedItem({
+          type: 'SET_OPTIONS',
+          value: [
+            ...selectedItem.options,
+            {
+              id: option.subOptionId,
+              name: option.optionName,
+              title: option.optionCategoryName,
+              imgSrc: option.optionImage,
+              price: option.optionPrice,
+            },
+          ],
+        });
+        setTotalPrice(totalPrice + option.optionPrice);
+
+        return [...prevSelectedOptions, option.subOptionId];
       }
     });
   };
@@ -60,7 +85,7 @@ export default function SubOptionContainer() {
         price={option.optionPrice}
         imgPath={option.optionImage}
         hashTag={option.hashtagName}
-        handleSelectOption={() => handleSelectOption(option.subOptionId)}
+        handleSelectOption={() => handleSelectOption(option)}
       />
       {option.hasHmgData && (
         <HmgWrapper>

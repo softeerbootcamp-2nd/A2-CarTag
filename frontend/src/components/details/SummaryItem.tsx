@@ -19,7 +19,7 @@ export default function SummaryItem({ imgSrc, itemName, selectedName, price }: I
         </LeftInfo>
         <RightInfo>
           <ModifyButton>수정하기</ModifyButton>
-          <Price>+ {price}원</Price>
+          <Price>+ {price.toLocaleString()}원</Price>
         </RightInfo>
       </InfoWrapper>
     </Item>
@@ -62,5 +62,6 @@ const ItemName = styled.div`
 `;
 const ModifyButton = styled.button`
   color: ${({ theme }) => theme.color.primaryColor};
+  text-align: end;
 `;
 const SelectedName = styled.div``;
