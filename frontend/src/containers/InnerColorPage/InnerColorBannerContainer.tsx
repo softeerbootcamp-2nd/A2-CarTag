@@ -15,11 +15,9 @@ export default function InnerColorBannerContainer() {
   return (
     <Wrapper>
       {innerColorData ? (
-        <InnerColorBanner
-          $src={`${IMG_URL}${imgSrc}`}
-          subtitle={'내장색상'}
-          title={'퀼팅천연(블랙)'}
-        />
+        <InnerColorBanner subtitle={'내장색상'} title={innerColorData[idx].colorName}>
+          <Img onLoad={() => console.log('로드완료')} src={`${IMG_URL}${imgSrc}`} />
+        </InnerColorBanner>
       ) : (
         <Loading />
       )}
@@ -32,13 +30,21 @@ const Wrapper = styled.div`
   width: 100%;
   height: 360px;
 `;
-const InnerColorBanner = styled(Banner)<{ $src: string }>`
+const InnerColorBanner = styled(Banner)`
+  height: 360px;
+
   overflow: hidden;
   padding: 0;
   p {
+    position: relative;
     color: ${({ theme }) => theme.color.white};
+    z-index: 1;
   }
-  background-image: url(${({ $src }) => $src});
-  background-position: 0% 30%;
-  background-size: cover;
+`;
+
+const Img = styled.img`
+  position: absolute;
+  top: -20%;
+  width: 100%;
+  object-fit: cover;
 `;
