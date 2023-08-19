@@ -46,67 +46,51 @@ export default function ModelTypePage() {
     <>
       {modelType && modelTypeDetail && !modelTypDetailLoading && (
         <Banner subtitle={modelTypeDetail.modelTypeName} title={modelTypeDetail.modelName}>
-          <Wrapper>
-            <Container>
-              <InfoWrapper>
-                <AdditionalText>{modelTypeDetail.optionDescription}</AdditionalText>
-                {modelTypeDetail.modelTypeName === '파워트레인' && modelType[0].hmgData ? (
-                  <HmgDataSection>
-                    <HmgTag size="small" />
-                    <DataList>
-                      {modelType[currentModelTypeIdx - 1].hmgData?.maxPs && (
-                        <PowerTrainData
-                          title="최고출력(PS/rpm)"
-                          value={modelType[currentModelTypeIdx - 1].hmgData!.maxPs} //TODO : 콤마찍기
-                          ratio={modelType[currentModelTypeIdx - 1].hmgData!.ratioPs}
-                        />
-                      )}
-                      {displaySeparator && <Separator />}
-                      {modelType[currentModelTypeIdx - 1].hmgData?.maxKgfm && (
-                        <>
-                          <PowerTrainData
-                            title="최대토크(kgf·m/rpm)"
-                            value={modelType[currentModelTypeIdx - 1].hmgData!.maxKgfm}
-                            ratio={modelType[currentModelTypeIdx - 1].hmgData!.ratioKgfm}
-                          />
-                        </>
-                      )}
-                    </DataList>
-                  </HmgDataSection>
-                ) : null}
-              </InfoWrapper>
-            </Container>
+          <CenterWrapper>
+            <OptionDesc>{modelTypeDetail.optionDescription}</OptionDesc>
+
+            {modelTypeDetail.modelTypeName === '파워트레인' && modelType[0].hmgData ? (
+              <HmgDataSection>
+                <HmgTag size="small" />
+                <DataList>
+                  {modelType[currentModelTypeIdx - 1].hmgData?.maxPs && (
+                    <PowerTrainData
+                      title="최고출력(PS/rpm)"
+                      value={modelType[currentModelTypeIdx - 1].hmgData!.maxPs} //TODO : 콤마찍기
+                      ratio={modelType[currentModelTypeIdx - 1].hmgData!.ratioPs}
+                    />
+                  )}
+                  {displaySeparator && <Separator />}
+                  {modelType[currentModelTypeIdx - 1].hmgData?.maxKgfm && (
+                    <PowerTrainData
+                      title="최대토크(kgf·m/rpm)"
+                      value={modelType[currentModelTypeIdx - 1].hmgData!.maxKgfm}
+                      ratio={modelType[currentModelTypeIdx - 1].hmgData!.ratioKgfm}
+                    />
+                  )}
+                </DataList>
+              </HmgDataSection>
+            ) : null}
             <ImgSection src={`${IMG_URL}${modelTypeDetail.modelImage}`} />
-          </Wrapper>
+          </CenterWrapper>
         </Banner>
       )}
     </>
   );
 }
 
-const AdditionalText = styled.p`
+const OptionDesc = styled.p`
   width: 300px;
   color: ${({ theme }) => theme.color.gray800};
   ${BodyKrRegular4}
-  margin-bottom: 10px;
+  padding-top: 150px;
   word-break: keep-all;
 `;
-const Wrapper = styled.div`
-  position: relative;
-  margin: 0 auto;
-  width: 1280px;
-`;
-const Container = styled(CenterWrapper)`
-  height: 100%;
-`;
 
-const InfoWrapper = styled.div`
-  display: flex;
-  justify-content: space-evenly;
-  flex-direction: column;
-  padding-top: 150px;
+const HmgDataSection = styled.div`
+  position: absolute;
+  bottom: 40px;
 `;
-const HmgDataSection = styled.div``;
 
 const DataList = styled.ul`
   display: flex;
