@@ -1,12 +1,4 @@
-import {
-  Dispatch,
-  Fragment,
-  HTMLAttributes,
-  SetStateAction,
-  useEffect,
-  useRef,
-  useState,
-} from 'react';
+import { Dispatch, HTMLAttributes, SetStateAction, useEffect, useRef, useState } from 'react';
 import { BodyKrMedium3, BodyKrRegular3, BodyKrRegular4 } from '../../styles/typefaces';
 import styled, { css, useTheme } from 'styled-components';
 import { ArrowLeft, ArrowRight } from '../common/icons/Icons';
@@ -100,22 +92,20 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
         <TabWrapperInner ref={tabDivisionRef}>
           <Tab $offset={page * -tabDivisionWidth}>
             {chunkedOptions.map((optionGroup: ISubOptionList[], groupIndex) => (
-              <Fragment key={groupIndex}>
-                <TabDivision $display={page === groupIndex}>
-                  {optionGroup.map((option: ISubOptionList, index: number) => (
-                    <TabButtonWrapper key={index}>
-                      <TabButton
-                        onClick={() => handleOptionClick(index)}
-                        $isselected={page === groupIndex && index === selectedIdx}
-                      >
-                        <div>{option.optionName}</div>
-                        {displayUnderline(groupIndex, index)}
-                      </TabButton>
-                      <HoverCaption>{option.optionName}</HoverCaption>
-                    </TabButtonWrapper>
-                  ))}
-                </TabDivision>
-              </Fragment>
+              <TabDivision key={groupIndex} $display={page === groupIndex}>
+                {optionGroup.map((option: ISubOptionList, index: number) => (
+                  <TabButtonWrapper key={index}>
+                    <TabButton
+                      onClick={() => handleOptionClick(index)}
+                      $isselected={page === groupIndex && index === selectedIdx}
+                    >
+                      <div>{option.optionName}</div>
+                      {displayUnderline(groupIndex, index)}
+                    </TabButton>
+                    <HoverCaption>{option.optionName}</HoverCaption>
+                  </TabButtonWrapper>
+                ))}
+              </TabDivision>
             ))}
           </Tab>
         </TabWrapperInner>
