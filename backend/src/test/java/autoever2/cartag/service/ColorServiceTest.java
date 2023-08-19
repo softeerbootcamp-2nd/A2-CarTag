@@ -46,6 +46,7 @@ class ColorServiceTest {
                 .colorImage("color_image_1")
                 .colorPrice(100000L)
                 .colorBoughtCount(212312L)
+                .colorCarImage("car_image_*.jpg")
                 .build());
 
         outerColors.add(OuterColorDto.builder()
@@ -53,6 +54,7 @@ class ColorServiceTest {
                 .colorImage("color_image_2")
                 .colorPrice(100000L)
                 .colorBoughtCount(203L)
+                .colorCarImage("car_image_*.jpg")
                 .build());
 
         outerColors.add(OuterColorDto.builder()
@@ -60,6 +62,7 @@ class ColorServiceTest {
                 .colorImage("color_image_3")
                 .colorPrice(1234440L)
                 .colorBoughtCount(203L)
+                .colorCarImage("car_image_*.jpg")
                 .build());
 
         outerColors.add(OuterColorDto.builder()
@@ -67,6 +70,7 @@ class ColorServiceTest {
                 .colorImage("color_image_4")
                 .colorPrice(100000L)
                 .colorBoughtCount(203L)
+                .colorCarImage("car_image_*.jpg")
                 .build());
 
         outerColors.add(OuterColorDto.builder()
@@ -74,6 +78,7 @@ class ColorServiceTest {
                 .colorImage("color_image_5")
                 .colorPrice(100000L)
                 .colorBoughtCount(203L)
+                .colorCarImage("car_image_*.jpg")
                 .build());
 
         innerColors = new ArrayList<>();
@@ -117,7 +122,7 @@ class ColorServiceTest {
                 .colorCarImage("car_image_*.jpg")
                 .build());
 
-        for(int i=1;i<=60;i++) {
+        for (int i = 1; i <= 60; i++) {
             images.add("car_image_" + i + ".jpg");
         }
     }
