@@ -92,22 +92,20 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
         <TabWrapperInner ref={tabDivisionRef}>
           <Tab $offset={page * -tabDivisionWidth}>
             {chunkedOptions.map((optionGroup: ISubOptionList[], groupIndex) => (
-              <>
-                <TabDivision key={groupIndex} $display={page === groupIndex}>
-                  {optionGroup.map((option: ISubOptionList, index: number) => (
-                    <TabButtonWrapper key={index}>
-                      <TabButton
-                        onClick={() => handleOptionClick(index)}
-                        $isselected={page === groupIndex && index === selectedIdx}
-                      >
-                        <div>{option.optionName}</div>
-                        {displayUnderline(groupIndex, index)}
-                      </TabButton>
-                      <HoverCaption>{option.optionName}</HoverCaption>
-                    </TabButtonWrapper>
-                  ))}
-                </TabDivision>
-              </>
+              <TabDivision key={groupIndex} $display={page === groupIndex}>
+                {optionGroup.map((option: ISubOptionList, index: number) => (
+                  <TabButtonWrapper key={index}>
+                    <TabButton
+                      onClick={() => handleOptionClick(index)}
+                      $isselected={page === groupIndex && index === selectedIdx}
+                    >
+                      <div>{option.optionName}</div>
+                      {displayUnderline(groupIndex, index)}
+                    </TabButton>
+                    <HoverCaption>{option.optionName}</HoverCaption>
+                  </TabButtonWrapper>
+                ))}
+              </TabDivision>
             ))}
           </Tab>
         </TabWrapperInner>

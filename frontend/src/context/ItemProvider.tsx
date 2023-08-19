@@ -75,7 +75,7 @@ const initialSelectedItem = {
     imgSrc: '',
     price: 0,
   },
-  options: [{ id: 0, name: '', title: '', imgSrc: '', price: 0 }],
+  options: [],
 };
 
 const initialItem: IItemContext = {

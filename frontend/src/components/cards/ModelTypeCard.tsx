@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import { CheckIcon } from '../common/icons/Icons';
-import { BodyKrRegular4, HeadingEn4, HeadingKrMedium7 } from '../../styles/typefaces';
+import { BodyKrRegular4, HeadingKrMedium6, HeadingKrMedium7 } from '../../styles/typefaces';
 import DefaultCardStyle from '../common/card/DefaultCardStyle';
 import { HTMLAttributes } from 'react';
 
@@ -35,7 +35,7 @@ const Wrapper = styled(DefaultCardStyle)`
 `;
 
 const ModelTypeTitle = styled.div`
-  ${HeadingEn4}
+  ${HeadingKrMedium6}
 `;
 const ModelTypePrice = styled.div`
   ${HeadingKrMedium7}
