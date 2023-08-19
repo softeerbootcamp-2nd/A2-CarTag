@@ -1,6 +1,6 @@
 export const MAX_PAGE = 3;
 export const NUM_IN_A_PAGE = 4;
-
+export const TEN_THOUSAND_UNIT = 10000;
 export const PATH = {
   home: '/',
   trim: '/trim',
@@ -33,4 +33,5 @@ Object.freeze({
   PATH,
   MESSAGE,
   PAGE_ANIMATION_DURATION,
+  TEN_THOUSAND_UNIT,
 });
