@@ -69,6 +69,7 @@ const OptionImg = styled.img`
   border-radius: 1px 1px 0px 0px;
   width: 100%;
   height: 160px;
+  object-fit: cover;
 `;
 const HashTagWrapper = styled.div`
   position: absolute;
