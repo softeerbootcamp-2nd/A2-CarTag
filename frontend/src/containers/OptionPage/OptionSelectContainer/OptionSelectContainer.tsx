@@ -30,7 +30,11 @@ export default function OptionSelectContainer({
             기본옵션
           </CategoryItem>
         </CategoryList>
-        <SearchBar placeholder="옵션명, 해시태그, 카테고리로 검색해보세요."></SearchBar>
+        {isDefault ? (
+          <SearchBar placeholder="옵션명, 카테고리로 검색해보세요."></SearchBar>
+        ) : (
+          <SearchBar placeholder="옵션명, 해시태그, 카테고리로 검색해보세요."></SearchBar>
+        )}
       </Header>
 
       {isDefault ? <DefaultOptionContainer /> : <SubOptionContainer />}
