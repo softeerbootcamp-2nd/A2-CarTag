@@ -22,13 +22,13 @@ const priceActiveCss = css`
 `;
 
 const optionHoverCss = css`
-  background: ${({ theme }) => theme.color.white};
+  background: ${({ theme }) => theme.color.primaryColor100};
   border: 1px solid ${({ theme }) => theme.color.skyBlue};
   color: ${({ theme }) => theme.color.primaryColor};
 `;
 
 const optionActiveCss = css`
-  background-color: ${({ theme }) => theme.color.primaryColor100};
+  background: ${({ theme }) => theme.color.primaryColor100};
   color: ${({ theme }) => theme.color.primaryColor};
 `;
 
