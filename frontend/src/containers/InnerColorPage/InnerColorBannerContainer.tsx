@@ -32,7 +32,6 @@ const Wrapper = styled.div`
 `;
 const InnerColorBanner = styled(Banner)`
   height: 360px;
-
   overflow: hidden;
   padding: 0;
   p {
