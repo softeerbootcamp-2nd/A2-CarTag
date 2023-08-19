@@ -3,7 +3,7 @@ import { Dispatch, ReactNode, SetStateAction, createContext, useState } from 're
 interface IModelTypeProvider {
   children: ReactNode;
 }
-interface IHmgData {
+export interface IHmgData {
   maxKgfm: string;
   maxPs: string;
   ratioKgfm: number;
