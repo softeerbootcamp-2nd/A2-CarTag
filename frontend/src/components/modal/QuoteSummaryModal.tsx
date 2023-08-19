@@ -39,6 +39,7 @@ export default function QuoteSummaryModal({ ...props }: IQuoteSummaryModal) {
   const optionNames = selectedItem.options.map((option) => {
     return option.name;
   });
+  const optionPrice = selectedItem.options.reduce((acc, option) => acc + option.price, 0);
 
   return (
     <DimmedBackground $displayDimmed={visible} {...props}>
@@ -90,7 +91,7 @@ export default function QuoteSummaryModal({ ...props }: IQuoteSummaryModal) {
                 price={selectedItem.innerColor.price}
               />
               <Hr />
-              <Detail title="옵션" name={optionNames.join(', ')} price={0} />
+              <Detail title="옵션" name={optionNames.join(', ')} price={optionPrice} />
             </DetailSection>
           </Row>
           <PriceSection>
