@@ -1,0 +1,20 @@
+name: recommend program
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - backend-recommend/**
+jobs:
+  python-hello-world:
+    runs-on: ubuntu-latest
+    steps:
+      - name: VM으로 파일을 전송합니다.
+        uses: actions/checkout@v3
+      - name: 파이썬 환경을 세팅합니다.
+        uses: actions/setup-python@v2
+        with:
+          python-version: 3.x
+      - name: 환경변수를 설정합니다.
+        run: |
+          echo ${{ secrets.PYTHON_ENV }} >> .env
