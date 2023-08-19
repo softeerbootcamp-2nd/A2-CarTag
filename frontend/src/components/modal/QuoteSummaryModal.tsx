@@ -36,10 +36,9 @@ export default function QuoteSummaryModal({ ...props }: IQuoteSummaryModal) {
     setVisible(false);
   };
 
-  const optionNames = ['차량', '옵션', '들의', '임시', '목록', '목록입니다', '목록입니다'];
-  // const optionNames = selectedItem.options.map((option, idx) => {
-  //   return option.name;
-  // });
+  const optionNames = selectedItem.options.map((option) => {
+    return option.name;
+  });
 
   return (
     <DimmedBackground $displayDimmed={visible} {...props}>
@@ -178,8 +177,7 @@ const DetailName = styled.div`
   color: ${({ theme }) => theme.color.gray900};
   text-align: start;
   width: 140px;
-  overflow-x: hidden;
-  overflow-y: hidden;
+  overflow: hidden;
   white-space: nowrap;
   &::-webkit-scrollbar {
     display: none;

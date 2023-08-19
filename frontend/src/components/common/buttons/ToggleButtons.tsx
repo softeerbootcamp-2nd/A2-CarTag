@@ -30,7 +30,7 @@ const Button = styled.button<{ $active: boolean }>`
   height: 36px;
   border-radius: 18px;
   color: ${({ $active, theme }) => ($active ? theme.color.white : theme.color.primaryColor)};
-  background-color: ${({ $active, theme }) => ($active ? theme.color.primaryColor : 'none')};
+  background-color: ${({ $active, theme }) => ($active ? theme.color.primaryColor : 'transparent')};
 `;
 const ToggleButtonContainer = styled.div`
   ${flexCenterCss}
