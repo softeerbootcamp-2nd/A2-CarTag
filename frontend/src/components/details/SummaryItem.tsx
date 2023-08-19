@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import { BodyKrRegular3 } from '../../styles/typefaces';
+import { IMG_URL } from '../../utils/apis';
 
 export interface ISummaryItem {
   imgSrc: string;
@@ -11,7 +12,7 @@ export interface ISummaryItem {
 export default function SummaryItem({ imgSrc, itemName, selectedName, price }: ISummaryItem) {
   return (
     <Item>
-      <Img src={imgSrc} alt="" />
+      <Img src={IMG_URL + imgSrc} alt="" />
       <InfoWrapper>
         <LeftInfo>
           <ItemName>{itemName}</ItemName>
@@ -35,6 +36,7 @@ const Item = styled.li`
 const Img = styled.img`
   width: 77px;
   height: 55px;
+  object-fit: fill;
 `;
 const InfoWrapper = styled.div`
   display: flex;
