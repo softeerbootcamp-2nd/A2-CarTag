@@ -8,15 +8,12 @@ import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
 import { ICartype, TrimContext } from '../../context/TrimProvider';
 import Loading from '../../components/loading/Loading';
+import { ItemContext } from '../../context/ItemProvider';
 
 export default function TrimBannerContainer() {
-  const {
-    data: trimData,
-    selectedTrimIdx,
-    loading,
-    selectedImgIdx,
-    setSelectedImgIdx,
-  } = useContext(TrimContext);
+  const { selectedItem } = useContext(ItemContext);
+  const { data: trimData, loading, selectedImgIdx, setSelectedImgIdx } = useContext(TrimContext);
+  const selectedTrimIdx = selectedItem.trim.id - 1;
   const selectedData = trimData && trimData[selectedTrimIdx];
   const imageUrls = useRef<string[]>([]);
   const [imagesLoading, setImagesLoading] = useState(true);
