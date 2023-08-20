@@ -131,28 +131,19 @@ CREATE TABLE PowerTrainOperationEfficiency (
                                                CONSTRAINT PowerTrainOperationEfficiency_pk PRIMARY KEY (efficiency_id)
 );
 
--- Table: SalesHistory
+CREATE TABLE HistoryModelMapper (
+                                    history_model_mapper_id bigint  NOT NULL,
+                                    model_id int  NOT NULL,
+                                    history_id bigint  NOT NULL,
+                                    CONSTRAINT HistoryModelMapper_pk PRIMARY KEY (history_model_mapper_id)
+);
+
 CREATE TABLE SalesHistory (
-                              sales_history_id int  NOT NULL,
+                              history_id bigint  NOT NULL,
                               car_id int  NOT NULL,
-                              total_price bigint  NOT NULL,
-                              sales_count bigint  NOT NULL,
-                              CONSTRAINT SalesHistory_pk PRIMARY KEY (sales_history_id)
-);
-
--- Table: SalesModel
-CREATE TABLE SalesModel (
-                            model_id int  NOT NULL,
-                            sales_history_id int  NOT NULL,
-                            CONSTRAINT SalesModel_pk PRIMARY KEY (model_id,sales_history_id)
-);
-
--- Table: SalesOption
-CREATE TABLE SalesOption (
-                             sales_option_id int  NOT NULL,
-                             sales_history_id int  NOT NULL,
-                             sub_option_id int  NOT NULL,
-                             CONSTRAINT SalesOption_pk PRIMARY KEY (sales_option_id)
+                              sold_count int  NOT NULL,
+                              sold_options_id varchar(255)  NOT NULL,
+                              CONSTRAINT SalesHistory_pk PRIMARY KEY (history_id)
 );
 
 -- Table: SubOptionData
@@ -229,26 +220,6 @@ ALTER TABLE PowerTrainData ADD CONSTRAINT PowerTrainData_Model FOREIGN KEY (powe
 ALTER TABLE PowerTrainOperationEfficiency ADD CONSTRAINT PowerTrain_Efficiency_Model FOREIGN KEY (power_train_id)
     REFERENCES Model (model_id);
 
--- Reference: SalesHistory_Car (table: SalesHistory)
-ALTER TABLE SalesHistory ADD CONSTRAINT SalesHistory_Car FOREIGN KEY (car_id)
-    REFERENCES Car (car_id);
-
--- Reference: SalesModel_Model (table: SalesModel)
-ALTER TABLE SalesModel ADD CONSTRAINT SalesModel_Model FOREIGN KEY (model_id)
-    REFERENCES Model (model_id);
-
--- Reference: SalesModel_SalesHistory (table: SalesModel)
-ALTER TABLE SalesModel ADD CONSTRAINT SalesModel_SalesHistory FOREIGN KEY (sales_history_id)
-    REFERENCES SalesHistory (sales_history_id);
-
--- Reference: SalesOption_SalesHistory (table: SalesOption)
-ALTER TABLE SalesOption ADD CONSTRAINT SalesOption_SalesHistory FOREIGN KEY (sales_history_id)
-    REFERENCES SalesHistory (sales_history_id);
-
--- Reference: SalesOption_SubOption (table: SalesOption)
-ALTER TABLE SalesOption ADD CONSTRAINT SalesOption_SubOption FOREIGN KEY (sub_option_id)
-    REFERENCES CarOption (option_id);
-
 -- Reference: SubOptionData_Car (table: SubOptionData)
 ALTER TABLE SubOptionData ADD CONSTRAINT SubOptionData_Car FOREIGN KEY (car_id)
     REFERENCES Car (car_id);
@@ -265,5 +236,15 @@ ALTER TABLE CarOption ADD CONSTRAINT SubOption_OptionCategory FOREIGN KEY (optio
 ALTER TABLE SubOptionPackage ADD CONSTRAINT SubOption_SubOption FOREIGN KEY (option_id)
     REFERENCES CarOption (option_id);
 
+ALTER TABLE HistoryModelMapper ADD CONSTRAINT HistoryModelMapper_Model FOREIGN KEY (model_id)
+    REFERENCES Model (model_id);
+
+-- Reference: HistoryModelMapper_SalesHistory (table: HistoryModelMapper)
+ALTER TABLE HistoryModelMapper ADD CONSTRAINT HistoryModelMapper_SalesHistory FOREIGN KEY (history_id)
+    REFERENCES SalesHistory (history_id);
+
+-- Reference: SalesHistory_Car (table: SalesHistory)
+ALTER TABLE SalesHistory ADD CONSTRAINT SalesHistory_Car FOREIGN KEY (car_id)
+    REFERENCES Car (car_id);
 -- End of file.
 
