@@ -46,7 +46,7 @@ export default function SubOptionContainer({ query, setQuery, setResult }: ISubO
   );
 
   const [currentCategory, setCurrentCategory] = useState('전체');
-  const { subOption, setCurrentOptionIdx } = useContext(SubOptionContext);
+  const { subOption, currentOptionIdx, setCurrentOptionIdx } = useContext(SubOptionContext);
   const { selectedItem, setTotalPrice, setSelectedItem } = useContext(ItemContext);
   const setQueryCallback = useCallback(setQuery, [setQuery]);
   const groupByCategoryName = (array: ISubOption[] | null) => {
@@ -140,16 +140,11 @@ export default function SubOptionContainer({ query, setQuery, setResult }: ISubO
   ));
 
   const displayOptionList = displayData.map((option, idx) => (
-    <CardWrapper key={idx}>
+    <CardWrapper key={idx} onClick={() => handleCardClick(option.subOptionId)}>
       <OptionCard
-        onClick={() => handleCardClick(option.subOptionId)}
         type="sub"
-        active={!!selectedItem.options.find((item) => item.id === option.subOptionId)}
-        desc={`${option.percentage}%의 선택`}
-        title={option.optionName}
-        price={option.optionPrice}
-        imgPath={option.optionImage}
-        hashTag={option.hashtagName}
+        active={currentOptionIdx === option.subOptionId}
+        option={option}
         handleSelectOption={() => handleSelectOption(option)}
       />
       {option.hasHmgData && (

@@ -49,10 +49,7 @@ export default function DefaultOptionContainer() {
         }}
         type="default"
         active={currentOptionIdx === option.optionId}
-        title={option.optionName}
-        price={option.optionPrice}
-        imgPath={option.optionImage}
-        hashTag={option.hashtagName}
+        option={option}
       />
       {option.hasHmgData && (
         <HmgWrapper>
