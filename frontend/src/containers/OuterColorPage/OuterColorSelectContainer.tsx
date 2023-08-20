@@ -5,21 +5,18 @@ import PriceSummary from '../../components/summary/PriceSummary';
 import OuterColorCard from '../../components/cards/OuterColorCard';
 import CardSlider from '../../components/cardSlider/CardSlider';
 import { NUM_IN_A_PAGE, PATH } from '../../utils/constants';
-import { IOuterColor, ISelected, OuterColorContext } from '../../context/OuterColorProvider';
+import { IOuterColor, OuterColorContext } from '../../context/OuterColorProvider';
 import { ItemContext } from '../../context/ItemProvider';
 
 export default function OuterColorSelectContainer() {
-  const { outerColorData, selectedIdx, setSelectedIdx, setSelectedColorId } =
-    useContext(OuterColorContext);
+  const { outerColorData } = useContext(OuterColorContext);
   const [cardPageList, setCardPageList] = useState<ReactNode[]>();
-  const { totalPrice, setSelectedItem, setTotalPrice } = useContext(ItemContext);
+  const { selectedItem, totalPrice, setSelectedItem, setTotalPrice } = useContext(ItemContext);
   const prevTotalPrice = useRef(totalPrice);
   const maxPage = outerColorData ? Math.floor(outerColorData.length / NUM_IN_A_PAGE) + 1 : 0;
 
   const handleCardClick = useCallback(
-    ({ selectedItem, page, idx }: { selectedItem: IOuterColor; page: number; idx: number }) => {
-      setSelectedIdx({ page, idx });
-      setSelectedColorId(selectedItem.colorId);
+    (selectedItem: IOuterColor) => {
       setTotalPrice(prevTotalPrice.current + selectedItem.colorPrice);
       setSelectedItem({
         type: 'SET_OUTER_COLOR',
@@ -34,13 +31,13 @@ export default function OuterColorSelectContainer() {
       });
     },
 
-    [setSelectedIdx, setSelectedColorId, setTotalPrice, setSelectedItem]
+    [setTotalPrice, setSelectedItem]
   );
   const isActive = useCallback(
-    ({ page, idx }: ISelected) => {
-      return page === selectedIdx.page && idx === selectedIdx.idx;
+    (id: number) => {
+      return selectedItem.outerColor.id === id;
     },
-    [selectedIdx]
+    [selectedItem]
   );
 
   const createCardList = useCallback(() => {
@@ -58,10 +55,8 @@ export default function OuterColorSelectContainer() {
         const newCard = (
           <OuterColorCard
             key={cardIdx}
-            active={isActive({ page: pageIdx, idx: cardIdx })}
-            onClick={() =>
-              handleCardClick({ selectedItem: targetColor, page: pageIdx, idx: cardIdx })
-            }
+            active={isActive(targetColor.colorId)}
+            onClick={() => handleCardClick(targetColor)}
             color={targetColor.colorImage}
             desc={targetColor.colorBoughtPercent.toString()}
             name={targetColor.colorName}
