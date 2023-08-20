@@ -1,7 +1,5 @@
 package autoever2.cartag.service;
 
-import autoever2.cartag.repository.RecommendRepository;
-import lombok.RequiredArgsConstructor;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.springframework.beans.factory.annotation.Value;
