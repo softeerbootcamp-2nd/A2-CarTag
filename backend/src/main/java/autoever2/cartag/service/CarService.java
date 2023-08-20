@@ -66,13 +66,18 @@ public class CarService {
         return carPriceAndCount.stream()
                 .map(carPriceDto -> {
                     String optionList = carPriceDto.getOptionList();
-                    String[] optionIdList = optionList.split(",");
+                    Long key = 0L;
+                    if (optionList.isEmpty()) {
+                        key = carPriceDto.getPrice() / 100000 * 100000;
+                    } else {
+                        String[] optionIdList = optionList.split(",");
 
-                    Long sum = Arrays.stream(optionIdList)
-                            .mapToLong(s -> optionRepository.findOptionPriceByOptionId(Integer.parseInt(s)).get())
-                            .sum();
+                        Long sum = Arrays.stream(optionIdList)
+                                .mapToLong(s -> optionRepository.findOptionPriceByOptionId(Integer.parseInt(s)).get())
+                                .sum();
 
-                    Long key = ((carPriceDto.getPrice() + sum) / 100000) * 1000000;
+                        key = ((carPriceDto.getPrice() + sum) / 100000) * 1000000;
+                    }
 
                     return Map.entry(key, 1);
                 })

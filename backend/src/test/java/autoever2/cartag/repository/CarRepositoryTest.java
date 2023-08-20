@@ -46,5 +46,4 @@ class CarRepositoryTest {
         assertEquals(234L, boughtCount);
 
     }
-
 }
