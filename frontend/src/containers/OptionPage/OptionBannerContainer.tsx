@@ -9,36 +9,53 @@ import CenterWrapper from '../../components/layout/CenterWrapper';
 import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
 import OptionTab from '../../components/tabs/OptionTab';
-import { MAX_TEXT_CNT } from '../../utils/constants';
 import { useEffect, useState } from 'react';
+import { IMG_URL } from '../../utils/apis';
 
-export default function OptionBannerContainer() {
-  const suboptions = [
-    '후석승객알림',
-    '메탈 도어스커프',
-    '3열파워폴딩시트',
-    '내비게이션기반스마트크루즈컨트롤',
-    '3열 열선시트',
-    '헤드업 디스플레이',
-    '3열 열선시트',
-    '후석승객알림',
-    '메탈 리어범퍼스텝',
-    '후석승객알림',
-    '내비게이션기반스마트크루즈컨트롤',
-    '메탈 리어범퍼스텝',
-    '메탈 도어스커프',
-    '3열파워폴딩시트',
-    '내비게이션기반스마트크루즈컨트롤',
-    '메탈 리어범퍼스텝',
-    '메탈 도어스커프',
-    '3열파워폴딩시트',
-    '내비게이션기반스마트크루즈컨트롤',
-  ];
+export interface IOptionDetail {
+  categoryName: string;
+  optionName: string;
+  optionDescription: string;
+  optionImage: string;
+  hmgData: IHmgData | null;
+  subOptionList: ISubOptionList[] | null;
+  package: boolean;
+}
+interface IHmgData {
+  optionBoughtCount: number;
+  optionUsedCount: number;
+  overHalf: boolean;
+}
+
+export interface ISubOptionList {
+  categoryName: string;
+  hmgData: IHmgData | null;
+  optionDescription: string;
+  optionImage: string;
+  optionName: string;
+  package: false;
+  subOptionList: null;
+}
+
+interface IOptionBannerContainer {
+  optionDetail: IOptionDetail;
+  optionDetailLoading: boolean;
+}
+
+export default function OptionBannerContainer({
+  optionDetail,
+  optionDetailLoading,
+}: IOptionBannerContainer) {
+  const [bannerInfo, setBannerInfo] = useState<IOptionDetail>({
+    categoryName: '',
+    hmgData: null,
+    optionDescription: '',
+    optionImage: '',
+    optionName: '',
+    package: false,
+    subOptionList: null,
+  });
   const [isBannerVisible, setIsBannerVisible] = useState(false);
-  const optionDesc =
-    '초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다. 초음파 센서를 통해 뒷좌석에 남아있는 승객의 움직임을 감지하여 운전자에게경고함으로써 부주의에 의한 유아 또는 반려 동물 등의 방치 사고를 예방하는 신기술입니다.  ';
-  const displayText =
-    optionDesc.length > MAX_TEXT_CNT ? optionDesc.substring(0, MAX_TEXT_CNT) + '...' : optionDesc;
   const handleBannerVisibility = () => {
     setIsBannerVisible(!isBannerVisible);
   };
@@ -46,67 +63,130 @@ export default function OptionBannerContainer() {
   const handleScroll = () => {
     setWinY(window.scrollY);
   };
+
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
-
     return () => {
       window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
-  return (
-    <Wrapper $isBannerVisible={isBannerVisible}>
-      <OptionBanner subtitle={'파워트레인/성능'} title={'컴포트 ll'}>
-        <ContainerWrapper>
-          <Container>
-            <InfoWrapper>
-              <OptionTab options={suboptions} />
-              <AdditionalText>
-                {displayText}
-                {optionDesc.length > MAX_TEXT_CNT && <span>더보기</span>}
-              </AdditionalText>
-              <HmgDataSection>
-                <HmgTag size="small" />
-                <DataList>
-                  <Data>
-                    <DataTitle>구매자의 절반 이상이 선택했어요.</DataTitle>
-                    <DataInfo>
-                      2,384개
-                      <DataCaption>최근 90일 동안</DataCaption>
-                    </DataInfo>
-                  </Data>
+  useEffect(() => {
+    const target = optionDetail.subOptionList ? optionDetail.subOptionList[0] : optionDetail;
 
-                  <Data>
-                    <DataTitle>주행 중 실제로 이만큼 사용해요.</DataTitle>
-                    <DataInfo>
-                      73.2번
-                      <DataCaption>1.5만km 당</DataCaption>
-                    </DataInfo>
-                  </Data>
-                </DataList>
-              </HmgDataSection>
-            </InfoWrapper>
-            <ToastPopup
-              $offsetY={winY}
-              $isBannerVisible={isBannerVisible}
-              onClick={handleBannerVisibility}
-            >
-              {isBannerVisible ? '이미지 접기' : '이미지 확인'}
-            </ToastPopup>
-          </Container>
-          <ImgSection />
-        </ContainerWrapper>
-      </OptionBanner>
-    </Wrapper>
+    setBannerInfo({
+      categoryName: target.categoryName,
+      hmgData: target.hmgData,
+      optionDescription: target.optionDescription,
+      optionImage: target.optionImage,
+      optionName: target.optionName,
+      package: target.package,
+      subOptionList: target.subOptionList,
+    });
+  }, [optionDetail]);
+
+  return (
+    <>
+      {optionDetail && !optionDetailLoading && (
+        <Wrapper $isBannerVisible={isBannerVisible}>
+          <OptionBanner subtitle={bannerInfo.categoryName} title={optionDetail.optionName}>
+            <ContainerWrapper>
+              <Container>
+                <InfoWrapper>
+                  {optionDetail.package && (
+                    <OptionTab
+                      options={optionDetail.subOptionList!}
+                      setBannerInfo={setBannerInfo}
+                    />
+                  )}
+                  {bannerInfo.optionDescription && (
+                    <Description>
+                      <AdditionalText>{bannerInfo.optionDescription}</AdditionalText>
+                      <HoverCaption>{bannerInfo.optionDescription}</HoverCaption>
+                    </Description>
+                  )}
+
+                  {bannerInfo.hmgData && (
+                    <HmgDataSection>
+                      <HmgTag size="small" />
+                      <DataList>
+                        {bannerInfo.hmgData.overHalf !== null && (
+                          <Data>
+                            <DataTitle>
+                              {bannerInfo.hmgData.overHalf
+                                ? '구매자의 절반 이상이 선택했어요.'
+                                : '구매자가 이 옵션을 이만큼 선택했어요.'}
+                            </DataTitle>
+                            <DataInfo>
+                              {Number(bannerInfo.hmgData.optionBoughtCount).toLocaleString()}개
+                              <DataCaption>최근 90일 동안</DataCaption>
+                            </DataInfo>
+                          </Data>
+                        )}
+                        {bannerInfo.hmgData.optionUsedCount !== null && (
+                          <Data>
+                            <DataTitle>주행 중 실제로 이만큼 사용해요.</DataTitle>
+                            <DataInfo>
+                              {bannerInfo.hmgData.optionUsedCount}번
+                              <DataCaption>1.5만km 당</DataCaption>
+                            </DataInfo>
+                          </Data>
+                        )}
+                      </DataList>
+                    </HmgDataSection>
+                  )}
+                </InfoWrapper>
+
+                <ToastPopup
+                  $offsetY={winY}
+                  $isBannerVisible={isBannerVisible}
+                  onClick={handleBannerVisibility}
+                >
+                  {isBannerVisible ? '이미지 접기' : '이미지 확인'}
+                </ToastPopup>
+              </Container>
+              {bannerInfo.optionImage ? (
+                <ImgSection src={`${IMG_URL}${bannerInfo.optionImage}`} />
+              ) : (
+                <ImgSection src={`${IMG_URL}${optionDetail.optionImage}`} />
+              )}
+            </ContainerWrapper>
+          </OptionBanner>
+        </Wrapper>
+      )}
+    </>
   );
 }
+const HoverCaption = styled.div`
+  display: none;
+  white-space: pre-wrap;
+  position: absolute;
+  padding: 4px 12px;
+  border-radius: 10px;
+  top: 120%;
+  color: ${({ theme }) => theme.color.gray50};
+  opacity: 90%;
+  background-color: ${({ theme }) => theme.color.gray900};
+  ${BodyKrRegular4}
 
+  &:after {
+    content: '';
+    position: absolute;
+    left: 10%;
+    bottom: 100%;
+    width: 0;
+    height: 0;
+    margin-left: -10px;
+    border: solid transparent;
+    border-bottom-color: ${({ theme }) => theme.color.gray900};
+    border-width: 3px;
+  }
+`;
 const Wrapper = styled.div<{ $isBannerVisible: boolean }>`
   z-index: 5;
   position: sticky;
   top: ${({ $isBannerVisible }) => ($isBannerVisible ? '60' : '-150')}px;
   transition: top 0.3s ease;
-
   left: 0;
 `;
 
@@ -114,8 +194,10 @@ const ContainerWrapper = styled(CenterWrapper)`
   display: flex;
   justify-content: flex-end;
   width: 1280px;
+  height: 100%;
 `;
 const OptionBanner = styled(Banner)`
+  height: 360px;
   background: ${({ theme }) => theme.color.blueBg};
 `;
 
@@ -124,23 +206,35 @@ const Container = styled(CenterWrapper)`
   height: 100%;
 `;
 
-const AdditionalText = styled.p`
+const Description = styled.div`
+  position: relative;
+
+  &:hover {
+    ${HoverCaption} {
+      display: block;
+    }
+  }
+`;
+
+const AdditionalText = styled.div`
+  text-overflow: ellipsis;
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  white-space: pre-wrap;
+  word-break: keep-all;
   width: 456px;
   color: ${({ theme }) => theme.color.gray800};
   ${BodyKrRegular4}
-  span {
-    padding-left: 10px;
-    text-decoration: underline;
-    ${BodyKrMedium4}
-    cursor:pointer;
-  }
 `;
 
 const InfoWrapper = styled.div`
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
-  padding-top: 120px;
+  position: absolute;
+  top: 140px;
 `;
 
 const ToastPopup = styled.button<{ $offsetY: number; $isBannerVisible: boolean }>`
@@ -148,7 +242,7 @@ const ToastPopup = styled.button<{ $offsetY: number; $isBannerVisible: boolean }
   height: 100%;
   position: absolute;
   left: 50%;
-  bottom: 18px;
+  bottom: 50px;
   transform: translate(-50%, 50%);
   z-index: 10;
   width: 76px;
@@ -170,20 +264,13 @@ const DataList = styled.ul`
   width: 448px;
   margin-top: 16px;
   align-items: center;
+  gap: 24px;
 `;
 const Data = styled.li`
   width: 100%;
-
   height: 67px;
   display: flex;
   flex-direction: column;
-  &:first-child {
-    padding-right: 24px;
-  }
-
-  &:last-child {
-    padding-left: 24px;
-  }
 `;
 
 const DataTitle = styled.div`
@@ -203,13 +290,8 @@ const DataCaption = styled.div`
   color: ${({ theme }) => theme.color.gray600};
 `;
 
-const ImgSection = styled.div`
+const ImgSection = styled.img`
   position: absolute;
   width: 632px;
   height: 360px;
-  background-image: url('/images/extra_option/roa.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
-  background-color: rgba(211, 211, 211, 0.5);
 `;

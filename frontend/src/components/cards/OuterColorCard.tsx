@@ -4,8 +4,9 @@ import { flexCenterCss } from '../../utils/commonStyle';
 import DefaultCardStyle from '../common/card/DefaultCardStyle';
 import { HTMLAttributes } from 'react';
 import { CheckIcon } from '../common/icons/Icons';
+import { IMG_URL } from '../../utils/apis';
 
-interface IExteriorCard extends HTMLAttributes<HTMLDivElement> {
+interface IOuterColorCard extends HTMLAttributes<HTMLDivElement> {
   active: boolean;
   color: string;
   desc: string;
@@ -13,24 +14,28 @@ interface IExteriorCard extends HTMLAttributes<HTMLDivElement> {
   price: number;
 }
 
-export default function ExteriorCard({
+export default function OuterColorCard({
   active,
   color,
   desc,
   name,
   price,
   ...props
-}: IExteriorCard) {
+}: IOuterColorCard) {
   return (
     <Card active={active} {...props}>
       <ColorWrapper>
-        <ColorImg $color={color}></ColorImg>
+        <ColorBorder $active={active}>
+          <ColorImg $src={`${IMG_URL}${color}`}></ColorImg>
+        </ColorBorder>
       </ColorWrapper>
       <DescWrapper>
-        <ColorDesc>{desc}</ColorDesc>
+        <ColorDesc>
+          <PointText $active={active}>{desc}%</PointText>가 선택했어요.
+        </ColorDesc>
         <ColorName>{name}</ColorName>
         <Row>
-          <ColorPrice>+ {price}원</ColorPrice>
+          <ColorPrice>+ {price.toLocaleString()} 원</ColorPrice>
           <CheckIcon active={active} />
         </Row>
       </DescWrapper>
@@ -41,27 +46,35 @@ export default function ExteriorCard({
 const Card = styled(DefaultCardStyle)`
   display: flex;
   align-items: center;
-  width: 100%;
+  width: 256px;
   height: 110px;
 `;
-
-const ColorImg = styled.div<{ $color: string }>`
+const ColorImg = styled.div<{ $src: string }>`
   width: 46px;
   height: 46px;
   border-radius: 50%;
-  background-color: ${({ $color }) => $color};
+  background-image: url(${({ $src }) => $src});
+  background-position: center;
+  background-size: cover;
 `;
 const ColorWrapper = styled.div`
   ${flexCenterCss}
-  border-radius: 50%;
+  flex-grow: 1;
+`;
+
+const ColorBorder = styled.div<{ $active: boolean }>`
+  ${flexCenterCss}
   width: 58px;
   height: 58px;
-  border: 1px solid ${({ theme }) => theme.color.gray50};
-  margin-left: 12px;
+  border-radius: 50%;
+  border: 1px solid ${({ theme, $active }) => ($active ? theme.color.gray900 : theme.color.gray200)};
 `;
 
 const ColorDesc = styled.div`
   ${BodyKrMedium4}
+`;
+const PointText = styled.span<{ $active: boolean }>`
+  color: ${({ $active, theme }) => $active && theme.color.activeBlue};
 `;
 const ColorName = styled.div`
   ${BodyKrMedium3}
@@ -72,8 +85,8 @@ const ColorPrice = styled.div`
 `;
 const DescWrapper = styled.div`
   padding: 14px 16px;
-  width: 100%;
   height: 100%;
+  flex-grow: 2;
 `;
 const Row = styled.div`
   display: flex;

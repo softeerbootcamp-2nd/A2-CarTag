@@ -18,6 +18,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+
 @Service
 @RequiredArgsConstructor
 public class ColorService {
@@ -35,7 +36,7 @@ public class ColorService {
         String value = images.get();
         IntStream.rangeClosed(1, 60)
                 .forEach(i -> {
-                    outerColorCarImages.add(value.substring(0, value.indexOf("*")) + i + value.substring(value.indexOf("*") + 1, value.length()));
+                    outerColorCarImages.add(changeUrl(value, i));
                 });
         return outerColorCarImages;
     }
@@ -47,7 +48,8 @@ public class ColorService {
         }
         Optional<Long> totalCount = carRepository.findCarBoughtCountByCarId(carId);
         return outerColors.stream()
-                .map(outerColorDto -> OuterColorPercentDto.toPercent(outerColorDto, getPercent(totalCount, outerColorDto.getColorBoughtCount())))
+                .map(outerColorDto -> OuterColorPercentDto.toPercent(outerColorDto, getPercent(totalCount,
+                        outerColorDto.getColorBoughtCount()), changeUrl(outerColorDto.getColorCarImage(), 1)))
                 .collect(Collectors.toList());
     }
 
@@ -67,5 +69,9 @@ public class ColorService {
             return 0;
         }
         return boughtCount.intValue() * 100 / count.get().intValue();
+    }
+
+    public String changeUrl(String value, int index) {
+        return value.substring(0, value.indexOf("*")) + index + value.substring(value.indexOf("*") + 1, value.length());
     }
 }

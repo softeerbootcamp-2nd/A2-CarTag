@@ -1,5 +1,6 @@
 import { styled } from 'styled-components';
 import { BodyKrRegular3 } from '../../styles/typefaces';
+import { IMG_URL } from '../../utils/apis';
 
 export interface ISummaryItem {
   imgSrc: string;
@@ -11,7 +12,7 @@ export interface ISummaryItem {
 export default function SummaryItem({ imgSrc, itemName, selectedName, price }: ISummaryItem) {
   return (
     <Item>
-      <Img src={imgSrc} alt="" />
+      <Img src={IMG_URL + imgSrc} alt="" />
       <InfoWrapper>
         <LeftInfo>
           <ItemName>{itemName}</ItemName>
@@ -19,7 +20,7 @@ export default function SummaryItem({ imgSrc, itemName, selectedName, price }: I
         </LeftInfo>
         <RightInfo>
           <ModifyButton>수정하기</ModifyButton>
-          <Price>+ {price}원</Price>
+          <Price>+ {price.toLocaleString()}원</Price>
         </RightInfo>
       </InfoWrapper>
     </Item>
@@ -28,6 +29,7 @@ export default function SummaryItem({ imgSrc, itemName, selectedName, price }: I
 
 const Item = styled.li`
   display: flex;
+  justify-content: space-between;
   padding: 8px 0;
   height: 71px;
   border-bottom: 1px solid ${({ theme }) => theme.color.gray100};
@@ -35,12 +37,12 @@ const Item = styled.li`
 const Img = styled.img`
   width: 77px;
   height: 55px;
+  object-fit: cover;
 `;
 const InfoWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-left: 16px;
-  width: 100%;
+  width: 510px;
   height: 100%;
   ${BodyKrRegular3}
 `;
@@ -62,5 +64,6 @@ const ItemName = styled.div`
 `;
 const ModifyButton = styled.button`
   color: ${({ theme }) => theme.color.primaryColor};
+  text-align: end;
 `;
 const SelectedName = styled.div``;

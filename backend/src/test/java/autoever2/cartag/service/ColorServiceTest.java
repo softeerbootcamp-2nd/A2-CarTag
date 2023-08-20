@@ -16,7 +16,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
-import javax.swing.text.html.Option;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -47,6 +46,7 @@ class ColorServiceTest {
                 .colorImage("color_image_1")
                 .colorPrice(100000L)
                 .colorBoughtCount(212312L)
+                .colorCarImage("car_image_*.jpg")
                 .build());
 
         outerColors.add(OuterColorDto.builder()
@@ -54,6 +54,7 @@ class ColorServiceTest {
                 .colorImage("color_image_2")
                 .colorPrice(100000L)
                 .colorBoughtCount(203L)
+                .colorCarImage("car_image_*.jpg")
                 .build());
 
         outerColors.add(OuterColorDto.builder()
@@ -61,6 +62,7 @@ class ColorServiceTest {
                 .colorImage("color_image_3")
                 .colorPrice(1234440L)
                 .colorBoughtCount(203L)
+                .colorCarImage("car_image_*.jpg")
                 .build());
 
         outerColors.add(OuterColorDto.builder()
@@ -68,6 +70,7 @@ class ColorServiceTest {
                 .colorImage("color_image_4")
                 .colorPrice(100000L)
                 .colorBoughtCount(203L)
+                .colorCarImage("car_image_*.jpg")
                 .build());
 
         outerColors.add(OuterColorDto.builder()
@@ -75,6 +78,7 @@ class ColorServiceTest {
                 .colorImage("color_image_5")
                 .colorPrice(100000L)
                 .colorBoughtCount(203L)
+                .colorCarImage("car_image_*.jpg")
                 .build());
 
         innerColors = new ArrayList<>();
@@ -118,7 +122,7 @@ class ColorServiceTest {
                 .colorCarImage("car_image_*.jpg")
                 .build());
 
-        for(int i=1;i<=60;i++) {
+        for (int i = 1; i <= 60; i++) {
             images.add("car_image_" + i + ".jpg");
         }
     }
@@ -150,6 +154,8 @@ class ColorServiceTest {
         assertEquals(60, imageFiles.size());
         assertEquals(2, result_inner.get(4).getColorBoughtPercent());
         assertEquals("어비스 블랙펄", result_outer.get(0).getColorName());
+        assertEquals(100000L, result_inner.get(0).getColorPrice());
+        assertEquals(2, result_inner.get(1).getColorBoughtPercent());
         assertThatThrownBy(() -> service.changeImageToImages(2)).isInstanceOf(EmptyDataException.class);
         assertThatThrownBy(() -> service.findInnerColorByCarId(2)).isInstanceOf(EmptyDataException.class);
         assertThatThrownBy(() -> service.findOuterColorByCarId(2)).isInstanceOf(EmptyDataException.class);

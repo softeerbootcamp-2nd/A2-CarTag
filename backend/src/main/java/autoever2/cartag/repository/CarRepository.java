@@ -1,6 +1,7 @@
 package autoever2.cartag.repository;
 
 import autoever2.cartag.domain.car.CarInfoDto;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -43,4 +44,9 @@ public class CarRepository {
 
         return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, (rs, rowNum) -> rs.getLong("bought_count"))));
     }
+
+
+
+
+
 }

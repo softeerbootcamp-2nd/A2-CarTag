@@ -7,7 +7,6 @@ export interface IHmgTag {
 }
 
 export default function HmgTag({ size = 'medium' }: IHmgTag) {
-  // Todo. ">" 를 svg 아이콘으로 바꾸기
   return <Wrapper $size={size}>HMG Data {size === 'large' ? '>' : null}</Wrapper>;
 }
 const Wrapper = styled.div<{ $size: sizeType }>`

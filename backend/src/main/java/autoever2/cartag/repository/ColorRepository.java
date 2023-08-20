@@ -23,7 +23,7 @@ public class ColorRepository {
     }
 
     public List<InnerColorDto> findInnerColorCarByCarId(int carId) {
-        String sql = "select color_name, color_image, color_price, color_bought_count, " +
+        String sql = "select c.color_id, color_name, color_image, color_price, color_bought_count, " +
                 "color_car_image from ColorCarMapper as cm inner join Color as c " +
                 "on cm.color_id = c.color_id where car_id = :carId and c.is_outer_color = 0";
 
@@ -34,7 +34,7 @@ public class ColorRepository {
     }
 
     public List<OuterColorDto> findOuterColorCarByCarId(int carId) {
-        String sql = "select c.color_id, color_name, color_image, color_price, color_bought_count " +
+        String sql = "select c.color_id, color_name, color_image, color_car_image, color_price, color_bought_count " +
                 "from ColorCarMapper as cm inner join Color as c " +
                 "on cm.color_id = c.color_id where car_id = :carId and c.is_outer_color = 1";
 
@@ -43,8 +43,9 @@ public class ColorRepository {
         return template.query(sql, param, OuterColorCarMapper());
     }
 
-    public Optional<String> findOuterColorImagesByColorId(int colorId){
-        String sql = "select color_car_image from ColorCarMapper where color_id = :colorId";
+    public Optional<String> findOuterColorImagesByColorId(int colorId) {
+        String sql = "select color_car_image from ColorCarMapper cm inner join Color as c " +
+                "on cm.color_id = c.color_id where c.color_id = :colorId and c.is_outer_color = 1";
         try {
             SqlParameterSource param = new MapSqlParameterSource()
                     .addValue("colorId", colorId);
@@ -52,7 +53,6 @@ public class ColorRepository {
         } catch (EmptyResultDataAccessException e) {
             return Optional.empty();
         }
-
     }
 
     private RowMapper<OuterColorDto> OuterColorCarMapper() {

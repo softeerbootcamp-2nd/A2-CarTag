@@ -4,9 +4,10 @@ import TrimSelectContainer from '../containers/TrimPage/TrimSelectContainer';
 import { useFetch } from '../hooks/useFetch';
 import { TRIM_API } from '../utils/apis';
 import { ICartype, TrimContext } from '../context/TrimProvider';
+import ErrorModal from '../components/modal/ErrorModal';
 
 export default function TrimPage() {
-  const { data, loading } = useFetch<ICartype[]>(`${TRIM_API}?carType=${1}`);
+  const { data, loading, error } = useFetch<ICartype[]>(`${TRIM_API}?cartype=${1}`);
   const { setData, setLoading } = useContext(TrimContext);
 
   useEffect(() => {
@@ -14,6 +15,9 @@ export default function TrimPage() {
     setLoading(loading);
   }, [data, loading, setData, setLoading]);
 
+  if (error) {
+    return <ErrorModal message={error.message} />;
+  }
   return (
     <>
       <TrimBannerContainer />

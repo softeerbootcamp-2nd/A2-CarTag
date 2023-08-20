@@ -8,12 +8,19 @@ import CloseModalProvider from './context/CloseModalProvider';
 import SimilarQuoteModalProvider from './context/SimilarQuoteModalProvider';
 import GuideModalProvider from './context/GuideModalProvider';
 import ItemProvider from './context/ItemProvider';
+import { useEffect } from 'react';
+import QuoteSummaryModalProvider from './context/QuoteSummaryModalProvider';
 
 function App() {
+  useEffect(() => {
+    localStorage.clear();
+  }, []);
+
   const globalProviders = [
     CloseModalProvider,
     SimilarQuoteModalProvider,
     GuideModalProvider,
+    QuoteSummaryModalProvider,
     ItemProvider,
   ];
   return (

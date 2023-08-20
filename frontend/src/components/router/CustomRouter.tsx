@@ -1,17 +1,24 @@
 import { useLocation } from 'react-router-dom';
-import ExteriorPage from '../../pages/ExteriorPage';
+import OuterColorPage from '../../pages/OuterColorPage';
 import AnimatePresence from '../pageAnimation/AnimationPresence';
 import PageAnimationWrapper from '../pageAnimation/PageAnimationWrapper';
 import OptionPage from '../../pages/OptionPage';
-import InteriorPage from '../../pages/InteriorPage';
+import InnerColorPage from '../../pages/InnerColorPage';
 import ResultPage from '../../pages/ResultPage';
 import TrimPage from '../../pages/TrimPage';
 import ModelTypePage from '../../pages/ModelTypePage';
 import { PATH } from '../../utils/constants';
 import TrimProvider from '../../context/TrimProvider';
 import ModelTypeProvider from '../../context/ModelTypeProvider';
+import OuterColorProvider from '../../context/OuterColorProvider';
+import SubOptionProvider from '../../context/SubOptionProvider';
+import DefaultOptionProvider from '../../context/DefaultOptionProvider';
+import Providers from '../contextProviders/Providers';
+import InnerColorProvider from '../../context/InnerColorProvider';
 
 export default function CustomRouter() {
+  const optionProviders = [SubOptionProvider, DefaultOptionProvider];
+
   const { pathname } = useLocation();
 
   return (
@@ -30,19 +37,25 @@ export default function CustomRouter() {
           </ModelTypeProvider>
         </PageAnimationWrapper>
       )}
-      {pathname === PATH.exterior && (
+      {pathname === PATH.outerColor && (
         <PageAnimationWrapper key={2}>
-          <ExteriorPage />
+          <OuterColorProvider>
+            <OuterColorPage />
+          </OuterColorProvider>
         </PageAnimationWrapper>
       )}
-      {pathname === PATH.interior && (
+      {pathname === PATH.innerColor && (
         <PageAnimationWrapper key={3}>
-          <InteriorPage />
+          <InnerColorProvider>
+            <InnerColorPage />
+          </InnerColorProvider>
         </PageAnimationWrapper>
       )}
       {pathname === PATH.option && (
         <PageAnimationWrapper key={4}>
-          <OptionPage />
+          <Providers contexts={optionProviders}>
+            <OptionPage />
+          </Providers>
         </PageAnimationWrapper>
       )}
       {pathname === PATH.result && (

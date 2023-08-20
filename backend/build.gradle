@@ -2,6 +2,7 @@ plugins {
 	id 'java'
 	id 'org.springframework.boot' version '2.7.14'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+	id 'jacoco'
 }
 
 group = 'autoever2'
@@ -24,8 +25,8 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-jdbc'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-    testImplementation 'junit:junit:4.13.1'
-    compileOnly 'org.projectlombok:lombok'
+    	testImplementation 'junit:junit:4.13.1'
+    	compileOnly 'org.projectlombok:lombok'
 	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
@@ -35,10 +36,31 @@ dependencies {
 
 }
 
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+jacoco {
+    toolVersion = '0.8.9'
+}
+
+jacocoTestReport {
+    dependsOn test
+    reports {
+        xml.required = true
+        html.required = true
+        csv.required = false
+    }
+}
+
+tasks.register('testCoverage', Test) {
+    group 'verification'
+    description 'Runs the tests with covarage (Create JaCoCo report)'
+
+    dependsOn test, jacocoTestReport
+    tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
+}
 jar {
     enabled = false
 }
 
-tasks.named('test') {
-	useJUnitPlatform()
-}

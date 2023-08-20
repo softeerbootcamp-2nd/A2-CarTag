@@ -5,9 +5,13 @@ import ModelSelectContainer from '../containers/ModelTypePage/ModelTypeSelectCon
 import { useFetch } from '../hooks/useFetch';
 import { MODEL_TYPE_API } from '../utils/apis';
 import { IModelType, ModelTypeContext } from '../context/ModelTypeProvider';
+import { CAR_TYPE } from '../utils/constants';
+import ErrorModal from '../components/modal/ErrorModal';
 
 export default function ModelTypePage() {
-  const { data, loading } = useFetch<IModelType[]>(`${MODEL_TYPE_API}/list?carid=${1}`);
+  const { data, loading, error } = useFetch<IModelType[]>(
+    `${MODEL_TYPE_API}/list?carid=${CAR_TYPE}`
+  );
   const { setModelType, setLoading } = useContext(ModelTypeContext);
 
   useEffect(() => {
@@ -15,6 +19,9 @@ export default function ModelTypePage() {
     setLoading(loading);
   }, [data, loading, setModelType, setLoading]);
 
+  if (error) {
+    <ErrorModal message={error.message} />;
+  }
   return (
     <>
       <ModelBannerContainer />
