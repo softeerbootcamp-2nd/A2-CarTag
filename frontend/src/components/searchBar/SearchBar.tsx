@@ -4,19 +4,52 @@ import { SearchIcon } from '../common/icons/Icons';
 
 interface SearchBarProps extends React.HTMLAttributes<HTMLInputElement> {
   value: string;
+  result: string[];
 }
-export default function SearchBar({ value, ...props }: SearchBarProps) {
+export default function SearchBar({ value, result, ...props }: SearchBarProps) {
+  const displayData = result.map((res) => <AutoSearchData>{res}</AutoSearchData>);
   return (
     <Wrapper>
       <Input value={value} {...props} />
       <Button>
         <SearchIcon width={18} height={18} />
       </Button>
+
+      <AutoSearchContainer $visible={result.length > 0}>
+        <AutoSearchWrapper>{displayData}</AutoSearchWrapper>
+      </AutoSearchContainer>
     </Wrapper>
   );
 }
+const AutoSearchContainer = styled.div<{ $visible: boolean }>`
+  ${BodyKrRegular4}
+  z-index: 5;
+  width: 400px;
+  height: 204px;
+  overflow-y: scroll;
+  top: 31px;
+  left: -1px;
+  position: absolute;
+  border: 1px solid ${({ theme }) => theme.color.gray200};
+  border-top: none;
+  color: ${({ theme }) => theme.color.gray900};
+  background-color: ${({ theme }) => theme.color.gray50};
+  display: ${({ $visible }) => ($visible ? 'block' : 'none')};
+`;
 
+const AutoSearchWrapper = styled.ul``;
+
+const AutoSearchData = styled.li`
+  padding: 8px 16px;
+  width: 100%;
+  &:hover {
+    background-color: ${({ theme }) => theme.color.activeBlue2};
+    color: ${({ theme }) => theme.color.white};
+    cursor: pointer;
+  }
+`;
 const Wrapper = styled.div`
+  position: relative;
   display: flex;
   width: 400px;
   height: 32px;
@@ -31,7 +64,6 @@ const Input = styled.input.attrs(({ value }) => ({
   width: 100%;
   height: 100%;
   border: none;
-  box-sizing: border-box;
   outline: none;
   color: ${({ theme }) => theme.color.gray900};
 
@@ -43,6 +75,7 @@ const Input = styled.input.attrs(({ value }) => ({
     color: ${({ theme }) => theme.color.gray600};
   }
 `;
+
 const Button = styled.button`
   width: 67px;
   height: 100%;

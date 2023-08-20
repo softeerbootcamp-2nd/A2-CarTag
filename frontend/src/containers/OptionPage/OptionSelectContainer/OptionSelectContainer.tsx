@@ -20,6 +20,7 @@ export default function OptionSelectContainer({
   handleTabItemClick,
 }: IOptionSelectContainer) {
   const [query, setQuery] = useState<string>('');
+  const [result, setResult] = useState<string[]>([]);
   const handleInputChange = (query: string) => {
     setQuery(query);
   };
@@ -38,6 +39,7 @@ export default function OptionSelectContainer({
         {isDefault ? (
           <SearchBar
             value={query}
+            result={result}
             onChange={(e) => {
               handleInputChange(e.currentTarget.value);
             }}
@@ -46,6 +48,7 @@ export default function OptionSelectContainer({
         ) : (
           <SearchBar
             value={query}
+            result={result}
             onChange={(e) => {
               handleInputChange(e.currentTarget.value);
             }}
@@ -57,7 +60,7 @@ export default function OptionSelectContainer({
       {isDefault ? (
         <DefaultOptionContainer />
       ) : (
-        <SubOptionContainer query={query} setQuery={setQuery} />
+        <SubOptionContainer query={query} setQuery={setQuery} setResult={setResult} />
       )}
     </Wrapper>
   );

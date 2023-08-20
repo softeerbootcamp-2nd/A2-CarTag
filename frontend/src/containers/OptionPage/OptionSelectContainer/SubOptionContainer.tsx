@@ -17,11 +17,14 @@ import { ItemContext } from '../../../context/ItemProvider';
 interface ISubOptionContainer {
   query: string;
   setQuery: Dispatch<React.SetStateAction<string>>;
+  setResult: Dispatch<React.SetStateAction<string[]>>;
 }
 
-export default function SubOptionContainer({ query, setQuery }: ISubOptionContainer) {
+export default function SubOptionContainer({ query, setQuery, setResult }: ISubOptionContainer) {
   const [filteredByCategory, setFilteredByCategory] = useState<ISubOption[]>([]);
   const [displayData, setDisplayData] = useState<ISubOption[]>([]);
+  const setResultCallback = useCallback(setResult, [setResult]);
+
   const handleSearch = useCallback(
     (query: string) => {
       const filteredResults = filteredByCategory.filter((option) => {
@@ -35,16 +38,17 @@ export default function SubOptionContainer({ query, setQuery }: ISubOptionContai
           category.includes(query)
         );
       });
+
       setDisplayData(filteredResults);
+      setResultCallback(filteredResults.map((option) => option.optionName));
     },
-    [filteredByCategory]
+    [filteredByCategory, setResultCallback]
   );
 
   const [currentCategory, setCurrentCategory] = useState('전체');
   const { subOption, setCurrentOptionIdx } = useContext(SubOptionContext);
   const { selectedItem, setTotalPrice, setSelectedItem } = useContext(ItemContext);
   const setQueryCallback = useCallback(setQuery, [setQuery]);
-
   const groupByCategoryName = (array: ISubOption[] | null) => {
     if (!array) return;
 
@@ -92,10 +96,18 @@ export default function SubOptionContainer({ query, setQuery }: ISubOptionContai
 
   useEffect(() => {
     if (!filteredByCategory || !query) {
+      setDisplayData(filteredByCategory);
+
       return;
     }
-    handleSearch(query);
-  }, [query, filteredByCategory, handleSearch]);
+
+    const debounce = setTimeout(() => {
+      if (query) handleSearch(query);
+    }, 200); //TODO 시간 constants로 빼기
+    return () => {
+      clearTimeout(debounce);
+    };
+  }, [query, filteredByCategory, handleSearch, setResult]);
 
   useEffect(() => {
     if (!subOption || !groupedData.current) return;
