@@ -1,14 +1,53 @@
-import { useCallback, useContext, useLayoutEffect, useState } from 'react';
+import { Dispatch, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
 import { ISubOption, SubOptionContext } from '../../../context/SubOptionProvider';
 import HmgTag from '../../../components/common/hmgTag/HmgTag';
 import { ItemContext } from '../../../context/ItemProvider';
-export default function SubOptionContainer() {
+
+interface ISubOptionContainer {
+  query: string | null;
+  setQuery: Dispatch<React.SetStateAction<string | null>>;
+}
+
+export default function SubOptionContainer({ query, setQuery }: ISubOptionContainer) {
+  const [filteredByCategory, setFilteredByCategory] = useState<ISubOption[]>([]);
+  const [displayData, setDisplayData] = useState<ISubOption[]>([]);
+  const handleSearch = useCallback(
+    (query: string) => {
+      const filteredResults = filteredByCategory.filter((option) => {
+        const optionName = option.optionName;
+        const category = option.optionCategoryName;
+        const hashtags = option.hashtagName;
+
+        return (
+          optionName.includes(query) ||
+          hashtags.some((tag) => tag.includes(query)) ||
+          category.includes(query)
+        );
+      });
+      setDisplayData(filteredResults);
+    },
+    [filteredByCategory]
+  );
+
   const [currentCategory, setCurrentCategory] = useState('전체');
   const { subOption, setCurrentOptionIdx } = useContext(SubOptionContext);
   const { selectedItem, setTotalPrice, setSelectedItem } = useContext(ItemContext);
+  const groupByCategoryName = (array: ISubOption[] | null) => {
+    if (!array) return;
+
+    return array.reduce((acc: Record<string, ISubOption[]>, current: ISubOption) => {
+      const optionCategoryName = current.optionCategoryName;
+      if (!acc[optionCategoryName]) {
+        acc[optionCategoryName] = [];
+      }
+      acc[optionCategoryName].push(current);
+      return acc;
+    }, {});
+  };
+  const groupedData = groupByCategoryName(subOption);
   const handleSelectOption = useCallback(
     (option: ISubOption) => {
       if (!subOption) return;
@@ -36,6 +75,24 @@ export default function SubOptionContainer() {
     },
     [subOption, selectedItem, setSelectedItem, setTotalPrice]
   );
+  useEffect(() => {
+    if (!displayData || !query) {
+      return;
+    }
+    handleSearch(query);
+  }, [query, displayData, handleSearch]);
+
+  useEffect(() => {
+    setDisplayData(filteredByCategory);
+  }, [filteredByCategory]);
+  const setQueryCallback = useCallback(setQuery, [setQuery]);
+  useEffect(() => {
+    if (!subOption || !groupedData) return;
+    const filteredByCategory =
+      currentCategory === '전체' ? subOption : groupedData![currentCategory];
+    setFilteredByCategory(filteredByCategory);
+    setQueryCallback(null);
+  }, [subOption, currentCategory, setQueryCallback, groupedData]);
 
   useLayoutEffect(() => {
     handleSelectOption;
@@ -47,21 +104,7 @@ export default function SubOptionContainer() {
   const handleCardClick = (index: number) => {
     setCurrentOptionIdx(index);
   };
-
-  if (!subOption) return;
-  const groupByCategoryName = (array: ISubOption[]) => {
-    return array.reduce((acc: Record<string, ISubOption[]>, current: ISubOption) => {
-      const optionCategoryName = current.optionCategoryName;
-      if (!acc[optionCategoryName]) {
-        acc[optionCategoryName] = [];
-      }
-      acc[optionCategoryName].push(current);
-      return acc;
-    }, {});
-  };
-
-  const groupedData = groupByCategoryName(subOption);
-
+  if (!groupedData) return;
   const displayCategory = Object.keys(groupedData).map((key) => (
     <RoundButton
       key={key}
@@ -72,8 +115,8 @@ export default function SubOptionContainer() {
       {key}
     </RoundButton>
   ));
-  const filteredByCategory = currentCategory === '전체' ? subOption : groupedData[currentCategory];
-  const displayData = filteredByCategory.map((option, idx) => (
+
+  const displayOptionList = displayData.map((option, idx) => (
     <CardWrapper key={idx}>
       <OptionCard
         onClick={() => handleCardClick(option.subOptionId)}
@@ -109,7 +152,7 @@ export default function SubOptionContainer() {
             {displayCategory}
           </CategoryWrapper>
           <OptionSection>
-            <OptionWrapper>{displayData}</OptionWrapper>
+            <OptionWrapper>{displayOptionList}</OptionWrapper>
           </OptionSection>
         </>
       )}

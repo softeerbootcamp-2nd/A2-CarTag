@@ -2,11 +2,13 @@ import { styled } from 'styled-components';
 import { BodyKrRegular4 } from '../../styles/typefaces';
 import { SearchIcon } from '../common/icons/Icons';
 
-interface SearchBarProps extends React.HTMLAttributes<HTMLInputElement> {}
-export default function SearchBar({ ...props }: SearchBarProps) {
+interface SearchBarProps extends React.HTMLAttributes<HTMLInputElement> {
+  value: string | null;
+}
+export default function SearchBar({ value, ...props }: SearchBarProps) {
   return (
     <Wrapper>
-      <Input {...props} />
+      <Input value={value || ''} {...props} />
       <Button>
         <SearchIcon width={18} height={18} />
       </Button>
@@ -21,7 +23,9 @@ const Wrapper = styled.div`
   border: 1px solid ${({ theme }) => theme.color.gray200};
 `;
 
-const Input = styled.input`
+const Input = styled.input.attrs(({ value }) => ({
+  value: value,
+}))`
   padding: 4px 16px;
   ${BodyKrRegular4}
   width: 100%;
