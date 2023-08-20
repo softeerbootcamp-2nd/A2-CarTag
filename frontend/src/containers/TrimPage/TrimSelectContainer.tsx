@@ -7,7 +7,7 @@ import {
   HeadingKrMedium6,
   HeadingKrMedium7,
 } from '../../styles/typefaces';
-import { MESSAGE, PATH } from '../../utils/constants';
+import { PATH } from '../../utils/constants';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import DefaultCardStyle from '../../components/common/card/DefaultCardStyle';
 import RectButton from '../../components/common/buttons/RectButton';
@@ -15,46 +15,32 @@ import { TrimContext } from '../../context/TrimProvider';
 import { ItemContext } from '../../context/ItemProvider';
 
 export default function TrimSelectContainer() {
-  const {
-    selectedTrimIdx,
-    data: trimData,
-    loading,
-    setSelectedTrimIdx,
-    setSelectedImgIdx,
-  } = useContext(TrimContext);
-  const { setSelectedItem, setTotalPrice } = useContext(ItemContext);
-  const selectedTrim = trimData && trimData[selectedTrimIdx];
+  const { data: trimData, loading, setSelectedImgIdx } = useContext(TrimContext);
+  const { selectedItem, setSelectedItem, setTotalPrice } = useContext(ItemContext);
   const navigate = useNavigate();
 
   const handleSelectedIdx = (idx: number) => {
-    setSelectedTrimIdx(idx);
+    if (!trimData) return;
     setSelectedImgIdx(0);
-  };
-  const isAcitve = (idx: number) => selectedTrimIdx === idx;
-  const handleNextButtonClick = (idx: number) => {
-    if (!isAcitve(idx)) {
-      return;
-    }
-    if (!selectedTrim) {
-      alert(MESSAGE.trimSelectRequired);
-      return;
-    }
+    setTotalPrice(trimData[idx].carDefaultPrice);
     setSelectedItem({
       type: 'SET_TRIM',
       value: {
-        id: selectedTrim.carId,
-        name: selectedTrim.trim,
-        price: selectedTrim.carDefaultPrice,
+        id: trimData[idx].carId,
+        name: trimData[idx].trim,
+        price: trimData[idx].carDefaultPrice,
       },
     });
-    setTotalPrice(selectedTrim.carDefaultPrice);
+  };
+
+  const isAcitve = (idx: number) => selectedItem.trim.id - 1 === idx;
+  const handleNextButtonClick = (idx: number) => {
+    if (!isAcitve(idx)) return;
     navigate(PATH.modelType);
   };
 
   const displayTrimCards = () => {
-    if (!(selectedTrim && !loading)) {
-      return <></>;
-    }
+    if (!(trimData && !loading)) return <></>;
 
     const cardIndices = Array.from({ length: trimData.length }, (_, index) => index);
     return cardIndices.map((idx) => (

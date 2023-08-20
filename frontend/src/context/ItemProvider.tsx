@@ -63,7 +63,7 @@ interface IItemProvider {
 
 const initialSelectedItem = {
   trim: {
-    id: 0,
+    id: 1,
     name: '',
     price: 0,
   },
