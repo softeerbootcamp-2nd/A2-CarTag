@@ -9,6 +9,7 @@ public class CartagApplication {
 		SpringApplication.run(CartagApplication.class, args);
 		
 		
+		
 	}
 
 }
