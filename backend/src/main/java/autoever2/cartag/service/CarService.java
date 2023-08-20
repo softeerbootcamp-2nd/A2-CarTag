@@ -1,9 +1,6 @@
 package autoever2.cartag.service;
 
-import autoever2.cartag.domain.car.CarDefaultDto;
-import autoever2.cartag.domain.car.CarDefaultInfoDto;
-import autoever2.cartag.domain.car.CarDto;
-import autoever2.cartag.domain.car.CarInfoDto;
+import autoever2.cartag.domain.car.*;
 import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
 import autoever2.cartag.domain.model.ModelDefaultDto;
@@ -14,13 +11,14 @@ import autoever2.cartag.repository.ColorRepository;
 import autoever2.cartag.repository.ModelRepository;
 import autoever2.cartag.repository.OptionRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
+@Slf4j
 @RequiredArgsConstructor
 public class CarService {
 
@@ -45,11 +43,10 @@ public class CarService {
     }
 
     public CarDefaultDto findCarDefaultDtoByCarId(int carId) {
-        Optional<CarDefaultInfoDto> carDefaultDto = carRepository.findCarDefaultByCarId(carId);
         List<OuterColorDto> outerColorList = colorRepository.findOuterColorCarByCarId(carId);
         List<InnerColorDto> innerColorList = colorRepository.findInnerColorCarByCarId(carId);
         List<ModelDefaultDto> modelList = modelRepository.findModelDefaultDtoByCarId(carId);
-        if (carDefaultDto.isEmpty() || outerColorList.isEmpty() || innerColorList.isEmpty() || modelList.isEmpty()) {
+        if (outerColorList.isEmpty() || innerColorList.isEmpty() || modelList.isEmpty()) {
             throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
         }
         int colorId = outerColorList.get(0).getColorId();
@@ -60,7 +57,35 @@ public class CarService {
         String value = colorCarOuterImage.get();
         String outerImageUrl = value.substring(0, value.indexOf("*")) + 1 + value.substring(value.indexOf("*") + 1, value.length());
 
-        return CarDefaultDto.toDefault(carDefaultDto.get(), outerColorList.get(0), innerColorList.get(0), modelList, outerImageUrl);
+        return CarDefaultDto.toDefault(outerColorList.get(0), innerColorList.get(0), modelList, outerImageUrl);
     }
+
+    public List<BoughtCarDto> findAllBoughInfos() {
+        List<CarPriceDto> carPriceAndCount = carRepository.findCarPriceAndCount();
+
+        return carPriceAndCount.stream()
+                .map(carPriceDto -> {
+                    String optionList = carPriceDto.getOptionList();
+                    Long key = 0L;
+                    if (optionList.isEmpty()) {
+                        key = carPriceDto.getPrice() / 100000 * 100000;
+                    } else {
+                        String[] optionIdList = optionList.split(",");
+
+                        Long sum = Arrays.stream(optionIdList)
+                                .mapToLong(s -> optionRepository.findOptionPriceByOptionId(Integer.parseInt(s)).get())
+                                .sum();
+
+                        key = ((carPriceDto.getPrice() + sum) / 100000) * 1000000;
+                    }
+
+                    return Map.entry(key, 1);
+                })
+                .collect(Collectors.groupingByConcurrent(Map.Entry::getKey, Collectors.summingInt(Map.Entry::getValue)))
+                .entrySet().stream()
+                .map(entry -> BoughtCarDto.toBoughtCarDto(entry.getKey(), entry.getValue()))
+                .collect(Collectors.toList());
+    }
+
 
 }

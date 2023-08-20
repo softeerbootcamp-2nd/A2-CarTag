@@ -1,9 +1,7 @@
 package autoever2.cartag.repository;
 
-import autoever2.cartag.domain.car.CarDefaultDto;
-import autoever2.cartag.domain.car.CarDefaultInfoDto;
 import autoever2.cartag.domain.car.CarInfoDto;
-import org.springframework.dao.DataAccessException;
+import autoever2.cartag.domain.car.CarPriceDto;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -47,28 +45,22 @@ public class CarRepository {
         return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, (rs, rowNum) -> rs.getLong("bought_count"))));
     }
 
-    public Optional<CarDefaultInfoDto> findCarDefaultByCarId(int carId) {
-        String sql = "select car_type_name, trim, car_default_price " +
-                "from Car as c inner join CarType as ct " +
-                "on c.car_type_id = ct.car_type_id where c.car_id = :carId";
-        try {
-            SqlParameterSource param = new MapSqlParameterSource()
-                    .addValue("carId", carId);
-            return Optional.of(template.queryForObject(sql, param, carDefaultRowMapper()));
-        } catch (DataAccessException e) {
-            return Optional.empty();
-        }
+    public List<CarPriceDto> findCarPriceAndCount() {
+        String sql = "select SalesHistory.sold_options_id, (car_default_price + sum(model_price)) as sum from Model inner join HistoryModelMapper " +
+                "on Model.model_id = HistoryModelMapper.model_id inner join SalesHistory " +
+                "on SalesHistory.history_id = HistoryModelMapper.history_id inner join Car " +
+                "on Car.car_id = SalesHistory.car_id inner join SubOptionData " +
+                "on SubOptionData.car_id = Car.car_id group by SalesHistory.history_id";
+
+        return template.query(sql, CarPriceRowMapper());
     }
 
-    private RowMapper<CarDefaultInfoDto> carDefaultRowMapper(){
-        return (rs, rowNum) ->
-                CarDefaultInfoDto
-                        .builder()
-                        .carType(rs.getString("car_type_name"))
-                        .trim(rs.getString("trim"))
-                        .carDefaultPrice(rs.getInt("car_default_price"))
-                        .build();
+    private RowMapper<CarPriceDto> CarPriceRowMapper() {
+        return (rs, rowNum) -> CarPriceDto
+                .builder()
+                .optionList(rs.getString("SalesHistory.sold_options_id"))
+                .price(rs.getLong("sum"))
+                .build();
     }
-
 
 }

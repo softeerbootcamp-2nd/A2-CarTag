@@ -1,8 +1,8 @@
 package autoever2.cartag.repository;
 
-import autoever2.cartag.domain.car.CarDefaultInfoDto;
 import autoever2.cartag.domain.car.CarInfoDto;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -10,9 +10,8 @@ import org.springframework.test.context.jdbc.Sql;
 
 import javax.sql.DataSource;
 import java.util.List;
-import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @JdbcTest
 @ActiveProfiles("test")
@@ -46,16 +45,5 @@ class CarRepositoryTest {
         //then
         assertEquals(234L, boughtCount);
 
-    }
-
-    @Test
-    @DisplayName("차량의 기본 정보들을 반환합니다.")
-    void finDefaultInfos(){
-        CarDefaultInfoDto carDefaultInfoDto = carRepository.findCarDefaultByCarId(1).get();
-        assertEquals("Le Blanc", carDefaultInfoDto.getTrim());
-        assertEquals(40000000, carDefaultInfoDto.getCarDefaultPrice());
-
-        Optional<CarDefaultInfoDto> defaults = carRepository.findCarDefaultByCarId(5);
-        assertEquals(Optional.empty(), defaults);
     }
 }
