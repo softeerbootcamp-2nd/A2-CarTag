@@ -39,11 +39,11 @@ public class ModelService {
                                     .modelName(modelTypeMappedDto.getModelName())
                                     .modelTypeName(modelTypeMappedDto.getModelTypeName())
                                     .modelPrice(modelTypeMappedDto.getModelPrice())
+                                    .modelImage(modelTypeMappedDto.getModelImage())
                                     .percentage(percentage)
                                     .build();
                         }
                 )
-
                 .collect(Collectors.toList()));
 
         return result;
@@ -76,6 +76,7 @@ public class ModelService {
                     .modelPrice(data.getModelPrice())
                     .modelTypeName(data.getModelTypeName())
                     .percentage(percentage)
+                    .modelImage(data.getModelImage())
                     .build();
 
             if(finalPs <= 0 || finalKgfm <= 0) {
