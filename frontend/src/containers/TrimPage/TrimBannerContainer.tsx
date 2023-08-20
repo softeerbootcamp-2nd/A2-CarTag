@@ -193,6 +193,7 @@ const ImgWrapper = styled.div<{ $selected?: boolean }>`
           left: 50%;
           transform: translate(-50%, -50%);
           color: ${({ theme }) => theme.color.white};
+          pointer-events: none;
         }
       `;
     }
