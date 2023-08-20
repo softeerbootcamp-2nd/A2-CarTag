@@ -50,6 +50,7 @@ class ModelRepositoryTest {
                 .modelPrice(1480000L)
                 .maxPs("202/3800")
                 .maxKgfm("45.0/1750~2750")
+                .modelImage("/model/diesel2-2.jpg")
                 .build();
 
         ModelShortMappedDto sixthModel = ModelShortMappedDto.builder()
@@ -60,6 +61,7 @@ class ModelRepositoryTest {
                 .isDefaultModel(false)
                 .modelBoughtCount(1800L)
                 .modelPrice(0L)
+                .modelImage("/model/8seats.jpg")
                 .build();
 
         //when
