@@ -7,14 +7,15 @@ interface SearchBarProps extends React.HTMLAttributes<HTMLInputElement> {
   result: string[];
 }
 export default function SearchBar({ value, result, ...props }: SearchBarProps) {
-  const displayData = result.map((res) => <AutoSearchData>{res}</AutoSearchData>);
+  const displayData = result.map((res, index) => (
+    <AutoSearchData key={index}>{res}</AutoSearchData>
+  ));
   return (
     <Wrapper>
       <Input value={value} {...props} />
       <Button>
         <SearchIcon width={18} height={18} />
       </Button>
-
       <AutoSearchContainer $visible={result.length > 0}>
         <AutoSearchWrapper>{displayData}</AutoSearchWrapper>
       </AutoSearchContainer>
@@ -23,7 +24,7 @@ export default function SearchBar({ value, result, ...props }: SearchBarProps) {
 }
 const AutoSearchContainer = styled.div<{ $visible: boolean }>`
   ${BodyKrRegular4}
-  z-index: 5;
+  z-index: 1;
   width: 400px;
   height: 204px;
   overflow-y: scroll;

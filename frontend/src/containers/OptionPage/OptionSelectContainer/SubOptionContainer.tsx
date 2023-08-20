@@ -66,6 +66,13 @@ export default function SubOptionContainer({ query, setQuery, setResult }: ISubO
   const handleSelectOption = useCallback(
     (option: ISubOption) => {
       if (!subOption) return;
+      const existingWheelOptionIdx = selectedItem.options.findIndex((item) => item.title === '휠');
+      if (option.optionCategoryName === '휠' && existingWheelOptionIdx !== -1) {
+        setTotalPrice(
+          (prevTotalPrice) => prevTotalPrice - selectedItem.options[existingWheelOptionIdx].price
+        );
+        selectedItem.options.splice(existingWheelOptionIdx, 1);
+      }
       setSelectedItem({
         type: 'SET_OPTIONS',
         value: selectedItem.options.some((item) => item.id === option.subOptionId)
@@ -81,7 +88,6 @@ export default function SubOptionContainer({ query, setQuery, setResult }: ISubO
               },
             ],
       });
-
       setTotalPrice((prevTotalPrice) =>
         selectedItem.options.some((item) => item.id === option.subOptionId)
           ? prevTotalPrice - option.optionPrice
