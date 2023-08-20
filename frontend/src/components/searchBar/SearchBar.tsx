@@ -3,12 +3,12 @@ import { BodyKrRegular4 } from '../../styles/typefaces';
 import { SearchIcon } from '../common/icons/Icons';
 
 interface SearchBarProps extends React.HTMLAttributes<HTMLInputElement> {
-  value: string | null;
+  value: string;
 }
 export default function SearchBar({ value, ...props }: SearchBarProps) {
   return (
     <Wrapper>
-      <Input value={value || ''} {...props} />
+      <Input value={value} {...props} />
       <Button>
         <SearchIcon width={18} height={18} />
       </Button>

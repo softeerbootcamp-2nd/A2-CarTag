@@ -19,7 +19,7 @@ export default function OptionSelectContainer({
   isDefault,
   handleTabItemClick,
 }: IOptionSelectContainer) {
-  const [query, setQuery] = useState<string | null>('');
+  const [query, setQuery] = useState<string>('');
   const handleInputChange = (query: string) => {
     setQuery(query);
   };
@@ -39,7 +39,6 @@ export default function OptionSelectContainer({
           <SearchBar
             value={query}
             onChange={(e) => {
-              if (!e.currentTarget.value) return;
               handleInputChange(e.currentTarget.value);
             }}
             placeholder="옵션명, 카테고리로 검색해보세요."
@@ -48,7 +47,6 @@ export default function OptionSelectContainer({
           <SearchBar
             value={query}
             onChange={(e) => {
-              if (!e.currentTarget.value) return;
               handleInputChange(e.currentTarget.value);
             }}
             placeholder="옵션명, 해시태그, 카테고리로 검색해보세요."

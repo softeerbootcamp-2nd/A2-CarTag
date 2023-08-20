@@ -1,4 +1,12 @@
-import { Dispatch, useCallback, useContext, useEffect, useLayoutEffect, useState } from 'react';
+import {
+  Dispatch,
+  useCallback,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from 'react';
 import { styled } from 'styled-components';
 import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
@@ -7,8 +15,8 @@ import HmgTag from '../../../components/common/hmgTag/HmgTag';
 import { ItemContext } from '../../../context/ItemProvider';
 
 interface ISubOptionContainer {
-  query: string | null;
-  setQuery: Dispatch<React.SetStateAction<string | null>>;
+  query: string;
+  setQuery: Dispatch<React.SetStateAction<string>>;
 }
 
 export default function SubOptionContainer({ query, setQuery }: ISubOptionContainer) {
@@ -35,6 +43,8 @@ export default function SubOptionContainer({ query, setQuery }: ISubOptionContai
   const [currentCategory, setCurrentCategory] = useState('전체');
   const { subOption, setCurrentOptionIdx } = useContext(SubOptionContext);
   const { selectedItem, setTotalPrice, setSelectedItem } = useContext(ItemContext);
+  const setQueryCallback = useCallback(setQuery, [setQuery]);
+
   const groupByCategoryName = (array: ISubOption[] | null) => {
     if (!array) return;
 
@@ -47,7 +57,8 @@ export default function SubOptionContainer({ query, setQuery }: ISubOptionContai
       return acc;
     }, {});
   };
-  const groupedData = groupByCategoryName(subOption);
+  const groupedData = useRef(groupByCategoryName(subOption));
+
   const handleSelectOption = useCallback(
     (option: ISubOption) => {
       if (!subOption) return;
@@ -76,23 +87,23 @@ export default function SubOptionContainer({ query, setQuery }: ISubOptionContai
     [subOption, selectedItem, setSelectedItem, setTotalPrice]
   );
   useEffect(() => {
-    if (!displayData || !query) {
+    groupedData.current = groupByCategoryName(subOption);
+  }, [subOption]);
+
+  useEffect(() => {
+    if (!filteredByCategory || !query) {
       return;
     }
     handleSearch(query);
-  }, [query, displayData, handleSearch]);
+  }, [query, filteredByCategory, handleSearch]);
 
   useEffect(() => {
-    setDisplayData(filteredByCategory);
-  }, [filteredByCategory]);
-  const setQueryCallback = useCallback(setQuery, [setQuery]);
-  useEffect(() => {
-    if (!subOption || !groupedData) return;
-    const filteredByCategory =
-      currentCategory === '전체' ? subOption : groupedData![currentCategory];
-    setFilteredByCategory(filteredByCategory);
-    setQueryCallback(null);
-  }, [subOption, currentCategory, setQueryCallback, groupedData]);
+    if (!subOption || !groupedData.current) return;
+    const category = currentCategory === '전체' ? subOption : groupedData.current[currentCategory];
+    setQueryCallback('');
+    setFilteredByCategory(category);
+    setDisplayData(category);
+  }, [subOption, currentCategory, setQueryCallback]);
 
   useLayoutEffect(() => {
     handleSelectOption;
@@ -104,8 +115,8 @@ export default function SubOptionContainer({ query, setQuery }: ISubOptionContai
   const handleCardClick = (index: number) => {
     setCurrentOptionIdx(index);
   };
-  if (!groupedData) return;
-  const displayCategory = Object.keys(groupedData).map((key) => (
+  if (!groupedData.current) return;
+  const displayCategory = Object.keys(groupedData.current).map((key) => (
     <RoundButton
       key={key}
       type="option"
