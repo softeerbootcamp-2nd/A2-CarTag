@@ -12,7 +12,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
 @Service
-@PropertySource("classpath:application-test.yml")
 public class RecommendService {
 
     @Value("${python.url}")
