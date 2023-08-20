@@ -1,7 +1,5 @@
 package autoever2.cartag.repository;
 
-import autoever2.cartag.domain.car.CarDefaultDto;
-import autoever2.cartag.domain.car.CarDefaultInfoDto;
 import autoever2.cartag.domain.car.CarInfoDto;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
@@ -47,28 +45,8 @@ public class CarRepository {
         return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, (rs, rowNum) -> rs.getLong("bought_count"))));
     }
 
-    public Optional<CarDefaultInfoDto> findCarDefaultByCarId(int carId) {
-        String sql = "select car_type_name, trim, car_default_price " +
-                "from Car as c inner join CarType as ct " +
-                "on c.car_type_id = ct.car_type_id where c.car_id = :carId";
-        try {
-            SqlParameterSource param = new MapSqlParameterSource()
-                    .addValue("carId", carId);
-            return Optional.of(template.queryForObject(sql, param, carDefaultRowMapper()));
-        } catch (DataAccessException e) {
-            return Optional.empty();
-        }
-    }
 
-    private RowMapper<CarDefaultInfoDto> carDefaultRowMapper(){
-        return (rs, rowNum) ->
-                CarDefaultInfoDto
-                        .builder()
-                        .carType(rs.getString("car_type_name"))
-                        .trim(rs.getString("trim"))
-                        .carDefaultPrice(rs.getInt("car_default_price"))
-                        .build();
-    }
+
 
 
 }

@@ -39,7 +39,7 @@ public class ModelRepository {
     }
 
     public List<ModelDefaultDto> findModelDefaultDtoByCarId(int carId) {
-        String sql = "select model_name, model_price, model_image from ModelCarMapper as mcm " +
+        String sql = "select m.model_id, model_name, model_price, model_image from ModelCarMapper as mcm " +
                 "inner join Model as m on mcm.model_id = m.model_id where car_id = :carId and is_default_model = 1";
 
         SqlParameterSource param = new MapSqlParameterSource()
