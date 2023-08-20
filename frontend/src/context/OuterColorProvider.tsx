@@ -9,6 +9,7 @@ export interface IOuterColor {
   colorImage: string;
   colorPrice: number;
   colorBoughtPercent: number;
+  colorCarImage: string;
 }
 export interface ISelected {
   page: number;

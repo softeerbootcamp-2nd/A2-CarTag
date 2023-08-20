@@ -9,9 +9,9 @@ import { IOuterColor, OuterColorContext } from '../../context/OuterColorProvider
 import { ItemContext } from '../../context/ItemProvider';
 
 export default function OuterColorSelectContainer() {
+  const { selectedItem, totalPrice, setSelectedItem, setTotalPrice } = useContext(ItemContext);
   const { outerColorData } = useContext(OuterColorContext);
   const [cardPageList, setCardPageList] = useState<ReactNode[]>();
-  const { selectedItem, totalPrice, setSelectedItem, setTotalPrice } = useContext(ItemContext);
   const prevTotalPrice = useRef(totalPrice);
   const maxPage = outerColorData ? Math.floor(outerColorData.length / NUM_IN_A_PAGE) + 1 : 0;
 
@@ -24,7 +24,7 @@ export default function OuterColorSelectContainer() {
           id: selectedItem.colorId,
           name: selectedItem.colorName,
           imgSrc: selectedItem.colorImage,
-          carImgSrc: '',
+          carImgSrc: selectedItem.colorCarImage,
           price: selectedItem.colorPrice,
           title: '외장 색상',
         },

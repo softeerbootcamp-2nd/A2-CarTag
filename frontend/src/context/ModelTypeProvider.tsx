@@ -16,6 +16,7 @@ export interface IModelType {
   modelTypeName: string;
   modelPrice: number;
   percentage: number;
+  modelImage: string;
 }
 
 interface IModelTypeItem {

@@ -24,7 +24,7 @@ export default function ModelTypelSelectContainer() {
         title: '파워트레인',
         name: target.modelName,
         price: target.modelPrice,
-        imgSrc: '',
+        imgSrc: target.modelImage,
       },
     });
   };
@@ -40,7 +40,7 @@ export default function ModelTypelSelectContainer() {
         title: '바디타입',
         name: target.modelName,
         price: target.modelPrice,
-        imgSrc: '',
+        imgSrc: target.modelImage,
       },
     });
   };
@@ -55,7 +55,7 @@ export default function ModelTypelSelectContainer() {
         title: '구동방식',
         name: target.modelName,
         price: target.modelPrice,
-        imgSrc: '',
+        imgSrc: target.modelImage,
       },
     });
   };

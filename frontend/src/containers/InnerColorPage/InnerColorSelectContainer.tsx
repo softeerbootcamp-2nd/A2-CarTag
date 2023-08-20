@@ -9,41 +9,37 @@ import { IInnerColor, InnerColorContext } from '../../context/InnerColorProvider
 import { IMG_URL } from '../../utils/apis';
 import { ItemContext } from '../../context/ItemProvider';
 
-interface ISelected {
-  page: number;
-  idx: number;
-}
-
 export default function InnerColorSelectContainer() {
-  const { data: innerColorData, selectedIdx, setSelectedIdx } = useContext(InnerColorContext);
-  const { setSelectedItem, setTotalPrice, totalPrice } = useContext(ItemContext);
+  const { data: innerColorData } = useContext(InnerColorContext);
+  const { selectedItem, totalPrice, setSelectedItem, setTotalPrice } = useContext(ItemContext);
   const prevTotalPrice = useRef<number>(totalPrice);
   const [cardPageList, setCardPageList] = useState<ReactNode[]>();
   const maxPage = innerColorData ? Math.floor(innerColorData.length / NUM_IN_A_PAGE) + 1 : 0;
 
   const handleCardClick = useCallback(
-    ({ selectedItem, page, idx }: { selectedItem: IInnerColor; page: number; idx: number }) => {
-      setSelectedIdx({ page, idx });
+    (selectedItem: IInnerColor) => {
+      console.log(selectedItem);
       setSelectedItem({
         type: 'SET_INNER_COLOR',
         value: {
-          id: 0,
+          id: selectedItem.colorId,
+          title: '내장 색상',
           name: selectedItem.colorName,
           price: selectedItem.colorPrice,
-          title: '내장 색상',
           imgSrc: selectedItem.colorImage,
+          carImgSrc: selectedItem.colorCarImage,
         },
       });
       setTotalPrice(prevTotalPrice.current + selectedItem.colorPrice);
     },
-    [setSelectedIdx, setSelectedItem, setTotalPrice]
+    [setSelectedItem, setTotalPrice]
   );
   const isActive = useCallback(
-    ({ page, idx }: ISelected) => {
-      return page === selectedIdx.page && idx === selectedIdx.idx;
+    (id: number) => {
+      return selectedItem.innerColor.id === id;
     },
 
-    [selectedIdx]
+    [selectedItem]
   );
 
   const createCardList = useCallback(() => {
@@ -62,10 +58,8 @@ export default function InnerColorSelectContainer() {
           <InnerColorCard
             key={cardIdx}
             imgSrc={`${IMG_URL}${targetColor.colorImage}`}
-            active={isActive({ page: pageIdx, idx: cardIdx })}
-            onClick={() =>
-              handleCardClick({ selectedItem: targetColor, page: pageIdx, idx: cardIdx })
-            }
+            active={isActive(targetColor.colorId)}
+            onClick={() => handleCardClick(targetColor)}
             color={targetColor.colorImage}
             desc={targetColor.colorBoughtPercent.toString()}
             name={targetColor.colorName}
