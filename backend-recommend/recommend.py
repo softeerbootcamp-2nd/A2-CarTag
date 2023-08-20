@@ -6,6 +6,7 @@ import pymysql
 import time
 import os
 from dotenv import load_dotenv
+from flask import jsonify
 
 load_dotenv(verbose=True)
 
@@ -44,20 +45,25 @@ def recByApriori(body):
     df = pd.DataFrame(te_ary, columns=te.columns_)
     frequent_itemsets = fpgrowth(df, min_support=0.05, use_colnames=True)
 
-    result_itemsets = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.05) 
+    result_itemsets = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.3) 
     matching_itemsets = {}
-
-    consequent_results = set()
 
     for idx, row in result_itemsets.iterrows():
         confidence = row.confidence
+        antecedents = set(row.antecedents)
+        consequents = set(row.consequents)
 
-        if set(row.antecedents).issubset(input) and len(row.consequents) <= 2 and not set(row.antecedents).union(set(row.consequents)).issubset(input):
-            key = tuple(row.consequents)
+        if antecedents.issubset(input) and len(consequents) <= 2 and not antecedents.union(consequents).issubset(input):
+            key = tuple(consequents)
             if key not in matching_itemsets or confidence > matching_itemsets[key]:
                 matching_itemsets[key] = confidence
 
     sorted_items = sorted(matching_itemsets.items(), key=lambda x: x[1], reverse=True)
     top_items = sorted_items[:4]
-    top_consequents = [consequent for consequent, _ in top_items]
-    return top_consequents
+
+    response = []
+    for item in top_items:
+        consequent = item[0]
+        response.append({"salesOptions": ",".join(consequent)})
+
+    return jsonify(response)
