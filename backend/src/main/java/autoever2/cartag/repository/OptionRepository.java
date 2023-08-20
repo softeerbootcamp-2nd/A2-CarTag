@@ -3,6 +3,7 @@ package autoever2.cartag.repository;
 import autoever2.cartag.domain.car.TrimDefaultOptionDto;
 import autoever2.cartag.domain.option.OptionDetailMappedDto;
 import autoever2.cartag.domain.option.OptionShortMappedDto;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -117,5 +118,17 @@ public class OptionRepository {
                 .addValue("packageId", optionId);
 
         return template.query(sql, param, optionDetailRowMapper());
+    }
+
+    public Optional<Long> findOptionPriceByOptionId(int optionId) {
+        String sql = "select option_price from SubOptionData where option_id = :optionId";
+
+        try {
+            SqlParameterSource param = new MapSqlParameterSource()
+                    .addValue("optionId", optionId);
+            return Optional.of(template.queryForObject(sql, param, Long.class));
+        } catch (DataAccessException e) {
+            return Optional.empty();
+        }
     }
 }
