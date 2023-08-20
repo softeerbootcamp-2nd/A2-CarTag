@@ -11,7 +11,7 @@ public class OpenApiConfig {
     public OpenAPI openAPI() {
         Info info = new Info()
                 .version("v1.0.0")
-                .title("API 타이틀")
+                .title("A2-CARTAG API 명세서")
                 .description("API Description");
 
         return new OpenAPI()

@@ -31,6 +31,7 @@ dependencies {
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation group: 'com.h2database', name: 'h2', version: '2.2.220'
 	implementation 'org.springdoc:springdoc-openapi-ui:1.6.9'
+	implementation group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 
 }
 
