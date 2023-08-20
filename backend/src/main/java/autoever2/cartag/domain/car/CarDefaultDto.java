@@ -40,6 +40,8 @@ public class CarDefaultDto {
     @Schema(description = "기본 operation의 가격")
     private Long operationPrice;
 
+    @Schema(description = "외장색상의 id")
+    private int colorOuterId;
     @Schema(description = "기본 외장색상 이미지 url")
     private String colorOuterImage;
     @Schema(description = "기본 외장색상이 적용된 차량 url")
@@ -48,6 +50,8 @@ public class CarDefaultDto {
     private Long colorOuterPrice;
     @Schema(description = "기본 외장색상 이름")
     private String colorOuterImageName;
+    @Schema(description = "내장색상의 id")
+    private int colorInnerId;
     @Schema(description = "기본 내장색상 이미지 url")
     private String colorInnerImage;
     @Schema(description = "기본 내장색상이 적용된 차량 url")
@@ -71,10 +75,12 @@ public class CarDefaultDto {
                 .operationName(modelDefaultDto.get(2).getModelName())
                 .operationImage(modelDefaultDto.get(2).getModelImage())
                 .operationPrice(modelDefaultDto.get(2).getModelPrice())
+                .colorOuterId(outerColorDto.getColorId())
                 .colorOuterImage(outerColorDto.getColorImage())
                 .colorCarOuterImage(colorCarOuterImage)
                 .colorOuterPrice(outerColorDto.getColorPrice())
                 .colorOuterImageName(outerColorDto.getColorName())
+                .colorInnerId(innerColorDto.getColorId())
                 .colorInnerImage(innerColorDto.getColorImage())
                 .colorCarInnerImage(innerColorDto.getColorCarImage())
                 .colorInnerPrice(innerColorDto.getColorPrice())
