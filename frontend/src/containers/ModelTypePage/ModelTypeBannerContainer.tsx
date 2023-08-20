@@ -9,6 +9,7 @@ import PowerTrainData from '../../components/powerTrainData/PowerTrainData';
 import { IHmgData, ModelTypeContext } from '../../context/ModelTypeProvider';
 import { MODEL_TYPE_API, IMG_URL } from '../../utils/apis';
 import { modelTypeToEn } from '../../utils/constants';
+import ErrorModal from '../../components/modal/ErrorModal';
 
 interface IModelTypeDetail {
   modelImage: string;
@@ -20,10 +21,11 @@ interface IModelTypeDetail {
 export default function ModelTypePage() {
   const { modelType, currentModelTypeIdx, selectedModelType, setSelectedModelType } =
     useContext(ModelTypeContext);
-
-  const { data: modelTypeDetail, loading: modelTypDetailLoading } = useFetch<IModelTypeDetail>(
-    `${MODEL_TYPE_API}/detail?modelid=${currentModelTypeIdx}`
-  );
+  const {
+    data: modelTypeDetail,
+    loading: modelTypDetailLoading,
+    error: modelTypeDetailError,
+  } = useFetch<IModelTypeDetail>(`${MODEL_TYPE_API}/detail?modelid=${currentModelTypeIdx}`);
 
   const handleAddImgSrc = useCallback(() => {
     if (!modelType || !modelTypeDetail) return;
@@ -38,7 +40,8 @@ export default function ModelTypePage() {
     handleAddImgSrc();
   }, [handleAddImgSrc]);
 
-  if (!modelType || !modelTypeDetail) return;
+  if (modelTypeDetailError) return <ErrorModal message={modelTypeDetailError.message} />;
+  if (!modelType || (!modelTypeDetail && modelTypeDetailError)) return;
   const displaySeparator =
     modelType[currentModelTypeIdx - 1].hmgData?.maxPs &&
     modelType[currentModelTypeIdx - 1].hmgData?.maxKgfm;
