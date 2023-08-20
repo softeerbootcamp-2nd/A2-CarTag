@@ -28,4 +28,18 @@ public class OptionDetailMappedDto {
         this.optionUsedCount = optionUsedCount;
         this.optionBoughtCount = optionBoughtCount;
     }
+
+    public void setOptionUsedCount(Double value) {
+        this.optionUsedCount = value;
+        if(value == null || value == 0.0) {
+            optionUsedCount = null;
+        }
+    }
+
+    public void setOptionBoughtCount(Long value) {
+        this.optionBoughtCount = value;
+        if(value == 0.0) {
+            optionBoughtCount = null;
+        }
+    }
 }
