@@ -15,7 +15,9 @@ export const MESSAGE = {
   trimSelectRequired: '트림을 선택해 주세요.',
 };
 
-export const modelTypeToEn: { [key: string]: string } = {
+export const modelTypeToEn: {
+  [key: string]: 'powerTrain' | 'bodyType' | 'operation';
+} = {
   파워트레인: 'powerTrain',
   바디타입: 'bodyType',
   구동방식: 'operation',

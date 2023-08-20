@@ -1,122 +1,144 @@
-import { useCallback, useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import { HeadingKrMedium6, HeadingKrMedium7 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import ModelTypeCard from '../../components/cards/ModelTypeCard';
-import { IModelType, ModelTypeContext } from '../../context/ModelTypeProvider';
+import { ModelTypeContext } from '../../context/ModelTypeProvider';
 import { modelTypeToEn } from '../../utils/constants';
 import { ItemContext } from '../../context/ItemProvider';
 
 export default function ModelTypelSelectContainer() {
-  const { modelType, selectedModelType, setCurrentModelTypeIdx, setSelectedModelType } =
-    useContext(ModelTypeContext);
-  const { totalPrice, setTotalPrice, setSelectedItem } = useContext(ItemContext);
+  const { modelType, setCurrentModelTypeIdx } = useContext(ModelTypeContext);
+  const { totalPrice, selectedItem, setTotalPrice, setSelectedItem } = useContext(ItemContext);
   const prevTotalPrice = useRef(totalPrice);
+  const [modelTypePrice, setModelTypePrice] = useState(0);
 
-  const groupByModelTypeName = (array: IModelType[]) => {
-    return array.reduce((acc: Record<string, IModelType[]>, current: IModelType) => {
-      const modelTypeName = current.modelTypeName;
-      if (!acc[modelTypeName]) {
-        acc[modelTypeName] = [];
-      }
-      acc[modelTypeName].push(current);
-      return acc;
-    }, {});
-  };
-  const updateSelectedModelType = useCallback(
-    (target: IModelType) => {
-      const updatedType = {
-        id: target.modelId,
-        name: target.modelName,
-        title: target.modelTypeName,
-        imgSrc: '',
-        price: target.modelPrice,
-      };
-      const key = modelTypeToEn[target.modelTypeName];
-      selectedModelType[key] = updatedType;
-      setSelectedModelType(selectedModelType);
-    },
-    [selectedModelType, setSelectedModelType]
-  );
-
-  const initDefaultInfo = useCallback(() => {
-    if (!modelType) return 0;
-    const result = Object.values(selectedModelType).reduce((acc, current) => {
-      const target = modelType![current.id - 1];
-      updateSelectedModelType(target);
-      setSelectedModelType(selectedModelType);
-      return acc + modelType[current.id - 1].modelPrice;
-    }, 0);
-    return result;
-  }, [selectedModelType, modelType, setSelectedModelType, updateSelectedModelType]);
-  const handleSelectedModelType = (index: number) => {
+  const handleSelectedPowerTrain = (index: number) => {
     if (!modelType) return;
+    const target = modelType[index - 1];
     setCurrentModelTypeIdx(index);
-    const target = modelType![index - 1];
-    updateSelectedModelType(target);
-    setSelectedModelType(selectedModelType);
     setSelectedItem({
       type: 'SET_POWER_TRAIN',
-      value: selectedModelType['powerTrain'],
+      value: {
+        id: target.modelId,
+        title: '파워트레인',
+        name: target.modelName,
+        price: target.modelPrice,
+        imgSrc: '',
+      },
     });
-    setSelectedItem({
-      type: 'SET_OPERATION',
-      value: selectedModelType['operation'],
-    });
+  };
+  const handleSelectedBodyType = (index: number) => {
+    if (!modelType) return;
+    const target = modelType[index - 1];
+
+    setCurrentModelTypeIdx(index);
     setSelectedItem({
       type: 'SET_BODY_TYPE',
-      value: selectedModelType['bodyType'],
+      value: {
+        id: target.modelId,
+        title: '바디타입',
+        name: target.modelName,
+        price: target.modelPrice,
+        imgSrc: '',
+      },
     });
-    setTotalPrice(prevTotalPrice.current + target.modelPrice);
+  };
+  const handleSelectedOperation = (index: number) => {
+    if (!modelType) return;
+    const target = modelType[index - 1];
+    setCurrentModelTypeIdx(index);
+    setSelectedItem({
+      type: 'SET_OPERATION',
+      value: {
+        id: target.modelId,
+        title: '구동방식',
+        name: target.modelName,
+        price: target.modelPrice,
+        imgSrc: '',
+      },
+    });
   };
 
   useEffect(() => {
-    setTotalPrice(prevTotalPrice.current + initDefaultInfo());
-    setSelectedItem({
-      type: 'SET_POWER_TRAIN',
-      value: selectedModelType['powerTrain'],
-    });
-    setSelectedItem({
-      type: 'SET_OPERATION',
-      value: selectedModelType['operation'],
-    });
-    setSelectedItem({
-      type: 'SET_BODY_TYPE',
-      value: selectedModelType['bodyType'],
-    });
-  }, [modelType, initDefaultInfo, selectedModelType, setSelectedItem, setTotalPrice]);
+    setModelTypePrice(
+      selectedItem.modelType.powerTrain.price +
+        selectedItem.modelType.bodyType.price +
+        selectedItem.modelType.operation.price
+    );
+  }, [selectedItem]);
+
+  useEffect(() => {
+    setTotalPrice(prevTotalPrice.current + modelTypePrice);
+  }, [modelTypePrice, setTotalPrice]);
+
   if (!modelType) return;
 
-  const groupedData = groupByModelTypeName(modelType);
-
-  const drawModelType = Object.keys(groupedData).map((key, idx) => (
-    <TypeWrapper key={idx}>
-      <TypeTitle>{key}</TypeTitle>
-      <ModelTypeSection>
-        <ModelTypeCardWrapper>
-          {groupedData[key].map((el) => (
-            <ModelTypeCard
-              key={el.modelId}
-              onClick={() => {
-                handleSelectedModelType(el.modelId);
-              }}
-              active={selectedModelType[modelTypeToEn[el.modelTypeName]].id === el.modelId}
-              desc={el.percentage + '%의 선택'}
-              title={el.modelName}
-              price={el.modelPrice}
-            />
-          ))}
-        </ModelTypeCardWrapper>
-      </ModelTypeSection>
-    </TypeWrapper>
-  ));
+  const isActive = (modelType: string, id: number) => {
+    const seletedId = selectedItem.modelType[modelTypeToEn[modelType]].id;
+    return seletedId === id;
+  };
 
   return (
     <>
       {modelType && (
         <Wrapper>
           <Title>모델타입을 선택해주세요.</Title>
-          <TypeSection>{drawModelType}</TypeSection>
+          <TypeSection>
+            <TypeWrapper>
+              <TypeTitle>{modelType[0].modelTypeName}</TypeTitle>
+              <ModelTypeSection>
+                <ModelTypeCardWrapper>
+                  {[modelType[0], modelType[1]].map((powerTrain) => (
+                    <ModelTypeCard
+                      key={powerTrain.modelId}
+                      onClick={() => handleSelectedPowerTrain(powerTrain.modelId)}
+                      active={isActive(powerTrain.modelTypeName, powerTrain.modelId)}
+                      desc={powerTrain.percentage + '%의 선택'}
+                      title={powerTrain.modelName}
+                      price={powerTrain.modelPrice}
+                    />
+                  ))}
+                </ModelTypeCardWrapper>
+              </ModelTypeSection>
+            </TypeWrapper>
+
+            <TypeWrapper>
+              <TypeTitle>{modelType[2].modelTypeName}</TypeTitle>
+              <ModelTypeSection>
+                <ModelTypeCardWrapper>
+                  {[modelType[2], modelType[3]].map((bodyType) => (
+                    <ModelTypeCard
+                      key={bodyType.modelId}
+                      onClick={() => handleSelectedOperation(bodyType.modelId)}
+                      active={isActive(bodyType.modelTypeName, bodyType.modelId)}
+                      desc={bodyType.percentage + '%의 선택'}
+                      title={bodyType.modelName}
+                      price={bodyType.modelPrice}
+                    />
+                  ))}
+                </ModelTypeCardWrapper>
+              </ModelTypeSection>
+            </TypeWrapper>
+
+            <TypeWrapper>
+              <TypeTitle>{modelType[4].modelTypeName}</TypeTitle>
+              <ModelTypeSection>
+                <ModelTypeCardWrapper>
+                  {[modelType[4], modelType[5]].map((operation) => (
+                    <ModelTypeCard
+                      key={operation.modelId}
+                      onClick={() => handleSelectedBodyType(operation.modelId)}
+                      active={isActive(operation.modelTypeName, operation.modelId)}
+                      desc={operation.percentage + '%의 선택'}
+                      title={operation.modelName}
+                      price={operation.modelPrice}
+                    />
+                  ))}
+                </ModelTypeCardWrapper>
+              </ModelTypeSection>
+            </TypeWrapper>
+          </TypeSection>
         </Wrapper>
       )}
     </>

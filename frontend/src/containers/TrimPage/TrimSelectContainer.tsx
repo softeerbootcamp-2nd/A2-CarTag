@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import {
@@ -13,14 +13,73 @@ import DefaultCardStyle from '../../components/common/card/DefaultCardStyle';
 import RectButton from '../../components/common/buttons/RectButton';
 import { TrimContext } from '../../context/TrimProvider';
 import { ItemContext } from '../../context/ItemProvider';
+import useDefaultInfo from '../../hooks/useDefaultInfo';
 
 export default function TrimSelectContainer() {
   const { data: trimData, loading, setSelectedImgIdx } = useContext(TrimContext);
   const { selectedItem, setSelectedItem, setTotalPrice } = useContext(ItemContext);
   const navigate = useNavigate();
+  const { defaultInfo } = useDefaultInfo(1);
+
+  const initDefaultInfo = useCallback(() => {
+    if (!defaultInfo) return;
+    setSelectedItem({
+      type: 'SET_POWER_TRAIN',
+      value: {
+        id: defaultInfo.powerTrain.id,
+        title: defaultInfo.powerTrain.title,
+        name: defaultInfo.powerTrain.name,
+        imgSrc: defaultInfo.powerTrain.imgSrc,
+        price: defaultInfo.powerTrain.price,
+      },
+    });
+    setSelectedItem({
+      type: 'SET_BODY_TYPE',
+      value: {
+        id: defaultInfo.bodyType.id,
+        title: defaultInfo.bodyType.title,
+        name: defaultInfo.bodyType.name,
+        imgSrc: defaultInfo.bodyType.imgSrc,
+        price: defaultInfo.bodyType.price,
+      },
+    });
+    setSelectedItem({
+      type: 'SET_OPERATION',
+      value: {
+        id: defaultInfo.operation.id,
+        title: defaultInfo.operation.title,
+        name: defaultInfo.operation.name,
+        imgSrc: defaultInfo.operation.imgSrc,
+        price: defaultInfo.operation.price,
+      },
+    });
+
+    setSelectedItem({
+      type: 'SET_OUTER_COLOR',
+      value: {
+        id: defaultInfo.outerColor.id,
+        name: defaultInfo.outerColor.name,
+        title: defaultInfo.outerColor.title,
+        price: defaultInfo.outerColor.price,
+        carImgSrc: defaultInfo.outerColor.carImgSrc,
+        imgSrc: defaultInfo.outerColor.imgSrc,
+      },
+    });
+    setSelectedItem({
+      type: 'SET_INNER_COLOR',
+      value: {
+        id: defaultInfo.innerColor.id,
+        name: defaultInfo.innerColor.name,
+        title: defaultInfo.innerColor.title,
+        price: defaultInfo.innerColor.price,
+        carImgSrc: defaultInfo.innerColor.carImgSrc,
+        imgSrc: defaultInfo.innerColor.imgSrc,
+      },
+    });
+  }, [defaultInfo, setSelectedItem]);
 
   const handleSelectedIdx = (idx: number) => {
-    if (!trimData) return;
+    if (!trimData || !defaultInfo) return;
     setSelectedImgIdx(0);
     setTotalPrice(trimData[idx].carDefaultPrice);
     setSelectedItem({
@@ -31,8 +90,8 @@ export default function TrimSelectContainer() {
         price: trimData[idx].carDefaultPrice,
       },
     });
+    initDefaultInfo();
   };
-
   const isAcitve = (idx: number) => selectedItem.trim.id - 1 === idx;
   const handleNextButtonClick = (idx: number) => {
     if (!isAcitve(idx)) return;

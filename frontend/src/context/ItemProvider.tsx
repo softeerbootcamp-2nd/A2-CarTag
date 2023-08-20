@@ -75,14 +75,14 @@ const initialSelectedItem = {
       imgSrc: '',
       price: 0,
     },
-    operation: {
+    bodyType: {
       id: 0,
       name: '',
       title: '',
       imgSrc: '',
       price: 0,
     },
-    bodyType: {
+    operation: {
       id: 0,
       name: '',
       title: '',

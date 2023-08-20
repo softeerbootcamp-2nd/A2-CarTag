@@ -5,7 +5,7 @@ import {
   detailItemType,
 } from '../context/ItemProvider';
 
-type actionType =
+export type actionType =
   | { type: 'SET_TRIM'; value: defaultItemType }
   | { type: 'SET_POWER_TRAIN'; value: detailItemType }
   | { type: 'SET_OPERATION'; value: detailItemType }
