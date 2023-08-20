@@ -50,6 +50,24 @@ jobs:
       run: |
         chmod +x gradlew
         ./gradlew build -x test
+        
+    - name: Run Coverage
+      working-directory: ${{ env.wd }}
+      run: |
+        chmod +x gradlew
+        ./gradlew testCoverage
+
+    - name: Add coverage to PR
+      id: jacoco
+      uses: madrapps/jacoco-report@v1.6.1
+      with:
+        paths: ${{ github.workspace }}/backend/build/reports/jacoco/test/jacocoTestReport.xml
+        token: ${{ secrets.GITHUB_TOKEN }}
+        title: 📊 테스트 커버리지 결과
+        min-coverage-overall: 40
+        min-coverage-changed-files: 60
+        update-comment: true
+        continue-on-error: true
 
     - name: Configure AWS credentials
       uses: aws-actions/configure-aws-credentials@v2
