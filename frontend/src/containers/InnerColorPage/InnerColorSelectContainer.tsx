@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import PriceSummary from '../../components/summary/PriceSummary';
@@ -11,8 +11,7 @@ import { ItemContext } from '../../context/ItemProvider';
 
 export default function InnerColorSelectContainer() {
   const { data: innerColorData } = useContext(InnerColorContext);
-  const { selectedItem, totalPrice, setSelectedItem, setTotalPrice } = useContext(ItemContext);
-  const prevTotalPrice = useRef<number>(totalPrice);
+  const { selectedItem, setSelectedItem } = useContext(ItemContext);
   const [cardPageList, setCardPageList] = useState<ReactNode[]>();
   const maxPage = innerColorData ? Math.floor(innerColorData.length / NUM_IN_A_PAGE) + 1 : 0;
 
@@ -30,9 +29,8 @@ export default function InnerColorSelectContainer() {
           carImgSrc: selectedItem.colorCarImage,
         },
       });
-      setTotalPrice(prevTotalPrice.current + selectedItem.colorPrice);
     },
-    [setSelectedItem, setTotalPrice]
+    [setSelectedItem]
   );
   const isActive = useCallback(
     (id: number) => {

@@ -17,7 +17,7 @@ import useDefaultInfo from '../../hooks/useDefaultInfo';
 
 export default function TrimSelectContainer() {
   const { data: trimData, loading, setSelectedImgIdx } = useContext(TrimContext);
-  const { selectedItem, setSelectedItem, setTotalPrice } = useContext(ItemContext);
+  const { selectedItem, setSelectedItem } = useContext(ItemContext);
   const navigate = useNavigate();
   const { defaultInfo } = useDefaultInfo(1);
 
@@ -81,7 +81,6 @@ export default function TrimSelectContainer() {
   const handleSelectedIdx = (idx: number) => {
     if (!trimData || !defaultInfo) return;
     setSelectedImgIdx(0);
-    setTotalPrice(trimData[idx].carDefaultPrice);
     setSelectedItem({
       type: 'SET_TRIM',
       value: {

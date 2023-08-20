@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useReducer, useState } from 'react';
+import { ReactNode, createContext, useEffect, useReducer, useState } from 'react';
 import itemReducer, { actionType } from '../reducer/itemReducer';
 import { OUTER_COLOR_START_IDX } from '../utils/constants';
 
@@ -122,6 +122,17 @@ export const ItemContext = createContext(initialItem);
 export default function ItemProvider({ children }: IItemProvider) {
   const [selectedItem, setSelectedItem] = useReducer(itemReducer, initialSelectedItem);
   const [totalPrice, setTotalPrice] = useState<number>(0);
+
+  useEffect(() => {
+    const { price: trimPrice } = selectedItem.trim;
+    const { price: outerColorPrice } = selectedItem.outerColor;
+    const { price: innerColorPrice } = selectedItem.innerColor;
+    const { powerTrain, bodyType, operation } = selectedItem.modelType;
+    const modelTypePrice = powerTrain.price + bodyType.price + operation.price;
+    const optionsPrice = selectedItem.options.reduce((acc, option) => acc + option.price, 0);
+    const total = trimPrice + modelTypePrice + outerColorPrice + innerColorPrice + optionsPrice;
+    setTotalPrice(total);
+  }, [selectedItem]);
 
   return (
     <ItemContext.Provider

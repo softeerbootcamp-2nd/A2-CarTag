@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react';
+import { useContext } from 'react';
 import { styled } from 'styled-components';
 import { HeadingKrMedium6, HeadingKrMedium7 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/layout/CenterWrapper';
@@ -9,9 +9,7 @@ import { ItemContext } from '../../context/ItemProvider';
 
 export default function ModelTypelSelectContainer() {
   const { modelType, setCurrentModelTypeIdx } = useContext(ModelTypeContext);
-  const { totalPrice, selectedItem, setTotalPrice, setSelectedItem } = useContext(ItemContext);
-  const prevTotalPrice = useRef(totalPrice);
-  const [modelTypePrice, setModelTypePrice] = useState(0);
+  const { selectedItem, setSelectedItem } = useContext(ItemContext);
 
   const handleSelectedPowerTrain = (index: number) => {
     if (!modelType) return;
@@ -59,18 +57,6 @@ export default function ModelTypelSelectContainer() {
       },
     });
   };
-
-  useEffect(() => {
-    setModelTypePrice(
-      selectedItem.modelType.powerTrain.price +
-        selectedItem.modelType.bodyType.price +
-        selectedItem.modelType.operation.price
-    );
-  }, [selectedItem]);
-
-  useEffect(() => {
-    setTotalPrice(prevTotalPrice.current + modelTypePrice);
-  }, [modelTypePrice, setTotalPrice]);
 
   if (!modelType) return;
 

@@ -1,4 +1,4 @@
-import { ReactNode, useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import PriceSummary from '../../components/summary/PriceSummary';
@@ -9,15 +9,13 @@ import { IOuterColor, OuterColorContext } from '../../context/OuterColorProvider
 import { ItemContext } from '../../context/ItemProvider';
 
 export default function OuterColorSelectContainer() {
-  const { selectedItem, totalPrice, setSelectedItem, setTotalPrice } = useContext(ItemContext);
+  const { selectedItem, setSelectedItem } = useContext(ItemContext);
   const { outerColorData } = useContext(OuterColorContext);
   const [cardPageList, setCardPageList] = useState<ReactNode[]>();
-  const prevTotalPrice = useRef(totalPrice);
   const maxPage = outerColorData ? Math.floor(outerColorData.length / NUM_IN_A_PAGE) + 1 : 0;
 
   const handleCardClick = useCallback(
     (selectedItem: IOuterColor) => {
-      setTotalPrice(prevTotalPrice.current + selectedItem.colorPrice);
       setSelectedItem({
         type: 'SET_OUTER_COLOR',
         value: {
@@ -30,8 +28,7 @@ export default function OuterColorSelectContainer() {
         },
       });
     },
-
-    [setTotalPrice, setSelectedItem]
+    [setSelectedItem]
   );
   const isActive = useCallback(
     (id: number) => {
