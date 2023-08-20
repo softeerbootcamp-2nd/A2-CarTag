@@ -40,6 +40,7 @@ export default function OptionSelectContainer({
           <SearchBar
             value={query}
             result={result}
+            setQuery={setQuery}
             onChange={(e) => {
               handleInputChange(e.currentTarget.value);
             }}
@@ -49,6 +50,7 @@ export default function OptionSelectContainer({
           <SearchBar
             value={query}
             result={result}
+            setQuery={setQuery}
             onChange={(e) => {
               handleInputChange(e.currentTarget.value);
             }}

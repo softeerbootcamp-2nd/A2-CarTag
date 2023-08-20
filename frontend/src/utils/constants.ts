@@ -1,5 +1,6 @@
 export const MAX_PAGE = 3;
 export const NUM_IN_A_PAGE = 4;
+export const DEBOUNCE_TIME = 200;
 
 export const PATH = {
   home: '/',
@@ -33,4 +34,5 @@ Object.freeze({
   PATH,
   MESSAGE,
   PAGE_ANIMATION_DURATION,
+  DEBOUNCE_TIME,
 });

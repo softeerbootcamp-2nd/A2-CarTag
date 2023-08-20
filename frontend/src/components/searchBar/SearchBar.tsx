@@ -1,15 +1,20 @@
 import { styled } from 'styled-components';
 import { BodyKrRegular4 } from '../../styles/typefaces';
 import { SearchIcon } from '../common/icons/Icons';
+import { Dispatch } from 'react';
 
 interface SearchBarProps extends React.HTMLAttributes<HTMLInputElement> {
   value: string;
   result: string[];
+  setQuery: Dispatch<React.SetStateAction<string>>;
 }
-export default function SearchBar({ value, result, ...props }: SearchBarProps) {
+export default function SearchBar({ value, result, setQuery, ...props }: SearchBarProps) {
   const displayData = result.map((res, index) => (
     <AutoSearchData key={index}>{res}</AutoSearchData>
   ));
+  const handleClick = (value: string) => {
+    setQuery(value);
+  };
   return (
     <Wrapper>
       <Input value={value} {...props} />
@@ -17,7 +22,9 @@ export default function SearchBar({ value, result, ...props }: SearchBarProps) {
         <SearchIcon width={18} height={18} />
       </Button>
       <AutoSearchContainer $visible={result.length > 0}>
-        <AutoSearchWrapper>{displayData}</AutoSearchWrapper>
+        <AutoSearchWrapper onClick={(e) => handleClick(e.target.innerText)}>
+          {displayData}
+        </AutoSearchWrapper>
       </AutoSearchContainer>
     </Wrapper>
   );

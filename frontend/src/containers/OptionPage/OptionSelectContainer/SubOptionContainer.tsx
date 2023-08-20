@@ -13,6 +13,7 @@ import OptionCard from '../../../components/cards/OptionCard';
 import { ISubOption, SubOptionContext } from '../../../context/SubOptionProvider';
 import HmgTag from '../../../components/common/hmgTag/HmgTag';
 import { ItemContext } from '../../../context/ItemProvider';
+import { DEBOUNCE_TIME } from '../../../utils/constants';
 
 interface ISubOptionContainer {
   query: string;
@@ -32,15 +33,16 @@ export default function SubOptionContainer({ query, setQuery, setResult }: ISubO
         const category = option.optionCategoryName;
         const hashtags = option.hashtagName;
 
-        return (
+        return [
+          optionName.includes(query),
           optionName.includes(query) ||
-          hashtags.some((tag) => tag.includes(query)) ||
-          category.includes(query)
-        );
+            hashtags.some((tag) => tag.includes(query)) ||
+            category.includes(query),
+        ];
       });
 
       setDisplayData(filteredResults);
-      setResultCallback(filteredResults.map((option) => option.optionName));
+      setResultCallback(filteredResults.map((option) => option.optionName)); //TODO 옵션명만 대상으로
     },
     [filteredByCategory, setResultCallback]
   );
@@ -109,7 +111,7 @@ export default function SubOptionContainer({ query, setQuery, setResult }: ISubO
 
     const debounce = setTimeout(() => {
       if (query) handleSearch(query);
-    }, 200); //TODO 시간 constants로 빼기
+    }, DEBOUNCE_TIME);
     return () => {
       clearTimeout(debounce);
     };
@@ -191,6 +193,7 @@ const HmgWrapper = styled.div`
 
 const CardWrapper = styled.div`
   position: relative;
+  cursor: pointer;
 `;
 const CategoryWrapper = styled.div`
   display: flex;
