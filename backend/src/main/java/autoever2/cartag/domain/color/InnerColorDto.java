@@ -11,6 +11,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Schema(description = "차량 내부 색상 반환 DTO")
 public class InnerColorDto {
+    private int colorId;
     @Schema(description = "내부 색상 이름")
     private String colorName;
     @Schema(description = "내부 색상 이미지 url")
@@ -23,7 +24,8 @@ public class InnerColorDto {
     private String colorCarImage;
 
     @Builder
-    public InnerColorDto(String colorName, String colorImage, Long colorPrice, Long colorBoughtCount, String colorCarImage) {
+    public InnerColorDto(int colorId, String colorName, String colorImage, Long colorPrice, Long colorBoughtCount, String colorCarImage) {
+        this.colorId = colorId;
         this.colorName = colorName;
         this.colorImage = colorImage;
         this.colorPrice = colorPrice;
