@@ -72,7 +72,7 @@ public class CarService {
                             .mapToLong(s -> optionRepository.findOptionPriceByOptionId(Integer.parseInt(s)).get())
                             .sum();
 
-                    Long key = carPriceDto.getPrice() + sum - (carPriceDto.getPrice() % 10000);
+                    Long key = ((carPriceDto.getPrice() + sum) / 100000) * 1000000;
 
                     return Map.entry(key, 1);
                 })
@@ -81,7 +81,6 @@ public class CarService {
                 .map(entry -> BoughtCarDto.toBoughtCarDto(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
     }
-
 
 
 }
