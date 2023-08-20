@@ -1,19 +1,24 @@
+import { useContext, useState } from 'react';
 import { styled } from 'styled-components';
 import Banner from '../../components/common/banner/Banner';
-import { BodyKrRegular3, HeadingKrBold1 } from '../../styles/typefaces';
-import { flexCenterCss } from '../../utils/commonStyle';
-import { useState } from 'react';
+import ToggleButtons from '../../components/common/buttons/ToggleButtons';
+import { ItemContext } from '../../context/ItemProvider';
+import { IMG_URL } from '../../utils/apis';
+import { HeadingKrBold1 } from '../../styles/typefaces';
 
 type buttonType = 'outerColor' | 'innerColor';
 
 export default function ResultBannerContainer() {
-  const [selectedButton, setSelectedButton] = useState<buttonType>('outerColor');
+  const { selectedItem } = useContext(ItemContext);
+  const [imgMode, setImgMode] = useState<buttonType>('outerColor');
+  const innerCarSrc = IMG_URL + selectedItem.innerColor.carImgSrc;
+  const outerCarSrc = IMG_URL + selectedItem.outerColor.carImgSrc;
 
-  const handleSelectedButton = () => {
-    if (selectedButton === 'outerColor') {
-      setSelectedButton('innerColor');
+  const toggle = () => {
+    if (imgMode === 'outerColor') {
+      setImgMode('innerColor');
     } else {
-      setSelectedButton('outerColor');
+      setImgMode('outerColor');
     }
   };
 
@@ -21,11 +26,12 @@ export default function ResultBannerContainer() {
     <>
       <ResultBanner>
         <Title>Le Blanc</Title>
-        <CarImg src="images/car.png" alt="" />
-        <ButtonContainer onClick={handleSelectedButton}>
-          <Button $active={selectedButton === 'outerColor'}>외장</Button>
-          <Button $active={selectedButton === 'innerColor'}>내장</Button>
-        </ButtonContainer>
+        {imgMode === 'innerColor' ? (
+          <CarImg src={innerCarSrc} alt="" />
+        ) : (
+          <CarImg src={outerCarSrc} alt="" />
+        )}
+        <ToggleButtonContainer mode={imgMode} onClick={toggle} />
       </ResultBanner>
     </>
   );
@@ -41,31 +47,18 @@ const Title = styled.div`
   padding-top: 72px;
   color: white;
   text-align: center;
+  position: relative;
+  z-index: 1;
 `;
 
 const CarImg = styled.img`
   display: block;
-  margin: 0 auto;
-  height: 360px;
+  margin: 80px auto 30px auto;
+  height: 300px;
+  width: 700px;
+  object-fit: cover;
 `;
 
-const Button = styled.button<{ $active: boolean }>`
-  width: 100%;
-  ${BodyKrRegular3}
-  height: 36px;
-  border-radius: 18px;
-  color: ${({ $active, theme }) => ($active ? theme.color.white : theme.color.primaryColor)};
-  background-color: ${({ $active, theme }) => ($active ? theme.color.primaryColor : 'none')};
-`;
-const ButtonContainer = styled.div`
+const ToggleButtonContainer = styled(ToggleButtons)`
   margin: 0 auto;
-  ${flexCenterCss}
-  justify-content: space-between;
-  padding: 0 5px;
-  gap: 5px;
-  width: 213px;
-  height: 48px;
-  border-radius: 24px;
-  border: 1px solid ${({ theme }) => theme.color.gray100};
-  cursor: pointer;
 `;
