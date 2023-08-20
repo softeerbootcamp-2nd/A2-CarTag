@@ -7,6 +7,7 @@ import OptionSelectContainer from '../containers/OptionPage/OptionSelectContaine
 import OptionFooterContainer from '../containers/OptionPage/OptionFooterContainer';
 import { ISubOption, SubOptionContext } from '../context/SubOptionProvider';
 import { DefaultOptionContext, IDefaultOption } from '../context/DefaultOptionProvider';
+import ErrorModal from '../components/modal/ErrorModal';
 
 interface IOptionDetail {
   categoryName: string;
@@ -42,12 +43,16 @@ export default function OptionPage() {
   };
   const { currentOptionIdx } = isDefault ? defaultOptionContext : subOptionContext;
 
-  const { data: subOption, loading: subOptionLoading } = useFetch<ISubOption[]>(
-    `${OPTION_API}/sublist?carid=${1}`
-  );
-  const { data: defaultOption, loading: defaultOptionLoading } = useFetch<IDefaultOption[]>(
-    `${OPTION_API}/defaultlist?carid=${1}`
-  );
+  const {
+    data: subOption,
+    loading: subOptionLoading,
+    error: subOptionError,
+  } = useFetch<ISubOption[]>(`${OPTION_API}/sublist?carid=${1}`);
+  const {
+    data: defaultOption,
+    loading: defaultOptionLoading,
+    error: defaultOptionError,
+  } = useFetch<IDefaultOption[]>(`${OPTION_API}/defaultlist?carid=${1}`);
   const { setSubOption, setSubOptionLoading } = useContext(SubOptionContext);
   const { setDefaultOption, setDefaultOptionLoading } = useContext(DefaultOptionContext);
   const optionType = isDefault ? 'default' : 'sub';
@@ -72,6 +77,11 @@ export default function OptionPage() {
     `${OPTION_API}/${optionType}/detail/?carid=${1}&optionid=${currentOptionIdx}`
   );
 
+  if (subOptionError) {
+    return <ErrorModal message={subOptionError.message} />;
+  } else if (defaultOptionError) {
+    return <ErrorModal message={defaultOptionError.message} />;
+  }
   return (
     <>
       {optionDetail && !optionDetailLoading && (
