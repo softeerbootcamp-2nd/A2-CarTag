@@ -1,7 +1,6 @@
 package autoever2.cartag.service;
 
 import autoever2.cartag.domain.car.CarDefaultDto;
-import autoever2.cartag.domain.car.CarDefaultInfoDto;
 import autoever2.cartag.domain.car.CarDto;
 import autoever2.cartag.domain.car.CarInfoDto;
 import autoever2.cartag.domain.color.InnerColorDto;
@@ -45,11 +44,10 @@ public class CarService {
     }
 
     public CarDefaultDto findCarDefaultDtoByCarId(int carId) {
-        Optional<CarDefaultInfoDto> carDefaultDto = carRepository.findCarDefaultByCarId(carId);
         List<OuterColorDto> outerColorList = colorRepository.findOuterColorCarByCarId(carId);
         List<InnerColorDto> innerColorList = colorRepository.findInnerColorCarByCarId(carId);
         List<ModelDefaultDto> modelList = modelRepository.findModelDefaultDtoByCarId(carId);
-        if (carDefaultDto.isEmpty() || outerColorList.isEmpty() || innerColorList.isEmpty() || modelList.isEmpty()) {
+        if (outerColorList.isEmpty() || innerColorList.isEmpty() || modelList.isEmpty()) {
             throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
         }
         int colorId = outerColorList.get(0).getColorId();
@@ -60,7 +58,7 @@ public class CarService {
         String value = colorCarOuterImage.get();
         String outerImageUrl = value.substring(0, value.indexOf("*")) + 1 + value.substring(value.indexOf("*") + 1, value.length());
 
-        return CarDefaultDto.toDefault(carDefaultDto.get(), outerColorList.get(0), innerColorList.get(0), modelList, outerImageUrl);
+        return CarDefaultDto.toDefault(outerColorList.get(0), innerColorList.get(0), modelList, outerImageUrl);
     }
 
 }

@@ -13,13 +13,8 @@ import java.util.List;
 @Builder
 @Schema(description = "차량 Default value를 반환하는 dto")
 public class CarDefaultDto {
-    @Schema(description = "선택 차량의 타입", example = "펠리세이드")
-    private String carType;
-    @Schema(description = "선택 차량의 트림 명", example = "Le Blanc")
-    private String trim;
-    @Schema(description = "선택된 차량 트림의 기본 가격")
-    private int carDefaultPrice;
-
+    @Schema(description = "powerTrain의 id")
+    private int powerTrainId;
     @Schema(description = "기본 powerTrain의 이름", example = "디젤 2.2")
     private String powerTrainName;
     @Schema(description = "기본 powerTrain의 이미지 url")
@@ -27,6 +22,8 @@ public class CarDefaultDto {
     @Schema(description = "기본 powerTrain의 가격")
     private Long powerTrainPrice;
 
+    @Schema(description = "bodyType의 id")
+    private int bodyTypeId;
     @Schema(description = "기본 bodyType의 이름", example = "7인승")
     private String bodyTypeName;
     @Schema(description = "기본 bodyType의 이미지 url")
@@ -34,6 +31,8 @@ public class CarDefaultDto {
     @Schema(description = "기본 bodyType의 가격")
     private Long bodyTypePrice;
 
+    @Schema(description = "operation의 id")
+    private int operationId;
     @Schema(description = "기본 operation의 이름", example = "2WD")
     private String operationName;
     @Schema(description = "기본 operation의 이미지 url")
@@ -58,17 +57,17 @@ public class CarDefaultDto {
     @Schema(description = "기본 내장색상 이름")
     private String colorInnerImageName;
 
-    public static CarDefaultDto toDefault(CarDefaultInfoDto carDefaultInfoDto, OuterColorDto outerColorDto, InnerColorDto innerColorDto, List<ModelDefaultDto> modelDefaultDto, String colorCarOuterImage) {
+    public static CarDefaultDto toDefault(OuterColorDto outerColorDto, InnerColorDto innerColorDto, List<ModelDefaultDto> modelDefaultDto, String colorCarOuterImage) {
         return CarDefaultDto.builder()
-                .carType(carDefaultInfoDto.getCarType())
-                .trim(carDefaultInfoDto.getTrim())
-                .carDefaultPrice(carDefaultInfoDto.getCarDefaultPrice())
+                .powerTrainId(modelDefaultDto.get(0).getModelId())
                 .powerTrainName(modelDefaultDto.get(0).getModelName())
                 .powerTrainImage(modelDefaultDto.get(0).getModelImage())
                 .powerTrainPrice(modelDefaultDto.get(0).getModelPrice())
+                .bodyTypeId(modelDefaultDto.get(1).getModelId())
                 .bodyTypeName(modelDefaultDto.get(1).getModelName())
                 .bodyTypeImage(modelDefaultDto.get(1).getModelImage())
                 .bodyTypePrice(modelDefaultDto.get(1).getModelPrice())
+                .operationId(modelDefaultDto.get(2).getModelId())
                 .operationName(modelDefaultDto.get(2).getModelName())
                 .operationImage(modelDefaultDto.get(2).getModelImage())
                 .operationPrice(modelDefaultDto.get(2).getModelPrice())
