@@ -23,7 +23,7 @@ export const modelTypeToEn: {
   구동방식: 'operation',
 };
 
-export const OUTER_COLOR_START_IDX = 3;
+export const OUTER_COLOR_FIRST_IDX = 3;
 
 export const HYUNDAI_URL = 'https://www.hyundai.com/kr/ko/e';
 export const PAGE_ANIMATION_DURATION = 500;
@@ -37,5 +37,5 @@ Object.freeze({
   PATH,
   MESSAGE,
   PAGE_ANIMATION_DURATION,
-  OUTER_COLOR_START_IDX,
+  OUTER_COLOR_FIRST_IDX,
 });

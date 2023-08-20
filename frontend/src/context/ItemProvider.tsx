@@ -1,6 +1,6 @@
 import { ReactNode, createContext, useEffect, useReducer, useState } from 'react';
 import itemReducer, { actionType } from '../reducer/itemReducer';
-import { OUTER_COLOR_START_IDX } from '../utils/constants';
+import { OUTER_COLOR_FIRST_IDX } from '../utils/constants';
 
 export type defaultItemType = {
   id: number;
@@ -100,7 +100,7 @@ const initialSelectedItem = {
     price: 0,
   },
   outerColor: {
-    id: OUTER_COLOR_START_IDX,
+    id: OUTER_COLOR_FIRST_IDX,
     name: '',
     title: '',
     imgSrc: '',
