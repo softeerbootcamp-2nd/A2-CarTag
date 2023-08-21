@@ -26,11 +26,7 @@ export default function ResultBannerContainer() {
     <>
       <ResultBanner>
         <Title>Le Blanc</Title>
-        {imgMode === 'innerColor' ? (
-          <CarImg src={innerCarSrc} alt="" />
-        ) : (
-          <CarImg src={outerCarSrc} alt="" />
-        )}
+        <CarImg src={imgMode === 'innerColor' ? innerCarSrc : outerCarSrc}></CarImg>
         <ToggleButtonContainer mode={imgMode} onClick={toggle} />
       </ResultBanner>
     </>

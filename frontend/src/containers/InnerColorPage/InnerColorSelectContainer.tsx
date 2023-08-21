@@ -17,7 +17,6 @@ export default function InnerColorSelectContainer() {
 
   const handleCardClick = useCallback(
     (selectedItem: IInnerColor) => {
-      console.log(selectedItem);
       setSelectedItem({
         type: 'SET_INNER_COLOR',
         value: {

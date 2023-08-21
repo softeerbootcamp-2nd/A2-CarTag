@@ -64,11 +64,7 @@ export default function QuoteSummaryModal({ ...props }: IQuoteSummaryModal) {
         <Body>
           <Row>
             <ImgSection>
-              {imgMode === 'innerColor' ? (
-                <CarImg src={innerCarImgSrc}></CarImg>
-              ) : (
-                <CarImg src={outerCarImgSrc}></CarImg>
-              )}
+              <CarImg src={imgMode === 'innerColor' ? innerCarImgSrc : outerCarImgSrc}></CarImg>
               <ToggleButtons mode={imgMode} onClick={toggle} />
             </ImgSection>
             <DetailSection>

@@ -13,13 +13,11 @@ export default function InnerColorBannerContainer() {
   const idx = selectedItem.innerColor.id - 1;
   const imgSrc = innerColorData && innerColorData[idx].colorCarImage;
 
-  console.log(innerColorData, idx);
-
   return (
     <Wrapper>
       {innerColorData ? (
         <InnerColorBanner subtitle={'내장색상'} title={innerColorData[idx].colorName}>
-          <Img onLoad={() => console.log('로드완료')} src={`${IMG_URL}${imgSrc}`} />
+          <Img src={`${IMG_URL}${imgSrc}`} />
         </InnerColorBanner>
       ) : (
         <Loading />
