@@ -34,7 +34,6 @@ export default function TrimBannerContainer() {
         (url) => url
       ) as string[];
       imageUrls.current.push(...filteredImagesUrl);
-      console.log(imageUrls);
     });
   };
 
