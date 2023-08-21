@@ -26,7 +26,6 @@ export default function ModelTypeFooterContainer() {
     `${MODEL_TYPE_API}/hmg-efficiency?powertrain=${selectedItem.modelType.powerTrain.id}&operation=${selectedItem.modelType.operation.id}`
   );
 
-  console.log(hmgEfficiency);
   useEffect(() => {
     if (!hmgEfficiency || hmgEfficiencyLoading) return;
     setSelectedItem({
