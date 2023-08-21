@@ -2,6 +2,8 @@ package autoever2.cartag.repository;
 
 import autoever2.cartag.domain.car.CarInfoDto;
 import autoever2.cartag.domain.car.CarPriceDto;
+import autoever2.cartag.domain.car.TrimInfoDto;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -11,6 +13,7 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 
@@ -45,6 +48,21 @@ public class CarRepository {
         return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, (rs, rowNum) -> rs.getLong("bought_count"))));
     }
 
+    public Optional<TrimInfoDto> findTrimInfoByCarId(int carId){
+        String sql = "select car_id, trim, car_default_price from Car where car_id = :carId";
+        try {
+            SqlParameterSource param = new MapSqlParameterSource()
+                    .addValue("carId", carId);
+            return Optional.of(template.queryForObject(sql, param, trimInfoRowMapper()));
+        } catch (DataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    private RowMapper<TrimInfoDto> trimInfoRowMapper() {
+        return BeanPropertyRowMapper.newInstance(TrimInfoDto.class);
+    }
+
     public List<CarPriceDto> findCarPriceAndCount() {
         String sql = "select SalesHistory.sold_options_id, (car_default_price + sum(model_price)) as sum from Model inner join HistoryModelMapper " +
                 "on Model.model_id = HistoryModelMapper.model_id inner join SalesHistory " +
@@ -54,6 +72,7 @@ public class CarRepository {
 
         return template.query(sql, CarPriceRowMapper());
     }
+
 
     private RowMapper<CarPriceDto> CarPriceRowMapper() {
         return (rs, rowNum) -> CarPriceDto
