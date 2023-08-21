@@ -14,7 +14,7 @@ import java.net.http.HttpResponse;
 @Service
 public class RecommendService {
 
-    //@Value("${python.url}")
+    @Value("${python.url}")
     private String requestURL;
 
     //TODO: 응답 존재 안할 시 예외처리
