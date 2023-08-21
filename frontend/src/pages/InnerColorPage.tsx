@@ -5,6 +5,8 @@ import { useFetch } from '../hooks/useFetch';
 import { INNER_COLOR_API } from '../utils/apis';
 import { IInnerColor, InnerColorContext } from '../context/InnerColorProvider';
 import ErrorModal from '../components/modal/ErrorModal';
+import InnerColorFooterContainer from '../containers/InnerColorPage/InnerColorFooterContainer';
+import { styled } from 'styled-components';
 
 export default function InnerColorPage() {
   const { data: innerColorData, error } = useFetch<IInnerColor[]>(`${INNER_COLOR_API}?carid=${1}`);
@@ -20,8 +22,16 @@ export default function InnerColorPage() {
 
   return (
     <>
-      <InnerColorBannerContainer />
-      <InnerColorSelectContainer />
+      <Wrapper>
+        <InnerColorBannerContainer />
+        <InnerColorSelectContainer />
+      </Wrapper>
+      <InnerColorFooterContainer />
     </>
   );
 }
+
+const Wrapper = styled.div`
+  height: 100%;
+  padding-bottom: 120px;
+`;

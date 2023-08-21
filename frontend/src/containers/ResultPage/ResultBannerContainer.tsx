@@ -40,7 +40,7 @@ const ResultBanner = styled(Banner)`
 const Title = styled.div`
   ${HeadingKrBold1}
   font-size: 146px;
-  padding-top: 72px;
+  padding-top: 120px;
   color: white;
   text-align: center;
   position: relative;

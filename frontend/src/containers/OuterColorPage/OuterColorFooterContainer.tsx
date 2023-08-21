@@ -1,13 +1,13 @@
 import { styled } from 'styled-components';
 import PriceSummary from '../../components/summary/PriceSummary';
-import CenterWrapper from '../../components/layout/CenterWrapper';
 import { PATH } from '../../utils/constants';
+import CenterWrapper from '../../components/layout/CenterWrapper';
 
-export default function OptionFooterContainer() {
+export default function OuterColorFooterContainer() {
   return (
     <Wrapper>
       <Footer>
-        <PriceSummary nextPagePath={PATH.result} />
+        <PriceSummary nextPagePath={PATH.innerColor} />
       </Footer>
     </Wrapper>
   );
