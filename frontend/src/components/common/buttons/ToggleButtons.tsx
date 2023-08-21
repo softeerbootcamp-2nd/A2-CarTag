@@ -1,25 +1,19 @@
 import { styled } from 'styled-components';
 import { BodyKrRegular3 } from '../../../styles/typefaces';
 import { flexCenterCss } from '../../../utils/commonStyle';
-import { useState } from 'react';
+import { HTMLAttributes } from 'react';
 
 type buttonType = 'outerColor' | 'innerColor';
 
-export default function ToggleButtons() {
-  const [selectedButton, setSelectedButton] = useState<buttonType>('outerColor');
+interface IToggleButtons extends HTMLAttributes<HTMLDivElement> {
+  mode: buttonType;
+}
 
-  const toggle = () => {
-    if (selectedButton === 'outerColor') {
-      setSelectedButton('innerColor');
-    } else {
-      setSelectedButton('outerColor');
-    }
-  };
-
+export default function ToggleButtons({ mode, ...props }: IToggleButtons) {
   return (
-    <ToggleButtonContainer onClick={toggle}>
-      <Button $active={selectedButton === 'outerColor'}>외장</Button>
-      <Button $active={selectedButton === 'innerColor'}>내장</Button>
+    <ToggleButtonContainer {...props}>
+      <Button $active={mode === 'outerColor'}>외장</Button>
+      <Button $active={mode === 'innerColor'}>내장</Button>
     </ToggleButtonContainer>
   );
 }

@@ -12,12 +12,14 @@ public class ModelDefaultDto {
     private String modelName;
     private Long modelPrice;
     private String modelImage;
+    private String modelTitle;
 
     @Builder
-    public ModelDefaultDto(int modelId, String modelName, Long modelPrice, String modelImage) {
+    public ModelDefaultDto(int modelId, String modelName, Long modelPrice, String modelImage, String modelTitle) {
         this.modelId = modelId;
         this.modelName = modelName;
         this.modelPrice = modelPrice;
         this.modelImage = modelImage;
+        this.modelTitle = modelTitle;
     }
 }

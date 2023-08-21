@@ -1,7 +1,8 @@
 import { Dispatch, ReactNode, SetStateAction, createContext, useState } from 'react';
 
 export interface IInnerColor {
-  colorName: '';
+  colorId: number;
+  colorName: string;
   colorImage: string;
   colorPrice: number;
   colorBoughtPercent: number;
