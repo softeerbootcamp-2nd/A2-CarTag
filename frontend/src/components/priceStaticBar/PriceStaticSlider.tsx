@@ -1,9 +1,10 @@
-import { css, styled } from 'styled-components';
+import { styled } from 'styled-components';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular5 } from '../../styles/typefaces';
 import { ChangeEvent, useContext } from 'react';
 import { ItemContext } from '../../context/ItemProvider';
 import { TEN_THOUSAND_UNIT } from '../../utils/constants';
+import { theme } from '../../styles/theme';
 
 interface ISlider extends React.HTMLAttributes<HTMLDivElement> {
   highestPrice: number;
@@ -77,7 +78,16 @@ const MarkerSvg = styled.svg<{ $isover: boolean; $percent: number }>`
 `;
 
 const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
-  ({ type, min, max, value, onChange, step }) => ({
+  ({ type, min, max, value, onChange, step, $percent, $isover }) => ({
+    style: {
+      background: `linear-gradient(
+        to right,
+        #fff 0%,
+        #fff ${$percent}%,
+        ${$isover ? theme.color.gray800 : theme.color.primaryColor800} ${$percent}%,
+        ${$isover ? theme.color.gray800 : theme.color.primaryColor800} 100%
+      )`,
+    },
     type: type,
     min: min,
     max: max,
@@ -94,18 +104,6 @@ const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
   width: 100%;
   height: 6px;
   border-radius: 4px;
-
-  ${({ $percent, $isover, theme }) => {
-    return css`
-      background: linear-gradient(
-        to right,
-        #fff 0%,
-        #fff ${$percent}%,
-        ${$isover ? theme.color.gray800 : theme.color.primaryColor800} ${$percent}%,
-        ${$isover ? theme.color.gray800 : theme.color.primaryColor800} 100%
-      );
-    `;
-  }}
 
   &::-webkit-slider-runnable-track {
     cursor: pointer;
