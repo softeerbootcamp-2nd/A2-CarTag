@@ -2,8 +2,10 @@ import { styled } from 'styled-components';
 import { BodyKrRegular4, HeadingKrMedium6, HeadingKrMedium7 } from '../../styles/typefaces';
 import { CheckIcon } from '../common/icons/Icons';
 import DefaultCardStyle from '../common/card/DefaultCardStyle';
-import { HTMLAttributes } from 'react';
+import { HTMLAttributes, useCallback, useRef, useState } from 'react';
 import { IMG_URL } from '../../utils/apis';
+import { IOptionDetail } from '../../containers/OptionPage/OptionBannerContainer';
+import Loading from '../loading/Loading';
 
 interface IOptionCard extends HTMLAttributes<HTMLDivElement> {
   type: 'default' | 'sub';
@@ -40,10 +42,41 @@ export default function OptionCard({
     return <HashTag key={idx}>{tag}</HashTag>;
   });
 
+  const imageUrls = useRef<string[]>([]);
+  const [imagesLoading, setImagesLoading] = useState(true);
+
+  const filterImageUrls = (optionData: IOptionDetail[]) => {
+    optionData.forEach((data) => {
+      const ImgUrl = data.optionImage !== '' && `${IMG_URL}${data.optionImage}`;
+      const filteredImagesUrl = ImgUrl.toString();
+      imageUrls.current.push(filteredImagesUrl);
+    });
+  };
+
+  const downloadAndSaveImages = useCallback(async () => {
+    const imageBlobs = await Promise.all(
+      imageUrls.current.map(async (url) => {
+        const response = await fetch(url);
+        const blob = await response.blob();
+        return blob;
+      })
+    );
+    imageBlobs.forEach((imageBlob, index) => {
+      const imageUrl = imageUrls.current[index];
+      localStorage.setItem(imageUrl, URL.createObjectURL(imageBlob));
+    });
+    setImagesLoading(false);
+  }, [imageUrls, setImagesLoading]);
+  downloadAndSaveImages;
+  filterImageUrls;
   return (
     <Card active={active} {...props}>
       <ImgWrapper>
-        <OptionImg src={`${IMG_URL}${imgPath}`} />
+        {imagesLoading ? (
+          <Loading />
+        ) : (
+          <OptionImg src={`${IMG_URL}${imgPath}`} loading="lazy" alt="" />
+        )}
         <HashTagWrapper>{displayHashTag}</HashTagWrapper>
       </ImgWrapper>
       <OptionCardInfo onClick={handleSelectOption}>
