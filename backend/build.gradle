@@ -44,22 +44,36 @@ jacoco {
     toolVersion = '0.8.9'
 }
 
+test {
+	useJUnitPlatform()
+	finalizedBy jacocoTestReport
+}
+
 jacocoTestReport {
     dependsOn test
     reports {
         xml.required = true
-        html.required = true
-        csv.required = false
     }
+	finalizedBy 'jacocoTestCoverageVerification'
 }
 
-tasks.register('testCoverage', Test) {
-    group 'verification'
-    description 'Runs the tests with covarage (Create JaCoCo report)'
-
-    dependsOn test, jacocoTestReport
-    tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
+jacocoTestCoverageVerification {
+	violationRules {
+		rule {
+			limit {
+				counter = 'LINE'
+				value = 'COVEREDRATIO'
+				limits = 0.8
+			}
+			limit {
+				counter = 'METHOD'
+				value = 'COVEREDRATIO'
+				limits = 0.8
+			}
+		}
+	}
 }
+
 jar {
     enabled = false
 }
