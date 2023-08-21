@@ -2,8 +2,12 @@ package autoever2.cartag.repository;
 
 import autoever2.cartag.domain.car.CarInfoDto;
 import autoever2.cartag.domain.car.CarPriceDto;
+<<<<<<< HEAD
 import autoever2.cartag.domain.car.TrimInfoDto;
 import org.springframework.dao.DataAccessException;
+=======
+import autoever2.cartag.domain.car.CarTypeDto;
+>>>>>>> 57c527d6b6e527b4e91eff53de6936fa62b8d654
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -31,11 +35,11 @@ public class CarRepository {
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("carType", carType);
-        return template.query(sql, param, CarRowMapper());
+        return template.query(sql, param, carRowMapper());
 
     }
 
-    private RowMapper<CarInfoDto> CarRowMapper() {
+    private RowMapper<CarInfoDto> carRowMapper() {
         return BeanPropertyRowMapper.newInstance(CarInfoDto.class);
     }
 
@@ -70,11 +74,26 @@ public class CarRepository {
                 "on Car.car_id = SalesHistory.car_id inner join SubOptionData " +
                 "on SubOptionData.car_id = Car.car_id group by SalesHistory.history_id";
 
-        return template.query(sql, CarPriceRowMapper());
+        return template.query(sql, carPriceRowMapper());
     }
 
+<<<<<<< HEAD
 
     private RowMapper<CarPriceDto> CarPriceRowMapper() {
+=======
+    public List<CarTypeDto> findAllCarType() {
+        String sql = "select ct.car_type_id, ct.car_type_name, ct.car_type_image " +
+                "from CarType ct ";
+
+        return template.query(sql, carTypeDtoRowMapper());
+    }
+
+    private RowMapper<CarTypeDto> carTypeDtoRowMapper() {
+        return BeanPropertyRowMapper.newInstance(CarTypeDto.class);
+    }
+
+    private RowMapper<CarPriceDto> carPriceRowMapper() {
+>>>>>>> 57c527d6b6e527b4e91eff53de6936fa62b8d654
         return (rs, rowNum) -> CarPriceDto
                 .builder()
                 .optionList(rs.getString("SalesHistory.sold_options_id"))

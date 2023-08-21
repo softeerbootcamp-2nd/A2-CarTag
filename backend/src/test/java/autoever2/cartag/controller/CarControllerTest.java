@@ -1,6 +1,7 @@
 package autoever2.cartag.controller;
 
 import autoever2.cartag.domain.car.CarDto;
+import autoever2.cartag.domain.car.CarTypeDto;
 import autoever2.cartag.domain.car.TrimDefaultOptionDto;
 import autoever2.cartag.service.CarService;
 import org.junit.jupiter.api.BeforeEach;
@@ -20,8 +21,8 @@ import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest(TrimController.class)
-class TrimControllerTest {
+@WebMvcTest(CarController.class)
+class CarControllerTest {
     @Autowired
     MockMvc mockMvc;
 
@@ -118,5 +119,34 @@ class TrimControllerTest {
                 .andExpect(jsonPath("$[2].outerImage").value("image_1"))
                 .andExpect(jsonPath("$[3].wheelImage").isEmpty());
 
+    }
+
+    @Test
+    @DisplayName("차종 리스트 호출 API")
+    void getCarTypeList() throws Exception {
+        List<CarTypeDto> carTypeList = new ArrayList<>();
+        carTypeList.add(CarTypeDto.builder()
+                .carTypeId(1)
+                .carTypeName("펠리세이드")
+                .carTypeImage("image_1")
+                .build());
+        carTypeList.add(CarTypeDto.builder()
+                .carTypeId(2)
+                .carTypeImage("/cartype/santafe.png")
+                .carTypeName("싼타페")
+                .build());
+        carTypeList.add(CarTypeDto.builder()
+                .carTypeId(3)
+                .carTypeImage("/cartype/the-all-new-kona-hybrid.png")
+                .carTypeName("디 올 뉴 코나 Hybrid")
+                .build());
+        given(service.getAllCarTypes()).willReturn(carTypeList);
+
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/list"));
+
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].carTypeId").value(1))
+                .andExpect(jsonPath("$[1].carTypeImage").value("/cartype/santafe.png"))
+                .andExpect(jsonPath("$[2].carTypeName").value("디 올 뉴 코나 Hybrid"));
     }
 }
