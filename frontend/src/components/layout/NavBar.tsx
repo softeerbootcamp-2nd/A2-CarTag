@@ -4,19 +4,25 @@ import { css, styled, useTheme } from 'styled-components';
 import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../styles/typefaces';
 import { ArrowDown, CancelIcon } from '../common/icons/Icons';
 import hyundaiLogo from '/images/logo.svg';
-import { PATH } from '../../utils/constants';
+import { MESSAGE, PATH } from '../../utils/constants';
 import { CloseModalContext } from '../../context/CloseModalProvider';
+import { ProgressContext } from '../../context/ProgressProvider';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
   active: boolean;
 }
 export default function NavBar() {
   const navigate = useNavigate();
+  const { nextStepAvailable } = useContext(ProgressContext);
   const { pathname: currentPath } = useLocation();
   const { setVisible: setCloseModalVisible } = useContext(CloseModalContext);
   const theme = useTheme();
 
   const handleNavItemClick = (path: string) => {
+    if (path !== PATH.trim && !nextStepAvailable) {
+      alert(MESSAGE.trimSelectRequired);
+      return;
+    }
     navigate(path);
   };
   const isActive = (path: string) => {
