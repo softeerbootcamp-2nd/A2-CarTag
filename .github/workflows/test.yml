@@ -1,8 +1,9 @@
 name: test coverage
 
+
 on:
   pull_request:
-    branches: 
+    branches:
       - 'dev'
     paths:
       - '**.java'
@@ -12,6 +13,7 @@ permissions:
   pull-requests: write
 
 env:
+  APPLICATION: ${{ secrets.APPLICATION_TEST }}
   wd: ./backend
 
 jobs:
@@ -20,11 +22,19 @@ jobs:
     steps:
     - uses: actions/checkout@v3
 
+
     - name: Set up JDK 11
       uses: actions/setup-java@v3
       with:
         java-version: '11'
         distribution: 'temurin'
+
+    - name: Copy application.yml
+      working-directory: ${{ env.wd }}
+      run: |
+        mkdir src/test/resources
+        touch ./src/test/resources/application.yml
+        echo "${{ secrets.APPLICATION_TEST }}" > ./src/test/resources/application.yml
 
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
