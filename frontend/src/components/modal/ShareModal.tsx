@@ -2,7 +2,6 @@ import { HTMLAttributes, useContext, useState } from 'react';
 import { DimmedBackground } from './DimmedBackground';
 import WhiteModal from './WhiteModal';
 import { styled } from 'styled-components';
-import { flexCenterCss } from '../../utils/commonStyle';
 import {
   BodyKrRegular2,
   BodyKrRegular3,
@@ -110,14 +109,13 @@ export default function ShareModal({ ...props }: IShareModal) {
           <Desc>내 견적서 링크를 복사해 견적을 다시 확인해보세요.</Desc>
         </div>
         <LinkWrapper>
+          <UrlText>{shareUrl}</UrlText>
           <ButtonContainer>
             <CopyButton onClick={handleCopyClick}>
               <Alert $visible={copyAlertVisible}>copied!</Alert>
               <CopyIcon />
             </CopyButton>
           </ButtonContainer>
-
-          <UrlText>{shareUrl}</UrlText>
         </LinkWrapper>
       </Modal>
     </DimmedBackground>
@@ -145,16 +143,13 @@ const Desc = styled.div`
   color:${({ theme }) => theme.color.gray600};
 `;
 const LinkWrapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   ${BodyKrRegular2}
   width: 100%;
-
-  /* ${flexCenterCss}
-
-  justify-content: space-between;
-  */
   padding: 10px 20px;
   margin-top: 30px;
-
   background-color: ${({ theme }) => theme.color.gray100};
 `;
 
@@ -196,6 +191,8 @@ const ButtonContainer = styled.div`
 `;
 const CloseButton = styled.button``;
 const UrlText = styled.p`
-  width: 100%;
-  word-wrap: break-word;
+  width: 260px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 `;
