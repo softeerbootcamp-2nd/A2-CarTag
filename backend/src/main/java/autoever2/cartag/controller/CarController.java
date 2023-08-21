@@ -70,7 +70,7 @@ public class CarController {
     @ApiResponses(value = {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = QuoteInfoDto.class))),
     })
-    @GetMapping("/infos/shares")
+    @PostMapping("/infos/shares")
     public QuoteInfoDto boughtCarDtos(@Parameter(description = "선택한 id 리스트") @RequestBody QuoteIdList idList) {
         return service.findShareInfoDto(idList);
     }

@@ -1,10 +1,9 @@
 import { ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import CenterWrapper from '../../components/layout/CenterWrapper';
-import PriceSummary from '../../components/summary/PriceSummary';
 import InnerColorCard from '../../components/cards/InnerColorCard';
 import CardSlider from '../../components/cardSlider/CardSlider';
-import { NUM_IN_A_PAGE, PATH } from '../../utils/constants';
+import { NUM_IN_A_PAGE } from '../../utils/constants';
 import { IInnerColor, InnerColorContext } from '../../context/InnerColorProvider';
 import { IMG_URL } from '../../utils/apis';
 import { ItemContext } from '../../context/ItemProvider';
@@ -76,9 +75,6 @@ export default function InnerColorSelectContainer() {
   return (
     <Wrapper>
       <CardSlider title="내장 색상을 선택해주세요." cardList={cardPageList} maxPage={maxPage} />
-      <Footer>
-        <PriceSummary nextPagePath={PATH.option} />
-      </Footer>
     </Wrapper>
   );
 }
@@ -92,9 +88,4 @@ const CardPage = styled.div`
   gap: 16px;
   margin-top: 12px;
   transition: all 1s;
-`;
-const Footer = styled.div`
-  margin-top: 36px;
-  display: flex;
-  justify-content: flex-end;
 `;

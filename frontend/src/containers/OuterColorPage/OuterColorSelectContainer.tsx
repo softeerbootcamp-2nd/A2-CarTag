@@ -1,10 +1,9 @@
 import { ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import CenterWrapper from '../../components/layout/CenterWrapper';
-import PriceSummary from '../../components/summary/PriceSummary';
 import OuterColorCard from '../../components/cards/OuterColorCard';
 import CardSlider from '../../components/cardSlider/CardSlider';
-import { NUM_IN_A_PAGE, PATH } from '../../utils/constants';
+import { NUM_IN_A_PAGE } from '../../utils/constants';
 import { IOuterColor, OuterColorContext } from '../../context/OuterColorProvider';
 import { ItemContext } from '../../context/ItemProvider';
 
@@ -73,9 +72,6 @@ export default function OuterColorSelectContainer() {
   return (
     <Wrapper>
       <CardSlider title="외장 색상을 선택해주세요." cardList={cardPageList} maxPage={maxPage} />
-      <Footer>
-        <PriceSummary nextPagePath={PATH.innerColor} />
-      </Footer>
     </Wrapper>
   );
 }
@@ -89,9 +85,4 @@ const CardPage = styled.div`
   display: flex;
   gap: 16px;
   margin-top: 12px;
-`;
-const Footer = styled.div`
-  margin-top: 36px;
-  display: flex;
-  justify-content: flex-end;
 `;
