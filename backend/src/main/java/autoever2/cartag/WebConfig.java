@@ -16,7 +16,7 @@ public class WebConfig implements WebMvcConfigurer {
                 .allowedOrigins("http://www.a2cartag.com/**")
                 .allowedOrigins("*")
                 .allowedHeaders("*")
-                .allowedMethods("GET")
+                .allowedMethods("GET", "POST")
                 .allowedHeaders("*");
     }
 
