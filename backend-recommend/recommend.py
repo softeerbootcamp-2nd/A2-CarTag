@@ -43,9 +43,10 @@ def recByApriori(body):
     te = TransactionEncoder()
     te_ary = te.fit(dataset).transform(dataset)
     df = pd.DataFrame(te_ary, columns=te.columns_)
-    frequent_itemsets = fpgrowth(df, min_support=0.05, use_colnames=True)
+    df = df.iloc[:100000]
+    frequent_itemsets = apriori(df, min_support=0.01, use_colnames=True)
 
-    result_itemsets = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.3) 
+    result_itemsets = association_rules(frequent_itemsets, metric="confidence", min_threshold=0.1) 
     matching_itemsets = {}
 
     for idx, row in result_itemsets.iterrows():
