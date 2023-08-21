@@ -93,12 +93,10 @@ export default function ShareModal({ ...props }: IShareModal) {
 
   function objectToQueryString(obj: { [key: string]: number | string }) {
     const queryParams = [];
-
     for (const key in obj) {
       const value = obj[key];
       queryParams.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
     }
-
     return queryParams.join('&');
   }
 
