@@ -2,7 +2,6 @@ package autoever2.cartag.service;
 
 import autoever2.cartag.domain.car.CarDto;
 import autoever2.cartag.domain.car.CarInfoDto;
-import autoever2.cartag.domain.car.CarTypeDto;
 import autoever2.cartag.domain.car.TrimDefaultOptionDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.exception.ErrorCode;
@@ -27,7 +26,7 @@ import static org.mockito.Mockito.when;
 class CarServiceTest {
 
     @InjectMocks
-    private CarService carService;
+    private CarService service;
 
     @Mock
     private CarRepository carRepository;
@@ -122,11 +121,11 @@ class CarServiceTest {
         when(optionRepository.findDefaultOptionByCarId(carId)).thenReturn(trimDefaultOptionDtoList);
         when(carRepository.findCarByCarType(2)).thenThrow(new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND));
 
-        List<CarDto> carByCarType = carService.findCarByCarType(carType);
+        List<CarDto> carByCarType = service.findCarByCarType(carType);
 
         assertEquals(carByCarType.size(), 4);
         assertEquals(carByCarType.get(0).getOptions().size(), 3);
-        assertThatThrownBy(() -> carService.findCarByCarType(2)).isInstanceOf(EmptyDataException.class);
+        assertThatThrownBy(() -> service.findCarByCarType(2)).isInstanceOf(EmptyDataException.class);
     }
 
     @Test
@@ -134,30 +133,5 @@ class CarServiceTest {
     void carDefaultInfo(){
 
 
-    }
-
-    @Test
-    @DisplayName("DB에서 받아온 차종을 Controller로 전달")
-    void carTypeList() {
-        List<CarTypeDto> carTypeList = new ArrayList<>();
-        carTypeList.add(CarTypeDto.builder()
-                .carTypeId(1)
-                .carTypeName("펠리세이드")
-                .carTypeImage("image_1")
-                .build());
-        carTypeList.add(CarTypeDto.builder()
-                .carTypeId(2)
-                .carTypeImage("/cartype/santafe.png")
-                .carTypeName("싼타페")
-                .build());
-        carTypeList.add(CarTypeDto.builder()
-                .carTypeId(3)
-                .carTypeImage("/cartype/the-all-new-kona-hybrid.png")
-                .carTypeName("디 올 뉴 코나 Hybrid")
-                .build());
-
-        when(carRepository.findAllCarType()).thenReturn(carTypeList);
-
-        assertEquals(carTypeList, carService.getAllCarTypes());
     }
 }
