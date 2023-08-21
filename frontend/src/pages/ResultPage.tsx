@@ -11,6 +11,7 @@ import { ItemContext } from '../context/ItemProvider';
 import { useEfficiencyData } from '../hooks/useEfficiencyData';
 import { useRef } from 'react';
 import { useReactToPrint } from 'react-to-print';
+import { ProgressContext } from '../context/ProgressProvider';
 
 export default function ResultPage() {
   const { setSelectedItem } = useContext(ItemContext);
@@ -19,6 +20,7 @@ export default function ResultPage() {
     powerTrainId: sharedInfo?.powerTrainId,
     operationId: sharedInfo?.operationId,
   });
+  const { setNextStepAvailable } = useContext(ProgressContext);
 
   useEffect(() => {
     if (!efficiencyData) return;
@@ -105,7 +107,8 @@ export default function ResultPage() {
     setSelectedItem({ type: 'SET_OUTER_COLOR', value: sharedOuterColor });
     setSelectedItem({ type: 'SET_INNER_COLOR', value: sharedInnerColor });
     setSelectedItem({ type: 'SET_OPTIONS', value: sharedOptions });
-  }, [sharedInfo, setSelectedItem]);
+    setNextStepAvailable(true);
+  }, [sharedInfo, setSelectedItem, setNextStepAvailable]);
   const resultRef = useRef<HTMLDivElement>(null);
 
   const getPageStyles = () => {
