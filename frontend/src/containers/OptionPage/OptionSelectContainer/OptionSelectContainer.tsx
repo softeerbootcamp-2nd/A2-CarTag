@@ -44,7 +44,7 @@ export default function OptionSelectContainer({
             onChange={(e) => {
               handleInputChange(e.currentTarget.value);
             }}
-            placeholder="옵션명, 카테고리로 검색해보세요."
+            placeholder="옵션명로 검색해보세요."
           />
         ) : (
           <SearchBar
@@ -54,7 +54,7 @@ export default function OptionSelectContainer({
             onChange={(e) => {
               handleInputChange(e.currentTarget.value);
             }}
-            placeholder="옵션명, 해시태그, 카테고리로 검색해보세요."
+            placeholder="옵션명, 해시태그로 검색해보세요."
           />
         )}
       </Header>

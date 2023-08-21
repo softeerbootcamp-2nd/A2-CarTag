@@ -25,9 +25,11 @@ export default function SubOptionContainer({ query, setQuery, setResult }: ISubO
   const [filteredByCategory, setFilteredByCategory] = useState<ISubOption[]>([]);
   const [displayData, setDisplayData] = useState<ISubOption[]>([]);
   const setResultCallback = useCallback(setResult, [setResult]);
+
   const handleSearch = useCallback(
     (query: string) => {
-      const result: string[] = [];
+      const resultOptionNames: string[] = [];
+      const resultHashtags: string[] = [];
 
       const filteredResults = filteredByCategory.filter((option) => {
         const keyword = query.toLowerCase();
@@ -37,15 +39,22 @@ export default function SubOptionContainer({ query, setQuery, setResult }: ISubO
         const optionMatches = optionName.includes(keyword);
         const hashtagMatches = hashtags.some((tag) => tag.includes(keyword));
 
-        if (optionMatches && !result.includes(option.optionName)) {
-          console.log(result);
-          result.push(option.optionName);
+        if (optionMatches && !resultOptionNames.includes(option.optionName)) {
+          resultOptionNames.push(option.optionName);
+        }
+
+        if (hashtagMatches) {
+          hashtags.forEach((tag) => {
+            if (tag.includes(keyword) && !resultHashtags.includes(tag)) {
+              resultHashtags.push(tag);
+            }
+          });
         }
         return optionMatches || hashtagMatches;
       });
 
       setDisplayData(filteredResults);
-      setResultCallback(result);
+      setResultCallback([...resultOptionNames, ...resultHashtags]);
     },
     [filteredByCategory, setResultCallback]
   );

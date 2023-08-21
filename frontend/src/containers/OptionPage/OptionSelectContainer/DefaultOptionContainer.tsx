@@ -40,10 +40,8 @@ export default function DefaultOptionContainer({
       const filteredResults = filteredByCategory.filter((option) => {
         const keyword = query.toLowerCase();
         const optionName = option.optionName.toLowerCase();
-        // const category = option.optionCategoryName.toLowerCase();
 
         return optionName.includes(keyword);
-        //  || category.includes(keyword)
       });
 
       setDisplayData(filteredResults);
