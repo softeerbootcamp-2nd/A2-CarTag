@@ -1,8 +1,12 @@
 import { styled } from 'styled-components';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import { BodyKrMedium3, BodyKrRegular4, HeadingKrBold1 } from '../../styles/typefaces';
+import { useContext } from 'react';
+import { ItemContext } from '../../context/ItemProvider';
 
 export default function QuoteSummaryContainer() {
+  const { selectedItem } = useContext(ItemContext);
+
   return (
     <Wrapper>
       <FlexCenterWrapper>
@@ -10,15 +14,15 @@ export default function QuoteSummaryContainer() {
         <Info>
           <Item>
             <Title>모델</Title>
-            <Desc>Le Blanc(르블랑)</Desc>
+            <Desc>{selectedItem.trim.name}</Desc>
           </Item>
           <Item>
             <Title>배기량</Title>
-            <Desc>2,199cc</Desc>
+            <Desc>{selectedItem.efficiency.displacement}</Desc>
           </Item>
           <Item>
             <Title>평균 연비</Title>
-            <Desc>12km/l</Desc>
+            <Desc>{selectedItem.efficiency.averageFuel}</Desc>
           </Item>
         </Info>
       </FlexCenterWrapper>

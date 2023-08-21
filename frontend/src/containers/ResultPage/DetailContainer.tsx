@@ -80,7 +80,7 @@ export default function DetailContainer() {
     <Wrapper>
       <Title>상세 견적</Title>
       <Details
-        desc={`+ ${partialPrice.modelTypePrice.toLocaleString()} 원`}
+        desc={`+${partialPrice.modelTypePrice.toLocaleString()} 원`}
         title="모델 선택"
         open={isOpen[0]}
         onClick={() => setOpenedIdx(0)}
@@ -88,7 +88,7 @@ export default function DetailContainer() {
         <DetailsItemList open={isOpen[0]}>{modelTypeItems}</DetailsItemList>
       </Details>
       <Details
-        desc={`+ ${partialPrice.colorPrice.toLocaleString()} 원`}
+        desc={`+${partialPrice.colorPrice.toLocaleString()} 원`}
         title="색상"
         open={isOpen[1]}
         onClick={() => setOpenedIdx(1)}
@@ -96,7 +96,7 @@ export default function DetailContainer() {
         <DetailsItemList open={isOpen[1]}>{colorSummaryItems}</DetailsItemList>
       </Details>
       <Details
-        desc={`+ ${partialPrice.optionPrice.toLocaleString()} 원`}
+        desc={`+${partialPrice.optionPrice.toLocaleString()} 원`}
         title="추가 옵션"
         open={isOpen[2]}
         onClick={() => setOpenedIdx(2)}

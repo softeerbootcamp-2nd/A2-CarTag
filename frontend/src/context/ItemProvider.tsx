@@ -14,6 +14,10 @@ export interface detailItemType extends defaultItemType {
 export interface IColorItemType extends detailItemType {
   carImgSrc: string;
 }
+export interface IEfficiencyType {
+  averageFuel: string;
+  displacement: string;
+}
 export interface ISelectedItem {
   trim: defaultItemType;
   modelType: {
@@ -24,6 +28,7 @@ export interface ISelectedItem {
   innerColor: IColorItemType;
   outerColor: IColorItemType;
   options: detailItemType[];
+  efficiency: IEfficiencyType;
 }
 
 export interface IDefaultInfo {
@@ -108,6 +113,10 @@ const initialSelectedItem = {
     price: 0,
   },
   options: [],
+  efficiency: {
+    averageFuel: '',
+    displacement: '',
+  },
 };
 
 const initialItem: IItemContext = {

@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { PATH } from '../../utils/constants';
 import { MODEL_TYPE_API } from '../../utils/apis';
 import { styled } from 'styled-components';
@@ -13,16 +13,31 @@ import CenterWrapper from '../../components/layout/CenterWrapper';
 import PriceSummary from '../../components/summary/PriceSummary';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
 import { ModelTypeContext } from '../../context/ModelTypeProvider';
+import { ItemContext } from '../../context/ItemProvider';
 
 interface IHmgEfficiency {
   averageFuel: string;
   displacement: string;
 }
 export default function ModelTypeFooterContainer() {
+  const { selectedItem, setSelectedItem } = useContext(ItemContext);
   const { modelType, selectedModelType } = useContext(ModelTypeContext);
   const { data: hmgEfficiency, loading: hmgEfficiencyLoading } = useFetch<IHmgEfficiency>(
-    `${MODEL_TYPE_API}/hmg-efficiency?powertrain=${selectedModelType.powerTrain.id}&operation=${selectedModelType.operation.id}`
+    `${MODEL_TYPE_API}/hmg-efficiency?powertrain=${selectedItem.modelType.powerTrain.id}&operation=${selectedItem.modelType.operation.id}`
   );
+
+  console.log(hmgEfficiency);
+  useEffect(() => {
+    if (!hmgEfficiency || hmgEfficiencyLoading) return;
+    setSelectedItem({
+      type: 'SET_EFFICIENCY',
+      value: {
+        averageFuel: hmgEfficiency.averageFuel,
+        displacement: hmgEfficiency.displacement,
+      },
+    });
+  }, [hmgEfficiency, hmgEfficiencyLoading, setSelectedItem]);
+
   if (!modelType) return;
 
   return (
