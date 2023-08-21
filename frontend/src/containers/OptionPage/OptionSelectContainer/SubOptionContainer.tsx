@@ -1,12 +1,4 @@
-import {
-  Dispatch,
-  useCallback,
-  useContext,
-  useEffect,
-  useLayoutEffect,
-  useRef,
-  useState,
-} from 'react';
+import { Dispatch, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
@@ -61,7 +53,7 @@ export default function SubOptionContainer({ query, setQuery, setResult }: ISubO
 
   const [currentCategory, setCurrentCategory] = useState('전체');
   const { subOption, currentOptionIdx, setCurrentOptionIdx } = useContext(SubOptionContext);
-  const { selectedItem, setTotalPrice, setSelectedItem } = useContext(ItemContext);
+  const { selectedItem, setSelectedItem } = useContext(ItemContext);
   const setQueryCallback = useCallback(setQuery, [setQuery]);
   const groupByCategoryName = (array: ISubOption[] | null) => {
     if (!array) return;
@@ -80,7 +72,9 @@ export default function SubOptionContainer({ query, setQuery, setResult }: ISubO
   const handleSelectOption = useCallback(
     (option: ISubOption) => {
       if (!subOption) return;
-      const existingWheelOptionIdx = selectedItem.options.findIndex((item) => item.title === '휠');
+      const existingWheelOptionIdx = selectedItem.options.findIndex(
+        (item) => item.title === '휠' && item.id !== option.subOptionId
+      );
       if (option.optionCategoryName === '휠' && existingWheelOptionIdx !== -1) {
         selectedItem.options.splice(existingWheelOptionIdx, 1);
       }
@@ -130,10 +124,6 @@ export default function SubOptionContainer({ query, setQuery, setResult }: ISubO
     setFilteredByCategory(category);
     setDisplayData(category);
   }, [subOption, currentCategory, setQueryCallback, setResultCallback]);
-
-  useLayoutEffect(() => {
-    handleSelectOption;
-  }, [subOption, selectedItem, setSelectedItem, setTotalPrice, handleSelectOption]);
 
   const handleCategoryClick = (category: string) => {
     setCurrentCategory(category);

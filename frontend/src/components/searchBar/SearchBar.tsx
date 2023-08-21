@@ -14,14 +14,14 @@ export default function SearchBar({ value, result, setQuery, ...props }: SearchB
   const displayData = result.map((res, index) => (
     <AutoSearchData key={index}>{res}</AutoSearchData>
   ));
+
   const handleClick = useCallback(
     (event: MouseEvent) => {
       const target = event.target as HTMLInputElement;
-      if (searchBarRef.current && !searchBarRef.current.contains(target)) {
+      const isOutsideSearchBox = searchBarRef.current && !searchBarRef.current.contains(target);
+      if (isOutsideSearchBox) {
         setVisibleAutoBox(false);
-        return;
-      }
-      if (target.closest('li')?.innerText !== undefined) {
+      } else if (target.closest('li')?.innerText !== undefined) {
         setQuery(target.closest('li')!.innerText!);
         setVisibleAutoBox(false);
       }

@@ -24,6 +24,7 @@ export default function OptionCard({
   ...props
 }: IOptionCard) {
   const { selectedItem } = useContext(ItemContext);
+  const isActive = !!selectedItem.options.find((item) => item.name === option.optionName);
 
   const displayCaption =
     type === 'default' ? (
@@ -31,13 +32,8 @@ export default function OptionCard({
     ) : (
       <OptionPrice>
         +{option.optionPrice.toLocaleString()} 원
-        <BtnWrapper
-          $active={!!selectedItem.options.find((item) => item.name === option.optionName)}
-          onClick={handleSelectOption}
-        >
-          <CheckIcon
-            active={!!selectedItem.options.find((item) => item.name === option.optionName)}
-          />
+        <BtnWrapper $active={isActive} onClick={handleSelectOption}>
+          <CheckIcon active={isActive} />
         </BtnWrapper>
       </OptionPrice>
     );

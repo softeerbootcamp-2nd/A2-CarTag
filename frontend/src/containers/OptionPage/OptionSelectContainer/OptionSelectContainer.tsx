@@ -36,27 +36,16 @@ export default function OptionSelectContainer({
             기본옵션
           </CategoryItem>
         </CategoryList>
-        {isDefault ? (
-          <SearchBar
-            value={query}
-            result={result}
-            setQuery={setQuery}
-            onChange={(e) => {
-              handleInputChange(e.currentTarget.value);
-            }}
-            placeholder="옵션명로 검색해보세요."
-          />
-        ) : (
-          <SearchBar
-            value={query}
-            result={result}
-            setQuery={setQuery}
-            onChange={(e) => {
-              handleInputChange(e.currentTarget.value);
-            }}
-            placeholder="옵션명, 해시태그로 검색해보세요."
-          />
-        )}
+
+        <SearchBar
+          value={query}
+          result={result}
+          setQuery={setQuery}
+          onChange={(e) => {
+            handleInputChange(e.currentTarget.value);
+          }}
+          placeholder={isDefault ? '옵션명으로 검색해보세요.' : '옵션명, 해시태그로 검색해보세요.'}
+        />
       </Header>
 
       {isDefault ? (
