@@ -7,9 +7,16 @@ export interface ISummaryItem {
   itemName: string;
   selectedName: string;
   price: number;
+  handleModifyClick: () => void;
 }
 
-export default function SummaryItem({ imgSrc, itemName, selectedName, price }: ISummaryItem) {
+export default function SummaryItem({
+  imgSrc,
+  itemName,
+  selectedName,
+  price,
+  handleModifyClick,
+}: ISummaryItem) {
   return (
     <Item>
       <Img src={IMG_URL + imgSrc} alt="" />
@@ -19,7 +26,7 @@ export default function SummaryItem({ imgSrc, itemName, selectedName, price }: I
           <SelectedName>{selectedName}</SelectedName>
         </LeftInfo>
         <RightInfo>
-          <ModifyButton>수정하기</ModifyButton>
+          <ModifyButton onClick={handleModifyClick}>수정하기</ModifyButton>
           <Price>+ {price.toLocaleString()}원</Price>
         </RightInfo>
       </InfoWrapper>

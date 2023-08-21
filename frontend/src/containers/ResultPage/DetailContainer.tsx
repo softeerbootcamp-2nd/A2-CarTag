@@ -5,9 +5,12 @@ import SummaryItem from '../../components/details/SummaryItem';
 import { useContext, useEffect, useState } from 'react';
 import { ItemContext } from '../../context/ItemProvider';
 import DetailsItemList from '../../components/details/DetailsItemList';
+import { useNavigate } from 'react-router-dom';
+import { PATH } from '../../utils/constants';
 
 export default function DetailContainer() {
   const { selectedItem } = useContext(ItemContext);
+  const navigate = useNavigate();
   const [partialPrice, setPartialPrice] = useState({
     modelTypePrice: 0,
     colorPrice: 0,
@@ -55,17 +58,23 @@ export default function DetailContainer() {
       itemName={value.title}
       selectedName={value.name}
       price={value.price}
+      handleModifyClick={() => navigate(PATH.modelType)}
     />
   ));
-  const colorSummaryItems = [selectedItem.innerColor, selectedItem.outerColor].map((color, idx) => (
-    <SummaryItem
-      key={idx}
-      imgSrc={color.imgSrc}
-      itemName={color.title}
-      selectedName={color.name}
-      price={color.price}
-    />
-  ));
+  const colorSummaryItems = [selectedItem.innerColor, selectedItem.outerColor].map((color, idx) => {
+    return (
+      <SummaryItem
+        key={idx}
+        imgSrc={color.imgSrc}
+        itemName={color.title}
+        selectedName={color.name}
+        price={color.price}
+        handleModifyClick={
+          idx === 0 ? () => navigate(PATH.innerColor) : () => navigate(PATH.outerColor)
+        }
+      />
+    );
+  });
   const optionSummaryItems = selectedItem.options.map((option, idx) => (
     <SummaryItem
       key={idx}
@@ -73,6 +82,7 @@ export default function DetailContainer() {
       itemName={option.title}
       selectedName={option.name}
       price={option.price}
+      handleModifyClick={() => navigate(PATH.option)}
     />
   ));
 
@@ -103,7 +113,7 @@ export default function DetailContainer() {
       >
         <DetailsItemList open={isOpen[2]}>{optionSummaryItems}</DetailsItemList>
       </Details>
-      <Details desc="- 0원" title="탁송" open={isOpen[3]} onClick={() => setOpenedIdx(3)}></Details>
+      <Details desc="-0 원" title="탁송" open={isOpen[3]} onClick={() => setOpenedIdx(3)}></Details>
       <Details
         desc="-0 원"
         title="할인 및 포인트"
