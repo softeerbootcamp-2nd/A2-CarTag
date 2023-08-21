@@ -11,6 +11,7 @@ import ItemProvider from './context/ItemProvider';
 import { useEffect } from 'react';
 import QuoteSummaryModalProvider from './context/QuoteSummaryModalProvider';
 import ShareModalProvider from './context/ShareModalProvider';
+import ProgressProvider from './context/ProgressProvider';
 
 function App() {
   useEffect(() => {
@@ -24,6 +25,7 @@ function App() {
     QuoteSummaryModalProvider,
     ShareModalProvider,
     ItemProvider,
+    ProgressProvider,
   ];
   return (
     <Providers contexts={globalProviders}>

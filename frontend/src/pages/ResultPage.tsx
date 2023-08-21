@@ -9,6 +9,8 @@ import { useContext, useEffect } from 'react';
 import useSharedInfo from '../hooks/useSharedInfo';
 import { ItemContext } from '../context/ItemProvider';
 import { useEfficiencyData } from '../hooks/useEfficiencyData';
+import { useRef } from 'react';
+import { useReactToPrint } from 'react-to-print';
 
 export default function ResultPage() {
   const { setSelectedItem } = useContext(ItemContext);
@@ -104,19 +106,33 @@ export default function ResultPage() {
     setSelectedItem({ type: 'SET_INNER_COLOR', value: sharedInnerColor });
     setSelectedItem({ type: 'SET_OPTIONS', value: sharedOptions });
   }, [sharedInfo, setSelectedItem]);
+  const resultRef = useRef<HTMLDivElement>(null);
+
+  const getPageStyles = () => {
+    return `@page {margin:40px; !important }`;
+  };
+
+  const handlePrint = useReactToPrint({
+    content: () => resultRef.current,
+    documentTitle: Math.random().toString(36).substring(2, 12),
+  });
   return (
     <>
-      <ResultBannerContainer />
-      <QuoteSummaryContainer />
-      <Row>
-        <DetailContainer />
-        <HistogramContainer />
-      </Row>
-      <ResultFooterContainer />
+      <Wrapper ref={resultRef}>
+        <style>{getPageStyles()}</style>
+        <ResultBannerContainer />
+        <QuoteSummaryContainer />
+        <Row>
+          <DetailContainer />
+          <HistogramContainer />
+        </Row>
+      </Wrapper>
+      <ResultFooterContainer handlePrint={handlePrint} />
     </>
   );
 }
 
+const Wrapper = styled.div``;
 const Row = styled(CenterWrapper)`
   display: flex;
   flex-direction: row;

@@ -3,6 +3,7 @@ package autoever2.cartag.repository;
 import autoever2.cartag.domain.car.TrimDefaultOptionDto;
 import autoever2.cartag.domain.option.OptionDetailMappedDto;
 import autoever2.cartag.domain.option.OptionShortMappedDto;
+import autoever2.cartag.domain.option.QuoteSubOptionDto;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -131,4 +132,22 @@ public class OptionRepository {
             return Optional.empty();
         }
     }
+
+    public Optional<QuoteSubOptionDto> findSubOptionByOptionId(int optionId){
+        String sql = "select CarOption.option_id, option_name, option_image, option_price, option_category_name as optionTitle from CarOption inner join SubOptionData " +
+                "on CarOption.option_id = SubOptionData.option_id inner join OptionCategory on " +
+                "OptionCategory.option_category_id = CarOption.option_category_id where CarOption.option_id = :optionId";
+        try {
+            SqlParameterSource param = new MapSqlParameterSource()
+                    .addValue("optionId", optionId);
+            return Optional.of(template.queryForObject(sql, param, shareSubOptionRowMapper()));
+        } catch (DataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    private RowMapper<QuoteSubOptionDto> shareSubOptionRowMapper() {
+        return BeanPropertyRowMapper.newInstance(QuoteSubOptionDto.class);
+    }
+
 }

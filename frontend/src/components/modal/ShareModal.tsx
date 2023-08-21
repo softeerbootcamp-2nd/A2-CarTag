@@ -1,4 +1,4 @@
-import { HTMLAttributes, useContext, useRef, useState } from 'react';
+import { HTMLAttributes, useContext, useState } from 'react';
 import { DimmedBackground } from './DimmedBackground';
 import WhiteModal from './WhiteModal';
 import { styled } from 'styled-components';
@@ -19,8 +19,6 @@ export default function ShareModal({ ...props }: IShareModal) {
   const { visible, setVisible } = useContext(ShareModalContext);
   const { selectedItem } = useContext(ItemContext);
   const [copyAlertVisible, setCopyAlertVisible] = useState(false);
-
-  const linkValueRef = useRef<HTMLInputElement>(null);
 
   const handleCopyClick = async () => {
     try {
@@ -47,7 +45,6 @@ export default function ShareModal({ ...props }: IShareModal) {
     const optionIds = selectedItem.options.map((option) => {
       return { optionId: option.id };
     });
-
     const parmasObj = {
       trimId,
       powerTrainId,
@@ -57,7 +54,6 @@ export default function ShareModal({ ...props }: IShareModal) {
       innerColorId,
       optionList: optionIds,
     };
-
     return parmasObj;
   };
   const createShareUrl = () => {
@@ -85,10 +81,11 @@ export default function ShareModal({ ...props }: IShareModal) {
       innerColorId,
       optionIds,
     });
-    return window.location.origin + PATH.result + '?' + queryString;
+    const shareUrl = window.location.origin + PATH.result + '?' + queryString;
+    return shareUrl;
   };
 
-  function objectToQueryString(obj: { [key: string]: number | string }) {
+  const objectToQueryString = (obj: { [key: string]: number | string }) => {
     const queryParams = [];
     for (const key in obj) {
       const value = obj[key];
@@ -97,7 +94,7 @@ export default function ShareModal({ ...props }: IShareModal) {
       }
     }
     return queryParams.join('&');
-  }
+  };
 
   const shareUrl = createShareUrl();
   return (
@@ -120,7 +117,7 @@ export default function ShareModal({ ...props }: IShareModal) {
             </CopyButton>
           </ButtonContainer>
 
-          <UrlText ref={linkValueRef}>{shareUrl}</UrlText>
+          <UrlText>{shareUrl}</UrlText>
         </LinkWrapper>
       </Modal>
     </DimmedBackground>

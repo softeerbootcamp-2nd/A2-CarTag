@@ -45,7 +45,7 @@ public class ModelRepository {
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("carId", carId);
 
-        return template.query(sql, param, ModelDefaultRowMapper());
+        return template.query(sql, param, modelDefaultRowMapper());
     }
 
     public Optional<ModelDetailMappedDto> findModelDetailData(int modelId) {
@@ -73,6 +73,17 @@ public class ModelRepository {
         return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, efficiencyMapper())));
     }
 
+    public List<ModelDefaultDto> findModelListByModelId(int powerTrainId, int bodyTypeId, int operationId) {
+        String sql = "select model_id, model_name, model_price, model_image, model_type_name as modelTitle from Model " +
+                "inner join ModelType on Model.model_type_id = ModelType.model_type_id where model_id = :powerTrainId " +
+                "or model_id = :bodyTypeId or model_id = :operationId";
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("powerTrainId", powerTrainId)
+                .addValue("bodyTypeId", bodyTypeId)
+                .addValue("operationId", operationId);
+        return template.query(sql, param, modelDefaultRowMapper());
+    }
+
 
     private RowMapper<ModelEfficiencyDataDto> efficiencyMapper() {
         return BeanPropertyRowMapper.newInstance(ModelEfficiencyDataDto.class);
@@ -86,7 +97,7 @@ public class ModelRepository {
         return BeanPropertyRowMapper.newInstance(ModelShortMappedDto.class);
     }
 
-    private RowMapper<ModelDefaultDto> ModelDefaultRowMapper() {
+    private RowMapper<ModelDefaultDto> modelDefaultRowMapper() {
         return BeanPropertyRowMapper.newInstance(ModelDefaultDto.class);
     }
 

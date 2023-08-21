@@ -64,7 +64,6 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
     dragRef.current = false;
   };
 
-  ///////
   useEffect(() => {
     setBudget((selectedItem.trim.price + highestPrice) / 2);
   }, [selectedItem.trim.price]);

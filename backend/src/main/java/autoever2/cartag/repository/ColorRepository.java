@@ -2,6 +2,7 @@ package autoever2.cartag.repository;
 
 import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -29,7 +30,7 @@ public class ColorRepository {
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("carId", carId);
-        return template.query(sql, param, InnerColorCarMapper());
+        return template.query(sql, param, innerColorCarMapper());
 
     }
 
@@ -40,7 +41,7 @@ public class ColorRepository {
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("carId", carId);
-        return template.query(sql, param, OuterColorCarMapper());
+        return template.query(sql, param, outerColorCarMapper());
     }
 
     public Optional<String> findOuterColorImagesByColorId(int colorId) {
@@ -55,11 +56,36 @@ public class ColorRepository {
         }
     }
 
-    private RowMapper<OuterColorDto> OuterColorCarMapper() {
+    public Optional<InnerColorDto> findInnerColorByColorId(int colorId) {
+        String sql = "select c.color_id, color_name, color_image, color_car_image, color_price " +
+                "from ColorCarMapper as cm inner join Color as c " +
+                "on cm.color_id = c.color_id where c.color_id = :colorId and c.is_outer_color = 0";
+        try {
+            SqlParameterSource param = new MapSqlParameterSource()
+                    .addValue("colorId", colorId);
+            return Optional.of(template.queryForObject(sql, param, innerColorCarMapper()));
+        } catch (DataAccessException e) {
+            return Optional.empty();
+        }
+    }
+    public Optional<OuterColorDto> findOuterColorByColorId(int colorId) {
+        String sql = "select c.color_id, color_name, color_image, color_car_image, color_price " +
+                "from ColorCarMapper as cm inner join Color as c " +
+                "on cm.color_id = c.color_id where c.color_id = :colorId and c.is_outer_color = 1";
+        try {
+            SqlParameterSource param = new MapSqlParameterSource()
+                    .addValue("colorId", colorId);
+            return Optional.of(template.queryForObject(sql, param, outerColorCarMapper()));
+        } catch (DataAccessException e) {
+            return Optional.empty();
+        }
+    }
+
+    private RowMapper<OuterColorDto> outerColorCarMapper() {
         return BeanPropertyRowMapper.newInstance(OuterColorDto.class);
     }
 
-    private RowMapper<InnerColorDto> InnerColorCarMapper() {
+    private RowMapper<InnerColorDto> innerColorCarMapper() {
         return BeanPropertyRowMapper.newInstance(InnerColorDto.class);
     }
 }
