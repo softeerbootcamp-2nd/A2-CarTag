@@ -1,23 +1,29 @@
 import { styled } from 'styled-components';
-import { useContext, useState } from 'react';
+import { Dispatch, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
 import { DefaultOptionContext, IDefaultOption } from '../../../context/DefaultOptionProvider';
 import HmgTag from '../../../components/common/hmgTag/HmgTag';
-
-export default function DefaultOptionContainer() {
+import { DEBOUNCE_TIME } from '../../../utils/constants';
+interface IDefaultOptionContainer {
+  query: string;
+  setQuery: Dispatch<React.SetStateAction<string>>;
+  setResult: Dispatch<React.SetStateAction<string[]>>;
+}
+export default function DefaultOptionContainer({
+  query,
+  setQuery,
+  setResult,
+}: IDefaultOptionContainer) {
+  const [filteredByCategory, setFilteredByCategory] = useState<IDefaultOption[]>([]);
   const [currentCategory, setCurrentCategory] = useState('전체');
   const { defaultOption, currentOptionIdx, setCurrentOptionIdx } = useContext(DefaultOptionContext);
-  const handleCategoryClick = (category: string) => {
-    setCurrentCategory(category);
-  };
+  const setQueryCallback = useCallback(setQuery, [setQuery]);
+  const [displayData, setDisplayData] = useState<IDefaultOption[]>([]);
+  const setResultCallback = useCallback(setResult, [setResult]);
+  const groupByCategoryName = (array: IDefaultOption[] | null) => {
+    if (!array) return;
 
-  const handleCardClick = (index: number) => {
-    setCurrentOptionIdx(index);
-  };
-
-  if (!defaultOption) return;
-  const groupByCategoryName = (array: IDefaultOption[]) => {
     return array.reduce((acc: Record<string, IDefaultOption[]>, current: IDefaultOption) => {
       const optionCategoryName = current.optionCategoryName;
       if (!acc[optionCategoryName]) {
@@ -27,9 +33,61 @@ export default function DefaultOptionContainer() {
       return acc;
     }, {});
   };
-  const groupedData = groupByCategoryName(defaultOption);
+  const groupedData = useRef(groupByCategoryName(defaultOption!));
 
-  const displayCategory = Object.keys(groupedData).map((key) => (
+  const handleSearch = useCallback(
+    (query: string) => {
+      const filteredResults = filteredByCategory.filter((option) => {
+        const keyword = query.toLowerCase();
+        const optionName = option.optionName.toLowerCase();
+        const category = option.optionCategoryName.toLowerCase();
+
+        return optionName.includes(keyword) || category.includes(keyword);
+      });
+
+      setDisplayData(filteredResults);
+      setResultCallback(filteredResults.map((option) => option.optionName)); //TODO 옵션명만 대상으로
+    },
+    [filteredByCategory, setResultCallback]
+  );
+
+  const handleCategoryClick = (category: string) => {
+    setCurrentCategory(category);
+  };
+
+  const handleCardClick = (index: number) => {
+    setCurrentOptionIdx(index);
+  };
+
+  useEffect(() => {
+    groupedData.current = groupByCategoryName(defaultOption);
+  }, [defaultOption]);
+
+  useEffect(() => {
+    if (!filteredByCategory || !query) {
+      setDisplayData(filteredByCategory);
+
+      return;
+    }
+
+    const debounce = setTimeout(() => {
+      if (query) handleSearch(query);
+    }, DEBOUNCE_TIME);
+    return () => {
+      clearTimeout(debounce);
+    };
+  }, [query, filteredByCategory, handleSearch, setResult]);
+
+  useEffect(() => {
+    if (!defaultOption || !groupedData.current) return;
+    const category =
+      currentCategory === '전체' ? defaultOption : groupedData.current[currentCategory];
+    setQueryCallback('');
+    setFilteredByCategory(category);
+    setDisplayData(category);
+  }, [defaultOption, currentCategory, setQueryCallback]);
+  if (!groupedData.current) return;
+  const displayCategory = Object.keys(groupedData.current).map((key) => (
     <RoundButton
       key={key}
       type="option"
@@ -39,9 +97,7 @@ export default function DefaultOptionContainer() {
       {key}
     </RoundButton>
   ));
-  const filteredByCategory =
-    currentCategory === '전체' ? defaultOption : groupedData[currentCategory];
-  const displayData = filteredByCategory.map((option, idx) => (
+  const displayOptionList = displayData.map((option, idx) => (
     <CardWrapper key={idx}>
       <OptionCard
         onClick={() => {
@@ -73,7 +129,7 @@ export default function DefaultOptionContainer() {
             {displayCategory}
           </CategoryWrapper>
           <OptionSection>
-            <OptionWrapper>{displayData}</OptionWrapper>
+            <OptionWrapper>{displayOptionList}</OptionWrapper>
           </OptionSection>
         </>
       )}

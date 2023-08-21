@@ -19,7 +19,7 @@ export default function OptionSelectContainer({
   isDefault,
   handleTabItemClick,
 }: IOptionSelectContainer) {
-  const [query, setQuery] = useState<string>('');
+  const [query, setQuery] = useState('');
   const [result, setResult] = useState<string[]>([]);
   const handleInputChange = (query: string) => {
     setQuery(query);
@@ -60,7 +60,7 @@ export default function OptionSelectContainer({
       </Header>
 
       {isDefault ? (
-        <DefaultOptionContainer />
+        <DefaultOptionContainer query={query} setQuery={setQuery} setResult={setResult} />
       ) : (
         <SubOptionContainer query={query} setQuery={setQuery} setResult={setResult} />
       )}

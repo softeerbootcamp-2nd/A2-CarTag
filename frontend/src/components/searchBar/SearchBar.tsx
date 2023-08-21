@@ -10,9 +10,12 @@ interface SearchBarProps extends React.HTMLAttributes<HTMLInputElement> {
 }
 export default function SearchBar({ value, result, setQuery, ...props }: SearchBarProps) {
   const displayData = result.map((res, index) => (
-    <AutoSearchData key={index}>{res}</AutoSearchData>
+    <AutoSearchData key={index} onClick={(e) => handleClick(e.currentTarget.innerText)}>
+      {res}
+    </AutoSearchData>
   ));
   const handleClick = (value: string) => {
+    console.log(value);
     setQuery(value);
   };
   return (
@@ -22,9 +25,7 @@ export default function SearchBar({ value, result, setQuery, ...props }: SearchB
         <SearchIcon width={18} height={18} />
       </Button>
       <AutoSearchContainer $visible={result.length > 0}>
-        <AutoSearchWrapper onClick={(e) => handleClick(e.target.innerText)}>
-          {displayData}
-        </AutoSearchWrapper>
+        <AutoSearchWrapper>{displayData}</AutoSearchWrapper>
       </AutoSearchContainer>
     </Wrapper>
   );

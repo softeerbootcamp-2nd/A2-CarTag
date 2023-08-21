@@ -29,16 +29,16 @@ export default function SubOptionContainer({ query, setQuery, setResult }: ISubO
   const handleSearch = useCallback(
     (query: string) => {
       const filteredResults = filteredByCategory.filter((option) => {
-        const optionName = option.optionName;
-        const category = option.optionCategoryName;
-        const hashtags = option.hashtagName;
+        const keyword = query.toLowerCase();
+        const optionName = option.optionName.toLowerCase();
+        const category = option.optionCategoryName.toLowerCase();
+        const hashtags = option.hashtagName.map((tag) => tag.toLowerCase());
 
-        return [
-          optionName.includes(query),
-          optionName.includes(query) ||
-            hashtags.some((tag) => tag.includes(query)) ||
-            category.includes(query),
-        ];
+        return (
+          optionName.includes(keyword) ||
+          category.includes(keyword) ||
+          hashtags.some((tag) => tag.includes(keyword))
+        );
       });
 
       setDisplayData(filteredResults);
