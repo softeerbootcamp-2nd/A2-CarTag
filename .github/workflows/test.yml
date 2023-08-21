@@ -30,6 +30,7 @@ jobs:
       uses: gradle/gradle-build-action@v2
 
     - name: Test with Gradle
+      working-directory: ${{ env.wd }}
       run: ./gradlew test
       
     - name: Add coverage to PR
