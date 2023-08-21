@@ -1,25 +1,63 @@
-import { useContext, useState } from 'react';
+import { Dispatch, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { styled } from 'styled-components';
 import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
 import { ISubOption, SubOptionContext } from '../../../context/SubOptionProvider';
 import HmgTag from '../../../components/common/hmgTag/HmgTag';
 import { ItemContext } from '../../../context/ItemProvider';
-export default function SubOptionContainer() {
+import { DEBOUNCE_TIME } from '../../../utils/constants';
+
+interface ISubOptionContainer {
+  query: string;
+  setQuery: Dispatch<React.SetStateAction<string>>;
+  setResult: Dispatch<React.SetStateAction<string[]>>;
+}
+
+export default function SubOptionContainer({ query, setQuery, setResult }: ISubOptionContainer) {
+  const [filteredByCategory, setFilteredByCategory] = useState<ISubOption[]>([]);
+  const [displayData, setDisplayData] = useState<ISubOption[]>([]);
+  const setResultCallback = useCallback(setResult, [setResult]);
+
+  const handleSearch = useCallback(
+    (query: string) => {
+      const resultOptionNames: string[] = [];
+      const resultHashtags: string[] = [];
+
+      const filteredResults = filteredByCategory.filter((option) => {
+        const keyword = query.toLowerCase();
+        const optionName = option.optionName.toLowerCase();
+        const hashtags = option.hashtagName.map((tag) => tag.toLowerCase());
+
+        const optionMatches = optionName.includes(keyword);
+        const hashtagMatches = hashtags.some((tag) => tag.includes(keyword));
+
+        if (optionMatches && !resultOptionNames.includes(option.optionName)) {
+          resultOptionNames.push(option.optionName);
+        }
+
+        if (hashtagMatches) {
+          hashtags.forEach((tag) => {
+            if (tag.includes(keyword) && !resultHashtags.includes(tag)) {
+              resultHashtags.push(tag);
+            }
+          });
+        }
+        return optionMatches || hashtagMatches;
+      });
+
+      setDisplayData(filteredResults);
+      setResultCallback([...resultOptionNames, ...resultHashtags]);
+    },
+    [filteredByCategory, setResultCallback]
+  );
+
   const [currentCategory, setCurrentCategory] = useState('전체');
-  const { subOption, selectedOptionIdx, setCurrentOptionIdx, setSelectedOptionIdx } =
-    useContext(SubOptionContext);
-  const { selectedItem, totalPrice, setTotalPrice, setSelectedItem } = useContext(ItemContext);
+  const { subOption, currentOptionIdx, setCurrentOptionIdx } = useContext(SubOptionContext);
+  const { selectedItem, setSelectedItem } = useContext(ItemContext);
+  const setQueryCallback = useCallback(setQuery, [setQuery]);
+  const groupByCategoryName = (array: ISubOption[] | null) => {
+    if (!array) return;
 
-  const handleCategoryClick = (category: string) => {
-    setCurrentCategory(category);
-  };
-
-  const handleCardClick = (index: number) => {
-    setCurrentOptionIdx(index);
-  };
-  if (!subOption) return;
-  const groupByCategoryName = (array: ISubOption[]) => {
     return array.reduce((acc: Record<string, ISubOption[]>, current: ISubOption) => {
       const optionCategoryName = current.optionCategoryName;
       if (!acc[optionCategoryName]) {
@@ -29,41 +67,72 @@ export default function SubOptionContainer() {
       return acc;
     }, {});
   };
-  const groupedData = groupByCategoryName(subOption);
+  const groupedData = useRef(groupByCategoryName(subOption));
 
-  const handleSelectOption = (option: ISubOption) => {
-    if (!subOption) return;
-
-    setSelectedOptionIdx((prevSelectedOptions) => {
-      if (prevSelectedOptions.includes(option.subOptionId)) {
-        setSelectedItem({
-          type: 'SET_OPTIONS',
-          value: selectedItem.options.filter((item) => item.id !== option.subOptionId),
-        });
-        setTotalPrice(totalPrice - option.optionPrice);
-
-        return prevSelectedOptions.filter((item) => item !== option.subOptionId);
-      } else {
-        setSelectedItem({
-          type: 'SET_OPTIONS',
-          value: [
-            ...selectedItem.options,
-            {
-              id: option.subOptionId,
-              name: option.optionName,
-              title: option.optionCategoryName,
-              imgSrc: option.optionImage,
-              price: option.optionPrice,
-            },
-          ],
-        });
-        setTotalPrice(totalPrice + option.optionPrice);
-
-        return [...prevSelectedOptions, option.subOptionId];
+  const handleSelectOption = useCallback(
+    (option: ISubOption) => {
+      if (!subOption) return;
+      const existingWheelOptionIdx = selectedItem.options.findIndex(
+        (item) => item.title === '휠' && item.id !== option.subOptionId
+      );
+      if (option.optionCategoryName === '휠' && existingWheelOptionIdx !== -1) {
+        selectedItem.options.splice(existingWheelOptionIdx, 1);
       }
-    });
+      setSelectedItem({
+        type: 'SET_OPTIONS',
+        value: selectedItem.options.some((item) => item.id === option.subOptionId)
+          ? selectedItem.options.filter((item) => item.id !== option.subOptionId)
+          : [
+              ...selectedItem.options,
+              {
+                id: option.subOptionId,
+                name: option.optionName,
+                title: option.optionCategoryName,
+                imgSrc: option.optionImage,
+                price: option.optionPrice,
+              },
+            ],
+      });
+    },
+    [subOption, selectedItem, setSelectedItem]
+  );
+
+  useEffect(() => {
+    groupedData.current = groupByCategoryName(subOption);
+  }, [subOption]);
+
+  useEffect(() => {
+    if (!filteredByCategory || !query) {
+      setDisplayData(filteredByCategory);
+
+      return;
+    }
+
+    const debounce = setTimeout(() => {
+      if (query) handleSearch(query);
+    }, DEBOUNCE_TIME);
+    return () => {
+      clearTimeout(debounce);
+    };
+  }, [query, filteredByCategory, handleSearch, setResult]);
+
+  useEffect(() => {
+    if (!subOption || !groupedData.current) return;
+    const category = currentCategory === '전체' ? subOption : groupedData.current[currentCategory];
+    setQueryCallback('');
+    setResultCallback([]);
+    setFilteredByCategory(category);
+    setDisplayData(category);
+  }, [subOption, currentCategory, setQueryCallback, setResultCallback]);
+
+  const handleCategoryClick = (category: string) => {
+    setCurrentCategory(category);
   };
-  const displayCategory = Object.keys(groupedData).map((key) => (
+  const handleCardClick = (index: number) => {
+    setCurrentOptionIdx(index);
+  };
+  if (!groupedData.current) return;
+  const displayCategory = Object.keys(groupedData.current).map((key) => (
     <RoundButton
       key={key}
       type="option"
@@ -73,18 +142,13 @@ export default function SubOptionContainer() {
       {key}
     </RoundButton>
   ));
-  const filteredByCategory = currentCategory === '전체' ? subOption : groupedData[currentCategory];
-  const displayData = filteredByCategory.map((option, idx) => (
-    <CardWrapper key={idx}>
+
+  const displayOptionList = displayData.map((option, idx) => (
+    <CardWrapper key={idx} onClick={() => handleCardClick(option.subOptionId)}>
       <OptionCard
-        onClick={() => handleCardClick(option.subOptionId)}
         type="sub"
-        active={selectedOptionIdx.includes(option.subOptionId)}
-        desc={`${option.percentage}%의 선택`}
-        title={option.optionName}
-        price={option.optionPrice}
-        imgPath={option.optionImage}
-        hashTag={option.hashtagName}
+        active={currentOptionIdx === option.subOptionId}
+        option={option}
         handleSelectOption={() => handleSelectOption(option)}
       />
       {option.hasHmgData && (
@@ -110,7 +174,7 @@ export default function SubOptionContainer() {
             {displayCategory}
           </CategoryWrapper>
           <OptionSection>
-            <OptionWrapper>{displayData}</OptionWrapper>
+            <OptionWrapper>{displayOptionList}</OptionWrapper>
           </OptionSection>
         </>
       )}
@@ -125,6 +189,7 @@ const HmgWrapper = styled.div`
 
 const CardWrapper = styled.div`
   position: relative;
+  cursor: pointer;
 `;
 const CategoryWrapper = styled.div`
   display: flex;
