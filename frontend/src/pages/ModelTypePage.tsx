@@ -9,19 +9,21 @@ import { CAR_TYPE } from '../utils/constants';
 import ErrorModal from '../components/modal/ErrorModal';
 
 export default function ModelTypePage() {
-  const { data, loading, error } = useFetch<IModelType[]>(
-    `${MODEL_TYPE_API}/list?carid=${CAR_TYPE}`
-  );
+  const {
+    data: modelTypeData,
+    loading: modelTypeLoading,
+    error: modelTypeError,
+  } = useFetch<IModelType[]>(`${MODEL_TYPE_API}/list?carid=${CAR_TYPE}`);
+
   const { setModelType, setLoading } = useContext(ModelTypeContext);
 
   useEffect(() => {
-    setModelType(data);
-    setLoading(loading);
-  }, [data, loading, setModelType, setLoading]);
+    setModelType(modelTypeData);
+    setLoading(modelTypeLoading);
+  }, [modelTypeData, modelTypeLoading, setModelType, setLoading]);
 
-  if (error) {
-    <ErrorModal message={error.message} />;
-  }
+  if (modelTypeError) return <ErrorModal message={modelTypeError.message} />;
+
   return (
     <>
       <ModelBannerContainer />

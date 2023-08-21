@@ -15,11 +15,15 @@ export const MESSAGE = {
   trimSelectRequired: '트림을 선택해 주세요.',
 };
 
-export const modelTypeToEn: { [key: string]: string } = {
+export const modelTypeToEn: {
+  [key: string]: 'powerTrain' | 'bodyType' | 'operation';
+} = {
   파워트레인: 'powerTrain',
   바디타입: 'bodyType',
   구동방식: 'operation',
 };
+
+export const OUTER_COLOR_FIRST_IDX = 3;
 
 export const HYUNDAI_URL = 'https://www.hyundai.com/kr/ko/e';
 export const PAGE_ANIMATION_DURATION = 500;
@@ -33,4 +37,5 @@ Object.freeze({
   PATH,
   MESSAGE,
   PAGE_ANIMATION_DURATION,
+  OUTER_COLOR_FIRST_IDX,
 });
