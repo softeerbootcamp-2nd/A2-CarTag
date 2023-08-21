@@ -25,24 +25,27 @@ export default function SubOptionContainer({ query, setQuery, setResult }: ISubO
   const [filteredByCategory, setFilteredByCategory] = useState<ISubOption[]>([]);
   const [displayData, setDisplayData] = useState<ISubOption[]>([]);
   const setResultCallback = useCallback(setResult, [setResult]);
-
   const handleSearch = useCallback(
     (query: string) => {
+      const result: string[] = [];
+
       const filteredResults = filteredByCategory.filter((option) => {
         const keyword = query.toLowerCase();
         const optionName = option.optionName.toLowerCase();
-        const category = option.optionCategoryName.toLowerCase();
         const hashtags = option.hashtagName.map((tag) => tag.toLowerCase());
 
-        return (
-          optionName.includes(keyword) ||
-          category.includes(keyword) ||
-          hashtags.some((tag) => tag.includes(keyword))
-        );
+        const optionMatches = optionName.includes(keyword);
+        const hashtagMatches = hashtags.some((tag) => tag.includes(keyword));
+
+        if (optionMatches && !result.includes(option.optionName)) {
+          console.log(result);
+          result.push(option.optionName);
+        }
+        return optionMatches || hashtagMatches;
       });
 
       setDisplayData(filteredResults);
-      setResultCallback(filteredResults.map((option) => option.optionName)); //TODO 옵션명만 대상으로
+      setResultCallback(result);
     },
     [filteredByCategory, setResultCallback]
   );

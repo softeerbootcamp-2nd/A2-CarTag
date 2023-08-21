@@ -36,8 +36,10 @@ export default function SearchBar({ value, result, setQuery, ...props }: SearchB
   }, [handleClick]);
 
   useEffect(() => {
+    if (!value) return;
     setVisibleAutoBox(true);
   }, [value]);
+
   return (
     <Wrapper ref={searchBarRef}>
       <Input value={value} {...props} />
