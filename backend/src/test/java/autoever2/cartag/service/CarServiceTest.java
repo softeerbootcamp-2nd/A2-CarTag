@@ -120,7 +120,7 @@ class CarServiceTest {
 
         when(carRepository.findCarByCarType(carType)).thenReturn(carInfoDtoList);
         when(optionRepository.findDefaultOptionByCarId(carId)).thenReturn(trimDefaultOptionDtoList);
-        when(carRepository.findCarByCarType(2)).thenThrow(new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND));
+        when(carRepository.findCarByCarType(2)).thenThrow(new EmptyDataException(ErrorCode.DATA_NOT_EXISTS));
 
         List<CarDto> carByCarType = carService.findCarByCarType(carType);
 

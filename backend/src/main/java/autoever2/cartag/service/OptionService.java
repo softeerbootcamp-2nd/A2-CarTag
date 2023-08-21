@@ -57,7 +57,7 @@ public class OptionService {
 
     //TODO: RuntimeException 처리
     public OptionDetailDto getOptionDetailData(int carId, int optionId, boolean isDefault) {
-        OptionDetailMappedDto detail = optionRepository.findOptionDetail(carId, optionId, isDefault).orElseThrow(() -> new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND));
+        OptionDetailMappedDto detail = optionRepository.findOptionDetail(carId, optionId, isDefault).orElseThrow(() -> new EmptyDataException(ErrorCode.DATA_NOT_EXISTS));
 
         List<OptionDetailMappedDto> packageSubOptions = optionRepository.findPackageSubOptions(optionId);
 
