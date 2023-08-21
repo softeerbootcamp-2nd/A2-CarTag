@@ -6,6 +6,8 @@ import { useFetch } from '../hooks/useFetch';
 import { OUTER_COLOR_API, OUTER_IMG_API } from '../utils/apis';
 import ErrorModal from '../components/modal/ErrorModal';
 import { ItemContext } from '../context/ItemProvider';
+import OuterColorFooterContainer from '../containers/OuterColorPage/OuterColorFooterContainer';
+import { styled } from 'styled-components';
 
 export default function OuterColorPage() {
   const { selectedItem } = useContext(ItemContext);
@@ -31,8 +33,16 @@ export default function OuterColorPage() {
   }
   return (
     <>
-      <OuterColorBannerContainer />
-      <OuterColorSelectContainer />
+      <Wrapper>
+        <OuterColorBannerContainer />
+        <OuterColorSelectContainer />
+      </Wrapper>
+      <OuterColorFooterContainer />
     </>
   );
 }
+
+const Wrapper = styled.div`
+  height: 100%;
+  padding-bottom: 120px;
+`;

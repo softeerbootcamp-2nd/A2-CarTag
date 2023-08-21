@@ -4,28 +4,40 @@ import { BodyKrRegular3, HeadingKrMedium2 } from '../../styles/typefaces';
 import RectButton from '../../components/common/buttons/RectButton';
 import { useContext } from 'react';
 import { ItemContext } from '../../context/ItemProvider';
+import { flexCenterCss } from '../../utils/commonStyle';
 
 export default function ResultFooterContainer() {
   const { totalPrice } = useContext(ItemContext);
 
   return (
     <Wrapper>
-      <PriceSection>
-        <PriceCaption>최종 견적 가격</PriceCaption>
-        <Price>{totalPrice.toLocaleString()} 원</Price>
-      </PriceSection>
-      <ButtonSection>
-        <GrayButton type={'price'}>공유하기</GrayButton>
-        <GrayButton type={'price'}>PDF 다운로드</GrayButton>
-        <Button type={'price'}>상담신청</Button>
-      </ButtonSection>
+      <Footer>
+        <PriceSection>
+          <PriceCaption>최종 견적 가격</PriceCaption>
+          <Price>{totalPrice.toLocaleString()} 원</Price>
+        </PriceSection>
+        <ButtonSection>
+          <GrayButton type={'price'}>공유하기</GrayButton>
+          <GrayButton type={'price'}>PDF 다운로드</GrayButton>
+          <Button type={'price'}>상담신청</Button>
+        </ButtonSection>
+      </Footer>
     </Wrapper>
   );
 }
 
-const Wrapper = styled(CenterWrapper)`
-  margin-top: 165px;
-  margin-bottom: 16px;
+const Wrapper = styled.div`
+  z-index: 999;
+  position: sticky;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 120px;
+  background: rgba(255, 255, 255, 0.9);
+  backdrop-filter: blur(6px);
+  ${flexCenterCss}
+`;
+const Footer = styled(CenterWrapper)`
   gap: 13px;
   display: flex;
   flex-direction: column;
