@@ -5,6 +5,7 @@ import autoever2.cartag.domain.car.CarDefaultDto;
 import autoever2.cartag.domain.car.CarDto;
 import autoever2.cartag.domain.share.QuoteIdList;
 import autoever2.cartag.domain.share.QuoteInfoDto;
+import autoever2.cartag.domain.car.CarTypeDto;
 import autoever2.cartag.service.CarService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -15,16 +16,28 @@ import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
 @RequestMapping("api/cars")
 @RequiredArgsConstructor
-@Tag(name = "TrimController", description = "트림 반환 api")
-public class TrimController {
+@Tag(name = "CarController", description = "트림 반환 api")
+public class CarController {
 
     private final CarService service;
+
+    @Operation(summary = "차종 리스트 조회", description = "차종명 + 이미지 리스트 조회")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = CarTypeDto.class)))
+    })
+    @GetMapping("/list")
+    public List<CarTypeDto> getCarTypeList() {
+        return service.getAllCarTypes();
+    }
 
     @Operation(summary = "trim 조회", description = "trim 조회 method")
     @ApiResponses(value = {

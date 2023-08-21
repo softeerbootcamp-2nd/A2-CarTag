@@ -2,10 +2,13 @@ import { styled } from 'styled-components';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import { BodyKrRegular3, HeadingKrMedium2 } from '../../styles/typefaces';
 import RectButton from '../../components/common/buttons/RectButton';
-import { useContext } from 'react';
+import { HTMLAttributes, useContext } from 'react';
 import { ItemContext } from '../../context/ItemProvider';
 
-export default function ResultFooterContainer() {
+interface IResultFooterContainer extends HTMLAttributes<HTMLDivElement> {
+  handlePrint: () => void;
+}
+export default function ResultFooterContainer({ handlePrint }: IResultFooterContainer) {
   const { totalPrice } = useContext(ItemContext);
 
   return (
@@ -16,7 +19,9 @@ export default function ResultFooterContainer() {
       </PriceSection>
       <ButtonSection>
         <GrayButton type={'price'}>공유하기</GrayButton>
-        <GrayButton type={'price'}>PDF 다운로드</GrayButton>
+        <GrayButton type={'price'} onClick={handlePrint}>
+          PDF 다운로드
+        </GrayButton>
         <Button type={'price'}>상담신청</Button>
       </ButtonSection>
     </Wrapper>
