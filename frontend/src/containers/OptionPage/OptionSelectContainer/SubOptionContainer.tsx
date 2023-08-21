@@ -126,9 +126,10 @@ export default function SubOptionContainer({ query, setQuery, setResult }: ISubO
     if (!subOption || !groupedData.current) return;
     const category = currentCategory === '전체' ? subOption : groupedData.current[currentCategory];
     setQueryCallback('');
+    setResultCallback([]);
     setFilteredByCategory(category);
     setDisplayData(category);
-  }, [subOption, currentCategory, setQueryCallback]);
+  }, [subOption, currentCategory, setQueryCallback, setResultCallback]);
 
   useLayoutEffect(() => {
     handleSelectOption;

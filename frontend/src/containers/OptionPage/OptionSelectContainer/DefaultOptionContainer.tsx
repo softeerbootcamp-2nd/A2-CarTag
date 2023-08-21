@@ -40,12 +40,10 @@ export default function DefaultOptionContainer({
       const filteredResults = filteredByCategory.filter((option) => {
         const keyword = query.toLowerCase();
         const optionName = option.optionName.toLowerCase();
-
         return optionName.includes(keyword);
       });
-
       setDisplayData(filteredResults);
-      setResultCallback(filteredResults.map((option) => option.optionName)); //TODO 옵션명만 대상으로
+      setResultCallback(filteredResults.map((option) => option.optionName));
     },
     [filteredByCategory, setResultCallback]
   );
@@ -82,9 +80,10 @@ export default function DefaultOptionContainer({
     const category =
       currentCategory === '전체' ? defaultOption : groupedData.current[currentCategory];
     setQueryCallback('');
+    setResultCallback([]);
     setFilteredByCategory(category);
     setDisplayData(category);
-  }, [defaultOption, currentCategory, setQueryCallback]);
+  }, [defaultOption, currentCategory, setQueryCallback, setResultCallback]);
 
   if (!groupedData.current) return;
   const displayCategory = Object.keys(groupedData.current).map((key) => (
