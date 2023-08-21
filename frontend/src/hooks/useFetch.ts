@@ -16,9 +16,8 @@ export function useFetch<T>(url: string): FetchResponse<T> {
       try {
         const response = await fetch(url);
         if (!response.ok) {
-          throw new Error(`Network response was not ok: ${response.status}`);
+          throw new Error(`Server response was not ok: ${response.status}`);
         }
-
         const responseData: T = await response.json();
         setData(responseData);
       } catch (err) {

@@ -4,11 +4,18 @@ import OuterColorBannerContainer from '../containers/OuterColorPage/OuterColorBa
 import { IOuterColor, OuterColorContext } from '../context/OuterColorProvider';
 import { useFetch } from '../hooks/useFetch';
 import { OUTER_COLOR_API, OUTER_IMG_API } from '../utils/apis';
+import ErrorModal from '../components/modal/ErrorModal';
+import { ItemContext } from '../context/ItemProvider';
 
 export default function OuterColorPage() {
-  const { seletedColorId, setOuterColorData, setCar360UrlsData } = useContext(OuterColorContext);
-  const { data: outerColorData } = useFetch<IOuterColor[]>(`${OUTER_COLOR_API}?carid=${1}`); // Todo. selectedItem.trim.id로 바꾸기
-  const { data: car360ImgUrls } = useFetch<string[]>(`${OUTER_IMG_API}?colorid=${seletedColorId}`);
+  const { selectedItem } = useContext(ItemContext);
+  const { setOuterColorData, setCar360UrlsData } = useContext(OuterColorContext);
+  const { data: outerColorData, error: outerColorError } = useFetch<IOuterColor[]>(
+    `${OUTER_COLOR_API}?carid=${1}`
+  ); // Todo. selectedItem.trim.id로 바꾸기
+  const { data: car360ImgUrls, error: car360ImgError } = useFetch<string[]>(
+    `${OUTER_IMG_API}?colorid=${selectedItem.outerColor.id}`
+  );
 
   useEffect(() => {
     setOuterColorData(outerColorData);
@@ -17,6 +24,11 @@ export default function OuterColorPage() {
     setCar360UrlsData(car360ImgUrls);
   }, [car360ImgUrls, setCar360UrlsData]);
 
+  if (outerColorError) {
+    return <ErrorModal message={outerColorError.message} />;
+  } else if (car360ImgError) {
+    return <ErrorModal message={car360ImgError.message} />;
+  }
   return (
     <>
       <OuterColorBannerContainer />

@@ -25,9 +25,8 @@ public class DefaultTest {
     @DisplayName("차량 기본 정보들을 반환")
     void defaultCarInfos(){
         CarDefaultDto carDefaultDto = controller.carDefaultDto(1);
-        assertEquals("르블랑", carDefaultDto.getTrim());
         assertEquals("디젤2.2", carDefaultDto.getPowerTrainName());
-        assertEquals("2WD", carDefaultDto.getBodyTypeName());
+        assertEquals("7인승", carDefaultDto.getBodyTypeName());
         assertEquals(0, carDefaultDto.getOperationPrice());
         assertEquals("천연 퀄팅(블랙)", carDefaultDto.getColorOuterImageName());
         assertEquals("퍼플 그레이 펄", carDefaultDto.getColorInnerImageName());

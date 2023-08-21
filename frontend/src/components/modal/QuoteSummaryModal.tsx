@@ -1,4 +1,4 @@
-import { HTMLAttributes, useContext } from 'react';
+import { HTMLAttributes, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import { QuoteSummaryModalContext } from '../../context/QuoteSummaryModalProvider';
@@ -16,6 +16,7 @@ import {
 } from '../../styles/typefaces';
 import { DimmedBackground } from './DimmedBackground';
 import WhiteModal from './WhiteModal';
+import { IMG_URL } from '../../utils/apis';
 
 interface IQuoteSummaryModal extends HTMLAttributes<HTMLDivElement> {}
 interface IDetail {
@@ -26,6 +27,7 @@ interface IDetail {
 export default function QuoteSummaryModal({ ...props }: IQuoteSummaryModal) {
   const { selectedItem, totalPrice } = useContext(ItemContext);
   const { visible, setVisible } = useContext(QuoteSummaryModalContext);
+  const [imgMode, setImgMode] = useState<'innerColor' | 'outerColor'>('outerColor');
   const navigate = useNavigate();
 
   const handleOkButtonClick = () => {
@@ -35,11 +37,20 @@ export default function QuoteSummaryModal({ ...props }: IQuoteSummaryModal) {
   const handleCloseButtonClicke = () => {
     setVisible(false);
   };
+  const toggle = () => {
+    if (imgMode === 'innerColor') {
+      setImgMode('outerColor');
+    } else {
+      setImgMode('innerColor');
+    }
+  };
 
   const optionNames = selectedItem.options.map((option) => {
     return option.name;
   });
   const optionPrice = selectedItem.options.reduce((acc, option) => acc + option.price, 0);
+  const outerCarImgSrc = IMG_URL + selectedItem.outerColor.carImgSrc;
+  const innerCarImgSrc = IMG_URL + selectedItem.innerColor.carImgSrc;
 
   return (
     <DimmedBackground $displayDimmed={visible} {...props}>
@@ -53,8 +64,8 @@ export default function QuoteSummaryModal({ ...props }: IQuoteSummaryModal) {
         <Body>
           <Row>
             <ImgSection>
-              <CarImg></CarImg>
-              <ToggleButtons />
+              <CarImg src={imgMode === 'innerColor' ? innerCarImgSrc : outerCarImgSrc}></CarImg>
+              <ToggleButtons mode={imgMode} onClick={toggle} />
             </ImgSection>
             <DetailSection>
               <Detail title="모델" name="팰리세이드" price={0} />
@@ -152,9 +163,12 @@ const ImgSection = styled.div`
   ${flexCenterCss}
   width: 50%;
   flex-direction: column;
+  gap: 20px;
 `;
 const CarImg = styled.img`
-  height: auto;
+  width: 330px;
+  height: 200px;
+  object-fit: cover;
 `;
 const DetailSection = styled.div`
   display: flex;
