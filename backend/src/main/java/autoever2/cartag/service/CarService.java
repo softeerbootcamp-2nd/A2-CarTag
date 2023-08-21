@@ -33,6 +33,10 @@ public class CarService {
 
     private final ModelRepository modelRepository;
 
+    public List<CarTypeDto> getAllCarTypes() {
+        return carRepository.findAllCarType();
+    }
+
     // TODO Optional로 감싸진 값이 empty일 경우 어떤 예외 발생시킬지 정하기
     public List<CarDto> findCarByCarType(int carType) {
         List<CarInfoDto> carInfos = carRepository.findCarByCarType(carType);
