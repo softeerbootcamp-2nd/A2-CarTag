@@ -6,7 +6,7 @@ interface FetchResponse<T> {
   error: Error | null;
 }
 
-export function useFetch<T>(url: string): FetchResponse<T> {
+export function useFetch<T>(url: string, options?: RequestInit): FetchResponse<T> {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
@@ -14,7 +14,7 @@ export function useFetch<T>(url: string): FetchResponse<T> {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await fetch(url);
+        const response = await fetch(url, options);
         if (!response.ok) {
           throw new Error(`Server response was not ok: ${response.status}`);
         }
@@ -28,7 +28,7 @@ export function useFetch<T>(url: string): FetchResponse<T> {
     };
 
     fetchData();
-  }, [url]);
+  }, [url, options]);
 
   return { data, loading, error };
 }

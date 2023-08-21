@@ -10,6 +10,8 @@ import GuideModalProvider from './context/GuideModalProvider';
 import ItemProvider from './context/ItemProvider';
 import { useEffect } from 'react';
 import QuoteSummaryModalProvider from './context/QuoteSummaryModalProvider';
+import ShareModalProvider from './context/ShareModalProvider';
+import ProgressProvider from './context/ProgressProvider';
 
 function App() {
   useEffect(() => {
@@ -21,7 +23,9 @@ function App() {
     SimilarQuoteModalProvider,
     GuideModalProvider,
     QuoteSummaryModalProvider,
+    ShareModalProvider,
     ItemProvider,
+    ProgressProvider,
   ];
   return (
     <Providers contexts={globalProviders}>

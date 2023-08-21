@@ -4,7 +4,7 @@ import { BodyKrMedium1 } from '../../../styles/typefaces';
 import SearchBar from '../../../components/searchBar/SearchBar';
 import DefaultOptionContainer from './DefaultOptionContainer';
 import SubOptionContainer from './SubOptionContainer';
-import React from 'react';
+import React, { useState } from 'react';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
   active: boolean;
@@ -19,6 +19,12 @@ export default function OptionSelectContainer({
   isDefault,
   handleTabItemClick,
 }: IOptionSelectContainer) {
+  const [query, setQuery] = useState('');
+  const [result, setResult] = useState<string[]>([]);
+  const handleInputChange = (query: string) => {
+    setQuery(query);
+  };
+
   return (
     <Wrapper>
       <Header>
@@ -30,10 +36,23 @@ export default function OptionSelectContainer({
             기본옵션
           </CategoryItem>
         </CategoryList>
-        <SearchBar placeholder="옵션명, 해시태그, 카테고리로 검색해보세요."></SearchBar>
+
+        <SearchBar
+          value={query}
+          result={result}
+          setQuery={setQuery}
+          onChange={(e) => {
+            handleInputChange(e.currentTarget.value);
+          }}
+          placeholder={isDefault ? '옵션명으로 검색해보세요.' : '옵션명, 해시태그로 검색해보세요.'}
+        />
       </Header>
 
-      {isDefault ? <DefaultOptionContainer /> : <SubOptionContainer />}
+      {isDefault ? (
+        <DefaultOptionContainer query={query} setQuery={setQuery} setResult={setResult} />
+      ) : (
+        <SubOptionContainer query={query} setQuery={setQuery} setResult={setResult} />
+      )}
     </Wrapper>
   );
 }

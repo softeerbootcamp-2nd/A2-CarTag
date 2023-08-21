@@ -14,15 +14,18 @@ import RectButton from '../../components/common/buttons/RectButton';
 import { TrimContext } from '../../context/TrimProvider';
 import { ItemContext } from '../../context/ItemProvider';
 import useDefaultInfo from '../../hooks/useDefaultInfo';
+import { ProgressContext } from '../../context/ProgressProvider';
 
 export default function TrimSelectContainer() {
   const { data: trimData, loading, setSelectedImgIdx } = useContext(TrimContext);
   const { selectedItem, setSelectedItem } = useContext(ItemContext);
+  const { setNextStepAvailable } = useContext(ProgressContext);
   const navigate = useNavigate();
   const { defaultInfo } = useDefaultInfo(1);
 
   const initDefaultInfo = useCallback(() => {
     if (!defaultInfo) return;
+
     setSelectedItem({
       type: 'SET_POWER_TRAIN',
       value: {
@@ -89,6 +92,7 @@ export default function TrimSelectContainer() {
         price: trimData[idx].carDefaultPrice,
       },
     });
+    setNextStepAvailable(true);
     initDefaultInfo();
   };
   const isAcitve = (idx: number) => selectedItem.trim.id - 1 === idx;

@@ -2,87 +2,60 @@ import { styled } from 'styled-components';
 import { BodyKrRegular4, HeadingKrMedium6, HeadingKrMedium7 } from '../../styles/typefaces';
 import { CheckIcon } from '../common/icons/Icons';
 import DefaultCardStyle from '../common/card/DefaultCardStyle';
-import { HTMLAttributes, useCallback, useRef, useState } from 'react';
+import { HTMLAttributes, useContext } from 'react';
 import { IMG_URL } from '../../utils/apis';
-import { IOptionDetail } from '../../containers/OptionPage/OptionBannerContainer';
-import Loading from '../loading/Loading';
+import { flexCenterCss } from '../../utils/commonStyle';
+import { ItemContext } from '../../context/ItemProvider';
+import { IDefaultOption } from '../../context/DefaultOptionProvider';
+import { ISubOption } from '../../context/SubOptionProvider';
 
 interface IOptionCard extends HTMLAttributes<HTMLDivElement> {
   type: 'default' | 'sub';
   active: boolean;
-  desc?: string;
-  title: string;
-  price: number;
-  imgPath: string;
-  hashTag: string[] | null;
+  option: ISubOption | IDefaultOption;
   handleSelectOption?: React.MouseEventHandler<HTMLDivElement>;
 }
 
 export default function OptionCard({
   type,
   active,
-  desc,
-  title,
-  price,
-  imgPath,
-  hashTag,
+  option,
   handleSelectOption,
   ...props
 }: IOptionCard) {
+  const { selectedItem } = useContext(ItemContext);
+  const isActive = !!selectedItem.options.find((item) => item.name === option.optionName);
+
   const displayCaption =
     type === 'default' ? (
       <DefaultInfo>기본포함</DefaultInfo>
     ) : (
       <OptionPrice>
-        +{price.toLocaleString()} 원 <CheckIcon active={active} />
+        +{option.optionPrice.toLocaleString()} 원
+        <BtnWrapper $active={isActive} onClick={handleSelectOption}>
+          <CheckIcon active={isActive} />
+        </BtnWrapper>
       </OptionPrice>
     );
 
-  const displayHashTag = hashTag?.map((tag, idx) => {
+  const displayHashTag = option.hashtagName?.map((tag, idx) => {
     return <HashTag key={idx}>{tag}</HashTag>;
   });
 
-  const imageUrls = useRef<string[]>([]);
-  const [imagesLoading, setImagesLoading] = useState(true);
-
-  const filterImageUrls = (optionData: IOptionDetail[]) => {
-    optionData.forEach((data) => {
-      const ImgUrl = data.optionImage !== '' && `${IMG_URL}${data.optionImage}`;
-      const filteredImagesUrl = ImgUrl.toString();
-      imageUrls.current.push(filteredImagesUrl);
-    });
-  };
-
-  const downloadAndSaveImages = useCallback(async () => {
-    const imageBlobs = await Promise.all(
-      imageUrls.current.map(async (url) => {
-        const response = await fetch(url);
-        const blob = await response.blob();
-        return blob;
-      })
-    );
-    imageBlobs.forEach((imageBlob, index) => {
-      const imageUrl = imageUrls.current[index];
-      localStorage.setItem(imageUrl, URL.createObjectURL(imageBlob));
-    });
-    setImagesLoading(false);
-  }, [imageUrls, setImagesLoading]);
-  downloadAndSaveImages;
-  filterImageUrls;
   return (
     <Card active={active} {...props}>
       <ImgWrapper>
-        {imagesLoading ? (
-          <Loading />
-        ) : (
-          <OptionImg src={`${IMG_URL}${imgPath}`} loading="lazy" alt="" />
-        )}
+        <OptionImg src={`${IMG_URL}${option.optionImage}`} />
         <HashTagWrapper>{displayHashTag}</HashTagWrapper>
       </ImgWrapper>
-      <OptionCardInfo onClick={handleSelectOption}>
+      <OptionCardInfo>
         <div>
-          <OptionDesc>{desc}</OptionDesc>
-          <OptionTitle>{title}</OptionTitle>
+          {type === 'sub' && option.percentage !== null && (
+            <OptionDesc>
+              <BlueText>{option.percentage}%</BlueText>가 선택했어요
+            </OptionDesc>
+          )}
+          <OptionTitle>{option.optionName}</OptionTitle>
         </div>
         {displayCaption}
       </OptionCardInfo>
@@ -149,7 +122,22 @@ const OptionPrice = styled.div`
 const DefaultInfo = styled.div`
   color: ${({ theme }) => theme.color.gray500};
 `;
+const BlueText = styled.span`
+  color: ${({ theme }) => theme.color.activeBlue2};
+`;
 
 const OptionDesc = styled.div`
   ${BodyKrRegular4}
+`;
+
+const BtnWrapper = styled.div<{ $active: boolean }>`
+  ${flexCenterCss}
+  width: 32px;
+  height: 32px;
+  border: 1px solid;
+  flex-shrink: 0;
+  border-radius: 2px;
+  background-color: ${({ $active, theme }) =>
+    $active ? theme.color.activeBlue + '33' : theme.color.white};
+  color: ${({ $active, theme }) => ($active ? theme.color.activeBlue : theme.color.gray100)};
 `;
