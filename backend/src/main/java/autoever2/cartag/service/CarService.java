@@ -4,6 +4,9 @@ import autoever2.cartag.domain.car.*;
 import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
 import autoever2.cartag.domain.model.ModelDefaultDto;
+import autoever2.cartag.domain.option.QuoteSubOptionDto;
+import autoever2.cartag.domain.share.QuoteIdList;
+import autoever2.cartag.domain.share.QuoteInfoDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.repository.CarRepository;
@@ -85,6 +88,38 @@ public class CarService {
                 .entrySet().stream()
                 .map(entry -> BoughtCarDto.toBoughtCarDto(entry.getKey(), entry.getValue()))
                 .collect(Collectors.toList());
+    }
+
+    public QuoteInfoDto findShareInfoDto(QuoteIdList idList) {
+        int carId = idList.getCarId();
+        int powerTrainId = idList.getPowerTrainId();
+        int bodyTypeId = idList.getBodyTypeId();
+        int operationId = idList.getOperationId();
+        int outerColorId = idList.getOuterColorId();
+        int innerColorId = idList.getInnerColorId();
+        List<Integer> optionIdList = idList.getOptionIdList();
+
+        Optional<TrimInfoDto> trimInfo = carRepository.findTrimInfoByCarId(carId);
+        List<ModelDefaultDto> modelInfos = modelRepository.findModelListByModelId(powerTrainId, bodyTypeId, operationId);
+        Optional<InnerColorDto> innerColorInfo = colorRepository.findInnerColorByColorId(innerColorId);
+        Optional<OuterColorDto> outerColorInfo = colorRepository.findOuterColorByColorId(outerColorId);
+        List<QuoteSubOptionDto> optionInfos = new ArrayList<>();
+        for (Integer id : optionIdList) {
+            Optional<QuoteSubOptionDto> optionInfo = optionRepository.findSubOptionByOptionId(id);
+            if (optionInfo.isPresent()) {
+                optionInfos.add(optionInfo.get());
+                continue;
+            }
+            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
+        }
+        OuterColorDto outerColorDto = outerColorInfo.get();
+        String imageUrl = changeUrl(outerColorDto.getColorCarImage(), 1);
+        return QuoteInfoDto.toInfoDto(trimInfo.get(), outerColorDto, innerColorInfo.get(), modelInfos, optionInfos, imageUrl);
+
+    }
+
+    public String changeUrl(String value, int index) {
+        return value.substring(0, value.indexOf("*")) + index + value.substring(value.indexOf("*") + 1, value.length());
     }
 
 
