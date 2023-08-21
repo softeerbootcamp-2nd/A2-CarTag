@@ -35,6 +35,7 @@ const Wrapper = styled.div`
   align-items: center;
   background: ${({ theme }) => theme.color.skyBlueCardBg};
   height: 95px;
+  padding: 40px;
 `;
 
 const FlexCenterWrapper = styled(CenterWrapper)`
