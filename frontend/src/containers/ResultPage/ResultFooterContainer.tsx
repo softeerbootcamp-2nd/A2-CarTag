@@ -4,9 +4,11 @@ import { BodyKrRegular3, HeadingKrMedium2 } from '../../styles/typefaces';
 import RectButton from '../../components/common/buttons/RectButton';
 import { useContext } from 'react';
 import { ItemContext } from '../../context/ItemProvider';
+import { ShareModalContext } from '../../context/ShareModalProvider';
 
 export default function ResultFooterContainer() {
   const { totalPrice } = useContext(ItemContext);
+  const { setVisible: setShareModalVisible } = useContext(ShareModalContext);
 
   return (
     <Wrapper>
@@ -15,7 +17,9 @@ export default function ResultFooterContainer() {
         <Price>{totalPrice.toLocaleString()} 원</Price>
       </PriceSection>
       <ButtonSection>
-        <GrayButton type={'price'}>공유하기</GrayButton>
+        <GrayButton type={'price'} onClick={() => setShareModalVisible(true)}>
+          공유하기
+        </GrayButton>
         <GrayButton type={'price'}>PDF 다운로드</GrayButton>
         <Button type={'price'}>상담신청</Button>
       </ButtonSection>
