@@ -1,6 +1,6 @@
 package autoever2.cartag.integration;
 
-import autoever2.cartag.controller.TrimController;
+import autoever2.cartag.controller.CarController;
 import autoever2.cartag.domain.car.CarDefaultDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -19,10 +19,10 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 public class DefaultTest {
 
     @Autowired
-    TrimController controller;
+    CarController controller;
 
     @Test
-    @DisplayName("차량 기본 정보들을 반환")
+    @DisplayName("/api/cars/infos/defaults?carid=1 테스트")
     void defaultCarInfos(){
         CarDefaultDto carDefaultDto = controller.carDefaultDto(1);
         assertEquals("디젤2.2", carDefaultDto.getPowerTrainName());
