@@ -23,11 +23,8 @@ export default function ShareModal({ ...props }: IShareModal) {
   const linkValueRef = useRef<HTMLInputElement>(null);
 
   const handleCopyClick = async () => {
-    if (!linkValueRef.current) return;
-    const targetText = linkValueRef.current.innerHTML;
-
     try {
-      await navigator.clipboard.writeText(targetText);
+      await navigator.clipboard.writeText(shareUrl);
       setCopyAlertVisible(true);
       setTimeout(() => {
         setCopyAlertVisible(false);
@@ -95,11 +92,14 @@ export default function ShareModal({ ...props }: IShareModal) {
     const queryParams = [];
     for (const key in obj) {
       const value = obj[key];
-      queryParams.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+      if (value) {
+        queryParams.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+      }
     }
     return queryParams.join('&');
   }
 
+  const shareUrl = createShareUrl();
   return (
     <DimmedBackground $displayDimmed={visible} {...props}>
       <Modal onClick={(e) => e.stopPropagation()}>
@@ -120,7 +120,7 @@ export default function ShareModal({ ...props }: IShareModal) {
             </CopyButton>
           </ButtonContainer>
 
-          <UrlText ref={linkValueRef}>{createShareUrl()}</UrlText>
+          <UrlText ref={linkValueRef}>{shareUrl}</UrlText>
         </LinkWrapper>
       </Modal>
     </DimmedBackground>
