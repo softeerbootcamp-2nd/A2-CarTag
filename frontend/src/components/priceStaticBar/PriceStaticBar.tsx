@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from 'react';
+import { ChangeEvent, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import { css, styled, useTheme } from 'styled-components';
 import { BodyKrRegular4, HeadingKrMedium6 } from '../../styles/typefaces';
 import { ArrowUp, ArrowDown } from '../common/icons/Icons';
@@ -6,6 +6,7 @@ import React from 'react';
 import { useLocation } from 'react-router-dom';
 import { PATH } from '../../utils/constants';
 import PriceStaticSlider from './PriceStaticSlider';
+import { ItemContext } from '../../context/ItemProvider';
 
 interface IPriceStaticBar extends React.HTMLAttributes<HTMLDivElement> {}
 interface IOffset {
@@ -13,25 +14,23 @@ interface IOffset {
   offsetY: string;
 }
 export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
+  const highestPrice = 80_000_000; //TODO : api 연동
+  const { totalPrice, selectedItem } = useContext(ItemContext);
   const { pathname } = useLocation();
   const theme = useTheme();
   const dragRef = useRef(false);
   const [startOffset, setStartOffset] = useState({ startX: 0, startY: 0 });
   const [offset, setOffset] = useState({ offsetX: '50%', offsetY: '76px' });
   const barRef = useRef<HTMLDivElement>(null);
-
-  const lowestPrice = 3850; //단위: 만원
-  const highestPrice = 4300;
-  const total = 4100;
-  const [budget, setBudget] = useState((lowestPrice + highestPrice) / 2);
+  const [budget, setBudget] = useState(0);
   const [isOverBudget, setIsOverBudget] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
-  const balance = ((isOverBudget ? -10000 : 10000) * (budget - total)).toLocaleString();
+  const balance = ((isOverBudget ? -1 : 1) * (budget - totalPrice)).toLocaleString();
 
   const getBudgetStatus = useCallback(() => {
-    const status = budget - total;
+    const status = budget - totalPrice;
     status >= 0 ? setIsOverBudget(false) : setIsOverBudget(true);
-  }, [budget]);
+  }, [budget, totalPrice]);
 
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(event.target.value);
@@ -51,7 +50,6 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
     if (!dragRef.current) {
       return;
     }
-
     const minX = 0;
     const minY = 60;
     const maxX = window.innerWidth - (barRef.current?.offsetWidth || 0);
@@ -66,6 +64,10 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
     dragRef.current = false;
   };
 
+  ///////
+  useEffect(() => {
+    setBudget((selectedItem.trim.price + highestPrice) / 2);
+  }, [selectedItem.trim.price]);
   useEffect(() => {
     getBudgetStatus();
   }, [budget, getBudgetStatus]);
@@ -94,8 +96,8 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
       $isover={isOverBudget}
       $isopen={isOpen}
       onMouseDown={handleMouseDown}
-      {...props}
       $offset={offset}
+      {...props}
     >
       <StatusText>
         <StatusTitle>예산 범위</StatusTitle>
@@ -112,12 +114,9 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
 
       <AnimatedSection $isopen={isOpen}>
         <PriceStaticSlider
-          lowestPrice={lowestPrice}
           highestPrice={highestPrice}
           budget={budget}
-          total={total}
           isOverBudget={isOverBudget}
-          percent={((budget - lowestPrice) / (highestPrice - lowestPrice)) * 100}
           handleChange={handleChange}
           stopEvent={stopEvent}
         />
