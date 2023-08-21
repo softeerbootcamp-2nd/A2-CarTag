@@ -3,12 +3,8 @@ package autoever2.cartag.controller;
 import autoever2.cartag.domain.car.BoughtCarDto;
 import autoever2.cartag.domain.car.CarDefaultDto;
 import autoever2.cartag.domain.car.CarDto;
-<<<<<<< HEAD:backend/src/main/java/autoever2/cartag/controller/TrimController.java
 import autoever2.cartag.domain.share.QuoteIdList;
 import autoever2.cartag.domain.share.QuoteInfoDto;
-=======
-import autoever2.cartag.domain.car.CarTypeDto;
->>>>>>> 57c527d6b6e527b4e91eff53de6936fa62b8d654:backend/src/main/java/autoever2/cartag/controller/CarController.java
 import autoever2.cartag.service.CarService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -18,33 +14,17 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
-<<<<<<< HEAD:backend/src/main/java/autoever2/cartag/controller/TrimController.java
 import org.springframework.web.bind.annotation.*;
-=======
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
->>>>>>> 57c527d6b6e527b4e91eff53de6936fa62b8d654:backend/src/main/java/autoever2/cartag/controller/CarController.java
 
 import java.util.List;
 
 @RestController
 @RequestMapping("api/cars")
 @RequiredArgsConstructor
-@Tag(name = "CarController", description = "트림 반환 api")
-public class CarController {
+@Tag(name = "TrimController", description = "트림 반환 api")
+public class TrimController {
 
     private final CarService service;
-
-    @Operation(summary = "차종 리스트 조회", description = "차종명 + 이미지 리스트 조회")
-    @ApiResponses(value = {
-            @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = CarTypeDto.class)))
-    })
-    @GetMapping("/list")
-    public List<CarTypeDto> getCarTypeList() {
-        return service.getAllCarTypes();
-    }
 
     @Operation(summary = "trim 조회", description = "trim 조회 method")
     @ApiResponses(value = {
