@@ -128,4 +128,10 @@ class CarServiceTest {
         assertThatThrownBy(() -> service.findCarByCarType(2)).isInstanceOf(EmptyDataException.class);
     }
 
+    @Test
+    @DisplayName("차량의 기본정보들을 반환")
+    void carDefaultInfo(){
+
+
+    }
 }

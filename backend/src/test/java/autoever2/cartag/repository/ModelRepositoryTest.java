@@ -1,9 +1,7 @@
 package autoever2.cartag.repository;
 
-import autoever2.cartag.domain.model.ModelDetailMappedDto;
-import autoever2.cartag.domain.model.ModelEfficiencyDataDto;
-import autoever2.cartag.domain.model.ModelShortMappedDto;
-import autoever2.cartag.domain.model.PowerTrainMappedDto;
+import autoever2.cartag.domain.model.*;
+import autoever2.cartag.exception.EmptyDataException;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
@@ -52,6 +50,7 @@ class ModelRepositoryTest {
                 .modelPrice(1480000L)
                 .maxPs("202/3800")
                 .maxKgfm("45.0/1750~2750")
+                .modelImage("/model/diesel2-2.jpg")
                 .build();
 
         ModelShortMappedDto sixthModel = ModelShortMappedDto.builder()
@@ -62,6 +61,7 @@ class ModelRepositoryTest {
                 .isDefaultModel(false)
                 .modelBoughtCount(1800L)
                 .modelPrice(0L)
+                .modelImage("/model/8seats.jpg")
                 .build();
 
         //when
@@ -126,5 +126,28 @@ class ModelRepositoryTest {
         softAssertions.assertThat(data3.get().getAverageFuel()).isEqualTo("9.23km/s");
         softAssertions.assertThat(data4.get().getDisplacement()).isEqualTo("3,778cc");
 
+    }
+
+    @Test
+    @DisplayName("해당 carId에 따라서 default model들을 가져옵니다.")
+    void getDefaultModelList(){
+        List<ModelDefaultDto> modelDefaultDtos = modelRepository.findModelDefaultDtoByCarId(1);
+        assertEquals(3, modelDefaultDtos.size());
+
+        ModelDefaultDto powerTrain = modelDefaultDtos.get(0);
+        ModelDefaultDto bodyType = modelDefaultDtos.get(1);
+        ModelDefaultDto operation = modelDefaultDtos.get(2);
+
+        assertEquals("디젤2.2", powerTrain.getModelName());
+        assertEquals("2WD", bodyType.getModelName());
+        assertEquals("7인승", operation.getModelName());
+
+        assertEquals(1480000, powerTrain.getModelPrice());
+        assertEquals(0, bodyType.getModelPrice());
+        assertEquals(0, operation.getModelPrice());
+
+        assertEquals("/model/diesel2-2.jpg", powerTrain.getModelImage());
+        assertEquals("/model/2wd.png", bodyType.getModelImage());
+        assertEquals("/model/7seats.jpg", operation.getModelImage());
     }
 }

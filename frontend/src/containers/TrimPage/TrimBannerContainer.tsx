@@ -27,6 +27,7 @@ export default function TrimBannerContainer() {
     },
     [setSelectedImgIdx]
   );
+
   const filterImageUrls = (trimData: ICartype[]) => {
     trimData.forEach((data) => {
       const innerImgUrl = data.innerImage !== '' && `${IMG_URL}${data.innerImage}`;
@@ -35,10 +36,10 @@ export default function TrimBannerContainer() {
       const filteredImagesUrl = [innerImgUrl, outerImgImgUrl, wheelImgUrl].filter(
         (url) => url
       ) as string[];
-
       imageUrls.current.push(...filteredImagesUrl);
     });
   };
+
   const downloadAndSaveImages = useCallback(async () => {
     const imageBlobs = await Promise.all(
       imageUrls.current.map(async (url) => {
@@ -53,24 +54,23 @@ export default function TrimBannerContainer() {
     });
     setImagesLoading(false);
   }, [imageUrls, setImagesLoading]);
+
   const setImages = useCallback(() => {
     if (!trimData) return;
     imageUrls.current = [];
     filterImageUrls(trimData);
     downloadAndSaveImages();
   }, [trimData, downloadAndSaveImages]);
+
   const displayImages = useCallback(() => {
     if (!trimData) return;
-
     const outerUrl = `${IMG_URL}${trimData[selectedTrimIdx].outerImage}`;
     const innerUrl = `${IMG_URL}${trimData[selectedTrimIdx].innerImage}`;
     const wheelUrl = `${IMG_URL}${trimData[selectedTrimIdx].wheelImage}`;
     const imageUrls = [outerUrl, innerUrl, wheelUrl].filter((url) => url);
-
     const imageComponents = imageUrls.map((url, idx) => {
       const imgSrc = localStorage.getItem(url);
       if (!imgSrc) return;
-
       return (
         <ImgWrapper key={idx} $selected={selectedImgIdx === idx}>
           <Img $src={imgSrc} onClick={() => handleSelectImg(idx)} />

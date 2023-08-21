@@ -34,6 +34,8 @@ const Wrapper = styled.div`
   overflow: hidden;
 `;
 const Summary = styled.div`
+  position: relative;
+  z-index: 1;
   ${HeadingKrMedium5}
   background-color: ${({ theme }) => theme.color.gray100};
   padding: 12px 20px;
