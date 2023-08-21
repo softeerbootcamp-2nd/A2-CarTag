@@ -116,7 +116,7 @@ export function CancelIcon({ ...props }: ISvg) {
 }
 
 export function CheckIcon({ active, ...props }: ISvg) {
-  const color = active ? theme.color.white : theme.color.gray200;
+  const color = active ? theme.color.activeBlue : theme.color.gray200;
   return (
     <svg
       width="24"

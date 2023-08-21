@@ -139,11 +139,9 @@ const BtnWrapper = styled.div<{ $active: boolean }>`
   width: 32px;
   height: 32px;
   border: 1px solid;
-  width: 32px;
-  height: 32px;
   flex-shrink: 0;
   border-radius: 2px;
   background-color: ${({ $active, theme }) =>
-    $active ? theme.color.activeBlue : theme.color.white};
+    $active ? theme.color.activeBlue + '33' : theme.color.white};
   color: ${({ $active, theme }) => ($active ? theme.color.activeBlue : theme.color.gray100)};
 `;
