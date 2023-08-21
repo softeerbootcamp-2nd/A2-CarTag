@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import { BodyKrRegular4 } from '../../styles/typefaces';
 import { SearchIcon } from '../common/icons/Icons';
-import { Dispatch } from 'react';
+import React, { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
 
 interface SearchBarProps extends React.HTMLAttributes<HTMLInputElement> {
   value: string;
@@ -9,22 +9,42 @@ interface SearchBarProps extends React.HTMLAttributes<HTMLInputElement> {
   setQuery: Dispatch<React.SetStateAction<string>>;
 }
 export default function SearchBar({ value, result, setQuery, ...props }: SearchBarProps) {
+  const [visibleAutoBox, setVisibleAutoBox] = useState(true);
+  const searchBarRef = useRef<HTMLDivElement>(null);
   const displayData = result.map((res, index) => (
-    <AutoSearchData key={index} onClick={(e) => handleClick(e.currentTarget.innerText)}>
-      {res}
-    </AutoSearchData>
+    <AutoSearchData key={index}>{res}</AutoSearchData>
   ));
-  const handleClick = (value: string) => {
-    console.log(value);
-    setQuery(value);
-  };
+  const handleClick = useCallback(
+    (event: MouseEvent) => {
+      const target = event.target as HTMLInputElement;
+      if (searchBarRef.current && !searchBarRef.current.contains(target)) {
+        setVisibleAutoBox(false);
+        return;
+      }
+      if (target.closest('li')?.innerText !== undefined) {
+        setQuery(target.closest('li')!.innerText!);
+        setVisibleAutoBox(false);
+      }
+    },
+    [setQuery]
+  );
+  useEffect(() => {
+    window.addEventListener('click', (e) => handleClick(e));
+    return () => {
+      window.removeEventListener('click', (e) => handleClick(e));
+    };
+  }, [handleClick]);
+
+  useEffect(() => {
+    setVisibleAutoBox(true);
+  }, [value]);
   return (
-    <Wrapper>
+    <Wrapper ref={searchBarRef}>
       <Input value={value} {...props} />
       <Button>
         <SearchIcon width={18} height={18} />
       </Button>
-      <AutoSearchContainer $visible={result.length > 0}>
+      <AutoSearchContainer $visible={result.length > 0 && visibleAutoBox}>
         <AutoSearchWrapper>{displayData}</AutoSearchWrapper>
       </AutoSearchContainer>
     </Wrapper>

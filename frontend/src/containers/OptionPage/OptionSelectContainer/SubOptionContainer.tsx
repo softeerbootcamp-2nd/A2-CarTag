@@ -98,6 +98,7 @@ export default function SubOptionContainer({ query, setQuery, setResult }: ISubO
     },
     [subOption, selectedItem, setSelectedItem, setTotalPrice]
   );
+
   useEffect(() => {
     groupedData.current = groupByCategoryName(subOption);
   }, [subOption]);
