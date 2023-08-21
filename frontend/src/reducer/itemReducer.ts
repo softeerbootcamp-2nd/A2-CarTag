@@ -1,5 +1,6 @@
 import {
   IColorItemType,
+  IEfficiencyType,
   ISelectedItem,
   defaultItemType,
   detailItemType,
@@ -12,7 +13,8 @@ export type actionType =
   | { type: 'SET_BODY_TYPE'; value: detailItemType }
   | { type: 'SET_INNER_COLOR'; value: IColorItemType }
   | { type: 'SET_OUTER_COLOR'; value: IColorItemType }
-  | { type: 'SET_OPTIONS'; value: detailItemType[] };
+  | { type: 'SET_OPTIONS'; value: detailItemType[] }
+  | { type: 'SET_EFFICIENCY'; value: IEfficiencyType };
 
 export default function itemReducer(state: ISelectedItem, action: actionType): ISelectedItem {
   switch (action.type) {
@@ -30,6 +32,8 @@ export default function itemReducer(state: ISelectedItem, action: actionType): I
       return { ...state, options: action.value };
     case 'SET_OUTER_COLOR':
       return { ...state, outerColor: action.value };
+    case 'SET_EFFICIENCY':
+      return { ...state, efficiency: action.value };
     default:
       return state;
   }
