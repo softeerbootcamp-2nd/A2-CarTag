@@ -29,20 +29,15 @@ jobs:
     - name: Setup Gradle
       uses: gradle/gradle-build-action@v2
 
-    - name: Run Coverage
-      working-directory: ${{ env.wd }}
-      run: |
-        chmod +x gradlew
-        ./gradlew testCoverage
-
+    - name: Test with Gradle
+      run: ./gradlew test
+      
     - name: Add coverage to PR
       id: jacoco
-      uses: madrapps/jacoco-report@v1.6.1
+      uses: madrapps/jacoco-report@v1.2
       with:
         paths: ${{ github.workspace }}/backend/build/reports/jacoco/test/jacocoTestReport.xml
         token: ${{ secrets.GITHUB_TOKEN }}
         title: 📊 테스트 커버리지 결과
-        min-coverage-overall: 50
-        min-coverage-changed-files: 50
-        update-comment: true
-        continue-on-error: true
+        min-coverage-overall: 80
+        min-coverage-changed-files: 80
