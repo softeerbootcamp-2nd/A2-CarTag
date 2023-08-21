@@ -14,3 +14,6 @@ spring:
     init:
       mode: always
       schema-locations: classpath:schema-h2.sql
+
+python:
+  url: http://localhost:5001/test

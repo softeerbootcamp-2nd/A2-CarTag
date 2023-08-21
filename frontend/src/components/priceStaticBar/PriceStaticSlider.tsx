@@ -1,55 +1,55 @@
 import { css, styled } from 'styled-components';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular5 } from '../../styles/typefaces';
-import { ChangeEvent, useEffect } from 'react';
+import { ChangeEvent, useContext } from 'react';
+import { ItemContext } from '../../context/ItemProvider';
+import { TEN_THOUSAND_UNIT } from '../../utils/constants';
 
 interface ISlider extends React.HTMLAttributes<HTMLDivElement> {
-  lowestPrice: number;
   highestPrice: number;
   isOverBudget: boolean;
   budget: number;
-  total: number;
-  percent: number;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   stopEvent: (event: React.MouseEvent) => void;
 }
 export default function Slider({
-  lowestPrice,
   highestPrice,
   isOverBudget,
   budget,
-  total,
-  percent,
   handleChange,
   stopEvent,
   ...props
 }: ISlider) {
-  useEffect(() => {}, []);
+  const { totalPrice, selectedItem } = useContext(ItemContext);
   return (
     <PriceBarWrapper {...props}>
       <MarkerSvgWrapper>
         <PriceBar
           type="range"
-          min={lowestPrice}
+          min={selectedItem.trim.price}
           max={highestPrice}
           value={budget}
           onChange={handleChange}
           onMouseDown={stopEvent}
           step={10}
-          $percent={percent}
+          $percent={
+            ((budget - selectedItem.trim.price) / (highestPrice - selectedItem.trim.price)) * 100
+          }
           $isover={isOverBudget}
         />
-
         <MarkerSvg
           $isover={isOverBudget}
-          $percent={((total - lowestPrice) / (highestPrice - lowestPrice)) * 100}
+          $percent={
+            ((totalPrice - selectedItem.trim.price) / (highestPrice - selectedItem.trim.price)) *
+            100
+          }
         >
           <path d="M3.625 22C3.625 22.4142 3.96079 22.75 4.375 22.75C4.78921 22.75 5.125 22.4142 5.125 22L3.625 22ZM4.375 8C6.58414 8 8.375 6.20914 8.375 4C8.375 1.79086 6.58414 0 4.375 0C2.16586 0 0.374999 1.79086 0.374999 4C0.374999 6.20914 2.16586 8 4.375 8ZM5.125 22L5.125 4L3.625 4L3.625 22L5.125 22Z" />
         </MarkerSvg>
       </MarkerSvgWrapper>
       <PriceInfo $isover={isOverBudget}>
-        <span>{lowestPrice}만원</span>
-        <span>{highestPrice}만원</span>
+        <span>{selectedItem.trim.price / TEN_THOUSAND_UNIT}만원</span>
+        <span>{highestPrice / TEN_THOUSAND_UNIT}만원</span>
       </PriceInfo>
     </PriceBarWrapper>
   );

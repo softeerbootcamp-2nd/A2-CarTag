@@ -9,13 +9,14 @@ DEPLOY_LOG="$PROJECT_ROOT/deploy.log"
 
 TIME_NOW=$(date +%c)
 
+
 CURRENT_PID=$(pgrep -f $JAR_FILE)
 
 if [ -z $CURRENT_PID ]; then
   echo "$TIME_NOW > 실행 중인 애플리케이션이 없습니다." >> $DEPLOY_LOG
 else
   echo "$TIME_NOW > 실행 중인 $CURRENT_PID 애플리케이션을 종료합니다." >> $DEPLOY_LOG
-  kill -15 $CURRENT_PID
+  kill -9 $CURRENT_PID
 fi
 
 echo "$TIME_NOW > $JAR_FILE 파일 생성" >> $DEPLOY_LOG

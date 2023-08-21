@@ -8,15 +8,12 @@ import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
 import { ICartype, TrimContext } from '../../context/TrimProvider';
 import Loading from '../../components/loading/Loading';
+import { ItemContext } from '../../context/ItemProvider';
 
 export default function TrimBannerContainer() {
-  const {
-    data: trimData,
-    selectedTrimIdx,
-    loading,
-    selectedImgIdx,
-    setSelectedImgIdx,
-  } = useContext(TrimContext);
+  const { selectedItem } = useContext(ItemContext);
+  const { data: trimData, loading, selectedImgIdx, setSelectedImgIdx } = useContext(TrimContext);
+  const selectedTrimIdx = selectedItem.trim.id - 1;
   const selectedData = trimData && trimData[selectedTrimIdx];
   const imageUrls = useRef<string[]>([]);
   const [imagesLoading, setImagesLoading] = useState(true);
@@ -27,6 +24,7 @@ export default function TrimBannerContainer() {
     },
     [setSelectedImgIdx]
   );
+
   const filterImageUrls = (trimData: ICartype[]) => {
     trimData.forEach((data) => {
       const innerImgUrl = data.innerImage !== '' && `${IMG_URL}${data.innerImage}`;
@@ -35,10 +33,10 @@ export default function TrimBannerContainer() {
       const filteredImagesUrl = [innerImgUrl, outerImgImgUrl, wheelImgUrl].filter(
         (url) => url
       ) as string[];
-
       imageUrls.current.push(...filteredImagesUrl);
     });
   };
+
   const downloadAndSaveImages = useCallback(async () => {
     const imageBlobs = await Promise.all(
       imageUrls.current.map(async (url) => {
@@ -53,24 +51,23 @@ export default function TrimBannerContainer() {
     });
     setImagesLoading(false);
   }, [imageUrls, setImagesLoading]);
+
   const setImages = useCallback(() => {
     if (!trimData) return;
     imageUrls.current = [];
     filterImageUrls(trimData);
     downloadAndSaveImages();
   }, [trimData, downloadAndSaveImages]);
+
   const displayImages = useCallback(() => {
     if (!trimData) return;
-
     const outerUrl = `${IMG_URL}${trimData[selectedTrimIdx].outerImage}`;
     const innerUrl = `${IMG_URL}${trimData[selectedTrimIdx].innerImage}`;
     const wheelUrl = `${IMG_URL}${trimData[selectedTrimIdx].wheelImage}`;
     const imageUrls = [outerUrl, innerUrl, wheelUrl].filter((url) => url);
-
     const imageComponents = imageUrls.map((url, idx) => {
       const imgSrc = localStorage.getItem(url);
       if (!imgSrc) return;
-
       return (
         <ImgWrapper key={idx} $selected={selectedImgIdx === idx}>
           <Img $src={imgSrc} onClick={() => handleSelectImg(idx)} />
@@ -193,6 +190,7 @@ const ImgWrapper = styled.div<{ $selected?: boolean }>`
           left: 50%;
           transform: translate(-50%, -50%);
           color: ${({ theme }) => theme.color.white};
+          pointer-events: none;
         }
       `;
     }

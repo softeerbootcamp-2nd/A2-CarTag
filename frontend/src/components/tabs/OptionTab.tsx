@@ -3,16 +3,11 @@ import { BodyKrMedium3, BodyKrRegular3, BodyKrRegular4 } from '../../styles/type
 import styled, { css, useTheme } from 'styled-components';
 import { ArrowLeft, ArrowRight } from '../common/icons/Icons';
 import { NUM_IN_A_PAGE } from '../../utils/constants';
-import { ISubOptionList } from '../../containers/OptionPage/OptionBannerContainer';
+import { IOptionDetail, ISubOptionList } from '../../containers/OptionPage/OptionBannerContainer';
 
-interface IBannerInfo {
-  categoryName: string;
-  descriptionText: string;
-  imgPath: string;
-}
 interface ISubOptionTab extends HTMLAttributes<HTMLDivElement> {
   options: ISubOptionList[];
-  setBannerInfo: Dispatch<SetStateAction<IBannerInfo>>;
+  setBannerInfo: Dispatch<SetStateAction<IOptionDetail>>;
 }
 
 export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
@@ -63,8 +58,12 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
     if (options && options.length > 0) {
       setBannerInfo({
         categoryName: options[index].categoryName,
-        descriptionText: options[index].optionDescription,
-        imgPath: options[index].optionImage,
+        optionDescription: options[index].optionDescription,
+        optionImage: options[index].optionImage,
+        hmgData: options[index].hmgData,
+        optionName: options[index].optionName,
+        package: options[index].package,
+        subOptionList: options[index].subOptionList,
       });
     }
   };
@@ -92,22 +91,20 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
         <TabWrapperInner ref={tabDivisionRef}>
           <Tab $offset={page * -tabDivisionWidth}>
             {chunkedOptions.map((optionGroup: ISubOptionList[], groupIndex) => (
-              <>
-                <TabDivision key={groupIndex} $display={page === groupIndex}>
-                  {optionGroup.map((option: ISubOptionList, index: number) => (
-                    <TabButtonWrapper key={index}>
-                      <TabButton
-                        onClick={() => handleOptionClick(index)}
-                        $isselected={page === groupIndex && index === selectedIdx}
-                      >
-                        <div>{option.optionName}</div>
-                        {displayUnderline(groupIndex, index)}
-                      </TabButton>
-                      <HoverCaption>{option.optionName}</HoverCaption>
-                    </TabButtonWrapper>
-                  ))}
-                </TabDivision>
-              </>
+              <TabDivision key={groupIndex} $display={page === groupIndex}>
+                {optionGroup.map((option: ISubOptionList, index: number) => (
+                  <TabButtonWrapper key={index}>
+                    <TabButton
+                      onClick={() => handleOptionClick(index)}
+                      $isselected={page === groupIndex && index === selectedIdx}
+                    >
+                      <div>{option.optionName}</div>
+                      {displayUnderline(groupIndex, index)}
+                    </TabButton>
+                    <HoverCaption>{option.optionName}</HoverCaption>
+                  </TabButtonWrapper>
+                ))}
+              </TabDivision>
             ))}
           </Tab>
         </TabWrapperInner>

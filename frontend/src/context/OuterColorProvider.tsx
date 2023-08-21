@@ -9,6 +9,7 @@ export interface IOuterColor {
   colorImage: string;
   colorPrice: number;
   colorBoughtPercent: number;
+  colorCarImage: string;
 }
 export interface ISelected {
   page: number;
@@ -16,44 +17,41 @@ export interface ISelected {
 }
 
 interface IOuterColorContext {
-  data: IOuterColor[] | null;
+  outerColorData: IOuterColor[] | null;
+  car360UrlsData: string[] | null;
   loading: boolean;
-  selectedIdx: ISelected;
-  seletedColorId: number;
-  setData: Dispatch<SetStateAction<IOuterColor[] | null>>;
+  setOuterColorData: Dispatch<SetStateAction<IOuterColor[] | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
-  setSelectedIdx: Dispatch<SetStateAction<ISelected>>;
-  setSelectedColorId: Dispatch<SetStateAction<number>>;
+  setCar360UrlsData: Dispatch<SetStateAction<string[] | null>>;
 }
 
 const initialContext: IOuterColorContext = {
-  data: null,
+  outerColorData: null,
+  car360UrlsData: [],
   loading: true,
-  selectedIdx: { page: 0, idx: 0 },
-  seletedColorId: 3,
   setLoading: () => {},
-  setData: () => {},
-  setSelectedIdx: () => {},
-  setSelectedColorId: () => {},
+  setOuterColorData: () => {},
+  setCar360UrlsData: () => {},
 };
 
 export const OuterColorContext = createContext<IOuterColorContext>(initialContext);
 
 export default function OuterColorProvider({ children }: IOuterColorProvider) {
-  const [data, setData] = useState<IOuterColor[] | null>(initialContext.data);
-  const [selectedIdx, setSelectedIdx] = useState<ISelected>(initialContext.selectedIdx);
-  const [seletedColorId, setSelectedColorId] = useState<number>(initialContext.seletedColorId);
+  const [outerColorData, setOuterColorData] = useState<IOuterColor[] | null>(
+    initialContext.outerColorData
+  );
+  const [car360UrlsData, setCar360UrlsData] = useState<string[] | null>(
+    initialContext.car360UrlsData
+  );
   const [loading, setLoading] = useState(initialContext.loading);
 
   const providerValue = {
-    data,
-    selectedIdx,
+    outerColorData,
+    car360UrlsData,
     loading,
-    seletedColorId,
-    setSelectedIdx,
-    setData,
+    setOuterColorData,
+    setCar360UrlsData,
     setLoading,
-    setSelectedColorId,
   };
 
   return <OuterColorContext.Provider value={providerValue}>{children}</OuterColorContext.Provider>;

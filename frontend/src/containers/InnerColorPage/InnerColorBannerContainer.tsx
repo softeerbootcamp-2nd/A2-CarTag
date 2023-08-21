@@ -2,24 +2,23 @@ import { styled } from 'styled-components';
 import Banner from '../../components/common/banner/Banner';
 import { useContext } from 'react';
 import { InnerColorContext } from '../../context/InnerColorProvider';
-import { NUM_IN_A_PAGE } from '../../utils/constants';
 import { IMG_URL } from '../../utils/apis';
 import Loading from '../../components/loading/Loading';
 import { flexCenterCss } from '../../utils/commonStyle';
+import { ItemContext } from '../../context/ItemProvider';
 
 export default function InnerColorBannerContainer() {
-  const { data: innerColorData, selectedIdx } = useContext(InnerColorContext);
-  const idx = selectedIdx.page * NUM_IN_A_PAGE + selectedIdx.idx;
+  const { data: innerColorData } = useContext(InnerColorContext);
+  const { selectedItem } = useContext(ItemContext);
+  const idx = selectedItem.innerColor.id - 1;
   const imgSrc = innerColorData && innerColorData[idx].colorCarImage;
 
   return (
     <Wrapper>
       {innerColorData ? (
-        <InnerColorBanner
-          $src={`${IMG_URL}${imgSrc}`}
-          subtitle={'내장색상'}
-          title={'퀼팅천연(블랙)'}
-        />
+        <InnerColorBanner subtitle={'내장색상'} title={innerColorData[idx].colorName}>
+          <Img src={`${IMG_URL}${imgSrc}`} />
+        </InnerColorBanner>
       ) : (
         <Loading />
       )}
@@ -32,13 +31,20 @@ const Wrapper = styled.div`
   width: 100%;
   height: 360px;
 `;
-const InnerColorBanner = styled(Banner)<{ $src: string }>`
+const InnerColorBanner = styled(Banner)`
+  height: 360px;
   overflow: hidden;
   padding: 0;
   p {
+    position: relative;
     color: ${({ theme }) => theme.color.white};
+    z-index: 1;
   }
-  background-image: url(${({ $src }) => $src});
-  background-position: 0% 30%;
-  background-size: cover;
+`;
+
+const Img = styled.img`
+  position: absolute;
+  top: -20%;
+  width: 100%;
+  object-fit: cover;
 `;

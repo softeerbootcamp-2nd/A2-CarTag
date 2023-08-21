@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import { BodyKrRegular4, HeadingEn4, HeadingKrMedium7 } from '../../styles/typefaces';
+import { BodyKrRegular4, HeadingKrMedium6, HeadingKrMedium7 } from '../../styles/typefaces';
 import { CheckIcon } from '../common/icons/Icons';
 import DefaultCardStyle from '../common/card/DefaultCardStyle';
 import { HTMLAttributes } from 'react';
@@ -69,6 +69,7 @@ const OptionImg = styled.img`
   border-radius: 1px 1px 0px 0px;
   width: 100%;
   height: 160px;
+  object-fit: cover;
 `;
 const HashTagWrapper = styled.div`
   position: absolute;
@@ -97,7 +98,7 @@ const OptionCardInfo = styled.div`
 `;
 
 const OptionTitle = styled.div`
-  ${HeadingEn4}
+  ${HeadingKrMedium6}
   overflow: hidden;
   text-overflow: ellipsis;
   display: -webkit-box;

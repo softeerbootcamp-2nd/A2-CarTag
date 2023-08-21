@@ -25,29 +25,23 @@ interface ITrimContext {
   data: ICartype[] | null;
   loading: boolean;
   selectedImgIdx: number;
-  selectedTrimIdx: number;
-
   setData: Dispatch<SetStateAction<ICartype[] | null>>;
   setLoading: Dispatch<SetStateAction<boolean>>;
-  setSelectedTrimIdx: Dispatch<SetStateAction<number>>;
   setSelectedImgIdx: Dispatch<SetStateAction<number>>;
 }
 
 const initialContext = {
   data: null,
   loading: true,
-  selectedTrimIdx: 0,
   selectedImgIdx: 0,
   setData: () => {},
   setLoading: () => {},
-  setSelectedTrimIdx: () => {},
   setSelectedImgIdx: () => {},
 };
 
 export const TrimContext = createContext<ITrimContext>(initialContext);
 
 export default function TrimProvider({ children }: ITrimProvider) {
-  const [selectedTrimIdx, setSelectedTrimIdx] = useState(0);
   const [selectedImgIdx, setSelectedImgIdx] = useState(0);
   const [data, setData] = useState<ICartype[] | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
@@ -55,11 +49,9 @@ export default function TrimProvider({ children }: ITrimProvider) {
   const providerValue = {
     data,
     loading,
-    selectedTrimIdx,
     selectedImgIdx,
     setData,
     setLoading,
-    setSelectedTrimIdx,
     setSelectedImgIdx,
   };
 

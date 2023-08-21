@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useCallback, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
 import {
@@ -7,54 +7,98 @@ import {
   HeadingKrMedium6,
   HeadingKrMedium7,
 } from '../../styles/typefaces';
-import { MESSAGE, PATH } from '../../utils/constants';
+import { PATH } from '../../utils/constants';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import DefaultCardStyle from '../../components/common/card/DefaultCardStyle';
 import RectButton from '../../components/common/buttons/RectButton';
 import { TrimContext } from '../../context/TrimProvider';
 import { ItemContext } from '../../context/ItemProvider';
+import useDefaultInfo from '../../hooks/useDefaultInfo';
 
 export default function TrimSelectContainer() {
-  const {
-    selectedTrimIdx,
-    data: trimData,
-    loading,
-    setSelectedTrimIdx,
-    setSelectedImgIdx,
-  } = useContext(TrimContext);
-  const { setSelectedItem, setTotalPrice } = useContext(ItemContext);
-  const selectedTrim = trimData && trimData[selectedTrimIdx];
+  const { data: trimData, loading, setSelectedImgIdx } = useContext(TrimContext);
+  const { selectedItem, setSelectedItem } = useContext(ItemContext);
   const navigate = useNavigate();
+  const { defaultInfo } = useDefaultInfo(1);
+
+  const initDefaultInfo = useCallback(() => {
+    if (!defaultInfo) return;
+    setSelectedItem({
+      type: 'SET_POWER_TRAIN',
+      value: {
+        id: defaultInfo.powerTrain.id,
+        title: defaultInfo.powerTrain.title,
+        name: defaultInfo.powerTrain.name,
+        imgSrc: defaultInfo.powerTrain.imgSrc,
+        price: defaultInfo.powerTrain.price,
+      },
+    });
+    setSelectedItem({
+      type: 'SET_BODY_TYPE',
+      value: {
+        id: defaultInfo.bodyType.id,
+        title: defaultInfo.bodyType.title,
+        name: defaultInfo.bodyType.name,
+        imgSrc: defaultInfo.bodyType.imgSrc,
+        price: defaultInfo.bodyType.price,
+      },
+    });
+    setSelectedItem({
+      type: 'SET_OPERATION',
+      value: {
+        id: defaultInfo.operation.id,
+        title: defaultInfo.operation.title,
+        name: defaultInfo.operation.name,
+        imgSrc: defaultInfo.operation.imgSrc,
+        price: defaultInfo.operation.price,
+      },
+    });
+
+    setSelectedItem({
+      type: 'SET_OUTER_COLOR',
+      value: {
+        id: defaultInfo.outerColor.id,
+        name: defaultInfo.outerColor.name,
+        title: defaultInfo.outerColor.title,
+        price: defaultInfo.outerColor.price,
+        carImgSrc: defaultInfo.outerColor.carImgSrc,
+        imgSrc: defaultInfo.outerColor.imgSrc,
+      },
+    });
+    setSelectedItem({
+      type: 'SET_INNER_COLOR',
+      value: {
+        id: defaultInfo.innerColor.id,
+        name: defaultInfo.innerColor.name,
+        title: defaultInfo.innerColor.title,
+        price: defaultInfo.innerColor.price,
+        carImgSrc: defaultInfo.innerColor.carImgSrc,
+        imgSrc: defaultInfo.innerColor.imgSrc,
+      },
+    });
+  }, [defaultInfo, setSelectedItem]);
 
   const handleSelectedIdx = (idx: number) => {
-    setSelectedTrimIdx(idx);
+    if (!trimData || !defaultInfo) return;
     setSelectedImgIdx(0);
-  };
-  const isAcitve = (idx: number) => selectedTrimIdx === idx;
-  const handleNextButtonClick = (idx: number) => {
-    if (!isAcitve(idx)) {
-      return;
-    }
-    if (!selectedTrim) {
-      alert(MESSAGE.trimSelectRequired);
-      return;
-    }
     setSelectedItem({
       type: 'SET_TRIM',
       value: {
-        id: selectedTrim.carId,
-        name: selectedTrim.trim,
-        price: selectedTrim.carDefaultPrice,
+        id: trimData[idx].carId,
+        name: trimData[idx].trim,
+        price: trimData[idx].carDefaultPrice,
       },
     });
-    setTotalPrice(selectedTrim.carDefaultPrice);
+    initDefaultInfo();
+  };
+  const isAcitve = (idx: number) => selectedItem.trim.id - 1 === idx;
+  const handleNextButtonClick = (idx: number) => {
+    if (!isAcitve(idx)) return;
     navigate(PATH.modelType);
   };
 
   const displayTrimCards = () => {
-    if (!(selectedTrim && !loading)) {
-      return <></>;
-    }
+    if (!(trimData && !loading)) return <></>;
 
     const cardIndices = Array.from({ length: trimData.length }, (_, index) => index);
     return cardIndices.map((idx) => (

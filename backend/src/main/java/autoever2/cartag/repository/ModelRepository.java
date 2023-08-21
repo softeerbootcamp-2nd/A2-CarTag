@@ -1,9 +1,6 @@
 package autoever2.cartag.repository;
 
-import autoever2.cartag.domain.model.ModelDetailMappedDto;
-import autoever2.cartag.domain.model.ModelEfficiencyDataDto;
-import autoever2.cartag.domain.model.ModelShortMappedDto;
-import autoever2.cartag.domain.model.PowerTrainMappedDto;
+import autoever2.cartag.domain.model.*;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -11,7 +8,6 @@ import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
-
 import javax.sql.DataSource;
 import java.util.List;
 import java.util.Optional;
@@ -26,7 +22,7 @@ public class ModelRepository {
     }
 
     public List<ModelShortMappedDto> findAllModelTypeData(int carId) {
-        String sql = "select m.model_id, m.model_name, t.model_type_id, t.model_type_name, m.model_price, mm.model_bought_count, mm.is_default_model, pd.max_ps, pd.max_kgfm " +
+        String sql = "select m.model_id, m.model_name, t.model_type_id, t.model_type_name, m.model_price, m.model_image, mm.model_bought_count, mm.is_default_model, pd.max_ps, pd.max_kgfm " +
                 "from ModelCarMapper mm " +
                 "inner join Model m " +
                 "on mm.model_id = m.model_id " +
@@ -40,6 +36,16 @@ public class ModelRepository {
                 .addValue("carId", carId);
 
         return template.query(sql, param, modelShortRowMapper());
+    }
+
+    public List<ModelDefaultDto> findModelDefaultDtoByCarId(int carId) {
+        String sql = "select m.model_id, model_name, model_price, model_image from ModelCarMapper as mcm " +
+                "inner join Model as m on mcm.model_id = m.model_id where car_id = :carId and is_default_model = 1";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("carId", carId);
+
+        return template.query(sql, param, ModelDefaultRowMapper());
     }
 
     public Optional<ModelDetailMappedDto> findModelDetailData(int modelId) {
@@ -78,6 +84,10 @@ public class ModelRepository {
 
     private RowMapper<ModelShortMappedDto> modelShortRowMapper() {
         return BeanPropertyRowMapper.newInstance(ModelShortMappedDto.class);
+    }
+
+    private RowMapper<ModelDefaultDto> ModelDefaultRowMapper() {
+        return BeanPropertyRowMapper.newInstance(ModelDefaultDto.class);
     }
 
 

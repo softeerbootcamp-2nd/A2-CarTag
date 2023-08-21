@@ -6,15 +6,24 @@ import { useFetch } from '../hooks/useFetch';
 import { MODEL_TYPE_API } from '../utils/apis';
 import { IModelType, ModelTypeContext } from '../context/ModelTypeProvider';
 import { CAR_TYPE } from '../utils/constants';
+import ErrorModal from '../components/modal/ErrorModal';
 
 export default function ModelTypePage() {
-  const { data, loading } = useFetch<IModelType[]>(`${MODEL_TYPE_API}/list?carid=${CAR_TYPE}`);
+  const {
+    data: modelTypeData,
+    loading: modelTypeLoading,
+    error: modelTypeError,
+  } = useFetch<IModelType[]>(`${MODEL_TYPE_API}/list?carid=${CAR_TYPE}`);
+
   const { setModelType, setLoading } = useContext(ModelTypeContext);
 
   useEffect(() => {
-    setModelType(data);
-    setLoading(loading);
-  }, [data, loading, setModelType, setLoading]);
+    setModelType(modelTypeData);
+    setLoading(modelTypeLoading);
+  }, [modelTypeData, modelTypeLoading, setModelType, setLoading]);
+
+  if (modelTypeError) return <ErrorModal message={modelTypeError.message} />;
+
   return (
     <>
       <ModelBannerContainer />

@@ -29,6 +29,7 @@ export default function SummaryItem({ imgSrc, itemName, selectedName, price }: I
 
 const Item = styled.li`
   display: flex;
+  justify-content: space-between;
   padding: 8px 0;
   height: 71px;
   border-bottom: 1px solid ${({ theme }) => theme.color.gray100};
@@ -36,12 +37,12 @@ const Item = styled.li`
 const Img = styled.img`
   width: 77px;
   height: 55px;
+  object-fit: cover;
 `;
 const InfoWrapper = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-left: 16px;
-  width: 100%;
+  width: 510px;
   height: 100%;
   ${BodyKrRegular3}
 `;
@@ -64,5 +65,6 @@ const ItemName = styled.div`
 const ModifyButton = styled.button`
   text-align: end;
   color: ${({ theme }) => theme.color.primaryColor};
+  text-align: end;
 `;
 const SelectedName = styled.div``;
