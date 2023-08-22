@@ -73,27 +73,26 @@ export default function OuterColorBannerContainer() {
         return;
       }
       setImgState({ type: 'SET_IMG_LOADING', value: true });
-
+      const newImgBlobUrl: { [key: string]: string } = {};
       await Promise.all(
         car360UrlsData.map(async (url, idx) => {
-          if (imgBlobUrl[url]) {
-            return;
-          }
           const fetchImgUrl = IMG_URL + url + `?${selectedItem.outerColor.name}`;
           const res = await fetch(fetchImgUrl, {
             signal: abortController.signal,
           });
           const imgBlob = await res.blob();
           const key = car360UrlsData[idx];
-          setImgBlobUrl((cur) => {
-            return { ...cur, [key]: URL.createObjectURL(imgBlob) };
-          });
+          newImgBlobUrl[key] = URL.createObjectURL(imgBlob);
           return imgBlob;
         })
       );
+
+      setImgBlobUrl((cur) => {
+        return { ...cur, ...newImgBlobUrl };
+      });
       setImgState({ type: 'SET_IMG_LOADING', value: false });
     },
-    [selectedItem, imgBlobUrl, isLoaded]
+    [selectedItem, isLoaded]
   );
 
   const displayCar360Components = useCallback(() => {
