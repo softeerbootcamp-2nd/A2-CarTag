@@ -77,6 +77,7 @@ export default function OuterColorBannerContainer() {
       await Promise.all(
         car360UrlsData.map(async (url, idx) => {
           const fetchImgUrl = IMG_URL + url + `?${selectedItem.outerColor.name}`;
+
           const res = await fetch(fetchImgUrl, {
             signal: abortController.signal,
           });

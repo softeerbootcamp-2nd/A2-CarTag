@@ -2,6 +2,8 @@ export const MAX_PAGE = 3;
 export const NUM_IN_A_PAGE = 4;
 export const DEBOUNCE_TIME = 200;
 export const TEN_THOUSAND_UNIT = 10000;
+export const PERCENTAGE_LIMIT_VALUE = 5;
+export const MAX_TEXT_CNT = 16;
 export const PATH = {
   home: '/',
   trim: '/trim',
@@ -41,4 +43,6 @@ Object.freeze({
   DEBOUNCE_TIME,
   TEN_THOUSAND_UNIT,
   OUTER_COLOR_FIRST_IDX,
+  PERCENTAGE_LIMIT_VALUE,
+  MAX_TEXT_CNT,
 });

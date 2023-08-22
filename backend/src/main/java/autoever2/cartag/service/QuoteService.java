@@ -25,6 +25,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
 import java.util.StringTokenizer;
@@ -45,6 +46,7 @@ public class QuoteService {
 
     public HistoryShortDto findMyQuote(QuoteDataDto quoteDataDto) {
         List<Integer> optionIds = quoteDataDto.getOptionIdList();
+        Collections.sort(optionIds);
 
         HistorySearchDto historyData = HistorySearchDto.builder()
                 .carId(quoteDataDto.getCarId())
@@ -59,6 +61,7 @@ public class QuoteService {
     public List<HistoryShortDto> findTopHistory(QuoteDataDto quoteDataDto) {
 
         List<Integer> optionIds = quoteDataDto.getOptionIdList();
+        Collections.sort(optionIds);
 
         if(optionIds.isEmpty()) {
             throw new InvalidDataException(ErrorCode.INVALID_PARAMETER);

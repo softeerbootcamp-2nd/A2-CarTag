@@ -2,7 +2,6 @@ package autoever2.cartag.controller;
 
 import autoever2.cartag.domain.quote.BoughtCarDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
-import autoever2.cartag.domain.quote.HistoryRequestDto;
 import autoever2.cartag.domain.quote.HistoryShortDto;
 import autoever2.cartag.domain.quote.QuoteDataDto;
 import autoever2.cartag.domain.quote.QuoteInfoDto;
@@ -15,6 +14,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -47,6 +47,7 @@ public class QuoteController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = BoughtCarDto.class))),
     })
     @GetMapping("bought/infos")
+    @Cacheable(value = "boughtlist")
     public List<BoughtCarDto> getAllHistorySum(@RequestParam("carid") int carId) {
         return quoteService.findAllBoughtInfos(carId);
     }

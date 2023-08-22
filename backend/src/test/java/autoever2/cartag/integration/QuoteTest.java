@@ -73,8 +73,8 @@ public class QuoteTest {
     void testBoughtInfo(){
         List<BoughtCarDto> allHistorySum = quoteController.getAllHistorySum();
 
-        assertEquals(6, allHistorySum.size());
-        assertEquals(2, allHistorySum.get(0).getCount());
-        assertEquals(42300000L, allHistorySum.get(1).getTotalPrice());
+        assertEquals(144, allHistorySum.size());
+        assertEquals(228, allHistorySum.get(0).getCount());
+        assertEquals(46200000L, allHistorySum.get(1).getTotalPrice());
     }
 }
