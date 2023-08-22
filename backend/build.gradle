@@ -64,4 +64,3 @@ tasks.register('testCoverage', Test) {
 jar {
     enabled = false
 }
-

@@ -130,7 +130,7 @@ class ModelRepositoryTest {
 
     @Test
     @DisplayName("해당 carId에 따라서 default model들을 가져옵니다.")
-    void getDefaultModelList(){
+    void getDefaultModelList() {
         List<ModelDefaultDto> modelDefaultDtos = modelRepository.findModelDefaultDtoByCarId(1);
         assertEquals(3, modelDefaultDtos.size());
 
@@ -149,5 +149,28 @@ class ModelRepositoryTest {
         assertEquals("/model/diesel2-2.jpg", powerTrain.getModelImage());
         assertEquals("/model/2wd.png", bodyType.getModelImage());
         assertEquals("/model/7seats.jpg", operation.getModelImage());
+    }
+
+    @Test
+    @DisplayName("공유를 위한 model 데이터 추출")
+    void getModelInfo(){
+        List<ModelDefaultDto> modelInfos = modelRepository.findModelListByModelId(1, 5, 3);
+        assertTrue(modelInfos.size() == 3);
+
+        ModelDefaultDto powerTrainInfo = modelInfos.get(0);
+        ModelDefaultDto operationInfo = modelInfos.get(1);
+        ModelDefaultDto bodyTypeInfo = modelInfos.get(2);
+
+        assertEquals("디젤2.2", powerTrainInfo.getModelName());
+        assertEquals("파워트레인", powerTrainInfo.getModelTitle());
+        assertEquals(1480000, powerTrainInfo.getModelPrice());
+
+        assertEquals("2WD", operationInfo.getModelName());
+        assertEquals("구동방식", operationInfo.getModelTitle());
+        assertEquals(0, operationInfo.getModelPrice());
+
+        assertEquals("/model/7seats.jpg", bodyTypeInfo.getModelImage());
+        assertEquals("바디타입", bodyTypeInfo.getModelTitle());
+        assertEquals("7인승", bodyTypeInfo.getModelName());
     }
 }
