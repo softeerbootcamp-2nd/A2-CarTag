@@ -41,6 +41,9 @@ public class ModelTest {
 
         PowerTrainDataDto hmgData = trimModels.get(0).getHmgData();
         assertEquals("45.0/1750~2750", hmgData.getMaxKgfm());
+        assertEquals("202/3800", hmgData.getMaxPs());
+        assertEquals(1.0, hmgData.getRatioKgfm());
+        assertEquals(1.0, hmgData.getRatioPs());
         assertEquals(1.0, hmgData.getRatioKgfm());
     }
 
