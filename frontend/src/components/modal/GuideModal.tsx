@@ -4,7 +4,7 @@ import { Bubble, CloseIcon } from '../common/icons/Icons';
 import { BodyKrRegular3, HeadingKrMedium7 } from '../../styles/typefaces';
 import CenterWrapper from '../common/layout/CenterWrapper';
 import { DimmedBackground } from './DimmedBackground';
-import { GuideModalContext } from '../../context/GuideModalProvider';
+import { GuideModalContext } from '../../context/ModalProviders/GuideModalProvider';
 import { useLocation } from 'react-router-dom';
 import { PATH } from '../../utils/constants';
 

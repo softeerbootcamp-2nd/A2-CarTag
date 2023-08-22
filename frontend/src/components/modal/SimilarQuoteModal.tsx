@@ -13,7 +13,7 @@ import { flexCenterCss } from '../../utils/commonStyle';
 import HmgTag from '../common/hmgTag/HmgTag';
 import RectButton from '../common/buttons/RectButton';
 import { DimmedBackground } from './DimmedBackground';
-import { SimilarQuoteModalContext } from '../../context/SimilarQuoteModalProvider';
+import { SimilarQuoteModalContext } from '../../context/ModalProviders/SimilarQuoteModalProvider';
 import SimilarPriceBar from '../priceStaticBar/SimilarPriceBar';
 import SubOptionCard from '../cards/SubOptionCard';
 

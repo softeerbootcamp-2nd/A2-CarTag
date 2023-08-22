@@ -2,13 +2,13 @@ import { useContext } from 'react';
 import CloseModal from '../../components/modal/CloseModal';
 import GuideModal from '../../components/modal/GuideModal';
 import SimilarQuoteModal from '../../components/modal/SimilarQuoteModal';
-import { GuideModalContext } from '../../context/GuideModalProvider';
-import { SimilarQuoteModalContext } from '../../context/SimilarQuoteModalProvider';
-import { CloseModalContext } from '../../context/CloseModalProvider';
+import { GuideModalContext } from '../../context/ModalProviders/GuideModalProvider';
+import { SimilarQuoteModalContext } from '../../context/ModalProviders/SimilarQuoteModalProvider';
+import { CloseModalContext } from '../../context/ModalProviders/CloseModalProvider';
 import QuoteSummaryModal from '../../components/modal/QuoteSummaryModal';
-import { QuoteSummaryModalContext } from '../../context/QuoteSummaryModalProvider';
+import { QuoteSummaryModalContext } from '../../context/ModalProviders/QuoteSummaryModalProvider';
 import ShareModal from '../../components/modal/ShareModal';
-import { ShareModalContext } from '../../context/ShareModalProvider';
+import { ShareModalContext } from '../../context/ModalProviders/ShareModalProvider';
 
 export default function ModalContainer() {
   const { setVisible: setCloseModalVisible } = useContext(CloseModalContext);

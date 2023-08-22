@@ -4,12 +4,12 @@ import Providers from './components/contextProviders/Providers';
 import PriceStaticBar from './components/priceStaticBar/PriceStaticBar';
 import CustomRouter from './components/router/CustomRouter';
 import ModalContainer from './containers/Modal/ModalContainer';
-import CloseModalProvider from './context/CloseModalProvider';
-import SimilarQuoteModalProvider from './context/SimilarQuoteModalProvider';
-import GuideModalProvider from './context/GuideModalProvider';
+import CloseModalProvider from './context/ModalProviders/CloseModalProvider';
+import SimilarQuoteModalProvider from './context/ModalProviders/SimilarQuoteModalProvider';
+import GuideModalProvider from './context/ModalProviders/GuideModalProvider';
+import QuoteSummaryModalProvider from './context/ModalProviders/QuoteSummaryModalProvider';
+import ShareModalProvider from './context/ModalProviders/ShareModalProvider';
 import ItemProvider from './context/ItemProvider';
-import QuoteSummaryModalProvider from './context/QuoteSummaryModalProvider';
-import ShareModalProvider from './context/ShareModalProvider';
 import ProgressProvider from './context/ProgressProvider';
 
 function App() {

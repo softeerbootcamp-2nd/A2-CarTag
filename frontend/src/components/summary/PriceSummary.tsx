@@ -5,7 +5,7 @@ import { BodyKrRegular4, HeadingKrMedium2 } from '../../styles/typefaces';
 import { useNavigate } from 'react-router-dom';
 import { useContext } from 'react';
 import { ItemContext } from '../../context/ItemProvider';
-import { QuoteSummaryModalContext } from '../../context/QuoteSummaryModalProvider';
+import { QuoteSummaryModalContext } from '../../context/ModalProviders/QuoteSummaryModalProvider';
 
 interface IPriceSummary extends React.HTMLAttributes<HTMLDivElement> {
   nextPagePath: string;
