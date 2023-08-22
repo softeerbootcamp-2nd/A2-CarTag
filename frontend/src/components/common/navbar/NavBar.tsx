@@ -84,7 +84,7 @@ export default function NavBar() {
           </CancelButton>
         </Body>
       </NavContainer>
-      <CarSelectContainer visible={menuVisible}></CarSelectContainer>
+      <CarSelectContainer visible={menuVisible} />
     </Wrapper>
   );
 }
