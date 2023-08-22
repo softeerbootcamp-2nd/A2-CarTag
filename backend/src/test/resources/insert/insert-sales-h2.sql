@@ -1,5 +1,8 @@
 SET REFERENTIAL_INTEGRITY FALSE;
 
+INSERT INTO SubOptionData (sub_option_data_id, car_id, option_id, option_bought_count, option_price) VALUES (1, 1, 69, 48015, 1090000);
+INSERT INTO SubOptionData (sub_option_data_id, car_id, option_id, option_bought_count, option_price) VALUES (2, 1, 70, 121380, 790000);
+
 INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (129, 1, 155, '69,70');
 INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (130, 1, 165, '69,70');
 INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (131, 1, 152, '69,70');
@@ -40,6 +43,14 @@ INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUE
 INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (166, 1, 139, '69,74');
 INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (167, 1, 144, '69,74');
 INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (168, 1, 149, '69,74');
+INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (169, 1, 140, '69,84');
+INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (170, 1, 150, '69,84');
+INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (171, 1, 152, '69,84');
+INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (172, 1, 143, '69,84');
+INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (173, 1, 162, '69,84');
+INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (174, 1, 151, '69,84');
+INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (175, 1, 149, '69,84');
+
 
 INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (384, 1, 129);
 INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (385, 3, 129);
@@ -161,3 +172,6 @@ INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) V
 INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (501, 2, 168);
 INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (502, 4, 168);
 INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (503, 6, 168);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (504, 1, 169);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (505, 3, 169);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (506, 5, 169);
