@@ -30,9 +30,13 @@ public class QuoteController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = HistoryShortDto.class)))
     })
     @PostMapping("/list")
-    public List<HistoryShortDto> getRecommendedList(@RequestBody QuoteDataDto quoteDataDto) {
-        List<HistoryShortDto> result = quoteService.findTopHistory(quoteDataDto);
-        return result;
+    public HistoryShortDto getRecommendedList(@RequestBody QuoteDataDto quoteDataDto) {
+        HistoryShortDto myQuote = quoteService.findMyQuote(quoteDataDto);
+        List<HistoryShortDto> subList = quoteService.findTopHistory(quoteDataDto);
+
+        myQuote.setHistories(subList);
+
+        return myQuote;
     }
 
     @Operation(summary = "차량 구매 정보 반환 api", description = "차량 구매 정보 조회 method")
