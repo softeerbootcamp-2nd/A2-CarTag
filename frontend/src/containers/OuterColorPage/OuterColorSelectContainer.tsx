@@ -1,6 +1,6 @@
 import { ReactNode, useCallback, useContext, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
-import CenterWrapper from '../../components/layout/CenterWrapper';
+import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import OuterColorCard from '../../components/cards/OuterColorCard';
 import CardSlider from '../../components/cardSlider/CardSlider';
 import { NUM_IN_A_PAGE } from '../../utils/constants';

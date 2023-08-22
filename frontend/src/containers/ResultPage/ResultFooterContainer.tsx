@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import CenterWrapper from '../../components/layout/CenterWrapper';
+import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import { BodyKrRegular3, HeadingKrMedium2 } from '../../styles/typefaces';
 import RectButton from '../../components/common/buttons/RectButton';
 import { HTMLAttributes, useContext } from 'react';

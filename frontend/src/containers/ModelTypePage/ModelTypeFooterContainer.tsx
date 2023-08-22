@@ -7,7 +7,7 @@ import {
   BodyKrRegular3,
   HeadingKrRegular1,
 } from '../../styles/typefaces';
-import CenterWrapper from '../../components/layout/CenterWrapper';
+import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import PriceSummary from '../../components/summary/PriceSummary';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
 import { ModelTypeContext } from '../../context/ModelTypeProvider';

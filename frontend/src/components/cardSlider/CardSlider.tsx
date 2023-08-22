@@ -1,6 +1,6 @@
 import { styled, useTheme } from 'styled-components';
 import { BodyKrRegular3, HeadingKrMedium6 } from '../../styles/typefaces';
-import CenterWrapper from '../../components/layout/CenterWrapper';
+import CenterWrapper from '../common/layout/CenterWrapper';
 import { ArrowLeft, ArrowRight } from '../../components/common/icons/Icons';
 import { ReactNode, useState } from 'react';
 import Loading from '../loading/Loading';

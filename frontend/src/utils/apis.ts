@@ -9,3 +9,4 @@ export const OUTER_IMG_API = `${BASE_API_URL}/api/cars/colors/outer/images`;
 export const INNER_COLOR_API = `${BASE_API_URL}/api/cars/colors/inner`;
 export const DEFAULT_INFO_API = `${BASE_API_URL}/api/cars/infos/defaults`;
 export const SHARE_INFO_API = `${BASE_API_URL}/api/cars/infos/shares`;
+export const CAR_LIST_API = `${BASE_API_URL}/api/cars/list`;
