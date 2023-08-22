@@ -4,6 +4,8 @@ import autoever2.cartag.controller.CarController;
 import autoever2.cartag.domain.car.CarDefaultDto;
 import autoever2.cartag.domain.car.CarDto;
 import autoever2.cartag.domain.car.CarTypeDto;
+import autoever2.cartag.domain.share.QuoteIdList;
+import autoever2.cartag.domain.share.QuoteInfoDto;
 import autoever2.cartag.exception.EmptyDataException;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -11,6 +13,7 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,4 +73,5 @@ public class CarTest {
 
         assertThat(controller.getCarTypeList()).usingRecursiveComparison().isEqualTo(carTypeList);
     }
+
 }
