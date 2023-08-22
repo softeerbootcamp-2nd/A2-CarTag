@@ -65,11 +65,10 @@ public class CarRepository {
     }
 
     public List<CarPriceDto> findCarPriceAndCount() {
-        String sql = "select SalesHistory.sold_options_id, (car_default_price + sum(model_price)) as sum from Model inner join HistoryModelMapper " +
-                "on Model.model_id = HistoryModelMapper.model_id inner join SalesHistory " +
-                "on SalesHistory.history_id = HistoryModelMapper.history_id inner join Car " +
-                "on Car.car_id = SalesHistory.car_id inner join SubOptionData " +
-                "on SubOptionData.car_id = Car.car_id group by SalesHistory.history_id";
+        String sql = "select SalesHistory.sold_options_id, (car_default_price + sum(model_price)) as sum from Model inner join HistoryModelMapper\n" +
+                "on Model.model_id = HistoryModelMapper.model_id inner join SalesHistory\n" +
+                "on SalesHistory.history_id = HistoryModelMapper.history_id inner join Car\n" +
+                "on Car.car_id = SalesHistory.car_id group by SalesHistory.history_id;";
 
         return template.query(sql, carPriceRowMapper());
     }

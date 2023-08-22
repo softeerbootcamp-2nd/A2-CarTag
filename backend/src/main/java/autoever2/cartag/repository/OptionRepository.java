@@ -4,6 +4,7 @@ import autoever2.cartag.domain.car.TrimDefaultOptionDto;
 import autoever2.cartag.domain.option.OptionDetailMappedDto;
 import autoever2.cartag.domain.option.OptionShortMappedDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
+import autoever2.cartag.domain.option.SubOptionIdAndPriceDto;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -30,10 +31,10 @@ public class OptionRepository {
         StringBuilder query = new StringBuilder();
         query.append("select o.option_id, o.option_name, oc.option_category_name, o.option_image, o.option_used_count ");
 
-        if(!isDefault) {
+        if (!isDefault) {
             query.append(", od.option_bought_count, od.option_price from SubOptionData od ");
         }
-        if(isDefault) {
+        if (isDefault) {
             query.append("from DefaultOptionData od ");
         }
 
@@ -82,11 +83,11 @@ public class OptionRepository {
         StringBuilder query = new StringBuilder();
         query.append("select oc.option_category_name as category_name, o.option_name, o.option_description, o.option_image, o.option_used_count ");
 
-        if(isDefault) {
+        if (isDefault) {
             query.append("from DefaultOptionData od ");
         }
 
-        if(!isDefault) {
+        if (!isDefault) {
             query.append(", od.option_bought_count from SubOptionData od ");
         }
 
@@ -121,19 +122,7 @@ public class OptionRepository {
         return template.query(sql, param, optionDetailRowMapper());
     }
 
-    public Optional<Long> findOptionPriceByOptionId(int optionId) {
-        String sql = "select option_price from SubOptionData where option_id = :optionId";
-
-        try {
-            SqlParameterSource param = new MapSqlParameterSource()
-                    .addValue("optionId", optionId);
-            return Optional.of(template.queryForObject(sql, param, Long.class));
-        } catch (DataAccessException e) {
-            return Optional.empty();
-        }
-    }
-
-    public Optional<QuoteSubOptionDto> findSubOptionByOptionId(int optionId){
+    public Optional<QuoteSubOptionDto> findSubOptionByOptionId(int optionId) {
         String sql = "select CarOption.option_id, option_name, option_image, option_price, option_category_name as optionTitle from CarOption inner join SubOptionData " +
                 "on CarOption.option_id = SubOptionData.option_id inner join OptionCategory on " +
                 "OptionCategory.option_category_id = CarOption.option_category_id where CarOption.option_id = :optionId";
@@ -146,8 +135,18 @@ public class OptionRepository {
         }
     }
 
+    public List<SubOptionIdAndPriceDto> findAllSubOptionInfo() {
+        String sql = "select option_id, option_price from SubOptionData";
+        return template.query(sql, subOptionIdAndPriceRowMapper());
+    }
+
+    private RowMapper<SubOptionIdAndPriceDto> subOptionIdAndPriceRowMapper() {
+        return BeanPropertyRowMapper.newInstance(SubOptionIdAndPriceDto.class);
+    }
+
     private RowMapper<QuoteSubOptionDto> shareSubOptionRowMapper() {
         return BeanPropertyRowMapper.newInstance(QuoteSubOptionDto.class);
     }
+
 
 }
