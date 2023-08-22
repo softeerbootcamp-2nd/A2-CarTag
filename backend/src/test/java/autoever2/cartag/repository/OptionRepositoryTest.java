@@ -4,6 +4,7 @@ import autoever2.cartag.domain.car.TrimDefaultOptionDto;
 import autoever2.cartag.domain.option.OptionDetailMappedDto;
 import autoever2.cartag.domain.option.OptionShortMappedDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
+import autoever2.cartag.domain.option.SubOptionIdAndPriceDto;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
@@ -234,7 +235,7 @@ class OptionRepositoryTest {
 
     @Test
     @DisplayName("공유를 위한 optionInfo 추출")
-    void getOptionInfo(){
+    void getOptionInfo() {
         Optional<QuoteSubOptionDto> subOptionInfoV1 = optionRepository.findSubOptionByOptionId(1);
         assertTrue(subOptionInfoV1.isPresent());
 
@@ -255,5 +256,16 @@ class OptionRepositoryTest {
         List<Integer> optionIds = List.of(69);
 
         assertEquals(1, optionRepository.countExistOptions(carId, optionIds));
+    }
+
+    @Test
+    @DisplayName("모든 subOptionData를 추출")
+    void findAllSubOptionInfos(){
+        List<SubOptionIdAndPriceDto> allSubOptionInfo = optionRepository.findAllSubOptionInfo();
+        assertEquals(6, allSubOptionInfo.size());
+
+        SubOptionIdAndPriceDto subOptionIdAndPriceDto = allSubOptionInfo.get(0);
+        assertEquals(1, subOptionIdAndPriceDto.getOptionId());
+        assertEquals(100000L, subOptionIdAndPriceDto.getOptionPrice());
     }
 }

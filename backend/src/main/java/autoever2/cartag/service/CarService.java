@@ -5,6 +5,7 @@ import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
 import autoever2.cartag.domain.model.ModelDefaultDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
+import autoever2.cartag.domain.option.SubOptionIdAndPriceDto;
 import autoever2.cartag.domain.quote.QuoteDataDto;
 import autoever2.cartag.domain.quote.QuoteInfoDto;
 import autoever2.cartag.exception.EmptyDataException;
@@ -69,28 +70,26 @@ public class CarService {
 
     public List<BoughtCarDto> findAllBoughInfos() {
         List<CarPriceDto> carPriceAndCount = carRepository.findCarPriceAndCount();
-
-        return carPriceAndCount.stream()
-                .map(carPriceDto -> {
-                    String optionList = carPriceDto.getOptionList();
-                    Long key = 0L;
-                    if (optionList.isEmpty()) {
-                        key = carPriceDto.getPrice() / 100000 * 100000;
-                    } else {
-                        String[] optionIdList = optionList.split(",");
-
-                        Long sum = Arrays.stream(optionIdList)
-                                .mapToLong(s -> optionRepository.findOptionPriceByOptionId(Integer.parseInt(s)).get())
-                                .sum();
-
-                        key = ((carPriceDto.getPrice() + sum) / 100000) * 1000000;
-                    }
-
-                    return Map.entry(key, 1);
-                })
-                .collect(Collectors.groupingByConcurrent(Map.Entry::getKey, Collectors.summingInt(Map.Entry::getValue)))
-                .entrySet().stream()
-                .map(entry -> BoughtCarDto.toBoughtCarDto(entry.getKey(), entry.getValue()))
+        List<SubOptionIdAndPriceDto> allSubOptionInfo = optionRepository.findAllSubOptionInfo();
+        Map<Integer, Long> subOptionPrice = allSubOptionInfo.stream()
+                .collect(Collectors.toMap(SubOptionIdAndPriceDto::getOptionId, SubOptionIdAndPriceDto::getOptionPrice));
+        Map<Long, Integer> map = new HashMap<>();
+        for (int i = 0; i < carPriceAndCount.size(); i++) {
+            Long sum = 0L;
+            if(!carPriceAndCount.get(i).getOptionList().isEmpty()){
+                String[] split = carPriceAndCount.get(i).getOptionList().split(",");
+                for (String s : split) {
+                    sum += subOptionPrice.get(Integer.parseInt(s));
+                }
+            }
+            long key = ((carPriceAndCount.get(i).getPrice() + sum) / 100000) * 100000;
+            map.put(key, map.getOrDefault(key, 0) + 1);
+        }
+        return map.entrySet().stream()
+                .map(entry -> BoughtCarDto.builder()
+                        .totalPrice(entry.getKey())
+                        .count(entry.getValue())
+                        .build())
                 .collect(Collectors.toList());
     }
 
