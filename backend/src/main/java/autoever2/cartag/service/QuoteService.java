@@ -22,6 +22,19 @@ public class QuoteService {
     private final QuoteRepository quoteRepository;
     private final RecommendConnector recommendConnector;
 
+    public HistoryShortDto findMyQuote(QuoteDataDto quoteDataDto) {
+        List<Integer> optionIds = quoteDataDto.getOptionIdList();
+
+        HistorySearchDto historyData = HistorySearchDto.builder()
+                .carId(quoteDataDto.getCarId())
+                .powerTrainId(quoteDataDto.getPowerTrainId())
+                .bodyTypeId(quoteDataDto.getBodyTypeId())
+                .operationId(quoteDataDto.getOperationId())
+                .optionIds(optionIds)
+                .build();
+        return quoteRepository.findShortData(historyData).orElse(HistoryShortDto.builder().build());
+    }
+
     public List<HistoryShortDto> findTopHistory(QuoteDataDto quoteDataDto) {
 
         List<Integer> optionIds = quoteDataDto.getOptionIdList();
