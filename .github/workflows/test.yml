@@ -32,7 +32,6 @@ jobs:
     - name: Copy application.yml
       working-directory: ${{ env.wd }}
       run: |
-        mkdir src/test/resources
         touch ./src/test/resources/application.yml
         echo "${{ secrets.APPLICATION_TEST }}" > ./src/test/resources/application.yml
 
