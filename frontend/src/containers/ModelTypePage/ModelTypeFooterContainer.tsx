@@ -1,6 +1,5 @@
 import { useContext, useEffect } from 'react';
 import { PATH } from '../../utils/constants';
-import { MODEL_TYPE_API } from '../../utils/apis';
 import { styled } from 'styled-components';
 import {
   BodyKrMedium2,
@@ -8,23 +7,20 @@ import {
   BodyKrRegular3,
   HeadingKrRegular1,
 } from '../../styles/typefaces';
-import { useFetch } from '../../hooks/useFetch';
 import CenterWrapper from '../../components/layout/CenterWrapper';
 import PriceSummary from '../../components/summary/PriceSummary';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
 import { ModelTypeContext } from '../../context/ModelTypeProvider';
 import { ItemContext } from '../../context/ItemProvider';
+import { useEfficiencyData } from '../../hooks/useEfficiencyData';
 
-interface IHmgEfficiency {
-  averageFuel: string;
-  displacement: string;
-}
 export default function ModelTypeFooterContainer() {
   const { selectedItem, setSelectedItem } = useContext(ItemContext);
-  const { modelType, selectedModelType } = useContext(ModelTypeContext);
-  const { data: hmgEfficiency, loading: hmgEfficiencyLoading } = useFetch<IHmgEfficiency>(
-    `${MODEL_TYPE_API}/hmg-efficiency?powertrain=${selectedItem.modelType.powerTrain.id}&operation=${selectedItem.modelType.operation.id}`
-  );
+  const { modelType } = useContext(ModelTypeContext);
+  const { data: hmgEfficiency, loading: hmgEfficiencyLoading } = useEfficiencyData({
+    powerTrainId: selectedItem.modelType.powerTrain.id,
+    operationId: selectedItem.modelType.operation.id,
+  });
 
   useEffect(() => {
     if (!hmgEfficiency || hmgEfficiencyLoading) return;
@@ -47,10 +43,10 @@ export default function ModelTypeFooterContainer() {
             <HmgTag size="small" />
             <HmgInfoWrapper>
               <HmgTagDescription>
-                <BlueText>{modelType[selectedModelType.powerTrain.id - 1].modelName}</BlueText>
+                <BlueText>{modelType[selectedItem.modelType.powerTrain.id - 1].modelName}</BlueText>
                 와&nbsp;
-                <BlueText>{modelType[selectedModelType.operation.id - 1].modelName}</BlueText>의
-                배기량과 평균연비입니다.
+                <BlueText>{modelType[selectedItem.modelType.operation.id - 1].modelName}</BlueText>
+                의 배기량과 평균연비입니다.
               </HmgTagDescription>
               <DataList>
                 <Data>
