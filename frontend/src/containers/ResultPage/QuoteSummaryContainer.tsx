@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import CenterWrapper from '../../components/layout/CenterWrapper';
+import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import { BodyKrMedium3, BodyKrRegular4, HeadingKrBold1 } from '../../styles/typefaces';
 import { useContext } from 'react';
 import { ItemContext } from '../../context/ItemProvider';

@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import { flexCenterCss } from '../../utils/commonStyle';
-import { BodyKrRegular5 } from '../../styles/typefaces';
+import { BodyKrRegular3, BodyKrRegular5 } from '../../styles/typefaces';
 import { ChangeEvent, useContext } from 'react';
 import { ItemContext } from '../../context/ItemProvider';
 import { TEN_THOUSAND_UNIT } from '../../utils/constants';
@@ -25,6 +25,7 @@ export default function Slider({
   return (
     <PriceBarWrapper {...props}>
       <MarkerSvgWrapper>
+        <Budget>예산: {budget / TEN_THOUSAND_UNIT}만</Budget>
         <PriceBar
           type="range"
           min={selectedItem.trim.price}
@@ -32,7 +33,7 @@ export default function Slider({
           value={budget}
           onChange={handleChange}
           onMouseDown={stopEvent}
-          step={10}
+          step={100_000}
           $percent={
             ((budget - selectedItem.trim.price) / (highestPrice - selectedItem.trim.price)) * 100
           }
@@ -59,6 +60,13 @@ export default function Slider({
 const PriceBarWrapper = styled.div`
   padding-top: 28px;
   padding-bottom: 4px;
+  position: relative;
+`;
+const Budget = styled.span`
+  ${BodyKrRegular3}
+  position: absolute;
+  top: -25px;
+  right: 0px;
 `;
 
 const MarkerSvgWrapper = styled.div`

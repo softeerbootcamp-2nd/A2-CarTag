@@ -1,7 +1,7 @@
 import { MouseEventHandler, useCallback, useContext, useEffect, useReducer, useState } from 'react';
 import { styled } from 'styled-components';
 import Banner from '../../components/common/banner/Banner';
-import CenterWrapper from '../../components/layout/CenterWrapper';
+import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { IMG_URL } from '../../utils/apis';
 import Loading from '../../components/loading/Loading';

@@ -5,7 +5,7 @@ import {
   BodyKrRegular5,
   HeadingKrRegular2,
 } from '../../styles/typefaces';
-import CenterWrapper from '../../components/layout/CenterWrapper';
+import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
 import OptionTab from '../../components/tabs/OptionTab';

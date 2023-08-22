@@ -2,7 +2,7 @@ import { HTMLAttributes, MouseEventHandler, useContext, useLayoutEffect, useRef 
 import { styled } from 'styled-components';
 import { Bubble, CloseIcon } from '../common/icons/Icons';
 import { BodyKrRegular3, HeadingKrMedium7 } from '../../styles/typefaces';
-import CenterWrapper from '../layout/CenterWrapper';
+import CenterWrapper from '../common/layout/CenterWrapper';
 import { DimmedBackground } from './DimmedBackground';
 import { GuideModalContext } from '../../context/GuideModalProvider';
 import { useLocation } from 'react-router-dom';

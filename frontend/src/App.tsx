@@ -1,5 +1,5 @@
 import { BrowserRouter } from 'react-router-dom';
-import NavBar from './components/layout/NavBar';
+import NavBar from './components/common/navbar/NavBar';
 import Providers from './components/contextProviders/Providers';
 import PriceStaticBar from './components/priceStaticBar/PriceStaticBar';
 import CustomRouter from './components/router/CustomRouter';
@@ -8,16 +8,11 @@ import CloseModalProvider from './context/CloseModalProvider';
 import SimilarQuoteModalProvider from './context/SimilarQuoteModalProvider';
 import GuideModalProvider from './context/GuideModalProvider';
 import ItemProvider from './context/ItemProvider';
-import { useEffect } from 'react';
 import QuoteSummaryModalProvider from './context/QuoteSummaryModalProvider';
 import ShareModalProvider from './context/ShareModalProvider';
 import ProgressProvider from './context/ProgressProvider';
 
 function App() {
-  useEffect(() => {
-    localStorage.clear();
-  }, []);
-
   const globalProviders = [
     CloseModalProvider,
     SimilarQuoteModalProvider,
