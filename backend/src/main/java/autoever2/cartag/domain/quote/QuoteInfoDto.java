@@ -1,4 +1,4 @@
-package autoever2.cartag.domain.share;
+package autoever2.cartag.domain.quote;
 
 import autoever2.cartag.domain.car.TrimInfoDto;
 import autoever2.cartag.domain.color.InnerColorDto;
@@ -22,6 +22,7 @@ public class QuoteInfoDto {
     private int carDefaultPrice;
     @Schema(description = "powerTrain의 id")
     private int powerTrainId;
+    @Schema(description = "파워트레인 명")
     private String powerTrainTitle;
     @Schema(description = "기본 powerTrain의 이름", example = "디젤 2.2")
     private String powerTrainName;

@@ -1,4 +1,4 @@
-import { MouseEventHandler, useCallback, useContext, useEffect, useReducer } from 'react';
+import { MouseEventHandler, useCallback, useContext, useEffect, useReducer, useState } from 'react';
 import { styled } from 'styled-components';
 import Banner from '../../components/common/banner/Banner';
 import CenterWrapper from '../../components/layout/CenterWrapper';
@@ -7,9 +7,12 @@ import { IMG_URL } from '../../utils/apis';
 import Loading from '../../components/loading/Loading';
 import { OuterColorContext } from '../../context/OuterColorProvider';
 import car360Reducer from '../../reducer/car360Reducer';
+import { ItemContext } from '../../context/ItemProvider';
 
 export default function OuterColorBannerContainer() {
-  const { car360UrlsData } = useContext(OuterColorContext);
+  const { selectedItem } = useContext(ItemContext);
+
+  const { car360UrlsData, loading } = useContext(OuterColorContext);
   const [imgState, setImgState] = useReducer(car360Reducer, {
     visibleIdx: 0,
     isDragging: false,
@@ -18,6 +21,7 @@ export default function OuterColorBannerContainer() {
     imgLoading: true,
   });
   const imgLen = car360UrlsData ? car360UrlsData.length : 0;
+  const [imgBlobUrl, setImgBlobUrl] = useState<{ [key: string]: string }>({});
 
   const handleMousedown: MouseEventHandler<HTMLDivElement> = useCallback(
     ({ pageX }) => {
@@ -43,7 +47,6 @@ export default function OuterColorBannerContainer() {
     },
     [setImgState, imgState, imgLen]
   );
-
   const handleMouseup: MouseEventHandler<HTMLDivElement> = useCallback(
     ({ pageX }) => {
       setImgState({ type: 'SET_IS_DRAGGING', value: false });
@@ -51,15 +54,17 @@ export default function OuterColorBannerContainer() {
     },
     [setImgState]
   );
-
-  const isLoaded = useCallback((urls: string[]) => {
-    for (const url of urls) {
-      if (!localStorage.getItem(url)) {
-        return false;
+  const isLoaded = useCallback(
+    (urls: string[]) => {
+      for (const url of urls) {
+        if (!imgBlobUrl[url]) {
+          return false;
+        }
       }
-    }
-    return true;
-  }, []);
+      return true;
+    },
+    [imgBlobUrl]
+  );
 
   const downloadAndSaveImages = useCallback(
     async (car360UrlsData: string[], abortController: AbortController) => {
@@ -68,39 +73,43 @@ export default function OuterColorBannerContainer() {
         return;
       }
       setImgState({ type: 'SET_IMG_LOADING', value: true });
-
+      const newImgBlobUrl: { [key: string]: string } = {};
       await Promise.all(
         car360UrlsData.map(async (url, idx) => {
-          const isImageExist = localStorage.getItem(url) !== null;
-          if (isImageExist) return;
-          const res = await fetch(IMG_URL + url, {
+          const fetchImgUrl = IMG_URL + url + `?${selectedItem.outerColor.name}`;
+          const res = await fetch(fetchImgUrl, {
             signal: abortController.signal,
           });
           const imgBlob = await res.blob();
-          const localStorageKey = car360UrlsData[idx];
-          localStorage.setItem(localStorageKey, URL.createObjectURL(imgBlob));
+          const key = car360UrlsData[idx];
+          newImgBlobUrl[key] = URL.createObjectURL(imgBlob);
           return imgBlob;
         })
       );
+
+      setImgBlobUrl((cur) => {
+        return { ...cur, ...newImgBlobUrl };
+      });
       setImgState({ type: 'SET_IMG_LOADING', value: false });
     },
-    [isLoaded]
+    [selectedItem, isLoaded]
   );
 
+  const displayCar360Components = useCallback(() => {
+    return car360UrlsData?.map((url, idx) => {
+      const imgSrc = imgBlobUrl[url];
+      return <CarImg key={idx} src={imgSrc} $visible={imgState.visibleIdx === idx} />;
+    });
+  }, [car360UrlsData, imgBlobUrl, imgState]);
+
   useEffect(() => {
-    if (!car360UrlsData) return;
+    if (!car360UrlsData || loading) return;
     const abortController = new AbortController();
     downloadAndSaveImages(car360UrlsData, abortController);
     return () => {
       abortController.abort();
     };
-  }, [downloadAndSaveImages, car360UrlsData]);
-
-  const car360Components = car360UrlsData?.map((url, idx) => {
-    const imgSrc = localStorage.getItem(url);
-    if (!imgSrc) return;
-    return <CarImg key={idx} src={imgSrc} $visible={imgState.visibleIdx === idx} />;
-  });
+  }, [downloadAndSaveImages, car360UrlsData, loading]);
 
   return (
     <>
@@ -110,7 +119,7 @@ export default function OuterColorBannerContainer() {
             <CarShadow>
               <DegreeCaption>360°</DegreeCaption>
             </CarShadow>
-            {imgState.imgLoading ? <Loading /> : car360Components}
+            {imgState.imgLoading ? <Loading /> : displayCar360Components()}
           </ImgWrapper>
         </FlexCenterWrapper>
       </OuterColorBanner>
