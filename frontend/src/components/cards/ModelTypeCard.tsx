@@ -6,21 +6,23 @@ import { HTMLAttributes } from 'react';
 
 interface IModelTypeCard extends HTMLAttributes<HTMLDivElement> {
   active?: boolean;
-  desc: string;
+  percentage: number;
   title: string;
   price: number;
 }
 
 export default function ModelTypeCard({
   active = false,
-  desc,
+  percentage,
   title,
   price,
   ...props
 }: IModelTypeCard) {
   return (
     <Wrapper active={active} {...props}>
-      <ModelTypeDesc>{desc}</ModelTypeDesc>
+      <ModelTypeDesc>
+        <BlueText $active={active}>{percentage}%</BlueText>의 선택
+      </ModelTypeDesc>
       <ModelTypeTitle>{title}</ModelTypeTitle>
       <ModelTypePrice>
         +{price.toLocaleString()} 원 <CheckIcon active={active} />
@@ -45,4 +47,7 @@ const ModelTypePrice = styled.div`
 `;
 const ModelTypeDesc = styled.div`
   ${BodyKrRegular4}
+`;
+const BlueText = styled.span<{ $active: boolean }>`
+  color: ${({ theme, $active }) => $active && theme.color.activeBlue2};
 `;

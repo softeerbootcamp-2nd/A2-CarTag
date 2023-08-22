@@ -4,7 +4,7 @@ import { useFetch } from '../../hooks/useFetch';
 import { BodyKrRegular4 } from '../../styles/typefaces';
 import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
-import CenterWrapper from '../../components/layout/CenterWrapper';
+import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import PowerTrainData from '../../components/powerTrainData/PowerTrainData';
 import { IHmgData, ModelTypeContext } from '../../context/ModelTypeProvider';
 import { MODEL_TYPE_API, IMG_URL } from '../../utils/apis';

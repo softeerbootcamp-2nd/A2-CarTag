@@ -1,5 +1,5 @@
 import { css, styled } from 'styled-components';
-import CenterWrapper from '../../../components/layout/CenterWrapper';
+import CenterWrapper from '../../../components/common/layout/CenterWrapper';
 import { BodyKrMedium1 } from '../../../styles/typefaces';
 import SearchBar from '../../../components/searchBar/SearchBar';
 import DefaultOptionContainer from './DefaultOptionContainer';
