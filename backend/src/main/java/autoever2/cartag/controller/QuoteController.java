@@ -40,7 +40,7 @@ public class QuoteController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = BoughtCarDto.class))),
     })
     @GetMapping("bought/infos")
-    public List<BoughtCarDto> boughtCarDtos() {
+    public List<BoughtCarDto> getAllHistorySum() {
         return carService.findAllBoughInfos();
     }
 
@@ -49,7 +49,8 @@ public class QuoteController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = QuoteInfoDto.class))),
     })
     @PostMapping("/infos/shares")
-    public QuoteInfoDto boughtCarDtos(@Parameter(description = "선택한 id 리스트") @RequestBody QuoteDataDto idList) {
-        return carService.findShareInfoDto(idList);
+    public QuoteInfoDto getQuoteDetail(@Parameter(description = "선택한 id 리스트") @RequestBody QuoteDataDto idList) {
+        QuoteInfoDto data = carService.findShareInfoDto(idList);
+        return data;
     }
 }
