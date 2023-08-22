@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,12 +28,11 @@ public class HistorySearchDto {
         this.optionIds = new ArrayList<>();
 
         this.optionIds.addAll(optionIds);
-        optionIds.sort(null);
     }
 
     public void addAllOption(List<Integer> optionId) {
         optionIds.addAll(optionId);
-        optionIds.sort(null);
+        Collections.sort(optionIds);
     }
 
     public String getOptionIds() {
