@@ -69,18 +69,26 @@ public class QuoteControllerTest {
                 .soldCount(140)
                 .build());
 
+        HistoryShortDto myQuote = HistoryShortDto.builder()
+                .historyId(123L)
+                .soldCount(110)
+                .build();
+
         String content = objectMapper.writeValueAsString(quoteDataDto);
         given(quoteService.findTopHistory(quoteDataDto)).willReturn(expected);
+        given(quoteService.findMyQuote(quoteDataDto)).willReturn(myQuote);
         //when
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/api/quote/list").content(content)
                 .contentType(MediaType.APPLICATION_JSON));
 
         //then
         resultActions.andExpect(status().isOk())
-                .andExpect(jsonPath("$[0].historyId").value(129))
-                .andExpect(jsonPath("$[1].soldCount").value(140))
-                .andExpect(jsonPath("$[2].soldCount").value(162))
-                .andExpect(jsonPath("$[3].historyId").value(169));
+                .andExpect(jsonPath("$.historyId").value(123L))
+                .andExpect(jsonPath("$.soldCount").value(110))
+                .andExpect(jsonPath("$.histories[0].historyId").value(129))
+                .andExpect(jsonPath("$.histories[1].soldCount").value(140))
+                .andExpect(jsonPath("$.histories[2].soldCount").value(162))
+                .andExpect(jsonPath("$.histories[3].historyId").value(169));
     }
     @Test
     @DisplayName("id에 따른 공유 데이터 반환")
