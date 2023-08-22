@@ -31,7 +31,7 @@ jobs:
 
     - name: Test with Gradle
       working-directory: ${{ env.wd }}
-      run: ./gradlew test
+      run: ./gradlew jacocoTestReport
       
     - name: Add coverage to PR
       id: jacoco
