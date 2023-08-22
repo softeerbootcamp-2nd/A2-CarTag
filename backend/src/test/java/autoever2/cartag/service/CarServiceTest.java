@@ -5,8 +5,8 @@ import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
 import autoever2.cartag.domain.model.ModelDefaultDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
-import autoever2.cartag.domain.share.QuoteIdList;
-import autoever2.cartag.domain.share.QuoteInfoDto;
+import autoever2.cartag.domain.quote.QuoteDataDto;
+import autoever2.cartag.domain.quote.QuoteInfoDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.repository.CarRepository;
@@ -236,7 +236,7 @@ class CarServiceTest {
 
         when(optionRepository.findSubOptionByOptionId(1)).thenReturn(Optional.of(subOption));
 
-        QuoteInfoDto shareInfoDto = carService.findShareInfoDto(QuoteIdList.builder()
+        QuoteInfoDto shareInfoDto = carService.findShareInfoDto(QuoteDataDto.builder()
                 .carId(1)
                 .powerTrainId(1)
                 .bodyTypeId(3)

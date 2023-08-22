@@ -1,19 +1,9 @@
 package autoever2.cartag.integration;
 
 import autoever2.cartag.controller.CarController;
-import autoever2.cartag.domain.car.CarDefaultDto;
 import autoever2.cartag.domain.car.CarDto;
 import autoever2.cartag.domain.car.CarTypeDto;
-import autoever2.cartag.domain.share.QuoteIdList;
-import autoever2.cartag.domain.share.QuoteInfoDto;
 import autoever2.cartag.exception.EmptyDataException;
-import io.swagger.v3.oas.annotations.Operation;
-import io.swagger.v3.oas.annotations.Parameter;
-import io.swagger.v3.oas.annotations.media.Content;
-import io.swagger.v3.oas.annotations.media.Schema;
-import io.swagger.v3.oas.annotations.responses.ApiResponse;
-import io.swagger.v3.oas.annotations.responses.ApiResponses;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,8 +11,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.ArrayList;
 import java.util.List;

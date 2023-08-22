@@ -161,5 +161,4 @@ public class OptionRepository {
 
         return template.queryForObject(sql, param, Long.class);
     }
-
 }

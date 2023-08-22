@@ -247,4 +247,13 @@ class OptionRepositoryTest {
         Optional<QuoteSubOptionDto> subOptionInfoV2 = optionRepository.findSubOptionByOptionId(100);
         assertTrue(subOptionInfoV2.isEmpty());
     }
+
+    @Test
+    @DisplayName("옵션이 실제로 존재하는지 검증")
+    void countExistOptions() {
+        int carId = 1;
+        List<Integer> optionIds = List.of(69);
+
+        assertEquals(1, optionRepository.countExistOptions(carId, optionIds));
+    }
 }
