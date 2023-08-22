@@ -2,6 +2,8 @@ import { styled, useTheme } from 'styled-components';
 import HmgTag from '../common/hmgTag/HmgTag';
 import { BodyKrMedium2, BodyKrRegular2, HeadingKrMedium5 } from '../../styles/typefaces';
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useFetch } from '../../hooks/useFetch';
+import { BOUGHT_INFO_API } from '../../utils/apis';
 
 // 임시 데이터
 const carData = {
@@ -17,6 +19,11 @@ interface ICarData {
   [key: string]: number;
 }
 
+interface IBoughtInfo {
+  totalPrice: number;
+  count: number;
+}
+
 interface ICircle {
   cx: number;
   cy: number;
@@ -25,11 +32,12 @@ interface ICircle {
 type CoordType = [number, number];
 
 export default function CurveHistogram() {
+  const [svgSize, setSvgSize] = useState({ width: 0, height: 0 });
+  const [circlePos, setCirclePos] = useState({ x: 0, y: 0 });
+  const [d, setD] = useState('');
+  const { data: boughtInfoListData } = useFetch<IBoughtInfo[]>(BOUGHT_INFO_API);
   const theme = useTheme();
   const histogramRef = useRef<SVGSVGElement>(null);
-  const [svgSize, setSvgSize] = useState({ width: 0, height: 0 });
-  const [d, setD] = useState('');
-  const [circlePos, setCirclePos] = useState({ x: 0, y: 0 });
 
   const initSvgSize = () => {
     if (!histogramRef.current) {
@@ -86,9 +94,15 @@ export default function CurveHistogram() {
   );
 
   const drawHistogram = useCallback(() => {
-    drawLine(carData);
+    if (!boughtInfoListData) return;
+    const boughtInfoData: { [key: number]: number } = {};
+    boughtInfoListData?.forEach((boughtInfo) => {
+      boughtInfoData[boughtInfo.totalPrice] = boughtInfo.count;
+    });
+
+    drawLine(boughtInfoData);
     drawCircle(mycarPrice);
-  }, [drawLine, drawCircle]);
+  }, [drawLine, drawCircle, boughtInfoListData]);
 
   useEffect(initSvgSize, [histogramRef]);
   useEffect(drawHistogram, [svgSize, drawHistogram]);
@@ -159,7 +173,7 @@ const getControllPoint = (
   next: CoordType,
   isEndPoint?: boolean
 ) => {
-  const smooth = 0.2;
+  const smooth = 0.1;
   const p = prev || cur;
   const n = next || cur;
   const { length, angle } = getOpossedLine(p, n);
