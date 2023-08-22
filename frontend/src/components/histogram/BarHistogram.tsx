@@ -1,12 +1,67 @@
 import { styled } from 'styled-components';
 import HmgTag from '../common/hmgTag/HmgTag';
-import { BodyKrMedium2, BodyKrRegular3, HeadingKrMedium6 } from '../../styles/typefaces';
+import {
+  BodyKrMedium2,
+  BodyKrRegular3,
+  HeadingKrMedium6,
+  HeadingKrMedium7,
+} from '../../styles/typefaces';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { useContext } from 'react';
 import { SimilarQuoteModalContext } from '../../context/ModalProviders/SimilarQuoteModalProvider';
+import Loading from '../loading/Loading';
+import ErrorModal from '../modal/ErrorModal';
+import useQuoteListData from '../../hooks/useQuoteList';
+import { ItemContext } from '../../context/ItemProvider';
+
+interface IQuote {
+  historyId: number;
+  soldCount: number;
+  histories: [IQuote | null];
+}
 
 export default function BarHistogram() {
+  const { selectedItem } = useContext(ItemContext);
   const { setVisible: setSimilarQuoteModalVisible } = useContext(SimilarQuoteModalContext);
+  const {
+    data: quoteListData,
+    error: quoteListError,
+    loading: quoteListLoading,
+  } = useQuoteListData<IQuote | null>(selectedItem);
+
+  if (quoteListError) return <ErrorModal message={quoteListError.message} />;
+
+  const getMaxSoldCount = (quoteListData: IQuote) => {
+    const soldCountList = [];
+    soldCountList.push(quoteListData.soldCount);
+    quoteListData.histories.forEach((quote) => {
+      if (quote === null) return;
+      soldCountList.push(quote.soldCount);
+    });
+    const max = Math.max(...soldCountList);
+    return max;
+  };
+
+  const myQuoteSoldCount = quoteListData && quoteListData.soldCount;
+  const myQuoteSoldPercent =
+    myQuoteSoldCount && (myQuoteSoldCount / getMaxSoldCount(quoteListData)) * 100;
+
+  const similarQuote = quoteListData?.histories.map((quote) => {
+    if (quote === null) return;
+    const { historyId, soldCount } = quote;
+    const maxSoldCount = getMaxSoldCount(quoteListData);
+    const percentage = (soldCount / maxSoldCount) * 100;
+    return (
+      <BarItem key={historyId}>
+        <BarValue>{soldCount}대</BarValue>
+        <Bar $height={`${percentage}%`}></Bar>
+        <BarItemName>유사 견적</BarItemName>
+      </BarItem>
+    );
+  });
+
+  const hasSimilarQuote = !similarQuote?.every((quote) => quote === undefined);
+
   return (
     <HistogramWrapper>
       <HmgTag size="small" />
@@ -20,34 +75,18 @@ export default function BarHistogram() {
             유사 출고 견적이란, 내 견적과 해시태그 유사도가 높은 다른 사람들의 실제 출고 견적이에요.
           </CaptionDesc>
         </CaptionWrapper>
-
-        <BarChart>
-          <BarItem $active={true}>
-            <BarValue> 3,444대</BarValue>
-            <Bar $height="100%" $active={true}></Bar>
-            <BarItemName>내 견적</BarItemName>
-          </BarItem>
-          <BarItem>
-            <BarValue> 3,444대</BarValue>
-            <Bar $height="60%"></Bar>
-            <BarItemName>내 견적</BarItemName>
-          </BarItem>
-          <BarItem>
-            <BarValue> 3,444대</BarValue>
-            <Bar $height="70%"></Bar>
-            <BarItemName>내 견적</BarItemName>
-          </BarItem>
-          <BarItem>
-            <BarValue> 3,444대</BarValue>
-            <Bar $height="80%"></Bar>
-            <BarItemName>내 견적</BarItemName>
-          </BarItem>
-          <BarItem>
-            <BarValue> 3,444대</BarValue>
-            <Bar $height="77%"></Bar>
-            <BarItemName>내 견적</BarItemName>
-          </BarItem>
-        </BarChart>
+        {quoteListLoading ? (
+          <Loading />
+        ) : (
+          <BarChart>
+            <BarItem $active={true}>
+              <BarValue>{myQuoteSoldCount}</BarValue>
+              <Bar $height={`${myQuoteSoldPercent}%`} $active={true}></Bar>
+              <BarItemName>내 견적</BarItemName>
+            </BarItem>
+            {hasSimilarQuote ? similarQuote : <Text>유사 견적이 없습니다.</Text>}
+          </BarChart>
+        )}
         <Button onClick={() => setSimilarQuoteModalVisible(true)}>유사 출고 견적 확인하기</Button>
       </PaddingWrapper>
     </HistogramWrapper>
@@ -71,7 +110,7 @@ const BarValue = styled.div`
   ${BodyKrRegular3}
 `;
 const BarItemName = styled.div`
-  ${HeadingKrMedium6}
+  ${HeadingKrMedium7}
 `;
 const CaptionWrapper = styled.div`
   ${BodyKrMedium2}
@@ -120,4 +159,10 @@ const Button = styled.button`
   width: 100%;
   height: 52px;
   margin-top: 10px;
+`;
+const Text = styled.span`
+  ${flexCenterCss}
+  height: 100%;
+
+  ${BodyKrRegular3}
 `;
