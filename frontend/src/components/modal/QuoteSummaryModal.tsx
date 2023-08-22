@@ -49,8 +49,10 @@ export default function QuoteSummaryModal({ ...props }: IQuoteSummaryModal) {
     return option.name;
   });
   const optionPrice = selectedItem.options.reduce((acc, option) => acc + option.price, 0);
-  const outerCarImgSrc = IMG_URL + selectedItem.outerColor.carImgSrc;
-  const innerCarImgSrc = IMG_URL + selectedItem.innerColor.carImgSrc;
+  const outerCarImgSrc =
+    selectedItem.outerColor.carImgSrc === '' ? '' : IMG_URL + selectedItem.outerColor.carImgSrc;
+  const innerCarImgSrc =
+    selectedItem.outerColor.carImgSrc === '' ? '' : IMG_URL + selectedItem.innerColor.carImgSrc;
 
   return (
     <DimmedBackground $displayDimmed={visible} {...props}>
