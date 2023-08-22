@@ -36,8 +36,8 @@ export default function CarSelectContainer({ visible }: ICarSelectContainer) {
     );
   });
 
-  const carItemComponents = data?.map((car) => (
-    <CarItem>
+  const carItemComponents = data?.map((car, idx) => (
+    <CarItem key={idx}>
       <CarImg src={IMG_URL + car.carTypeImage} />
       <CarName>{car.carTypeName}</CarName>
     </CarItem>
