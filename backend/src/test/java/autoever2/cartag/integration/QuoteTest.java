@@ -1,15 +1,19 @@
 package autoever2.cartag.integration;
 
-import autoever2.cartag.controller.CarController;
-import autoever2.cartag.domain.option.QuoteSubOptionDto;
-import autoever2.cartag.domain.share.QuoteIdList;
-import autoever2.cartag.domain.share.QuoteInfoDto;
-import autoever2.cartag.exception.EmptyDataException;
-import org.assertj.core.api.Assertions;
+import autoever2.cartag.controller.QuoteController;
+import autoever2.cartag.domain.quote.QuoteDataDto;
+import autoever2.cartag.domain.quote.QuoteInfoDto;
+import autoever2.cartag.recommend.RecommendConnector;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import autoever2.cartag.controller.CarController;
+import autoever2.cartag.domain.option.QuoteSubOptionDto;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,26 +21,28 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.ArrayList;
 import java.util.List;
 
-import static org.assertj.core.api.Assertions.*;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringBootTest
 @Transactional
 @ActiveProfiles("test")
-@Sql({"classpath:insert/insert-quote-h2.sql"})
 public class QuoteTest {
+
     @Autowired
-    CarController controller;
+    QuoteController quoteController;
+
+    @Autowired
+    CarController carController;
 
     @Test
-    @DisplayName("/api/cars//infos/shares")
+    @DisplayName("/api/quote/infos/shares")
+    @Sql({"classpath:insert/insert-quote-h2.sql"})
     void testShare() {
         ArrayList<Integer> optionIds = new ArrayList<>();
         optionIds.add(1);
         optionIds.add(2);
         optionIds.add(3);
-        QuoteIdList quoteIdList = QuoteIdList
+        QuoteDataDto quoteIdList = QuoteDataDto
                 .builder()
                 .carId(1)
                 .powerTrainId(1)
@@ -47,7 +53,7 @@ public class QuoteTest {
                 .optionIdList(optionIds)
                 .build();
 
-        QuoteInfoDto quoteInfoDto = controller.boughtCarDtos(quoteIdList);
+        QuoteInfoDto quoteInfoDto = quoteController.getQuoteDetail(quoteIdList);
 
         assertEquals("르블랑", quoteInfoDto.getTrim());
         assertEquals(41980000, quoteInfoDto.getCarDefaultPrice());

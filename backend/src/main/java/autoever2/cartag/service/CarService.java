@@ -5,8 +5,8 @@ import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
 import autoever2.cartag.domain.model.ModelDefaultDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
-import autoever2.cartag.domain.share.QuoteIdList;
-import autoever2.cartag.domain.share.QuoteInfoDto;
+import autoever2.cartag.domain.quote.QuoteDataDto;
+import autoever2.cartag.domain.quote.QuoteInfoDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.repository.CarRepository;
@@ -41,7 +41,7 @@ public class CarService {
     public List<CarDto> findCarByCarType(int carType) {
         List<CarInfoDto> carInfos = carRepository.findCarByCarType(carType);
         if (carInfos.isEmpty()) {
-            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
+            throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
         }
 
         return carInfos.stream()
@@ -54,12 +54,12 @@ public class CarService {
         List<InnerColorDto> innerColorList = colorRepository.findInnerColorCarByCarId(carId);
         List<ModelDefaultDto> modelList = modelRepository.findModelDefaultDtoByCarId(carId);
         if (outerColorList.isEmpty() || innerColorList.isEmpty() || modelList.isEmpty()) {
-            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
+            throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
         }
         int colorId = outerColorList.get(0).getColorId();
         Optional<String> colorCarOuterImage = colorRepository.findOuterColorImagesByColorId(colorId);
         if (colorCarOuterImage.isEmpty()) {
-            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
+            throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
         }
         String value = colorCarOuterImage.get();
         String outerImageUrl = value.substring(0, value.indexOf("*")) + 1 + value.substring(value.indexOf("*") + 1, value.length());
@@ -94,7 +94,7 @@ public class CarService {
                 .collect(Collectors.toList());
     }
 
-    public QuoteInfoDto findShareInfoDto(QuoteIdList idList) {
+    public QuoteInfoDto findShareInfoDto(QuoteDataDto idList) {
         int carId = idList.getCarId();
         int powerTrainId = idList.getPowerTrainId();
         int bodyTypeId = idList.getBodyTypeId();
@@ -115,7 +115,7 @@ public class CarService {
                     optionInfos.add(optionInfo.get());
                     continue;
                 }
-                throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
+                throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
             }
         }
         OuterColorDto outerColorDto = outerColorInfo.get();

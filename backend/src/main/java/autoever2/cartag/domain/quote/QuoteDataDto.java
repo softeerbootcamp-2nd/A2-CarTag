@@ -1,4 +1,4 @@
-package autoever2.cartag.domain.share;
+package autoever2.cartag.domain.quote;
 
 import lombok.Builder;
 import lombok.Getter;
@@ -11,7 +11,7 @@ import java.util.Objects;
 
 @Getter @Setter
 @NoArgsConstructor
-public class QuoteIdList {
+public class QuoteDataDto {
     private int carId;
     private int powerTrainId;
     private int bodyTypeId;
@@ -21,7 +21,7 @@ public class QuoteIdList {
     private List<Integer> optionIdList = new ArrayList<>();
 
     @Builder
-    public QuoteIdList(int carId, int powerTrainId, int bodyTypeId, int operationId, int outerColorId, int innerColorId, List<Integer> optionIdList) {
+    public QuoteDataDto(int carId, int powerTrainId, int bodyTypeId, int operationId, int outerColorId, int innerColorId, List<Integer> optionIdList) {
         this.carId = carId;
         this.powerTrainId = powerTrainId;
         this.bodyTypeId = bodyTypeId;
@@ -35,7 +35,7 @@ public class QuoteIdList {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        QuoteIdList that = (QuoteIdList) o;
+        QuoteDataDto that = (QuoteDataDto) o;
         return carId == that.carId && powerTrainId == that.powerTrainId && bodyTypeId == that.bodyTypeId && operationId == that.operationId && outerColorId == that.outerColorId && innerColorId == that.innerColorId && Objects.equals(optionIdList, that.optionIdList);
     }
 }

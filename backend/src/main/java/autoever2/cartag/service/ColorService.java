@@ -10,7 +10,6 @@ import autoever2.cartag.repository.CarRepository;
 import autoever2.cartag.repository.ColorRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,7 +29,7 @@ public class ColorService {
     public List<String> changeImageToImages(int colorId) {
         Optional<String> images = colorRepository.findOuterColorImagesByColorId(colorId);
         if (images.isEmpty()) {
-            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
+            throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
         }
         List<String> outerColorCarImages = new ArrayList<>();
         String value = images.get();
@@ -44,7 +43,7 @@ public class ColorService {
     public List<OuterColorPercentDto> findOuterColorByCarId(int carId) {
         List<OuterColorDto> outerColors = colorRepository.findOuterColorCarByCarId(carId);
         if (outerColors.isEmpty()) {
-            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
+            throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
         }
         Optional<Long> totalCount = carRepository.findCarBoughtCountByCarId(carId);
         return outerColors.stream()
@@ -56,7 +55,7 @@ public class ColorService {
     public List<InnerColorPercentDto> findInnerColorByCarId(int carId) {
         List<InnerColorDto> innerColors = colorRepository.findInnerColorCarByCarId(carId);
         if (innerColors.isEmpty()) {
-            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
+            throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
         }
         Optional<Long> totalCount = carRepository.findCarBoughtCountByCarId(carId);
         return innerColors.stream()
