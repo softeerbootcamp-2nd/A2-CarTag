@@ -108,13 +108,15 @@ public class CarService {
         Optional<InnerColorDto> innerColorInfo = colorRepository.findInnerColorByColorId(innerColorId);
         Optional<OuterColorDto> outerColorInfo = colorRepository.findOuterColorByColorId(outerColorId);
         List<QuoteSubOptionDto> optionInfos = new ArrayList<>();
-        for (Integer id : optionIdList) {
-            Optional<QuoteSubOptionDto> optionInfo = optionRepository.findSubOptionByOptionId(id);
-            if (optionInfo.isPresent()) {
-                optionInfos.add(optionInfo.get());
-                continue;
+        if(!optionIdList.isEmpty()) {
+            for (Integer id : optionIdList) {
+                Optional<QuoteSubOptionDto> optionInfo = optionRepository.findSubOptionByOptionId(id);
+                if (optionInfo.isPresent()) {
+                    optionInfos.add(optionInfo.get());
+                    continue;
+                }
+                throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
             }
-            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
         }
         OuterColorDto outerColorDto = outerColorInfo.get();
         String imageUrl = changeUrl(outerColorDto.getColorCarImage(), 1);

@@ -2,6 +2,7 @@ package autoever2.cartag.repository;
 
 import autoever2.cartag.domain.car.CarInfoDto;
 import autoever2.cartag.domain.car.CarTypeDto;
+import autoever2.cartag.domain.car.TrimInfoDto;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
@@ -16,8 +17,10 @@ import org.springframework.test.context.jdbc.Sql;
 import javax.sql.DataSource;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @JdbcTest
 @ActiveProfiles("test")
@@ -83,5 +86,19 @@ class CarRepositoryTest {
 
         //then
         softAssertions.assertThat(result).usingRecursiveComparison().isEqualTo(expected);
+    }
+
+    @Test
+    @DisplayName("차량 트림 정보를 반환")
+    void getTrimInfo(){
+        Optional<TrimInfoDto> trimInfo = carRepository.findTrimInfoByCarId(1);
+        assertTrue(trimInfo.isPresent());
+
+        TrimInfoDto infoDto = trimInfo.get();
+        assertEquals("Le Blanc", infoDto.getTrim());
+        assertEquals(40000000, infoDto.getCarDefaultPrice());
+
+        Optional<TrimInfoDto> trimNoFoundInfo = carRepository.findTrimInfoByCarId(7);
+        assertTrue(trimNoFoundInfo.isEmpty());
     }
 }

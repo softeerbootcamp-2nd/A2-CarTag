@@ -24,7 +24,8 @@ public class OuterColorDto {
     private String colorCarImage;
 
     @Builder
-    public OuterColorDto(String colorName, String colorImage, Long colorPrice, Long colorBoughtCount, String colorCarImage) {
+    public OuterColorDto(int colorId, String colorName, String colorImage, Long colorPrice, Long colorBoughtCount, String colorCarImage) {
+        this.colorId = colorId;
         this.colorName = colorName;
         this.colorImage = colorImage;
         this.colorPrice = colorPrice;
