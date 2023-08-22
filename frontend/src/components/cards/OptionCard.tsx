@@ -55,7 +55,7 @@ export default function OptionCard({
             option.percentage !== null &&
             option.percentage > PERCENTAGE_LIMIT_VALUE && (
               <OptionDesc>
-                <BlueText>{option.percentage}%</BlueText>가 선택했어요
+                <BlueText $active={active}>{option.percentage}%</BlueText>가 선택했어요.
               </OptionDesc>
             )}
           <OptionTitle>{option.optionName}</OptionTitle>
@@ -125,8 +125,8 @@ const OptionPrice = styled.div`
 const DefaultInfo = styled.div`
   color: ${({ theme }) => theme.color.gray500};
 `;
-const BlueText = styled.span`
-  color: ${({ theme }) => theme.color.activeBlue2};
+const BlueText = styled.span<{ $active: boolean }>`
+  color: ${({ $active, theme }) => $active && theme.color.activeBlue};
 `;
 
 const OptionDesc = styled.div`

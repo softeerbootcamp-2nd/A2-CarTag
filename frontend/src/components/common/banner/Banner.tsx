@@ -21,7 +21,7 @@ export default function Banner({ subtitle, title, ...props }: IBanner) {
 
   useEffect(() => {
     displayOverflow();
-  }, [displayOverflow]);
+  }, [title, displayOverflow]);
 
   return (
     <>
