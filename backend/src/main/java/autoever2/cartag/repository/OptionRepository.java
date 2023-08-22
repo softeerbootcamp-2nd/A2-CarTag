@@ -148,5 +148,15 @@ public class OptionRepository {
         return BeanPropertyRowMapper.newInstance(QuoteSubOptionDto.class);
     }
 
+    public Long countExistOptions(int carId, List<Integer> optionIds) {
+        String sql = "select count(*) as totalCount " +
+                "from SubOptionData " +
+                "where car_id = :carId and option_id IN (:optionIds)";
 
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("carId", carId)
+                .addValue("optionIds", optionIds);
+
+        return template.queryForObject(sql, param, Long.class);
+    }
 }

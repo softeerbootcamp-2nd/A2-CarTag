@@ -3,7 +3,6 @@ package autoever2.cartag.controller;
 import autoever2.cartag.domain.model.ModelDetailMappedDto;
 import autoever2.cartag.domain.model.ModelEfficiencyDataDto;
 import autoever2.cartag.domain.model.ModelShortDataDto;
-import autoever2.cartag.domain.model.PowerTrainMappedDto;
 import autoever2.cartag.service.ModelService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -37,7 +36,8 @@ public class ModelController {
     })
     @GetMapping("/list")
     public List<ModelShortDataDto> getTrimModelType(@Parameter(description = "선택한 차량 트림ID") @RequestParam("carid") int carId) {
-        return modelTypeService.getModelTypeData(carId);
+        List<ModelShortDataDto> result = modelTypeService.getModelTypeData(carId);
+        return result;
     }
 
     @Operation(summary = "모델타입 상세 데이터 조회", description = "모델명과 설명, 이미지 반환하는 api")

@@ -21,7 +21,7 @@ public class ModelService {
     public List<ModelShortDataDto> getModelTypeData(int carId) {
         List<ModelShortMappedDto> modelData = modelRepository.findAllModelTypeData(carId);
         if (modelData.isEmpty()) {
-            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
+            throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
         }
         Long carBoughtCount = carRepository.findCarBoughtCountByCarId(carId).orElse(0L);
         List<ModelShortMappedDto> powerTrainData = modelData.stream().filter(modelShortMappedDto -> modelShortMappedDto.getModelTypeId() == 1).collect(Collectors.toList());
@@ -114,7 +114,7 @@ public class ModelService {
 
     //TODO: RuntimeException 처리
     public ModelDetailMappedDto getModelDetail(int modelId) {
-        return modelRepository.findModelDetailData(modelId).orElseThrow(() -> new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND));
+        return modelRepository.findModelDetailData(modelId).orElseThrow(() -> new EmptyDataException(ErrorCode.DATA_NOT_EXISTS));
     }
 
     //TODO: RuntimeException 처리
