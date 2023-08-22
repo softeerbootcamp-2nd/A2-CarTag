@@ -1,10 +1,10 @@
 package autoever2.cartag.controller;
 
-import autoever2.cartag.domain.car.BoughtCarDto;
+import autoever2.cartag.cars.dto.BoughtCarDto;
 import autoever2.cartag.domain.quote.HistoryShortDto;
 import autoever2.cartag.domain.quote.QuoteDataDto;
 import autoever2.cartag.domain.quote.QuoteInfoDto;
-import autoever2.cartag.service.CarService;
+import autoever2.cartag.cars.CarService;
 import autoever2.cartag.service.QuoteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;

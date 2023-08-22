@@ -1,9 +1,9 @@
-package autoever2.cartag.repository;
+package autoever2.cartag.cars;
 
-import autoever2.cartag.domain.car.CarInfoDto;
-import autoever2.cartag.domain.car.CarPriceDto;
-import autoever2.cartag.domain.car.CarTypeDto;
-import autoever2.cartag.domain.car.TrimInfoDto;
+import autoever2.cartag.cars.dto.CarInfoDto;
+import autoever2.cartag.cars.dto.CarPriceDto;
+import autoever2.cartag.cars.dto.CarTypeDto;
+import autoever2.cartag.cars.dto.TrimInfoDto;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
@@ -14,7 +14,6 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import javax.swing.text.html.Option;
 import java.util.List;
 import java.util.Optional;
 

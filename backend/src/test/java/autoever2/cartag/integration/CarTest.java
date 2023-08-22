@@ -1,8 +1,8 @@
 package autoever2.cartag.integration;
 
-import autoever2.cartag.controller.CarController;
-import autoever2.cartag.domain.car.CarDto;
-import autoever2.cartag.domain.car.CarTypeDto;
+import autoever2.cartag.cars.CarController;
+import autoever2.cartag.cars.dto.CarDto;
+import autoever2.cartag.cars.dto.CarTypeDto;
 import autoever2.cartag.exception.EmptyDataException;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

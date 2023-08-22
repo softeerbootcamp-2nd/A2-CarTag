@@ -1,19 +1,14 @@
 package autoever2.cartag.integration;
 
 import autoever2.cartag.controller.QuoteController;
-import autoever2.cartag.domain.car.BoughtCarDto;
+import autoever2.cartag.cars.dto.BoughtCarDto;
 import autoever2.cartag.domain.quote.QuoteDataDto;
 import autoever2.cartag.domain.quote.QuoteInfoDto;
-import autoever2.cartag.recommend.RecommendConnector;
-import org.assertj.core.api.SoftAssertions;
-import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
-import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import autoever2.cartag.controller.CarController;
+import autoever2.cartag.cars.CarController;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;

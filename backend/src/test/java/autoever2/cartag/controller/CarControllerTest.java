@@ -1,20 +1,16 @@
 package autoever2.cartag.controller;
 
-import autoever2.cartag.domain.car.CarDto;
-import autoever2.cartag.domain.car.CarTypeDto;
-import autoever2.cartag.domain.car.TrimDefaultOptionDto;
-import autoever2.cartag.domain.option.QuoteSubOptionDto;
-import autoever2.cartag.domain.quote.QuoteDataDto;
-import autoever2.cartag.domain.quote.QuoteInfoDto;
-import autoever2.cartag.service.CarService;
-import autoever2.cartag.service.QuoteService;
+import autoever2.cartag.cars.CarController;
+import autoever2.cartag.cars.dto.CarDto;
+import autoever2.cartag.cars.dto.CarTypeDto;
+import autoever2.cartag.cars.dto.TrimDefaultOptionDto;
+import autoever2.cartag.cars.CarService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;

@@ -1,5 +1,7 @@
 package autoever2.cartag.service;
 
+import autoever2.cartag.cars.CarService;
+import autoever2.cartag.cars.dto.*;
 import autoever2.cartag.domain.car.*;
 import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
@@ -10,7 +12,7 @@ import autoever2.cartag.domain.quote.QuoteDataDto;
 import autoever2.cartag.domain.quote.QuoteInfoDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.exception.ErrorCode;
-import autoever2.cartag.repository.CarRepository;
+import autoever2.cartag.cars.CarRepository;
 import autoever2.cartag.repository.ColorRepository;
 import autoever2.cartag.repository.ModelRepository;
 import autoever2.cartag.repository.OptionRepository;

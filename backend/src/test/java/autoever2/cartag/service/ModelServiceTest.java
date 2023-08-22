@@ -5,7 +5,7 @@ import autoever2.cartag.domain.model.ModelEfficiencyDataDto;
 import autoever2.cartag.domain.model.ModelShortDataDto;
 import autoever2.cartag.domain.model.ModelShortMappedDto;
 import autoever2.cartag.exception.EmptyDataException;
-import autoever2.cartag.repository.CarRepository;
+import autoever2.cartag.cars.CarRepository;
 import autoever2.cartag.repository.ModelRepository;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;

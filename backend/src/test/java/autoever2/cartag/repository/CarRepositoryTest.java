@@ -1,9 +1,10 @@
 package autoever2.cartag.repository;
 
-import autoever2.cartag.domain.car.CarInfoDto;
-import autoever2.cartag.domain.car.CarPriceDto;
-import autoever2.cartag.domain.car.CarTypeDto;
-import autoever2.cartag.domain.car.TrimInfoDto;
+import autoever2.cartag.cars.CarRepository;
+import autoever2.cartag.cars.dto.CarInfoDto;
+import autoever2.cartag.cars.dto.CarPriceDto;
+import autoever2.cartag.cars.dto.CarTypeDto;
+import autoever2.cartag.cars.dto.TrimInfoDto;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
