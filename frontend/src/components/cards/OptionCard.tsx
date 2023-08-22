@@ -7,6 +7,7 @@ import { flexCenterCss } from '../../utils/commonStyle';
 import { ItemContext } from '../../context/ItemProvider';
 import { IDefaultOption } from '../../context/DefaultOptionProvider';
 import { ISubOption } from '../../context/SubOptionProvider';
+import { PERCENTAGE_LIMIT_VALUE } from '../../utils/constants';
 interface IOptionCard extends HTMLAttributes<HTMLDivElement> {
   type: 'default' | 'sub';
   active: boolean;
@@ -50,11 +51,13 @@ export default function OptionCard({
       </ImgWrapper>
       <OptionCardInfo>
         <div>
-          {type === 'sub' && option.percentage !== null && (
-            <OptionDesc>
-              <BlueText>{option.percentage}%</BlueText>가 선택했어요
-            </OptionDesc>
-          )}
+          {type === 'sub' &&
+            option.percentage !== null &&
+            option.percentage > PERCENTAGE_LIMIT_VALUE && (
+              <OptionDesc>
+                <BlueText>{option.percentage}%</BlueText>가 선택했어요
+              </OptionDesc>
+            )}
           <OptionTitle>{option.optionName}</OptionTitle>
         </div>
         {displayCaption}
