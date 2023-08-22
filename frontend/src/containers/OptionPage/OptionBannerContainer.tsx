@@ -9,18 +9,13 @@ import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
 import OptionTab from '../../components/tabs/OptionTab';
-import { useEffect, useState } from 'react';
-import { IMG_URL } from '../../utils/apis';
+import { useContext, useEffect, useState } from 'react';
+import { IMG_URL, OPTION_API } from '../../utils/apis';
+import { DefaultOptionContext } from '../../context/DefaultOptionProvider';
+import { SubOptionContext } from '../../context/SubOptionProvider';
+import { CAR_TYPE } from '../../utils/constants';
+import { useFetch } from '../../hooks/useFetch';
 
-export interface IOptionDetail {
-  categoryName: string;
-  optionName: string;
-  optionDescription: string;
-  optionImage: string;
-  hmgData: IHmgData | null;
-  subOptionList: ISubOptionList[] | null;
-  package: boolean;
-}
 interface IHmgData {
   optionBoughtCount: number;
   optionUsedCount: number;
@@ -37,15 +32,29 @@ export interface ISubOptionList {
   subOptionList: null;
 }
 
-interface IOptionBannerContainer {
-  optionDetail: IOptionDetail;
-  optionDetailLoading: boolean;
+export interface IOptionDetail {
+  categoryName: string;
+  optionName: string;
+  optionDescription: string;
+  optionImage: string;
+  hmgData: IHmgData | null;
+  subOptionList: ISubOptionList[] | null;
+  package: boolean;
 }
 
-export default function OptionBannerContainer({
-  optionDetail,
-  optionDetailLoading,
-}: IOptionBannerContainer) {
+interface IOptionBannerContainer {
+  isDefault: boolean;
+}
+export default function OptionBannerContainer({ isDefault }: IOptionBannerContainer) {
+  const defaultOptionContext = useContext(DefaultOptionContext);
+  const subOptionContext = useContext(SubOptionContext);
+  const { currentOptionIdx } = isDefault ? defaultOptionContext : subOptionContext;
+  const optionType = isDefault ? 'default' : 'sub';
+
+  const { data: optionDetail, loading: optionDetailLoading } = useFetch<IOptionDetail>(
+    `${OPTION_API}/${optionType}/detail/?carid=${CAR_TYPE}&optionid=${currentOptionIdx}`
+  );
+
   const [bannerInfo, setBannerInfo] = useState<IOptionDetail>({
     categoryName: '',
     hmgData: null,
@@ -76,6 +85,7 @@ export default function OptionBannerContainer({
   }, []);
 
   useEffect(() => {
+    if (!optionDetail) return;
     const target = optionDetail.subOptionList ? optionDetail.subOptionList[0] : optionDetail;
     setBannerInfo({
       categoryName: target.categoryName,
@@ -115,7 +125,7 @@ export default function OptionBannerContainer({
                     </Description>
                   )}
 
-                  {bannerInfo.hmgData && (
+                  {bannerInfo.hmgData?.optionBoughtCount && (
                     <HmgDataSection>
                       <HmgTag size="small" />
                       <DataList>
