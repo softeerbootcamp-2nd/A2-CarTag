@@ -1,12 +1,13 @@
-import React, { useContext } from 'react';
+import React, { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { css, styled, useTheme } from 'styled-components';
-import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../styles/typefaces';
-import { ArrowDown, CancelIcon } from '../common/icons/Icons';
+import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../../styles/typefaces';
+import { ArrowDown, CancelIcon } from '../icons/Icons';
 import hyundaiLogo from '/images/logo.svg';
-import { MESSAGE, PATH } from '../../utils/constants';
-import { CloseModalContext } from '../../context/CloseModalProvider';
-import { ProgressContext } from '../../context/ProgressProvider';
+import { MESSAGE, PATH } from '../../../utils/constants';
+import { CloseModalContext } from '../../../context/CloseModalProvider';
+import { ProgressContext } from '../../../context/ProgressProvider';
+import CarSelectContainer from './CarSelectContainer';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
   active: boolean;
@@ -16,6 +17,7 @@ export default function NavBar() {
   const { nextStepAvailable } = useContext(ProgressContext);
   const { pathname: currentPath } = useLocation();
   const { setVisible: setCloseModalVisible } = useContext(CloseModalContext);
+  const [menuVisible, setMenuVisible] = useState<boolean>(false);
   const theme = useTheme();
 
   const handleNavItemClick = (path: string) => {
@@ -31,14 +33,16 @@ export default function NavBar() {
   const handleCloseButtonClick = () => {
     setCloseModalVisible(true);
   };
+  const handleCarSelectClick = () => {
+    setMenuVisible((cur) => !cur);
+  };
 
   return (
-    <>
-      <Wrapper>
+    <Wrapper>
+      <NavContainer $menuVisible={menuVisible}>
         <Body>
           <HyundaiLogo src={hyundaiLogo} alt="" />
-
-          <CarSelect>
+          <CarSelect onClick={handleCarSelectClick}>
             <span>펠리세이드</span>
             <ArrowDown fill={theme.color.gray800} />
           </CarSelect>
@@ -79,8 +83,9 @@ export default function NavBar() {
             <CancelIcon width={12} height={12} />
           </CancelButton>
         </Body>
-      </Wrapper>
-    </>
+      </NavContainer>
+      <CarSelectContainer visible={menuVisible} />
+    </Wrapper>
   );
 }
 
@@ -95,7 +100,12 @@ function NavItem({ active, ...props }: INavItem) {
 }
 
 const Wrapper = styled.div`
-  z-index: 999;
+  display: flex;
+  flex-direction: column;
+`;
+
+const NavContainer = styled.div<{ $menuVisible: boolean }>`
+  z-index: ${({ $menuVisible }) => ($menuVisible ? 9999999999999 : 999)};
   position: fixed;
   top: 0px;
   left: 0px;

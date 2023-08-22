@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import CenterWrapper from '../../components/layout/CenterWrapper';
+import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import { BodyKrRegular3, HeadingKrMedium2 } from '../../styles/typefaces';
 import RectButton from '../../components/common/buttons/RectButton';
 import { HTMLAttributes, useContext } from 'react';
@@ -22,12 +22,12 @@ export default function ResultFooterContainer({ handlePrint }: IResultFooterCont
           <Price>{totalPrice.toLocaleString()} 원</Price>
         </PriceSection>
         <ButtonSection>
-          <GrayButton type={'price'} onClick={() => setShareModalVisible(true)}>
+          <Button type={'price'} onClick={() => setShareModalVisible(true)}>
             공유하기
-          </GrayButton>
-          <GrayButton type={'price'} onClick={handlePrint}>
+          </Button>
+          <Button type={'price'} onClick={handlePrint}>
             PDF 다운로드
-          </GrayButton>
+          </Button>
           <Button type={'price'}>상담신청</Button>
         </ButtonSection>
       </Footer>
@@ -75,8 +75,4 @@ const ButtonSection = styled.section`
 `;
 const Button = styled(RectButton)`
   border-radius: 4px;
-`;
-
-const GrayButton = styled(Button)`
-  background-color: ${({ theme }) => theme.color.gray300};
 `;

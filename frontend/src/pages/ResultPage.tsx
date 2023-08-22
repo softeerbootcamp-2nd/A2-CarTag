@@ -1,5 +1,5 @@
 import { styled } from 'styled-components';
-import CenterWrapper from '../components/layout/CenterWrapper';
+import CenterWrapper from '../components/common/layout/CenterWrapper';
 import DetailContainer from '../containers/ResultPage/DetailContainer';
 import QuoteSummaryContainer from '../containers/ResultPage/QuoteSummaryContainer';
 import ResultBannerContainer from '../containers/ResultPage/ResultBannerContainer';
