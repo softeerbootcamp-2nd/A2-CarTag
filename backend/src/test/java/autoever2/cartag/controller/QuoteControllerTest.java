@@ -1,5 +1,6 @@
 package autoever2.cartag.controller;
 
+import autoever2.cartag.domain.car.BoughtCarDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
 import autoever2.cartag.domain.quote.HistoryShortDto;
 import autoever2.cartag.domain.quote.QuoteDataDto;
@@ -82,6 +83,7 @@ public class QuoteControllerTest {
                 .andExpect(jsonPath("$[2].soldCount").value(162))
                 .andExpect(jsonPath("$[3].historyId").value(169));
     }
+
     @Test
     @DisplayName("id에 따른 공유 데이터 반환")
     void getShareInfo() throws Exception {
@@ -187,5 +189,47 @@ public class QuoteControllerTest {
                 .andExpect(jsonPath("$.colorOuterPrice").value(1500L))
                 .andExpect(jsonPath("$.colorCarInnerImage").value("inner_red.jpg"))
                 .andExpect(jsonPath("$.optionList.size()").value(3));
+    }
+
+    @Test
+    @DisplayName("차량 구매 정보 반환 api")
+    void getBoughtInfos() throws Exception {
+        List<BoughtCarDto> boughtCarDtoList = new ArrayList<>();
+        boughtCarDtoList.add(BoughtCarDto
+                .builder()
+                .totalPrice(4900000L)
+                .count(1900)
+                .build());
+        boughtCarDtoList.add(BoughtCarDto
+                .builder()
+                .totalPrice(5100000L)
+                .count(2200)
+                .build());
+        boughtCarDtoList.add(BoughtCarDto
+                .builder()
+                .totalPrice(6000000L)
+                .count(4300)
+                .build());
+        boughtCarDtoList.add(BoughtCarDto
+                .builder()
+                .totalPrice(6700000L)
+                .count(1400)
+                .build());
+        boughtCarDtoList.add(BoughtCarDto
+                .builder()
+                .totalPrice(7000000L)
+                .count(1200)
+                .build());
+
+        given(carService.findAllBoughInfos()).willReturn(boughtCarDtoList);
+
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/quote/bought/infos"));
+
+        //then
+        resultActions.andExpect(status().isOk())
+                .andExpect(jsonPath("$[0].totalPrice").value(4900000L))
+                .andExpect(jsonPath("$[1].count").value(2200))
+                .andExpect(jsonPath("$[2].totalPrice").value(6000000L))
+                .andExpect(jsonPath("$[3].count").value(1400));
     }
 }
