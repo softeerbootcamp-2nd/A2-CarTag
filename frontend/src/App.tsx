@@ -11,6 +11,7 @@ import QuoteSummaryModalProvider from './context/ModalProviders/QuoteSummaryModa
 import ShareModalProvider from './context/ModalProviders/ShareModalProvider';
 import ItemProvider from './context/ItemProvider';
 import ProgressProvider from './context/ProgressProvider';
+import QuoteListProvider from './context/QuoteListProvider';
 
 function App() {
   const globalProviders = [
@@ -19,17 +20,20 @@ function App() {
     GuideModalProvider,
     QuoteSummaryModalProvider,
     ShareModalProvider,
+
     ItemProvider,
     ProgressProvider,
   ];
   return (
     <Providers contexts={globalProviders}>
-      <BrowserRouter>
-        <NavBar />
-        <PriceStaticBar />
-        <CustomRouter />
-        <ModalContainer />
-      </BrowserRouter>
+      <QuoteListProvider>
+        <BrowserRouter>
+          <NavBar />
+          <PriceStaticBar />
+          <CustomRouter />
+          <ModalContainer />
+        </BrowserRouter>
+      </QuoteListProvider>
     </Providers>
   );
 }

@@ -6,7 +6,7 @@ import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
 import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import PowerTrainData from '../../components/powerTrainData/PowerTrainData';
-import { IHmgData, ModelTypeContext } from '../../context/ModelTypeProvider';
+import { IHmgData, ModelTypeContext } from '../../context/PageProviders/ModelTypeProvider';
 import { MODEL_TYPE_API, IMG_URL } from '../../utils/apis';
 import ErrorModal from '../../components/modal/ErrorModal';
 

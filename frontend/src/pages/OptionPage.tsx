@@ -5,8 +5,11 @@ import { useFetch } from '../hooks/useFetch';
 import OptionBannerContainer from '../containers/OptionPage/OptionBannerContainer';
 import OptionSelectContainer from '../containers/OptionPage/OptionSelectContainer/OptionSelectContainer';
 import OptionFooterContainer from '../containers/OptionPage/OptionFooterContainer';
-import { ISubOption, SubOptionContext } from '../context/SubOptionProvider';
-import { DefaultOptionContext, IDefaultOption } from '../context/DefaultOptionProvider';
+import { ISubOption, SubOptionContext } from '../context/PageProviders/SubOptionProvider';
+import {
+  DefaultOptionContext,
+  IDefaultOption,
+} from '../context/PageProviders/DefaultOptionProvider';
 import ErrorModal from '../components/modal/ErrorModal';
 
 interface IOptionDetail {

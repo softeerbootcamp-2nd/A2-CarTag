@@ -6,8 +6,8 @@ import { HTMLAttributes, useContext } from 'react';
 import { IMG_URL } from '../../utils/apis';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { ItemContext } from '../../context/ItemProvider';
-import { IDefaultOption } from '../../context/DefaultOptionProvider';
-import { ISubOption } from '../../context/SubOptionProvider';
+import { IDefaultOption } from '../../context/PageProviders/DefaultOptionProvider';
+import { ISubOption } from '../../context/PageProviders/SubOptionProvider';
 
 interface IOptionCard extends HTMLAttributes<HTMLDivElement> {
   type: 'default' | 'sub';

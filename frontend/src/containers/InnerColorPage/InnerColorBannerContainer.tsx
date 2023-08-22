@@ -1,7 +1,7 @@
 import { styled } from 'styled-components';
 import Banner from '../../components/common/banner/Banner';
 import { useContext } from 'react';
-import { InnerColorContext } from '../../context/InnerColorProvider';
+import { InnerColorContext } from '../../context/PageProviders/InnerColorProvider';
 import { IMG_URL } from '../../utils/apis';
 import Loading from '../../components/loading/Loading';
 import { flexCenterCss } from '../../utils/commonStyle';

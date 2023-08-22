@@ -4,7 +4,7 @@ import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import OuterColorCard from '../../components/cards/OuterColorCard';
 import CardSlider from '../../components/cardSlider/CardSlider';
 import { NUM_IN_A_PAGE } from '../../utils/constants';
-import { IOuterColor, OuterColorContext } from '../../context/OuterColorProvider';
+import { IOuterColor, OuterColorContext } from '../../context/PageProviders/OuterColorProvider';
 import { ItemContext } from '../../context/ItemProvider';
 
 export default function OuterColorSelectContainer() {

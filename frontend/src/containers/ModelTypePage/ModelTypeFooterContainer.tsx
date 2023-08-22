@@ -10,7 +10,7 @@ import {
 import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import PriceSummary from '../../components/summary/PriceSummary';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
-import { ModelTypeContext } from '../../context/ModelTypeProvider';
+import { ModelTypeContext } from '../../context/PageProviders/ModelTypeProvider';
 import { ItemContext } from '../../context/ItemProvider';
 import { useEfficiencyData } from '../../hooks/useEfficiencyData';
 

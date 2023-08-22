@@ -3,7 +3,7 @@ import { styled } from 'styled-components';
 import { HeadingKrMedium6, HeadingKrMedium7 } from '../../styles/typefaces';
 import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import ModelTypeCard from '../../components/cards/ModelTypeCard';
-import { ModelTypeContext } from '../../context/ModelTypeProvider';
+import { ModelTypeContext } from '../../context/PageProviders/ModelTypeProvider';
 import { modelTypeToEn } from '../../utils/constants';
 import { ItemContext } from '../../context/ItemProvider';
 

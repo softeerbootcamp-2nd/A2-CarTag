@@ -2,7 +2,10 @@ import { styled } from 'styled-components';
 import { Dispatch, useCallback, useContext, useEffect, useRef, useState } from 'react';
 import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
-import { DefaultOptionContext, IDefaultOption } from '../../../context/DefaultOptionProvider';
+import {
+  DefaultOptionContext,
+  IDefaultOption,
+} from '../../../context/PageProviders/DefaultOptionProvider';
 import HmgTag from '../../../components/common/hmgTag/HmgTag';
 import { DEBOUNCE_TIME } from '../../../utils/constants';
 interface IDefaultOptionContainer {
