@@ -11,13 +11,17 @@ import { styled } from 'styled-components';
 
 export default function OuterColorPage() {
   const { selectedItem } = useContext(ItemContext);
-  const { setOuterColorData, setCar360UrlsData } = useContext(OuterColorContext);
-  const { data: outerColorData, error: outerColorError } = useFetch<IOuterColor[]>(
-    `${OUTER_COLOR_API}?carid=${1}`
-  ); // Todo. selectedItem.trim.id로 바꾸기
-  const { data: car360ImgUrls, error: car360ImgError } = useFetch<string[]>(
-    `${OUTER_IMG_API}?colorid=${selectedItem.outerColor.id}`
-  );
+  const { setOuterColorData, setCar360UrlsData, setLoading } = useContext(OuterColorContext);
+  const {
+    data: outerColorData,
+    loading: outerColorDataLoading,
+    error: outerColorError,
+  } = useFetch<IOuterColor[]>(`${OUTER_COLOR_API}?carid=${1}`); // Todo. selectedItem.trim.id로 바꾸기
+  const {
+    data: car360ImgUrls,
+    loading: car360ImgLoading,
+    error: car360ImgError,
+  } = useFetch<string[]>(`${OUTER_IMG_API}?colorid=${selectedItem.outerColor.id}`);
 
   useEffect(() => {
     setOuterColorData(outerColorData);
@@ -25,6 +29,10 @@ export default function OuterColorPage() {
   useEffect(() => {
     setCar360UrlsData(car360ImgUrls);
   }, [car360ImgUrls, setCar360UrlsData]);
+  useEffect(() => {
+    if (outerColorDataLoading || outerColorDataLoading) return;
+    setLoading(false);
+  }, [car360ImgLoading, outerColorDataLoading, setLoading]);
 
   if (outerColorError) {
     return <ErrorModal message={outerColorError.message} />;
