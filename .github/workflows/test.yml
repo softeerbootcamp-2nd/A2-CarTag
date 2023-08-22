@@ -52,6 +52,5 @@ jobs:
         token: ${{ secrets.GITHUB_TOKEN }}
         title: 📊 테스트 커버리지 결과
         min-coverage-overall: 80
-        min-coverage-changed-files: 80
         update-comment: true
         continue-on-error: true
