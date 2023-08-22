@@ -77,6 +77,9 @@ export default function OptionBannerContainer({ isDefault }: IOptionBannerContai
   const handleDescVisibility = (visible: boolean) => {
     setVisibleDesc(visible);
   };
+  const hasHmgData =
+    bannerInfo.hmgData &&
+    (bannerInfo.hmgData.optionBoughtCount || bannerInfo.hmgData.optionUsedCount);
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -125,7 +128,7 @@ export default function OptionBannerContainer({ isDefault }: IOptionBannerContai
                     </Description>
                   )}
 
-                  {bannerInfo.hmgData?.optionBoughtCount && (
+                  {hasHmgData && (
                     <HmgDataSection>
                       <HmgTag size="small" />
                       <DataList>
