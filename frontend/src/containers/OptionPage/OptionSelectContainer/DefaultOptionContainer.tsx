@@ -9,11 +9,13 @@ interface IDefaultOptionContainer {
   query: string;
   setQuery: Dispatch<React.SetStateAction<string>>;
   setResult: Dispatch<React.SetStateAction<string[]>>;
+  imgBlobUrl: { [key: string]: string };
 }
 export default function DefaultOptionContainer({
   query,
   setQuery,
   setResult,
+  imgBlobUrl,
 }: IDefaultOptionContainer) {
   const [filteredByCategory, setFilteredByCategory] = useState<IDefaultOption[]>([]);
   const [currentCategory, setCurrentCategory] = useState('전체');
@@ -105,6 +107,7 @@ export default function DefaultOptionContainer({
         type="default"
         active={currentOptionIdx === option.optionId}
         option={option}
+        imgBlobUrl={imgBlobUrl}
       />
       {option.hasHmgData && (
         <HmgWrapper>

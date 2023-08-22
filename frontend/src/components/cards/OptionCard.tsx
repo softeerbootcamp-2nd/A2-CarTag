@@ -3,17 +3,16 @@ import { BodyKrRegular4, HeadingKrMedium6, HeadingKrMedium7 } from '../../styles
 import { CheckIcon } from '../common/icons/Icons';
 import DefaultCardStyle from '../common/card/DefaultCardStyle';
 import { HTMLAttributes, useContext } from 'react';
-import { IMG_URL } from '../../utils/apis';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { ItemContext } from '../../context/ItemProvider';
 import { IDefaultOption } from '../../context/DefaultOptionProvider';
 import { ISubOption } from '../../context/SubOptionProvider';
-
 interface IOptionCard extends HTMLAttributes<HTMLDivElement> {
   type: 'default' | 'sub';
   active: boolean;
   option: ISubOption | IDefaultOption;
   handleSelectOption?: React.MouseEventHandler<HTMLDivElement>;
+  imgBlobUrl: { [key: string]: string };
 }
 
 export default function OptionCard({
@@ -21,6 +20,7 @@ export default function OptionCard({
   active,
   option,
   handleSelectOption,
+  imgBlobUrl,
   ...props
 }: IOptionCard) {
   const { selectedItem } = useContext(ItemContext);
@@ -45,7 +45,7 @@ export default function OptionCard({
   return (
     <Card active={active} {...props}>
       <ImgWrapper>
-        <OptionImg src={`${IMG_URL}${option.optionImage}`} />
+        <OptionImg src={`${imgBlobUrl[option.optionImage]}`} loading="lazy" alt="" />
         <HashTagWrapper>{displayHashTag}</HashTagWrapper>
       </ImgWrapper>
       <OptionCardInfo>
