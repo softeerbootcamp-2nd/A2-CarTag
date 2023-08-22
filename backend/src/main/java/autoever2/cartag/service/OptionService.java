@@ -52,7 +52,7 @@ public class OptionService {
                 .optionName(data.getOptionName())
                 .optionCategoryName(data.getOptionCategoryName())
                 .optionImage(data.getOptionImage())
-            .hasHmgData(data.getOptionUsedCount() != null).build()).collect(Collectors.toList());
+            .hasHmgData(data.getOptionUsedCount() > 0).build()).collect(Collectors.toList());
     }
 
     //TODO: RuntimeException 처리
