@@ -221,6 +221,7 @@ class OptionServiceTest {
                 .optionName("적외선 무릎 워머")
                 .optionCategoryName("악세사리")
                 .optionImage("/images/options/sub/warmer.jpg")
+                .optionUsedCount(0.0)
                 .build();
         OptionShortMappedDto data3 = OptionShortMappedDto.builder()
                 .optionId(3)
