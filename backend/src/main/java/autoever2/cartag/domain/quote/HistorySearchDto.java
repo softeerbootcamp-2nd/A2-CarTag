@@ -27,10 +27,12 @@ public class HistorySearchDto {
         this.optionIds = new ArrayList<>();
 
         this.optionIds.addAll(optionIds);
+        optionIds.sort(null);
     }
 
     public void addAllOption(List<Integer> optionId) {
         optionIds.addAll(optionId);
+        optionIds.sort(null);
     }
 
     public String getOptionIds() {
