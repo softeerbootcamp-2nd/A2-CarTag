@@ -85,15 +85,12 @@ public class CarService {
             long key = ((carPriceAndCount.get(i).getPrice() + sum) / 100000) * 100000;
             map.put(key, map.getOrDefault(key, 0) + 1);
         }
-        List<BoughtCarDto> list = map.entrySet().stream()
+        return map.entrySet().stream()
                 .map(entry -> BoughtCarDto.builder()
                         .totalPrice(entry.getKey())
                         .count(entry.getValue())
                         .build())
                 .collect(Collectors.toList());
-
-        return list;
-
     }
 
     public QuoteInfoDto findShareInfoDto(QuoteDataDto idList) {
