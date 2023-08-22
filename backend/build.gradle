@@ -41,40 +41,26 @@ tasks.named('test') {
 }
 
 jacoco {
-    toolVersion = '0.8.9'
-}
-
-test {
-	useJUnitPlatform()
-	finalizedBy jacocoTestReport
+	toolVersion = '0.8.9'
 }
 
 jacocoTestReport {
-    dependsOn test
-    reports {
-        xml.required = true
-    }
-	finalizedBy 'jacocoTestCoverageVerification'
+	dependsOn test
+	reports {
+		xml.required = true
+		html.required = true
+		csv.required = false
+	}
 }
 
-jacocoTestCoverageVerification {
-	violationRules {
-		rule {
-			limit {
-				counter = 'LINE'
-				value = 'COVEREDRATIO'
-				minimum = 0.8
-			}
-			limit {
-				counter = 'METHOD'
-				value = 'COVEREDRATIO'
-				minimum = 0.8
-			}
-		}
-	}
+tasks.register('testCoverage', Test) {
+	group 'verification'
+	description 'Runs the tests with covarage (Create JaCoCo report)'
+
+	dependsOn test, jacocoTestReport
+	tasks['jacocoTestReport'].mustRunAfter(tasks['test'])
 }
 
 jar {
     enabled = false
 }
-

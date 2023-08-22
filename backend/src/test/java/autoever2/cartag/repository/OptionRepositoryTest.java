@@ -3,6 +3,8 @@ package autoever2.cartag.repository;
 import autoever2.cartag.domain.car.TrimDefaultOptionDto;
 import autoever2.cartag.domain.option.OptionDetailMappedDto;
 import autoever2.cartag.domain.option.OptionShortMappedDto;
+import autoever2.cartag.domain.option.QuoteSubOptionDto;
+import autoever2.cartag.domain.option.SubOptionIdAndPriceDto;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
@@ -229,5 +231,41 @@ class OptionRepositoryTest {
         List<OptionShortMappedDto> data = optionRepository.findOptionList(carId, true);
 
         softAssertions.assertThat(data).usingRecursiveComparison().isEqualTo(expectedList);
+    }
+
+    @Test
+    @DisplayName("공유를 위한 optionInfo 추출")
+    void getOptionInfo() {
+        Optional<QuoteSubOptionDto> subOptionInfoV1 = optionRepository.findSubOptionByOptionId(1);
+        assertTrue(subOptionInfoV1.isPresent());
+
+        QuoteSubOptionDto subOptionV1 = subOptionInfoV1.get();
+        assertEquals("2열 통풍 시트", subOptionV1.getOptionName());
+        assertEquals("/images/options/sub/2seats.jpg", subOptionV1.getOptionImage());
+        assertEquals("상세품목", subOptionV1.getOptionTitle());
+        assertEquals(100000, subOptionV1.getOptionPrice());
+
+        Optional<QuoteSubOptionDto> subOptionInfoV2 = optionRepository.findSubOptionByOptionId(100);
+        assertTrue(subOptionInfoV2.isEmpty());
+    }
+
+    @Test
+    @DisplayName("옵션이 실제로 존재하는지 검증")
+    void countExistOptions() {
+        int carId = 1;
+        List<Integer> optionIds = List.of(69);
+
+        assertEquals(1, optionRepository.countExistOptions(carId, optionIds));
+    }
+
+    @Test
+    @DisplayName("모든 subOptionData를 추출")
+    void findAllSubOptionInfos(){
+        List<SubOptionIdAndPriceDto> allSubOptionInfo = optionRepository.findAllSubOptionInfo();
+        assertEquals(6, allSubOptionInfo.size());
+
+        SubOptionIdAndPriceDto subOptionIdAndPriceDto = allSubOptionInfo.get(0);
+        assertEquals(1, subOptionIdAndPriceDto.getOptionId());
+        assertEquals(100000L, subOptionIdAndPriceDto.getOptionPrice());
     }
 }

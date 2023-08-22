@@ -138,9 +138,9 @@ class ColorServiceTest {
         when(colorRepository.findOuterColorCarByCarId(carId)).thenReturn(outerColors);
         when(colorRepository.findOuterColorImagesByColorId(colorId)).thenReturn(Optional.of("red_image_*.jpg"));
         when(carRepository.findCarBoughtCountByCarId(carId)).thenReturn(Optional.of(10000L));
-        when(colorRepository.findOuterColorImagesByColorId(2)).thenThrow(new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND));
-        when(colorRepository.findOuterColorCarByCarId(2)).thenThrow(new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND));
-        when(colorRepository.findInnerColorCarByCarId(2)).thenThrow(new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND));
+        when(colorRepository.findOuterColorImagesByColorId(2)).thenThrow(new EmptyDataException(ErrorCode.DATA_NOT_EXISTS));
+        when(colorRepository.findOuterColorCarByCarId(2)).thenThrow(new EmptyDataException(ErrorCode.DATA_NOT_EXISTS));
+        when(colorRepository.findInnerColorCarByCarId(2)).thenThrow(new EmptyDataException(ErrorCode.DATA_NOT_EXISTS));
 
         //when
 

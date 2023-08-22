@@ -25,7 +25,7 @@ def recByApriori(body):
     optionList = body['options']
 
     for i in range(len(optionList)):
-        input.append(optionList[i]['subOptionId'])
+        input.append(str(optionList[i]))
 
     input = set(input)
     dataset = []
@@ -65,6 +65,9 @@ def recByApriori(body):
     response = []
     for item in top_items:
         consequent = item[0]
-        response.append({"salesOptions": ",".join(consequent)})
+        subResponse = []
+        for option in consequent:
+            subResponse.append(int(option))
+        response.append(subResponse)
 
     return jsonify(response)

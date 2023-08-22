@@ -5,8 +5,9 @@ import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
 import autoever2.cartag.domain.model.ModelDefaultDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
-import autoever2.cartag.domain.share.QuoteIdList;
-import autoever2.cartag.domain.share.QuoteInfoDto;
+import autoever2.cartag.domain.option.SubOptionIdAndPriceDto;
+import autoever2.cartag.domain.quote.QuoteDataDto;
+import autoever2.cartag.domain.quote.QuoteInfoDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.repository.CarRepository;
@@ -41,7 +42,7 @@ public class CarService {
     public List<CarDto> findCarByCarType(int carType) {
         List<CarInfoDto> carInfos = carRepository.findCarByCarType(carType);
         if (carInfos.isEmpty()) {
-            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
+            throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
         }
 
         return carInfos.stream()
@@ -54,12 +55,12 @@ public class CarService {
         List<InnerColorDto> innerColorList = colorRepository.findInnerColorCarByCarId(carId);
         List<ModelDefaultDto> modelList = modelRepository.findModelDefaultDtoByCarId(carId);
         if (outerColorList.isEmpty() || innerColorList.isEmpty() || modelList.isEmpty()) {
-            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
+            throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
         }
         int colorId = outerColorList.get(0).getColorId();
         Optional<String> colorCarOuterImage = colorRepository.findOuterColorImagesByColorId(colorId);
         if (colorCarOuterImage.isEmpty()) {
-            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
+            throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
         }
         String value = colorCarOuterImage.get();
         String outerImageUrl = value.substring(0, value.indexOf("*")) + 1 + value.substring(value.indexOf("*") + 1, value.length());
@@ -69,32 +70,30 @@ public class CarService {
 
     public List<BoughtCarDto> findAllBoughInfos() {
         List<CarPriceDto> carPriceAndCount = carRepository.findCarPriceAndCount();
-
-        return carPriceAndCount.stream()
-                .map(carPriceDto -> {
-                    String optionList = carPriceDto.getOptionList();
-                    Long key = 0L;
-                    if (optionList.isEmpty()) {
-                        key = carPriceDto.getPrice() / 100000 * 100000;
-                    } else {
-                        String[] optionIdList = optionList.split(",");
-
-                        Long sum = Arrays.stream(optionIdList)
-                                .mapToLong(s -> optionRepository.findOptionPriceByOptionId(Integer.parseInt(s)).get())
-                                .sum();
-
-                        key = ((carPriceDto.getPrice() + sum) / 100000) * 1000000;
-                    }
-
-                    return Map.entry(key, 1);
-                })
-                .collect(Collectors.groupingByConcurrent(Map.Entry::getKey, Collectors.summingInt(Map.Entry::getValue)))
-                .entrySet().stream()
-                .map(entry -> BoughtCarDto.toBoughtCarDto(entry.getKey(), entry.getValue()))
+        List<SubOptionIdAndPriceDto> allSubOptionInfo = optionRepository.findAllSubOptionInfo();
+        Map<Integer, Long> subOptionPrice = allSubOptionInfo.stream()
+                .collect(Collectors.toMap(SubOptionIdAndPriceDto::getOptionId, SubOptionIdAndPriceDto::getOptionPrice));
+        Map<Long, Integer> map = new HashMap<>();
+        for (int i = 0; i < carPriceAndCount.size(); i++) {
+            Long sum = 0L;
+            if(!carPriceAndCount.get(i).getOptionList().isEmpty()){
+                String[] split = carPriceAndCount.get(i).getOptionList().split(",");
+                for (String s : split) {
+                    sum += subOptionPrice.get(Integer.parseInt(s));
+                }
+            }
+            long key = ((carPriceAndCount.get(i).getPrice() + sum) / 100000) * 100000;
+            map.put(key, map.getOrDefault(key, 0) + 1);
+        }
+        return map.entrySet().stream()
+                .map(entry -> BoughtCarDto.builder()
+                        .totalPrice(entry.getKey())
+                        .count(entry.getValue())
+                        .build())
                 .collect(Collectors.toList());
     }
 
-    public QuoteInfoDto findShareInfoDto(QuoteIdList idList) {
+    public QuoteInfoDto findShareInfoDto(QuoteDataDto idList) {
         int carId = idList.getCarId();
         int powerTrainId = idList.getPowerTrainId();
         int bodyTypeId = idList.getBodyTypeId();
@@ -108,13 +107,15 @@ public class CarService {
         Optional<InnerColorDto> innerColorInfo = colorRepository.findInnerColorByColorId(innerColorId);
         Optional<OuterColorDto> outerColorInfo = colorRepository.findOuterColorByColorId(outerColorId);
         List<QuoteSubOptionDto> optionInfos = new ArrayList<>();
-        for (Integer id : optionIdList) {
-            Optional<QuoteSubOptionDto> optionInfo = optionRepository.findSubOptionByOptionId(id);
-            if (optionInfo.isPresent()) {
-                optionInfos.add(optionInfo.get());
-                continue;
+        if(!optionIdList.isEmpty()) {
+            for (Integer id : optionIdList) {
+                Optional<QuoteSubOptionDto> optionInfo = optionRepository.findSubOptionByOptionId(id);
+                if (optionInfo.isPresent()) {
+                    optionInfos.add(optionInfo.get());
+                    continue;
+                }
+                throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
             }
-            throw new EmptyDataException(ErrorCode.RESOURCE_NOT_FOUND);
         }
         OuterColorDto outerColorDto = outerColorInfo.get();
         String imageUrl = changeUrl(outerColorDto.getColorCarImage(), 1);

@@ -3,13 +3,18 @@ package autoever2.cartag.controller;
 import autoever2.cartag.domain.car.CarDto;
 import autoever2.cartag.domain.car.CarTypeDto;
 import autoever2.cartag.domain.car.TrimDefaultOptionDto;
+import autoever2.cartag.domain.option.QuoteSubOptionDto;
+import autoever2.cartag.domain.quote.QuoteDataDto;
+import autoever2.cartag.domain.quote.QuoteInfoDto;
 import autoever2.cartag.service.CarService;
+import autoever2.cartag.service.QuoteService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -23,6 +28,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @WebMvcTest(CarController.class)
 class CarControllerTest {
+
     @Autowired
     MockMvc mockMvc;
 
@@ -31,6 +37,7 @@ class CarControllerTest {
 
     private List<CarDto> carDtoList;
     private List<TrimDefaultOptionDto> defaultOptions;
+
     @BeforeEach
     void setup() {
         carDtoList = new ArrayList<>();
@@ -38,10 +45,10 @@ class CarControllerTest {
 
         defaultOptions.add(TrimDefaultOptionDto
                 .builder()
-                        .optionName("안전 하차 보조")
-                        .optionImage("image_1")
-                        .optionDescription("좋은 보조 장치")
-                        .OptionUsedCount(42)
+                .optionName("안전 하차 보조")
+                .optionImage("image_1")
+                .optionDescription("좋은 보조 장치")
+                .OptionUsedCount(42)
                 .build());
         defaultOptions.add(TrimDefaultOptionDto
                 .builder()
@@ -100,6 +107,7 @@ class CarControllerTest {
                 .options(defaultOptions)
                 .build()
         );
+
     }
 
     @Test

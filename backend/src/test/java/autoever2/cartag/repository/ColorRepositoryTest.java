@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @JdbcTest
 @ActiveProfiles("test")
@@ -52,8 +53,34 @@ class ColorRepositoryTest {
 
     @Test
     @DisplayName("carId에 따른 색상이 적용된 차량 이미지를 반환합니다.")
-    void findOuterImages(){
+    void findOuterImages() {
         String image = repository.findOuterColorImagesByColorId(1).get();
         assertEquals("red_image_*.jpg", image);
+    }
+
+    @Test
+    @DisplayName("color_id에 따른 외장색상을 반환합니다.")
+    void getOuterColorInfo() {
+        Optional<OuterColorDto> outerColorInfo = repository.findOuterColorByColorId(1);
+        assertTrue(outerColorInfo.isPresent());
+
+        OuterColorDto outerColorDto = outerColorInfo.get();
+        assertEquals("천연 퀄팅(블랙)", outerColorDto.getColorName());
+        assertEquals(1234, outerColorDto.getColorPrice());
+        assertEquals("red_image_*.jpg", outerColorDto.getColorCarImage());
+        assertEquals("image_1", outerColorDto.getColorImage());
+    }
+
+    @Test
+    @DisplayName("color_id에 따른 내장색상을 반환합니다.")
+    void getInnerColorInfo() {
+        Optional<InnerColorDto> innerColorInfo = repository.findInnerColorByColorId(3);
+        assertTrue(innerColorInfo.isPresent());
+
+        InnerColorDto innerColorDto = innerColorInfo.get();
+        assertEquals("퍼플 그레이 펄", innerColorDto.getColorName());
+        assertEquals(154, innerColorDto.getColorPrice());
+        assertEquals("black_image_*.jpg", innerColorDto.getColorCarImage());
+        assertEquals("image_3", innerColorDto.getColorImage());
     }
 }
