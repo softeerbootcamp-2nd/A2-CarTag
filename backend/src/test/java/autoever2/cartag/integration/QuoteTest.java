@@ -1,6 +1,7 @@
 package autoever2.cartag.integration;
 
 import autoever2.cartag.controller.QuoteController;
+import autoever2.cartag.domain.car.BoughtCarDto;
 import autoever2.cartag.domain.quote.QuoteDataDto;
 import autoever2.cartag.domain.quote.QuoteInfoDto;
 import autoever2.cartag.recommend.RecommendConnector;
@@ -24,8 +25,8 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @SpringBootTest
-@Transactional
 @ActiveProfiles("test")
+@Transactional
 public class QuoteTest {
 
     @Autowired
@@ -69,5 +70,16 @@ public class QuoteTest {
         assertEquals("2열 통풍 시트", optionList.get(0).getOptionName());
         assertEquals("/images/options/sub/warmer.jpg", optionList.get(1).getOptionImage());
         assertEquals("악세사리", optionList.get(2).getOptionTitle());
+    }
+
+    @Test
+    @DisplayName("/api/quote/bought/infos")
+    @Sql({"classpath:insert/insert-boughtinfo-h2.sql"})
+    void testBoughtInfo(){
+        List<BoughtCarDto> allHistorySum = quoteController.getAllHistorySum();
+
+        assertEquals(6, allHistorySum.size());
+        assertEquals(2, allHistorySum.get(0).getCount());
+        assertEquals(42300000L, allHistorySum.get(1).getTotalPrice());
     }
 }
