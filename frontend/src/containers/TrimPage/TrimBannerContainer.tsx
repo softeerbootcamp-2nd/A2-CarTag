@@ -28,9 +28,9 @@ export default function TrimBannerContainer() {
   const filterImageUrls = (trimData: ICartype[]) => {
     trimData.forEach((data) => {
       const innerImgUrl = data.innerImage !== '' && `${IMG_URL}${data.innerImage}`;
-      const outerImgImgUrl = data.outerImage !== '' && `${IMG_URL}${data.outerImage}`;
+      const outerImgUrl = data.outerImage !== '' && `${IMG_URL}${data.outerImage}`;
       const wheelImgUrl = data.wheelImage !== '' && `${IMG_URL}${data.wheelImage}`;
-      const filteredImagesUrl = [innerImgUrl, outerImgImgUrl, wheelImgUrl].filter(
+      const filteredImagesUrl = [innerImgUrl, outerImgUrl, wheelImgUrl].filter(
         (url) => url
       ) as string[];
       imageUrls.current.push(...filteredImagesUrl);
