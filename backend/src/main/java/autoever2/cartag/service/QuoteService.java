@@ -1,8 +1,10 @@
 package autoever2.cartag.service;
 
+import autoever2.cartag.domain.option.QuoteSubOptionDto;
 import autoever2.cartag.domain.quote.HistorySearchDto;
 import autoever2.cartag.domain.quote.HistoryShortDto;
 import autoever2.cartag.domain.quote.QuoteDataDto;
+import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.exception.InvalidDataException;
 import autoever2.cartag.recommend.RecommendConnector;
@@ -38,6 +40,10 @@ public class QuoteService {
     public List<HistoryShortDto> findTopHistory(QuoteDataDto quoteDataDto) {
 
         List<Integer> optionIds = quoteDataDto.getOptionIdList();
+
+        if(optionIds.isEmpty()) {
+            throw new InvalidDataException(ErrorCode.INVALID_PARAMETER);
+        }
         if(optionIds.size() != optionRepository.countExistOptions(quoteDataDto.getCarId(), optionIds)) {
             throw new InvalidDataException(ErrorCode.INVALID_OPTIONS_REQUEST);
         }
@@ -60,5 +66,16 @@ public class QuoteService {
         return historyList.stream().map(historySearchDto ->
                 quoteRepository.findShortData(historySearchDto).orElse(null)
         ).collect(Collectors.toList());
+    }
+
+    public List<Integer> getHistoryById(Long historyId) {
+        return quoteRepository.findOptionListFromHistoryId(historyId);
+    }
+
+    public List<QuoteSubOptionDto> getOptionDifference(List<Integer> optionsToCompare, Long historyId) {
+        List<Integer> historyOptions = quoteRepository.findOptionListFromHistoryId(historyId);
+        historyOptions = historyOptions.stream().filter(id -> !optionsToCompare.contains(id)).collect(Collectors.toList());
+
+        return historyOptions.stream().map(id -> optionRepository.findSubOptionByOptionId(id).orElseThrow(() -> new EmptyDataException(ErrorCode.INTERNAL_SERVER_ERROR))).collect(Collectors.toList());
     }
 }
