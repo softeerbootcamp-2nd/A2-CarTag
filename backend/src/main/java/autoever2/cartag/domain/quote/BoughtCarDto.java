@@ -1,4 +1,4 @@
-package autoever2.cartag.cars.dto;
+package autoever2.cartag.domain.quote;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

@@ -2,7 +2,7 @@ package autoever2.cartag.repository;
 
 import autoever2.cartag.cars.CarRepository;
 import autoever2.cartag.cars.dto.CarInfoDto;
-import autoever2.cartag.cars.dto.CarPriceDto;
+import autoever2.cartag.domain.quote.HistoryTotalModelPriceDto;
 import autoever2.cartag.cars.dto.CarTypeDto;
 import autoever2.cartag.cars.dto.TrimInfoDto;
 import org.assertj.core.api.SoftAssertions;
@@ -107,7 +107,7 @@ class CarRepositoryTest {
     @Test
     @DisplayName("차량 가격 정보와 optionIdList를 반환하는 로직")
     void getPriceAndOptionList(){
-        List<CarPriceDto> totalInfo = carRepository.findCarPriceAndCount();
+        List<HistoryTotalModelPriceDto> totalInfo = carRepository.findHistoryTotalModelPriceByCarId();
 
         assertEquals(11, totalInfo.size());
         assertEquals(41480000L, totalInfo.get(0).getPrice());

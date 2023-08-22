@@ -1,9 +1,9 @@
 package autoever2.cartag.controller;
 
 import autoever2.cartag.cars.CarController;
-import autoever2.cartag.cars.dto.CarDto;
+import autoever2.cartag.cars.dto.CarVo;
 import autoever2.cartag.cars.dto.CarTypeDto;
-import autoever2.cartag.cars.dto.TrimDefaultOptionDto;
+import autoever2.cartag.domain.option.TrimDefaultOptionDto;
 import autoever2.cartag.cars.CarService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -31,12 +31,12 @@ class CarControllerTest {
     @MockBean
     private CarService service;
 
-    private List<CarDto> carDtoList;
+    private List<CarVo> carVoList;
     private List<TrimDefaultOptionDto> defaultOptions;
 
     @BeforeEach
     void setup() {
-        carDtoList = new ArrayList<>();
+        carVoList = new ArrayList<>();
         defaultOptions = new ArrayList<>();
 
         defaultOptions.add(TrimDefaultOptionDto
@@ -61,7 +61,7 @@ class CarControllerTest {
                 .OptionUsedCount(41)
                 .build());
 
-        carDtoList.add(CarDto
+        carVoList.add(CarVo
                 .builder()
                 .trim("Le Blanc")
                 .carDefaultPrice(400000003)
@@ -72,7 +72,7 @@ class CarControllerTest {
                 .build()
         );
 
-        carDtoList.add(CarDto
+        carVoList.add(CarVo
                 .builder()
                 .trim("Exclusive")
                 .carDefaultPrice(400000003)
@@ -83,7 +83,7 @@ class CarControllerTest {
                 .build()
         );
 
-        carDtoList.add(CarDto
+        carVoList.add(CarVo
                 .builder()
                 .trim("Prestige")
                 .carDefaultPrice(400000003)
@@ -94,7 +94,7 @@ class CarControllerTest {
                 .build()
         );
 
-        carDtoList.add(CarDto
+        carVoList.add(CarVo
                 .builder()
                 .trim("Calligraphy")
                 .carDefaultPrice(400000003)
@@ -111,7 +111,7 @@ class CarControllerTest {
     void getTrimList() throws Exception {
         //given
         int carType = 1;
-        given(service.findCarByCarType(carType)).willReturn(carDtoList);
+        given(service.getCarDtoByCarType(carType)).willReturn(carVoList);
 
         //when
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/types").param("cartype", String.valueOf(carType)));

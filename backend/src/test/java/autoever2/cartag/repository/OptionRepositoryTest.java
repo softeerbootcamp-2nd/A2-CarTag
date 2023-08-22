@@ -1,6 +1,6 @@
 package autoever2.cartag.repository;
 
-import autoever2.cartag.cars.dto.TrimDefaultOptionDto;
+import autoever2.cartag.domain.option.TrimDefaultOptionDto;
 import autoever2.cartag.domain.option.OptionDetailMappedDto;
 import autoever2.cartag.domain.option.OptionShortMappedDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;

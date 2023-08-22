@@ -1,6 +1,6 @@
 package autoever2.cartag.controller;
 
-import autoever2.cartag.cars.dto.BoughtCarDto;
+import autoever2.cartag.domain.quote.BoughtCarDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
 import autoever2.cartag.domain.quote.HistoryRequestDto;
 import autoever2.cartag.domain.quote.HistoryShortDto;
@@ -47,8 +47,8 @@ public class QuoteController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = BoughtCarDto.class))),
     })
     @GetMapping("bought/infos")
-    public List<BoughtCarDto> getAllHistorySum() {
-        return carService.findAllBoughInfos();
+    public List<BoughtCarDto> getAllHistorySum(@RequestParam("carid") int carId) {
+        return quoteService.findAllBoughtInfos(carId);
     }
 
     @Operation(summary = "차량 공유하기를 위한 api", description = "차량 공유를 위한 정보 반환")
@@ -57,7 +57,7 @@ public class QuoteController {
     })
     @PostMapping("/infos/shares")
     public QuoteInfoDto getQuoteDetail(@Parameter(description = "선택한 id 리스트") @RequestBody QuoteDataDto idList) {
-        QuoteInfoDto data = carService.findShareInfoDto(idList);
+        QuoteInfoDto data = quoteService.getAllCarInfoByQuoteDataDto(idList);
         return data;
     }
 

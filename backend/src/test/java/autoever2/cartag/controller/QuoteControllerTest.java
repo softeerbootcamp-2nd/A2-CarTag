@@ -1,6 +1,6 @@
 package autoever2.cartag.controller;
 
-import autoever2.cartag.cars.dto.BoughtCarDto;
+import autoever2.cartag.domain.quote.BoughtCarDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
 import autoever2.cartag.domain.quote.HistoryShortDto;
 import autoever2.cartag.domain.quote.QuoteDataDto;
@@ -176,7 +176,7 @@ public class QuoteControllerTest {
                 .build();
 
 
-        given(carService.findShareInfoDto(quoteIdList)).willReturn(quoteInfoDto);
+        given(carService.getAllCarInfoByQuoteDataDto(quoteIdList)).willReturn(quoteInfoDto);
 
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/api/quote/infos/shares")
                 .content("{\n" +

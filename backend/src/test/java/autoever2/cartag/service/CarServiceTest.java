@@ -2,7 +2,8 @@ package autoever2.cartag.service;
 
 import autoever2.cartag.cars.CarService;
 import autoever2.cartag.cars.dto.*;
-import autoever2.cartag.domain.car.*;
+import autoever2.cartag.domain.option.TrimDefaultOptionDto;
+import autoever2.cartag.domain.quote.BoughtCarDto;
 import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
 import autoever2.cartag.domain.model.ModelDefaultDto;
@@ -10,6 +11,7 @@ import autoever2.cartag.domain.option.QuoteSubOptionDto;
 import autoever2.cartag.domain.option.SubOptionIdAndPriceDto;
 import autoever2.cartag.domain.quote.QuoteDataDto;
 import autoever2.cartag.domain.quote.QuoteInfoDto;
+import autoever2.cartag.domain.quote.HistoryTotalModelPriceDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.cars.CarRepository;
@@ -134,11 +136,11 @@ class CarServiceTest {
         when(optionRepository.findDefaultOptionByCarId(carId)).thenReturn(trimDefaultOptionDtoList);
         when(carRepository.findCarByCarType(2)).thenThrow(new EmptyDataException(ErrorCode.DATA_NOT_EXISTS));
 
-        List<CarDto> carByCarType = carService.findCarByCarType(carType);
+        List<CarVo> carByCarType = carService.getCarDtoByCarType(carType);
 
         assertEquals(carByCarType.size(), 4);
         assertEquals(carByCarType.get(0).getOptions().size(), 3);
-        assertThatThrownBy(() -> carService.findCarByCarType(2)).isInstanceOf(EmptyDataException.class);
+        assertThatThrownBy(() -> carService.getCarDtoByCarType(2)).isInstanceOf(EmptyDataException.class);
     }
 
     @Test
@@ -239,7 +241,7 @@ class CarServiceTest {
 
         when(optionRepository.findSubOptionByOptionId(1)).thenReturn(Optional.of(subOption));
 
-        QuoteInfoDto shareInfoDto = carService.findShareInfoDto(QuoteDataDto.builder()
+        QuoteInfoDto shareInfoDto = carService.getAllCarInfoByQuoteDataDto(QuoteDataDto.builder()
                 .carId(1)
                 .powerTrainId(1)
                 .bodyTypeId(3)
@@ -260,23 +262,23 @@ class CarServiceTest {
     @Test
     @DisplayName("service 영역에서 조합을 통한 정보 통합")
     void getTotalInfo() {
-        List<CarPriceDto> carPriceDtos = new ArrayList<>();
-        carPriceDtos.add(CarPriceDto
+        List<HistoryTotalModelPriceDto> HistoryTotalModelPriceDtos = new ArrayList<>();
+        HistoryTotalModelPriceDtos.add(HistoryTotalModelPriceDto
                 .builder()
                 .price(43000000L)
                 .optionList("12,14")
                 .build());
-        carPriceDtos.add(CarPriceDto
+        HistoryTotalModelPriceDtos.add(HistoryTotalModelPriceDto
                 .builder()
                 .price(45660000L)
                 .optionList("22,25")
                 .build());
-        carPriceDtos.add(CarPriceDto
+        HistoryTotalModelPriceDtos.add(HistoryTotalModelPriceDto
                 .builder()
                 .price(51200000L)
                 .optionList("30,33")
                 .build());
-        carPriceDtos.add(CarPriceDto
+        HistoryTotalModelPriceDtos.add(HistoryTotalModelPriceDto
                 .builder()
                 .price(59900000L)
                 .optionList("41,42")
@@ -323,7 +325,7 @@ class CarServiceTest {
                 .optionId(42)
                 .optionPrice(90000L)
                 .build());
-        when(carRepository.findCarPriceAndCount()).thenReturn(carPriceDtos);
+        when(carRepository.findHistoryTotalModelPriceByCarId()).thenReturn(HistoryTotalModelPriceDtos);
         when(optionRepository.findAllSubOptionInfo()).thenReturn(subOptionIdAndPriceDtos);
 
         List<BoughtCarDto> allBoughInfos = carService.findAllBoughInfos();

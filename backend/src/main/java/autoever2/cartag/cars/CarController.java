@@ -1,7 +1,7 @@
 package autoever2.cartag.cars;
 
 import autoever2.cartag.cars.dto.CarDefaultDto;
-import autoever2.cartag.cars.dto.CarDto;
+import autoever2.cartag.cars.dto.CarVo;
 import autoever2.cartag.cars.dto.CarTypeDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -32,16 +32,16 @@ public class CarController {
     }
 
     @Operation(summary = "차종에 속한 모든 트림을 조회하는 API", description = "차종 ID를 통해 르블랑, 익스클루시브 등 차종에 속한 모든 트림을 반환하는 API입니다.")
-    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = CarDto.class)))
+    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = CarVo.class)))
     @GetMapping("/types")
-    public List<CarDto> carTrimInfo(@Parameter(description = "차종 ID") @RequestParam("cartype") int carType) {
-        return service.findCarByCarType(carType);
+    public List<CarVo> carTrimInfo(@Parameter(description = "차종 ID") @RequestParam("cartype") int carType) {
+        return service.getCarDtoByCarType(carType);
     }
 
     @Operation(summary = "트림의 기본 정보를 조회하는 API", description = "트림의 기본 옵션, 기본 모델타입을 반환하는 API입니다.")
     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = CarDefaultDto.class)))
     @GetMapping("/infos/defaults")
     public CarDefaultDto carDefaultDto(@Parameter(description = "트림 ID") @RequestParam("carid") int carId) {
-        return service.findCarDefaultDtoByCarId(carId);
+        return service.getCarDefaultDtoByCarId(carId);
     }
 }

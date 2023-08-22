@@ -1,7 +1,7 @@
 package autoever2.cartag.integration;
 
 import autoever2.cartag.controller.QuoteController;
-import autoever2.cartag.cars.dto.BoughtCarDto;
+import autoever2.cartag.domain.quote.BoughtCarDto;
 import autoever2.cartag.domain.quote.QuoteDataDto;
 import autoever2.cartag.domain.quote.QuoteInfoDto;
 import org.junit.jupiter.api.DisplayName;

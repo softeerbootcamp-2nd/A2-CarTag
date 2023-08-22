@@ -1,7 +1,7 @@
 package autoever2.cartag.integration;
 
 import autoever2.cartag.cars.CarController;
-import autoever2.cartag.cars.dto.CarDto;
+import autoever2.cartag.cars.dto.CarVo;
 import autoever2.cartag.cars.dto.CarTypeDto;
 import autoever2.cartag.exception.EmptyDataException;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +29,7 @@ public class CarTest {
     @Test
     @DisplayName("/api/cars/types?cartype=1 통합테스트")
     void testCarTypes() {
-        List<CarDto> cars = controller.carTrimInfo(1);
+        List<CarVo> cars = controller.carTrimInfo(1);
         assertEquals("Le Blanc", cars.get(0).getTrim());
         assertEquals(40000000, cars.get(1).getCarDefaultPrice());
         assertEquals("image_1", cars.get(2).getOuterImage());
