@@ -45,7 +45,7 @@ public class RecommendConnector {
     }
 
 
-    public String getJsonFromEstimate(QuoteDataDto quoteDataDto) {
+    private String getJsonFromEstimate(QuoteDataDto quoteDataDto) {
         JSONObject jsonObject = new JSONObject();
         jsonObject.put("carId", quoteDataDto.getCarId());
         jsonObject.put("powerTrain", quoteDataDto.getPowerTrainId());

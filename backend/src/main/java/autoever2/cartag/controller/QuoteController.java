@@ -1,6 +1,8 @@
 package autoever2.cartag.controller;
 
 import autoever2.cartag.domain.car.BoughtCarDto;
+import autoever2.cartag.domain.option.QuoteSubOptionDto;
+import autoever2.cartag.domain.quote.HistoryRequestDto;
 import autoever2.cartag.domain.quote.HistoryShortDto;
 import autoever2.cartag.domain.quote.QuoteDataDto;
 import autoever2.cartag.domain.quote.QuoteInfoDto;
@@ -16,6 +18,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/quote")
@@ -56,5 +59,16 @@ public class QuoteController {
     public QuoteInfoDto getQuoteDetail(@Parameter(description = "선택한 id 리스트") @RequestBody QuoteDataDto idList) {
         QuoteInfoDto data = carService.findShareInfoDto(idList);
         return data;
+    }
+
+    @Operation(summary = "유사견적 상세 데이터 제공 API", description = "유사 견적 ID 제공 시 상세 데이터 제공")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = HistoryShortDto.class)))
+    })
+    @PostMapping("/histories/detail")
+    public List<List<QuoteSubOptionDto>> getRecommendedOptions(@RequestBody HistoryRequestDto historyRequestDto) {
+        List<Integer> myOptionIds = quoteService.getHistoryById(historyRequestDto.getQuoteId());
+
+        return historyRequestDto.getHistoryIds().stream().map(historyId -> quoteService.getOptionDifference(myOptionIds, historyId)).collect(Collectors.toList());
     }
 }
