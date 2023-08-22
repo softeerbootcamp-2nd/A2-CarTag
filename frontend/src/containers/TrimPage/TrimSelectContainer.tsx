@@ -8,7 +8,7 @@ import {
   HeadingKrMedium7,
 } from '../../styles/typefaces';
 import { PATH } from '../../utils/constants';
-import CenterWrapper from '../../components/layout/CenterWrapper';
+import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import DefaultCardStyle from '../../components/common/card/DefaultCardStyle';
 import RectButton from '../../components/common/buttons/RectButton';
 import { TrimContext } from '../../context/TrimProvider';

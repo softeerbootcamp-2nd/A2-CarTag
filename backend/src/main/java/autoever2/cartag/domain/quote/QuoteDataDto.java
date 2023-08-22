@@ -28,7 +28,8 @@ public class QuoteDataDto {
         this.operationId = operationId;
         this.outerColorId = outerColorId;
         this.innerColorId = innerColorId;
-        this.optionIdList = optionIdList;
+        this.optionIdList = new ArrayList<>();
+        this.optionIdList.addAll(optionIdList);
     }
 
     @Override

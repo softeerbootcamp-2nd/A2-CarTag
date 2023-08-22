@@ -11,9 +11,15 @@ interface ISubOptionContainer {
   query: string;
   setQuery: Dispatch<React.SetStateAction<string>>;
   setResult: Dispatch<React.SetStateAction<string[]>>;
+  imgBlobUrl: { [key: string]: string };
 }
 
-export default function SubOptionContainer({ query, setQuery, setResult }: ISubOptionContainer) {
+export default function SubOptionContainer({
+  query,
+  setQuery,
+  setResult,
+  imgBlobUrl,
+}: ISubOptionContainer) {
   const [filteredByCategory, setFilteredByCategory] = useState<ISubOption[]>([]);
   const [displayData, setDisplayData] = useState<ISubOption[]>([]);
   const setResultCallback = useCallback(setResult, [setResult]);
@@ -150,6 +156,7 @@ export default function SubOptionContainer({ query, setQuery, setResult }: ISubO
         active={currentOptionIdx === option.subOptionId}
         option={option}
         handleSelectOption={() => handleSelectOption(option)}
+        imgBlobUrl={imgBlobUrl}
       />
       {option.hasHmgData && (
         <HmgWrapper>

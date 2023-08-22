@@ -1,6 +1,6 @@
 import { styled } from 'styled-components';
 import PriceSummary from '../../components/summary/PriceSummary';
-import CenterWrapper from '../../components/layout/CenterWrapper';
+import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import { PATH } from '../../utils/constants';
 
 export default function OptionFooterContainer() {

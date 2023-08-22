@@ -5,7 +5,7 @@ import {
   BodyKrRegular5,
   HeadingKrRegular2,
 } from '../../styles/typefaces';
-import CenterWrapper from '../../components/layout/CenterWrapper';
+import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
 import OptionTab from '../../components/tabs/OptionTab';
@@ -63,7 +63,11 @@ export default function OptionBannerContainer({
   const handleScroll = () => {
     setWinY(window.scrollY);
   };
+  const [visibleDesc, setVisibleDesc] = useState(false);
 
+  const handleDescVisibility = (visible: boolean) => {
+    setVisibleDesc(visible);
+  };
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -73,7 +77,6 @@ export default function OptionBannerContainer({
 
   useEffect(() => {
     const target = optionDetail.subOptionList ? optionDetail.subOptionList[0] : optionDetail;
-
     setBannerInfo({
       categoryName: target.categoryName,
       hmgData: target.hmgData,
@@ -100,9 +103,15 @@ export default function OptionBannerContainer({
                     />
                   )}
                   {bannerInfo.optionDescription && (
-                    <Description>
+                    <Description
+                      onMouseLeave={() => handleDescVisibility(false)}
+                      onMouseOver={() => handleDescVisibility(true)}
+                    >
                       <AdditionalText>{bannerInfo.optionDescription}</AdditionalText>
-                      <HoverCaption>{bannerInfo.optionDescription}</HoverCaption>
+
+                      <HoverCaption $visible={visibleDesc}>
+                        {bannerInfo.optionDescription}
+                      </HoverCaption>
                     </Description>
                   )}
 
@@ -110,7 +119,7 @@ export default function OptionBannerContainer({
                     <HmgDataSection>
                       <HmgTag size="small" />
                       <DataList>
-                        {bannerInfo.hmgData.overHalf !== null && (
+                        {bannerInfo.hmgData.optionBoughtCount !== null && (
                           <Data>
                             <DataTitle>
                               {bannerInfo.hmgData.overHalf
@@ -157,18 +166,18 @@ export default function OptionBannerContainer({
     </>
   );
 }
-const HoverCaption = styled.div`
-  display: none;
+const HoverCaption = styled.div<{ $visible: boolean }>`
   white-space: pre-wrap;
-  position: absolute;
   padding: 4px 12px;
   border-radius: 10px;
-  top: 120%;
+  position: relative;
   color: ${({ theme }) => theme.color.gray50};
   opacity: 90%;
+  margin-top: 10px;
+  z-index: 1;
+  width: 448px;
   background-color: ${({ theme }) => theme.color.gray900};
   ${BodyKrRegular4}
-
   &:after {
     content: '';
     position: absolute;
@@ -181,6 +190,7 @@ const HoverCaption = styled.div`
     border-bottom-color: ${({ theme }) => theme.color.gray900};
     border-width: 3px;
   }
+  visibility: ${({ $visible }) => ($visible ? 'visible' : 'hidden')};
 `;
 const Wrapper = styled.div<{ $isBannerVisible: boolean }>`
   z-index: 5;
@@ -208,12 +218,6 @@ const Container = styled(CenterWrapper)`
 
 const Description = styled.div`
   position: relative;
-
-  &:hover {
-    ${HoverCaption} {
-      display: block;
-    }
-  }
 `;
 
 const AdditionalText = styled.div`
@@ -227,6 +231,7 @@ const AdditionalText = styled.div`
   width: 456px;
   color: ${({ theme }) => theme.color.gray800};
   ${BodyKrRegular4}
+  cursor: pointer;
 `;
 
 const InfoWrapper = styled.div`
@@ -257,7 +262,8 @@ const ToastPopup = styled.button<{ $offsetY: number; $isBannerVisible: boolean }
     ($offsetY >= 200 && !$isBannerVisible) || $offsetY ? 'block' : 'none'};
 `;
 const HmgDataSection = styled.div`
-  margin-top: 12px;
+  position: absolute;
+  top: 80px;
 `;
 const DataList = styled.ul`
   display: flex;

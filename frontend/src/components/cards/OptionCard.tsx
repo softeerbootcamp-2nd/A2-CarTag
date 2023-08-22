@@ -3,17 +3,17 @@ import { BodyKrRegular4, HeadingKrMedium6, HeadingKrMedium7 } from '../../styles
 import { CheckIcon } from '../common/icons/Icons';
 import DefaultCardStyle from '../common/card/DefaultCardStyle';
 import { HTMLAttributes, useContext } from 'react';
-import { IMG_URL } from '../../utils/apis';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { ItemContext } from '../../context/ItemProvider';
 import { IDefaultOption } from '../../context/DefaultOptionProvider';
 import { ISubOption } from '../../context/SubOptionProvider';
-
+import { PERCENTAGE_LIMIT_VALUE } from '../../utils/constants';
 interface IOptionCard extends HTMLAttributes<HTMLDivElement> {
   type: 'default' | 'sub';
   active: boolean;
   option: ISubOption | IDefaultOption;
   handleSelectOption?: React.MouseEventHandler<HTMLDivElement>;
+  imgBlobUrl: { [key: string]: string };
 }
 
 export default function OptionCard({
@@ -21,6 +21,7 @@ export default function OptionCard({
   active,
   option,
   handleSelectOption,
+  imgBlobUrl,
   ...props
 }: IOptionCard) {
   const { selectedItem } = useContext(ItemContext);
@@ -45,16 +46,18 @@ export default function OptionCard({
   return (
     <Card active={active} {...props}>
       <ImgWrapper>
-        <OptionImg src={`${IMG_URL}${option.optionImage}`} />
+        <OptionImg src={`${imgBlobUrl[option.optionImage]}`} loading="lazy" alt="" />
         <HashTagWrapper>{displayHashTag}</HashTagWrapper>
       </ImgWrapper>
       <OptionCardInfo>
         <div>
-          {type === 'sub' && option.percentage !== null && (
-            <OptionDesc>
-              <BlueText>{option.percentage}%</BlueText>가 선택했어요
-            </OptionDesc>
-          )}
+          {type === 'sub' &&
+            option.percentage !== null &&
+            option.percentage > PERCENTAGE_LIMIT_VALUE && (
+              <OptionDesc>
+                <BlueText $active={active}>{option.percentage}%</BlueText>가 선택했어요.
+              </OptionDesc>
+            )}
           <OptionTitle>{option.optionName}</OptionTitle>
         </div>
         {displayCaption}
@@ -122,8 +125,8 @@ const OptionPrice = styled.div`
 const DefaultInfo = styled.div`
   color: ${({ theme }) => theme.color.gray500};
 `;
-const BlueText = styled.span`
-  color: ${({ theme }) => theme.color.activeBlue2};
+const BlueText = styled.span<{ $active: boolean }>`
+  color: ${({ $active, theme }) => $active && theme.color.activeBlue};
 `;
 
 const OptionDesc = styled.div`

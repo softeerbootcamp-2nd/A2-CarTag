@@ -31,7 +31,7 @@ export default function OuterColorCard({
       </ColorWrapper>
       <DescWrapper>
         <ColorDesc>
-          <PointText $active={active}>{desc}%</PointText>가 선택했어요.
+          <BlueText $active={active}>{desc}%</BlueText>가 선택했어요.
         </ColorDesc>
         <ColorName>{name}</ColorName>
         <Row>
@@ -73,7 +73,7 @@ const ColorBorder = styled.div<{ $active: boolean }>`
 const ColorDesc = styled.div`
   ${BodyKrMedium4}
 `;
-const PointText = styled.span<{ $active: boolean }>`
+const BlueText = styled.span<{ $active: boolean }>`
   color: ${({ $active, theme }) => $active && theme.color.activeBlue};
 `;
 const ColorName = styled.div`
