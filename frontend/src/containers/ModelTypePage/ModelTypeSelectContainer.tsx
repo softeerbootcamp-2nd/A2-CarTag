@@ -80,7 +80,7 @@ export default function ModelTypelSelectContainer() {
                       key={powerTrain.modelId}
                       onClick={() => handleSelectedPowerTrain(powerTrain.modelId)}
                       active={isActive(powerTrain.modelTypeName, powerTrain.modelId)}
-                      desc={powerTrain.percentage + '%의 선택'}
+                      percentage={powerTrain.percentage}
                       title={powerTrain.modelName}
                       price={powerTrain.modelPrice}
                     />
@@ -98,7 +98,7 @@ export default function ModelTypelSelectContainer() {
                       key={bodyType.modelId}
                       onClick={() => handleSelectedOperation(bodyType.modelId)}
                       active={isActive(bodyType.modelTypeName, bodyType.modelId)}
-                      desc={bodyType.percentage + '%의 선택'}
+                      percentage={bodyType.percentage}
                       title={bodyType.modelName}
                       price={bodyType.modelPrice}
                     />
@@ -116,7 +116,7 @@ export default function ModelTypelSelectContainer() {
                       key={operation.modelId}
                       onClick={() => handleSelectedBodyType(operation.modelId)}
                       active={isActive(operation.modelTypeName, operation.modelId)}
-                      desc={operation.percentage + '%의 선택'}
+                      percentage={operation.percentage}
                       title={operation.modelName}
                       price={operation.modelPrice}
                     />
