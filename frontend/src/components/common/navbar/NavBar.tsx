@@ -52,42 +52,56 @@ export default function NavBar() {
             )}
           </CarSelect>
 
-          <NavList>
-            <NavItem
-              onClick={() => handleNavItemClick(PATH.trim)}
-              active={isActive(PATH.trim) || isActive(PATH.home)}
-            >
-              트림
-            </NavItem>
-            <NavItem
-              onClick={() => handleNavItemClick(PATH.modelType)}
-              active={isActive(PATH.modelType)}
-            >
-              타입
-            </NavItem>
-            <NavItem
-              onClick={() => handleNavItemClick(PATH.outerColor)}
-              active={isActive(PATH.outerColor)}
-            >
-              외장
-            </NavItem>
-            <NavItem
-              onClick={() => handleNavItemClick(PATH.innerColor)}
-              active={isActive(PATH.innerColor)}
-            >
-              내장
-            </NavItem>
-            <NavItem onClick={() => handleNavItemClick(PATH.option)} active={isActive(PATH.option)}>
-              옵션
-            </NavItem>
-            <NavItem onClick={() => handleNavItemClick(PATH.result)} active={isActive(PATH.result)}>
-              완료
-            </NavItem>
-          </NavList>
-          <CancelButton onClick={handleCloseButtonClick}>
-            <Span>종료</Span>
-            <CancelIcon width={12} height={12} />
-          </CancelButton>
+          {!menuVisible && (
+            <NavList>
+              <NavItem
+                onClick={() => handleNavItemClick(PATH.trim)}
+                active={isActive(PATH.trim) || isActive(PATH.home)}
+              >
+                트림
+              </NavItem>
+              <NavItem
+                onClick={() => handleNavItemClick(PATH.modelType)}
+                active={isActive(PATH.modelType)}
+              >
+                타입
+              </NavItem>
+              <NavItem
+                onClick={() => handleNavItemClick(PATH.outerColor)}
+                active={isActive(PATH.outerColor)}
+              >
+                외장
+              </NavItem>
+              <NavItem
+                onClick={() => handleNavItemClick(PATH.innerColor)}
+                active={isActive(PATH.innerColor)}
+              >
+                내장
+              </NavItem>
+              <NavItem
+                onClick={() => handleNavItemClick(PATH.option)}
+                active={isActive(PATH.option)}
+              >
+                옵션
+              </NavItem>
+              <NavItem
+                onClick={() => handleNavItemClick(PATH.result)}
+                active={isActive(PATH.result)}
+              >
+                완료
+              </NavItem>
+            </NavList>
+          )}
+          {!menuVisible ? (
+            <CancelButton onClick={handleCloseButtonClick}>
+              <Span>종료</Span>
+              <CancelIcon width={12} height={12} />
+            </CancelButton>
+          ) : (
+            <CancelButton onClick={handleCarSelectClick}>
+              <CancelIcon width={12} height={12} />
+            </CancelButton>
+          )}
         </Body>
       </NavContainer>
 
