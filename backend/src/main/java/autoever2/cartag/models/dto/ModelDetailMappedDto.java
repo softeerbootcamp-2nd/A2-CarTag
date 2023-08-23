@@ -1,6 +1,7 @@
 package autoever2.cartag.models.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -19,4 +20,12 @@ public class ModelDetailMappedDto {
     private String optionDescription;
     @Schema(description = "이미지 저장 주소", example = "/model/1234.jpg")
     private String modelImage;
+
+    @Builder
+    public ModelDetailMappedDto(String modelTypeName, String modelName, String optionDescription, String modelImage) {
+        this.modelTypeName = modelTypeName;
+        this.modelName = modelName;
+        this.optionDescription = optionDescription;
+        this.modelImage = modelImage;
+    }
 }
