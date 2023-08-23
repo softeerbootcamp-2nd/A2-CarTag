@@ -7,28 +7,26 @@ export default function useQuoteListData<T>(selectedItem: ISelectedItem) {
   const [error, setError] = useState<Error | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
 
+  const optionIds = selectedItem.options.map((option) => option.id);
+
+  const params = {
+    carId: 1,
+    powerTrainId: selectedItem.modelType.powerTrain.id,
+    bodyTypeId: selectedItem.modelType.bodyType.id,
+    operationId: selectedItem.modelType.operation.id,
+    outerColorId: selectedItem.outerColor.id,
+    innerColorId: selectedItem.innerColor.id,
+    optionIdList: optionIds,
+  };
+
   useEffect(() => {
-    if (selectedItem.options.length === 0) {
-      console.log('옵션없다. fetch 안보낸다.');
-      return;
-    }
+    if (selectedItem.options.length === 0) return;
+
     const abortController = new AbortController();
 
     const fetchQuoteList = async () => {
-      const optionIds = selectedItem.options.map((option) => option.id);
-      const params = {
-        carId: 1,
-        powerTrainId: selectedItem.modelType.powerTrain.id,
-        bodyTypeId: selectedItem.modelType.bodyType.id,
-        operationId: selectedItem.modelType.operation.id,
-        outerColorId: selectedItem.outerColor.id,
-        innerColorId: selectedItem.innerColor.id,
-        optionIdList: optionIds,
-      };
-
       try {
         setLoading(true);
-        console.log('fetch 요청 시작');
         const res = await fetch(QUOTE_LIST_API, {
           method: 'POST',
           headers: {
@@ -43,17 +41,15 @@ export default function useQuoteListData<T>(selectedItem: ISelectedItem) {
         const data = await res.json();
         setData(data);
       } catch (err) {
-        console.log('에러 발생했는데?');
         setError(err as Error);
       } finally {
         setLoading(false);
       }
-
-      return () => abortController.abort();
     };
 
     fetchQuoteList();
-  }, [selectedItem]);
+    return () => abortController.abort();
+  });
 
   return { data, loading, error };
 }

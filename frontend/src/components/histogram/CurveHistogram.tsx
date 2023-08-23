@@ -36,14 +36,12 @@ export default function CurveHistogram() {
   const histogramRef = useRef<HTMLDivElement>(null);
   const { totalPrice } = useContext(ItemContext);
 
-  const mycarPrice = Math.round(totalPrice / 100000) * 100000;
-
-  console.log(boughtInfoListData);
+  const mycarPrice = Math.round(totalPrice / 10000) * 10000;
 
   const transformData = (boughtInfoData: IBoughtInfo[]) => {
     const transfromedBoughtInfoData: { [key: number]: number } = {};
-    boughtInfoData.forEach((boughtInfo) => {
-      transfromedBoughtInfoData[boughtInfo.totalPrice] = boughtInfo.count;
+    boughtInfoData.forEach((boughtInfo, idx) => {
+      if (idx % 6000 == 0) transfromedBoughtInfoData[boughtInfo.totalPrice] = boughtInfo.count;
     });
     return transfromedBoughtInfoData;
   };
@@ -106,7 +104,6 @@ export default function CurveHistogram() {
   const drawHistogram = useCallback(() => {
     if (!boughtInfoListData) return;
     const transformedBoughtInfoData = transformData(boughtInfoListData);
-    console.log(transformedBoughtInfoData);
     drawLine(transformedBoughtInfoData);
     drawCircle(mycarPrice);
   }, [drawLine, drawCircle, boughtInfoListData, mycarPrice]);

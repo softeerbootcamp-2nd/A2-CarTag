@@ -1,28 +1,28 @@
-import { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import { ChangeEvent, useCallback, useContext, useEffect, useState } from 'react';
 import { css, styled } from 'styled-components';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular4, HeadingKrMedium6 } from '../../styles/typefaces';
 import React from 'react';
 import SimilarPriceSlider from './SimilarPriceSlider';
+import { ItemContext } from '../../context/ItemProvider';
+import { HIGHEST_PRICE } from '../../utils/constants';
 
 interface ISimilarPrice extends React.HTMLAttributes<HTMLDivElement> {}
 
 export default function SimilarPrice({ ...props }: ISimilarPrice) {
-  const lowestPrice = 3850; //단위: 만원
-  const highestPrice = 4300;
-  const total = 4100;
-  const [budget, setBudget] = useState((lowestPrice + highestPrice) / 2);
+  const { totalPrice, selectedItem } = useContext(ItemContext);
+
+  const [budget, setBudget] = useState((selectedItem.trim.price + HIGHEST_PRICE) / 2);
   const [isOverBudget, setIsOverBudget] = useState(false);
-  const balance = ((isOverBudget ? -10000 : 10000) * (budget - total)).toLocaleString();
+  const balance = ((isOverBudget ? -1 : 1) * (budget - totalPrice)).toLocaleString();
   const getBudgetStatus = useCallback(() => {
-    const status = budget - total;
+    const status = budget - totalPrice;
     status >= 0 ? setIsOverBudget(false) : setIsOverBudget(true);
-  }, [budget]);
+  }, [budget, totalPrice]);
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(event.target.value);
     setBudget(newValue);
   };
-
   useEffect(() => {
     getBudgetStatus();
   }, [budget, getBudgetStatus]);
@@ -38,14 +38,17 @@ export default function SimilarPrice({ ...props }: ISimilarPrice) {
         </StatusDesc>
       </StatusText>
       <SimilarPriceSlider
-        lowestPrice={lowestPrice}
-        highestPrice={highestPrice}
         budget={budget}
-        total={total}
         isOverBudget={isOverBudget}
-        percent={((budget - lowestPrice) / (highestPrice - lowestPrice)) * 100}
+        percent={
+          ((budget - selectedItem.trim.price) / (HIGHEST_PRICE - selectedItem.trim.price)) * 100
+        }
         handleChange={handleChange}
       />
+      <InfoCaption>
+        <Info>내 견적</Info>
+        <Info>유사 견적</Info>
+      </InfoCaption>
     </StatusBox>
   );
 }
@@ -89,3 +92,6 @@ const StatusDesc = styled.span`
   flex:1;
   text-align: end;
 `;
+
+const InfoCaption = styled.div``;
+const Info = styled.span``;

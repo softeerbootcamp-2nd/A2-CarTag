@@ -4,7 +4,7 @@ import { BodyKrRegular4, HeadingKrMedium6 } from '../../styles/typefaces';
 import { ArrowUp, ArrowDown } from '../common/icons/Icons';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { PATH } from '../../utils/constants';
+import { HIGHEST_PRICE, PATH } from '../../utils/constants';
 import PriceStaticSlider from './PriceStaticSlider';
 import { ItemContext } from '../../context/ItemProvider';
 
@@ -14,7 +14,6 @@ interface IOffset {
   offsetY: string;
 }
 export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
-  const highestPrice = 80_000_000; //TODO : api 연동
   const { totalPrice, selectedItem } = useContext(ItemContext);
   const { pathname } = useLocation();
   const theme = useTheme();
@@ -65,7 +64,7 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
   };
 
   useEffect(() => {
-    setBudget((selectedItem.trim.price + highestPrice) / 2);
+    setBudget((selectedItem.trim.price + HIGHEST_PRICE) / 2);
   }, [selectedItem.trim.price]);
   useEffect(() => {
     getBudgetStatus();
@@ -113,7 +112,6 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
 
       <AnimatedSection $isopen={isOpen}>
         <PriceStaticSlider
-          highestPrice={highestPrice}
           budget={budget}
           isOverBudget={isOverBudget}
           handleChange={handleChange}

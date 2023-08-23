@@ -4,6 +4,7 @@ export const DEBOUNCE_TIME = 200;
 export const TEN_THOUSAND_UNIT = 10000;
 export const PERCENTAGE_LIMIT_VALUE = 5;
 export const MAX_TEXT_CNT = 16;
+export const HIGHEST_PRICE = 80_000_000;
 export const PATH = {
   home: '/',
   trim: '/trim',
@@ -45,4 +46,5 @@ Object.freeze({
   OUTER_COLOR_FIRST_IDX,
   PERCENTAGE_LIMIT_VALUE,
   MAX_TEXT_CNT,
+  HIGHEST_PRICE,
 });

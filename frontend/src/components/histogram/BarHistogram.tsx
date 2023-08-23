@@ -7,10 +7,9 @@ import {
   HeadingKrMedium7,
 } from '../../styles/typefaces';
 import { flexCenterCss } from '../../utils/commonStyle';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { SimilarQuoteModalContext } from '../../context/ModalProviders/SimilarQuoteModalProvider';
 import Loading from '../loading/Loading';
-import ErrorModal from '../modal/ErrorModal';
 import useQuoteListData from '../../hooks/useQuoteList';
 import { ItemContext } from '../../context/ItemProvider';
 
@@ -22,12 +21,17 @@ interface IQuote {
 
 export default function BarHistogram() {
   const { selectedItem } = useContext(ItemContext);
-  const { setVisible: setSimilarQuoteModalVisible } = useContext(SimilarQuoteModalContext);
+  const { setVisible: setSimilarQuoteModalVisible, setSimilarQuoteIdList } =
+    useContext(SimilarQuoteModalContext);
   const {
     data: quoteListData,
     error: quoteListError,
     loading: quoteListLoading,
   } = useQuoteListData<IQuote | null>(selectedItem);
+
+  const handleSimliarQuoteModal = () => {
+    setSimilarQuoteModalVisible(true);
+  };
 
   const getMaxSoldCount = (quoteListData: IQuote) => {
     const soldCountList = [];
@@ -52,20 +56,32 @@ export default function BarHistogram() {
 
     return (
       <BarItem key={historyId}>
-        <BarValue>{soldCount}대</BarValue>
-        <Bar $height={`${percentage}%`}></Bar>
-        <BarItemName>유사 견적</BarItemName>
+        <Bar $height={`${percentage}%`}>
+          <BarValue>{soldCount}대</BarValue>
+          <BarItemName>내 견적</BarItemName>
+        </Bar>
       </BarItem>
     );
   });
 
   const hasSimilarQuote = !similarQuote?.every((quote) => quote === undefined);
-  console.log('2');
 
+  useEffect(() => {
+    if (!quoteListData || quoteListLoading) return;
+    const myQuoteId = quoteListData.historyId;
+    const historyIds: number[] = [];
+    quoteListData.histories.forEach((history) => {
+      if (!history) return;
+      historyIds.push(history.historyId);
+    });
+    setSimilarQuoteIdList({
+      quoteId: myQuoteId,
+      historyIds,
+    });
+  }, [quoteListData, setSimilarQuoteIdList, quoteListLoading]);
   if (quoteListError) {
-    return <ErrorModal message={quoteListError.message} />;
+    console.error(quoteListError);
   }
-
   return (
     <HistogramWrapper>
       <HmgTag size="small" />
@@ -84,14 +100,15 @@ export default function BarHistogram() {
         ) : (
           <BarChart>
             <BarItem $active={true}>
-              <BarValue>{myQuoteSoldCount}대</BarValue>
-              <Bar $height={`${myQuoteSoldPercent}%`} $active={true}></Bar>
-              <BarItemName>내 견적</BarItemName>
+              <Bar $height={`${myQuoteSoldPercent}%`} $active={true}>
+                <BarValue>{myQuoteSoldCount}대</BarValue>
+                <BarItemName>내 견적</BarItemName>
+              </Bar>
             </BarItem>
             {hasSimilarQuote ? similarQuote : <Text>유사 견적이 없습니다.</Text>}
           </BarChart>
         )}
-        <Button onClick={() => setSimilarQuoteModalVisible(true)}>유사 출고 견적 확인하기</Button>
+        <Button onClick={handleSimliarQuoteModal}>유사 출고 견적 확인하기</Button>
       </PaddingWrapper>
     </HistogramWrapper>
   );
@@ -102,19 +119,30 @@ const BarChart = styled.div`
   justify-content: space-around;
   width: 100%;
   height: 140px;
+  margin-top: 40px;
+  margin-bottom: 20px;
 `;
 const BarItem = styled.div<{ $active?: boolean }>`
   display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  align-items: center;
+  align-items: flex-end;
   color: ${({ theme, $active }) => ($active ? theme.color.activeBlue : theme.color.gray300)};
+  height: 80%;
 `;
 const BarValue = styled.div`
   ${BodyKrRegular3}
+  position: absolute;
+  top: -22px;
+  white-space: nowrap;
+  left: 50%;
+  transform: translateX(-50%);
 `;
 const BarItemName = styled.div`
   ${HeadingKrMedium7}
+  position: absolute;
+  bottom: -25px;
+  left: 50%;
+  transform: translateX(-50%);
+  white-space: nowrap;
 `;
 const CaptionWrapper = styled.div`
   ${BodyKrMedium2}
@@ -148,6 +176,7 @@ const CaptionDesc = styled.p`
 `;
 
 const Bar = styled.div<{ $height: string; $active?: boolean }>`
+  position: relative;
   width: 14px;
   height: ${({ $height }) => $height};
   background-color: ${({ theme, $active }) =>

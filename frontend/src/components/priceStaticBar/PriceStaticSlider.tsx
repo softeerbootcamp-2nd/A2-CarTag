@@ -3,18 +3,16 @@ import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular3, BodyKrRegular5 } from '../../styles/typefaces';
 import { ChangeEvent, useContext } from 'react';
 import { ItemContext } from '../../context/ItemProvider';
-import { TEN_THOUSAND_UNIT } from '../../utils/constants';
+import { HIGHEST_PRICE, TEN_THOUSAND_UNIT } from '../../utils/constants';
 import { theme } from '../../styles/theme';
 
 interface ISlider extends React.HTMLAttributes<HTMLDivElement> {
-  highestPrice: number;
   isOverBudget: boolean;
   budget: number;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   stopEvent: (event: React.MouseEvent) => void;
 }
 export default function Slider({
-  highestPrice,
   isOverBudget,
   budget,
   handleChange,
@@ -29,20 +27,19 @@ export default function Slider({
         <PriceBar
           type="range"
           min={selectedItem.trim.price}
-          max={highestPrice}
           value={budget}
           onChange={handleChange}
           onMouseDown={stopEvent}
           step={100_000}
           $percent={
-            ((budget - selectedItem.trim.price) / (highestPrice - selectedItem.trim.price)) * 100
+            ((budget - selectedItem.trim.price) / (HIGHEST_PRICE - selectedItem.trim.price)) * 100
           }
           $isover={isOverBudget}
         />
         <MarkerSvg
           $isover={isOverBudget}
           $percent={
-            ((totalPrice - selectedItem.trim.price) / (highestPrice - selectedItem.trim.price)) *
+            ((totalPrice - selectedItem.trim.price) / (HIGHEST_PRICE - selectedItem.trim.price)) *
             100
           }
         >
@@ -51,7 +48,7 @@ export default function Slider({
       </MarkerSvgWrapper>
       <PriceInfo $isover={isOverBudget}>
         <span>{selectedItem.trim.price / TEN_THOUSAND_UNIT}만원</span>
-        <span>{highestPrice / TEN_THOUSAND_UNIT}만원</span>
+        <span>{HIGHEST_PRICE / TEN_THOUSAND_UNIT}만원</span>
       </PriceInfo>
     </PriceBarWrapper>
   );
@@ -86,7 +83,7 @@ const MarkerSvg = styled.svg<{ $isover: boolean; $percent: number }>`
 `;
 
 const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
-  ({ type, min, max, value, onChange, step, $percent, $isover }) => ({
+  ({ type, min, value, onChange, step, $percent, $isover }) => ({
     style: {
       background: `linear-gradient(
         to right,
@@ -98,7 +95,7 @@ const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
     },
     type: type,
     min: min,
-    max: max,
+    max: HIGHEST_PRICE,
     value: value,
     onChange: onChange,
     step: step,
