@@ -7,7 +7,7 @@ import {
   HeadingKrMedium7,
 } from '../../styles/typefaces';
 import { flexCenterCss } from '../../utils/commonStyle';
-import { useContext, useEffect, useRef } from 'react';
+import { useContext, useEffect } from 'react';
 import { SimilarQuoteModalContext } from '../../context/ModalProviders/SimilarQuoteModalProvider';
 import Loading from '../loading/Loading';
 import useQuoteListData from '../../hooks/useQuoteList';
@@ -20,12 +20,11 @@ interface IQuote {
 }
 
 export default function BarHistogram() {
-  const { selectedItem } = useContext(ItemContext);
   const { setVisible: setSimilarQuoteModalVisible, setSimilarQuoteIdList } =
     useContext(SimilarQuoteModalContext);
-  const prevSelectedItem = useRef(selectedItem);
+  const { selectedItem } = useContext(ItemContext);
   const { data: quoteListData, loading: quoteListLoading } = useQuoteListData<IQuote | null>(
-    prevSelectedItem.current
+    selectedItem
   );
   const handleSimliarQuoteModal = () => {
     setSimilarQuoteModalVisible(true);
@@ -91,7 +90,7 @@ export default function BarHistogram() {
             유사 출고 견적이란, 내 견적과 해시태그 유사도가 높은 다른 사람들의 실제 출고 견적이에요.
           </CaptionDesc>
         </CaptionWrapper>
-        {quoteListLoading ? (
+        {quoteListLoading || !hasSimilarQuote || !quoteListData ? (
           <Loading />
         ) : (
           <BarChart>
@@ -101,7 +100,7 @@ export default function BarHistogram() {
                 <BarItemName>내 견적</BarItemName>
               </Bar>
             </BarItem>
-            {hasSimilarQuote ? similarQuote : <Text>유사 견적이 없습니다.</Text>}
+            {similarQuote}
           </BarChart>
         )}
         <Button onClick={handleSimliarQuoteModal}>유사 출고 견적 확인하기</Button>
@@ -188,10 +187,4 @@ const Button = styled.button`
   width: 100%;
   height: 52px;
   margin-top: 10px;
-`;
-const Text = styled.span`
-  ${flexCenterCss}
-  height: 100%;
-
-  ${BodyKrRegular3}
 `;

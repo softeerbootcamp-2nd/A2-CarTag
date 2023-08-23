@@ -8,6 +8,7 @@ export default function useQuoteListData<T>(selectedItem: ISelectedItem) {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
+    if (data) return;
     const abortController = new AbortController();
 
     const optionIds = selectedItem.options.map((option) => option.id);
@@ -20,9 +21,9 @@ export default function useQuoteListData<T>(selectedItem: ISelectedItem) {
       innerColorId: selectedItem.innerColor.id,
       optionIdList: optionIds,
     };
-    const fetchQuoteList = async () => {
+    const fetchQuoteList = async (abortController: AbortController) => {
       try {
-        console.log('fetch 보냄');
+        setLoading(true);
         const res = await fetch(QUOTE_LIST_API, {
           method: 'POST',
           headers: {
@@ -43,11 +44,11 @@ export default function useQuoteListData<T>(selectedItem: ISelectedItem) {
       }
     };
 
-    fetchQuoteList();
-    return () => abortController.abort();
+    fetchQuoteList(abortController);
+    return () => {
+      abortController.abort();
+    };
   }, [selectedItem, data]);
-
-  useEffect(() => {}, []);
 
   return { data, loading, error };
 }

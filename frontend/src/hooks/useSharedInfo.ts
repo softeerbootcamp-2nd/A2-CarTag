@@ -48,6 +48,7 @@ export default function useSharedInfo() {
   const [data, setData] = useState<ISharedInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
+  const [isShared, setIsShared] = useState(false);
   const [searchParams] = useSearchParams();
 
   const getParams = useCallback(() => {
@@ -66,6 +67,7 @@ export default function useSharedInfo() {
     );
 
     if (!isShared) return null;
+    setIsShared(true);
 
     const params = {
       carId: trimId,
@@ -107,5 +109,5 @@ export default function useSharedInfo() {
     fetchData();
   }, [getParams]);
 
-  return { data, loading, error };
+  return { data, loading, error, isShared };
 }
