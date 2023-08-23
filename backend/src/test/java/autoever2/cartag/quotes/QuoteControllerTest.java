@@ -1,12 +1,12 @@
-package autoever2.cartag.controller;
+package autoever2.cartag.quotes;
 
-import autoever2.cartag.domain.quote.BoughtCarDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
-import autoever2.cartag.domain.quote.HistoryShortDto;
-import autoever2.cartag.domain.quote.QuoteDataDto;
-import autoever2.cartag.domain.quote.QuoteInfoDto;
+import autoever2.cartag.quotes.dtos.HistoryShortDto;
+import autoever2.cartag.quotes.dtos.QuoteDataDto;
+import autoever2.cartag.quotes.dtos.QuoteInfoDto;
 import autoever2.cartag.cars.CarService;
-import autoever2.cartag.service.QuoteService;
+import autoever2.cartag.quotes.QuoteController;
+import autoever2.cartag.quotes.QuoteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

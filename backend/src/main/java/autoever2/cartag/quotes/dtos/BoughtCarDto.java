@@ -1,11 +1,10 @@
-package autoever2.cartag.domain.quote;
+package autoever2.cartag.quotes.dtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.springframework.data.redis.core.RedisHash;
 
 import java.beans.ConstructorProperties;
 

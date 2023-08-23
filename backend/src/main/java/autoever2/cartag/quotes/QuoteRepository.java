@@ -1,8 +1,8 @@
-package autoever2.cartag.repository;
+package autoever2.cartag.quotes;
 
-import autoever2.cartag.domain.quote.HistoryTotalModelPriceDto;
-import autoever2.cartag.domain.quote.HistorySearchDto;
-import autoever2.cartag.domain.quote.HistoryShortDto;
+import autoever2.cartag.quotes.dtos.HistoryTotalModelPriceDto;
+import autoever2.cartag.quotes.dtos.HistorySearchDto;
+import autoever2.cartag.quotes.dtos.HistoryShortDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.exception.ErrorCode;
 import org.springframework.dao.DataAccessException;

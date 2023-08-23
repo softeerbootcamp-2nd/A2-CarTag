@@ -1,4 +1,4 @@
-package autoever2.cartag.domain.quote;
+package autoever2.cartag.quotes.dtos;
 
 import lombok.Builder;
 import lombok.Getter;

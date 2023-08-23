@@ -1,4 +1,4 @@
-package autoever2.cartag.domain.quote;
+package autoever2.cartag.quotes.dtos;
 
 import autoever2.cartag.cars.dto.TrimInfoDto;
 import autoever2.cartag.domain.color.InnerColorDto;

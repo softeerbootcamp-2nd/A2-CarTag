@@ -1,21 +1,16 @@
-package autoever2.cartag.service;
+package autoever2.cartag.quotes;
 
 import autoever2.cartag.cars.CarRepository;
-import autoever2.cartag.cars.dto.TrimInfoDto;
-import autoever2.cartag.domain.color.InnerColorDto;
-import autoever2.cartag.domain.color.OuterColorDto;
-import autoever2.cartag.models.dto.ModelDefaultDto;
-import autoever2.cartag.domain.option.QuoteSubOptionDto;
-import autoever2.cartag.domain.quote.*;
+import autoever2.cartag.quotes.dtos.HistorySearchDto;
+import autoever2.cartag.quotes.dtos.HistoryShortDto;
+import autoever2.cartag.quotes.dtos.QuoteDataDto;
 import autoever2.cartag.recommend.RecommendConnector;
 import autoever2.cartag.repository.ColorRepository;
 import autoever2.cartag.models.ModelRepository;
 import autoever2.cartag.repository.OptionRepository;
-import autoever2.cartag.repository.QuoteRepository;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -26,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith({MockitoExtension.class, SoftAssertionsExtension.class})

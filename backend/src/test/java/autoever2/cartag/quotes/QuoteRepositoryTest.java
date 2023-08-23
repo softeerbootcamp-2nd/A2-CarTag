@@ -1,12 +1,11 @@
-package autoever2.cartag.repository;
+package autoever2.cartag.quotes;
 
-import autoever2.cartag.domain.quote.HistorySearchDto;
-import autoever2.cartag.domain.quote.HistoryShortDto;
-import autoever2.cartag.domain.quote.HistoryTotalModelPriceDto;
+import autoever2.cartag.quotes.QuoteRepository;
+import autoever2.cartag.quotes.dtos.HistorySearchDto;
+import autoever2.cartag.quotes.dtos.HistoryShortDto;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;

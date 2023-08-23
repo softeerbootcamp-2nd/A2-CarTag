@@ -1,4 +1,4 @@
-package autoever2.cartag.domain.quote;
+package autoever2.cartag.quotes.dtos;
 
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;

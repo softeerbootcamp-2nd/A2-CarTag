@@ -1,8 +1,7 @@
-package autoever2.cartag.controller;
+package autoever2.cartag.quotes;
 
-import autoever2.cartag.domain.quote.*;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
-import autoever2.cartag.service.QuoteService;
+import autoever2.cartag.quotes.dtos.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.Content;

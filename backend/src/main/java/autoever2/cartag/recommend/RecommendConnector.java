@@ -1,6 +1,6 @@
 package autoever2.cartag.recommend;
 
-import autoever2.cartag.domain.quote.QuoteDataDto;
+import autoever2.cartag.quotes.dtos.QuoteDataDto;
 import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.exception.ServerException;
 import org.json.simple.JSONArray;

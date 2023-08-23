@@ -1,9 +1,8 @@
-package autoever2.cartag.integration;
+package autoever2.cartag.quotes;
 
-import autoever2.cartag.controller.QuoteController;
-import autoever2.cartag.domain.quote.BoughtCarDto;
-import autoever2.cartag.domain.quote.QuoteDataDto;
-import autoever2.cartag.domain.quote.QuoteInfoDto;
+import autoever2.cartag.quotes.QuoteController;
+import autoever2.cartag.quotes.dtos.QuoteDataDto;
+import autoever2.cartag.quotes.dtos.QuoteInfoDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -1,18 +1,18 @@
-package autoever2.cartag.service;
+package autoever2.cartag.quotes;
 
 import autoever2.cartag.cars.CarRepository;
-import autoever2.cartag.domain.quote.BoughtCarDto;
+import autoever2.cartag.quotes.dtos.BoughtCarDto;
 import autoever2.cartag.cars.dto.TrimInfoDto;
-import autoever2.cartag.domain.quote.HistoryTotalModelPriceDto;
+import autoever2.cartag.quotes.dtos.HistoryTotalModelPriceDto;
 import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
 import autoever2.cartag.models.dto.ModelDefaultDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
 import autoever2.cartag.domain.option.SubOptionIdAndPriceDto;
-import autoever2.cartag.domain.quote.HistorySearchDto;
-import autoever2.cartag.domain.quote.HistoryShortDto;
-import autoever2.cartag.domain.quote.QuoteDataDto;
-import autoever2.cartag.domain.quote.QuoteInfoDto;
+import autoever2.cartag.quotes.dtos.HistorySearchDto;
+import autoever2.cartag.quotes.dtos.HistoryShortDto;
+import autoever2.cartag.quotes.dtos.QuoteDataDto;
+import autoever2.cartag.quotes.dtos.QuoteInfoDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.exception.InvalidDataException;
@@ -20,7 +20,7 @@ import autoever2.cartag.recommend.RecommendConnector;
 import autoever2.cartag.repository.ColorRepository;
 import autoever2.cartag.models.ModelRepository;
 import autoever2.cartag.repository.OptionRepository;
-import autoever2.cartag.repository.QuoteRepository;
+import autoever2.cartag.quotes.QuoteRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
