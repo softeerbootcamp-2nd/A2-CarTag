@@ -146,6 +146,10 @@ public class QuoteService {
         Optional<InnerColorDto> innerColorInfo = colorRepository.findInnerColorByColorId(innerColorId);
         Optional<OuterColorDto> outerColorInfo = colorRepository.findOuterColorByColorId(outerColorId);
         List<QuoteSubOptionDto> optionInfos = new ArrayList<>();
+        if(modelInfos.isEmpty()) {
+            throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
+        }
+
         if(!optionIdList.isEmpty()) {
             for (Integer id : optionIdList) {
                 Optional<QuoteSubOptionDto> optionInfo = optionRepository.findSubOptionByOptionId(id);
@@ -156,9 +160,9 @@ public class QuoteService {
                 throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
             }
         }
-        OuterColorDto outerColorDto = outerColorInfo.get();
+        OuterColorDto outerColorDto = outerColorInfo.orElseThrow(() -> new EmptyDataException(ErrorCode.DATA_NOT_EXISTS));
         String imageUrl = changeUrl(outerColorDto.getColorCarImage());
-        return QuoteInfoDto.toInfoDto(trimInfo.get(), outerColorDto, innerColorInfo.get(), modelInfos, optionInfos, imageUrl);
+        return QuoteInfoDto.toInfoDto(trimInfo.orElseThrow(() -> new EmptyDataException(ErrorCode.DATA_NOT_EXISTS)), outerColorDto, innerColorInfo.orElseThrow(() -> new EmptyDataException(ErrorCode.DATA_NOT_EXISTS)), modelInfos, optionInfos, imageUrl);
 
     }
 }

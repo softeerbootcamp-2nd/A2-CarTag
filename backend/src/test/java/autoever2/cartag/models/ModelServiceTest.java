@@ -1,5 +1,6 @@
 package autoever2.cartag.models;
 
+import autoever2.cartag.exception.ServerException;
 import autoever2.cartag.models.dto.*;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.cars.CarRepository;
@@ -51,6 +52,18 @@ class ModelServiceTest {
         modelList.add(ModelShortMappedDto.builder()
                 .modelId(6).modelName("8인승").modelTypeId(3).modelPrice(0L).modelTypeName("바디타입").modelBoughtCount(1000L).modelImage("/model/8seats.jpg").build());
 
+        List<ModelShortMappedDto> emptyErrorList = new ArrayList<>();
+        emptyErrorList.add(ModelShortMappedDto.builder()
+                .modelId(7).modelName("임시 파워트레인").modelTypeId(1).modelPrice(0L).modelTypeName("파워트레인").modelBoughtCount(1200L).modelImage("/model/gasoline3-8.jpg").maxKgfm("").maxPs("").build());
+
+        List<ModelShortMappedDto> invalidDataList = new ArrayList<>();
+        invalidDataList.add(ModelShortMappedDto.builder()
+                .modelId(8).modelName("임시 파워트레인2").modelTypeId(1).modelPrice(0L).modelTypeName("파워트레인").modelBoughtCount(1200L).modelImage("/model/gasoline3-8.jpg").maxKgfm("12").maxPs("13/0").build());
+
+        List<ModelShortMappedDto> invalidParseDataList = new ArrayList<>();
+        invalidParseDataList.add(ModelShortMappedDto.builder()
+                .modelId(8).modelName("임시 파워트레인2").modelTypeId(1).modelPrice(0L).modelTypeName("파워트레인").modelBoughtCount(1200L).modelImage("/model/gasoline3-8.jpg").maxKgfm("12/15").maxPs("13").build());
+
         List<ModelShortDataDto> expected = new ArrayList<>();
 
         PowerTrainDataDto expectedHmg1 = PowerTrainDataDto.builder()
@@ -73,7 +86,15 @@ class ModelServiceTest {
                 .modelId(6).modelName("8인승").modelPrice(0L).modelTypeName("바디타입").percentage(50).modelImage("/model/8seats.jpg").build());
 
         int carId = 1;
+        int errorListId = 5;
+        int invalidId = 8;
+        int notExistId = 10;
+        int invalidParseId = 12;
         when(modelRepository.findAllModelTypeDataByCarId(carId)).thenReturn(modelList);
+        when(modelRepository.findAllModelTypeDataByCarId(errorListId)).thenReturn(emptyErrorList);
+        when(modelRepository.findAllModelTypeDataByCarId(notExistId)).thenReturn(new ArrayList<>());
+        when(modelRepository.findAllModelTypeDataByCarId(invalidId)).thenReturn(invalidDataList);
+        when(modelRepository.findAllModelTypeDataByCarId(invalidParseId)).thenReturn(invalidParseDataList);
 
         Long boughtCount = 2000L;
         when(carRepository.findCarBoughtCountByCarId(carId)).thenReturn(Optional.of(boughtCount));
@@ -81,6 +102,10 @@ class ModelServiceTest {
         List<ModelShortDataDto> result = modelService.getModelTypeData(carId);
 
         softAssertions.assertThat(result).usingRecursiveComparison().isEqualTo(expected);
+        softAssertions.assertThatThrownBy(() -> modelService.getModelTypeData(errorListId)).isInstanceOf(ServerException.class);
+        softAssertions.assertThatThrownBy(() -> modelService.getModelTypeData(notExistId)).isInstanceOf(EmptyDataException.class);
+        softAssertions.assertThatThrownBy(() -> modelService.getModelTypeData(invalidId)).isInstanceOf(ServerException.class);
+        softAssertions.assertThatThrownBy(() -> modelService.getModelTypeData(invalidParseId)).isInstanceOf(ServerException.class);
     }
 
     @Test

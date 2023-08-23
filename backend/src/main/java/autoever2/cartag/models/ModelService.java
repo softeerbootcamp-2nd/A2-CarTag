@@ -3,6 +3,7 @@ package autoever2.cartag.models;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.cars.CarRepository;
+import autoever2.cartag.exception.ServerException;
 import autoever2.cartag.models.dto.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -59,8 +60,8 @@ public class ModelService {
         double maxKgfm = 0.0;
 
         for (ModelShortMappedDto data : powerTrainData) {
-            if (data.getMaxPs() == null) {
-                continue;
+            if (data.getMaxPs().isEmpty() || data.getMaxKgfm().isEmpty()) {
+                throw new ServerException(ErrorCode.INTERNAL_SERVER_ERROR, "데이터가 저장되어 있지 않습니다.");
             }
             maxPs = Double.max(maxPs, calculateHmgString(data.getMaxPs()));
             maxKgfm = Double.max(maxKgfm, calculateHmgString(data.getMaxKgfm()));
@@ -79,7 +80,9 @@ public class ModelService {
 
     private Double calculateHmgString(String input) {
         String[] token = input.split("/");
-
+        if(token.length != 2) {
+            throw new ServerException(ErrorCode.INTERNAL_SERVER_ERROR, "잘못된 데이터가 저장되어 있습니다.");
+        }
         int denominator = 0;
         if (token[1].contains("~")) {
             String[] subToken = token[1].split("~");
@@ -90,7 +93,7 @@ public class ModelService {
         }
 
         if (denominator == 0) {
-            return 0.0;
+            throw new ServerException(ErrorCode.INTERNAL_SERVER_ERROR, "데이터의 숫자가 잘못 저장되어 있습니다.");
         }
 
         return Double.parseDouble(token[0]) / denominator;
