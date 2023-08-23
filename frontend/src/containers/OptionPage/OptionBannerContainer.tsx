@@ -132,24 +132,24 @@ export default function OptionBannerContainer({ isDefault }: IOptionBannerContai
                     <HmgDataSection>
                       <HmgTag size="small" />
                       <DataList>
-                        {bannerInfo.hmgData.optionBoughtCount !== null && (
+                        {bannerInfo.hmgData!.optionBoughtCount !== null && (
                           <Data>
                             <DataTitle>
-                              {bannerInfo.hmgData.overHalf
+                              {bannerInfo.hmgData!.overHalf
                                 ? '구매자의 절반 이상이 선택했어요.'
                                 : '구매자가 이 옵션을 이만큼 선택했어요.'}
                             </DataTitle>
                             <DataInfo>
-                              {Number(bannerInfo.hmgData.optionBoughtCount).toLocaleString()}개
+                              {Number(bannerInfo.hmgData!.optionBoughtCount).toLocaleString()}개
                               <DataCaption>최근 90일 동안</DataCaption>
                             </DataInfo>
                           </Data>
                         )}
-                        {bannerInfo.hmgData.optionUsedCount !== null && (
+                        {bannerInfo.hmgData!.optionUsedCount !== null && (
                           <Data>
                             <DataTitle>주행 중 실제로 이만큼 사용해요.</DataTitle>
                             <DataInfo>
-                              {bannerInfo.hmgData.optionUsedCount}번
+                              {bannerInfo.hmgData!.optionUsedCount}번
                               <DataCaption>1.5만km 당</DataCaption>
                             </DataInfo>
                           </Data>
