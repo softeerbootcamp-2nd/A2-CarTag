@@ -10,8 +10,10 @@ from flask import jsonify
 
 load_dotenv(verbose=True)
 
-conn = pymysql.connect(host=os.getenv('host'), user=os.getenv('user'), password=os.getenv('password'), db=os.getenv('db'))
-cur = conn.cursor()
+def mysql_create_session():
+    conn = pymysql.connect(host=os.getenv('host'), user=os.getenv('user'), password=os.getenv('password'), db=os.getenv('db'))
+    cur = conn.cursor()
+    return conn, cur
 
 def recByApriori(body):
     start = time.time()
@@ -29,8 +31,14 @@ def recByApriori(body):
 
     input = set(input)
     dataset = []
-    cur.execute('SELECT hm.history_id, sh.sold_count, sh.sold_options_id FROM SalesHistory sh INNER JOIN HistoryModelMapper hm ON sh.history_id = hm.history_id WHERE sh.car_id = %s AND hm.model_id IN (%s, %s, %s) GROUP BY hm.history_id HAVING COUNT(DISTINCT hm.model_id) = 3;', (carId, powerTrainId, bodyTypeId, operationId))
-    dbRow = cur.fetchall()
+
+    conn, cur = mysql_create_session()
+    try:
+        cur.execute('SELECT hm.history_id, sh.sold_count, sh.sold_options_id FROM SalesHistory sh INNER JOIN HistoryModelMapper hm ON sh.history_id = hm.history_id WHERE sh.car_id = %s AND hm.model_id IN (%s, %s, %s) GROUP BY hm.history_id HAVING COUNT(DISTINCT hm.model_id) = 3;', (carId, powerTrainId, bodyTypeId, operationId))
+        dbRow = cur.fetchall()
+    finally:
+        conn.close()
+        
     for j in range(len(dbRow)):
         oneRow = dbRow[j][2]
         if(oneRow == ''):
