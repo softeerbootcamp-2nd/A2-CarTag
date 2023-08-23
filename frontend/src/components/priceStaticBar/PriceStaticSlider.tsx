@@ -32,7 +32,7 @@ export default function Slider({
           value={budget}
           onChange={handleChange}
           onMouseDown={stopEvent}
-          step={100_000}
+          step={HUNDRED_THOUSAND_UNIT}
           $percent={
             ((budget - selectedItem.trim.price) / (HIGHEST_PRICE - selectedItem.trim.price)) * 100
           }
@@ -95,7 +95,7 @@ const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
     },
     type: type,
     min: min,
-    max: HIGHEST_PRICE + 100_000,
+    max: HIGHEST_PRICE + HUNDRED_THOUSAND_UNIT,
     value: value,
     onChange: onChange,
     step: step,
