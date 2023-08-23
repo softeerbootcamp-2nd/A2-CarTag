@@ -24,17 +24,6 @@ public class CarRepository {
         template = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public Optional<Integer> findCarPriceByCarId(int carId) {
-        String sql = "select car_default_price " +
-                "from Car " +
-                "where car_id = :carId";
-
-        SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("carId", carId);
-
-        return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, intMapper())));
-    }
-
     public List<CarInfoDto> findCarByCarType(int carType) {
         String sql = "select car_id, trim, car_default_price, outer_image, inner_image, wheel_image, car_description " +
                 "from Car " +
@@ -57,6 +46,13 @@ public class CarRepository {
         return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, longMapper())));
     }
 
+    public List<CarTypeDto> findAllCarType() {
+        String sql = "select car_type_id, car_type_name, car_type_image " +
+                "from CarType";
+
+        return template.query(sql, carTypeDtoRowMapper());
+    }
+
     public Optional<TrimInfoDto> findTrimInfoByCarId(int carId){
         String sql = "select car_id, trim, car_default_price " +
                 "from Car " +
@@ -68,11 +64,15 @@ public class CarRepository {
         return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, trimInfoRowMapper())));
     }
 
-    public List<CarTypeDto> findAllCarType() {
-        String sql = "select car_type_id, car_type_name, car_type_image " +
-                "from CarType";
+    public Optional<Integer> findCarPriceByCarId(int carId) {
+        String sql = "select car_default_price " +
+                "from Car " +
+                "where car_id = :carId";
 
-        return template.query(sql, carTypeDtoRowMapper());
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("carId", carId);
+
+        return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, intMapper())));
     }
 
     private RowMapper<CarTypeDto> carTypeDtoRowMapper() {

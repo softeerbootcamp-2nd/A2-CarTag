@@ -261,7 +261,7 @@ class OptionRepositoryTest {
     @Test
     @DisplayName("모든 subOptionData를 추출")
     void findAllSubOptionInfos(){
-        List<SubOptionIdAndPriceDto> allSubOptionInfo = optionRepository.findAllSubOptionInfo();
+        List<SubOptionIdAndPriceDto> allSubOptionInfo = optionRepository.findAllSubOptionInfo(1);
         assertEquals(6, allSubOptionInfo.size());
 
         SubOptionIdAndPriceDto subOptionIdAndPriceDto = allSubOptionInfo.get(0);

@@ -50,9 +50,7 @@ public class CarService {
         if (outerColorList.isEmpty() || innerColorList.isEmpty() || modelList.isEmpty()) {
             throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
         }
-        int colorId = outerColorList.get(0).getColorId();
-        String value = colorRepository.findOuterColorImagesByColorId(colorId).orElseThrow(() -> new EmptyDataException(ErrorCode.DATA_NOT_EXISTS));
-        String outerImageUrl = changeUrl(value);
+        String outerImageUrl = changeUrl(outerColorList.get(0).getColorCarImage());
 
         return CarDefaultDto.toDefault(outerColorList.get(0), innerColorList.get(0), modelList, outerImageUrl);
     }

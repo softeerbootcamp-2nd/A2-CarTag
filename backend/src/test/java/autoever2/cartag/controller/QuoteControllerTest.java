@@ -176,7 +176,7 @@ public class QuoteControllerTest {
                 .build();
 
 
-        given(carService.getAllCarInfoByQuoteDataDto(quoteIdList)).willReturn(quoteInfoDto);
+        given(quoteService.getAllCarInfoByQuoteDataDto(quoteIdList)).willReturn(quoteInfoDto);
 
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/api/quote/infos/shares")
                 .content("{\n" +
@@ -229,7 +229,7 @@ public class QuoteControllerTest {
                 .count(1200)
                 .build());
 
-        given(carService.findAllBoughInfos()).willReturn(boughtCarDtoList);
+        given(quoteService.findAllBoughtInfos(1)).willReturn(boughtCarDtoList);
 
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/quote/bought/infos"));
 

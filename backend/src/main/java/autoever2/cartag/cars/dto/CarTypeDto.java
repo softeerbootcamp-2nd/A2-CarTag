@@ -18,4 +18,11 @@ public class CarTypeDto {
     private String carTypeImage;
     @Schema(description = "차종명", example = "팰리세이드")
     private String carTypeName;
+
+    @Builder
+    public CarTypeDto(int carTypeId, String carTypeImage, String carTypeName) {
+        this.carTypeId = carTypeId;
+        this.carTypeImage = carTypeImage;
+        this.carTypeName = carTypeName;
+    }
 }

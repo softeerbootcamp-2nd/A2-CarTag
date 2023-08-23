@@ -1,5 +1,6 @@
 package autoever2.cartag.domain.quote;
 
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,4 +13,11 @@ public class HistoryTotalModelPriceDto {
     private String soldOptionsId;
     private int soldCount;
     private Long modelPrice;
+
+    @Builder
+    public HistoryTotalModelPriceDto(String soldOptionsId, int soldCount, Long modelPrice) {
+        this.soldOptionsId = soldOptionsId;
+        this.soldCount = soldCount;
+        this.modelPrice = modelPrice;
+    }
 }

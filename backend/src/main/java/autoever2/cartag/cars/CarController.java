@@ -24,18 +24,19 @@ public class CarController {
 
     private final CarService service;
 
-    @Operation(summary = "차종 리스트를 조회하는 API", description = "팰리세이드, 베뉴 등 차종 리스트 및 이미지를 반환하는 API입니다.")
-    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = CarTypeDto.class)))
-    @GetMapping("/list")
-    public List<CarTypeDto> getCarTypeList() {
-        return service.getAllCarTypes();
-    }
 
     @Operation(summary = "차종에 속한 모든 트림을 조회하는 API", description = "차종 ID를 통해 르블랑, 익스클루시브 등 차종에 속한 모든 트림을 반환하는 API입니다.")
     @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = CarVo.class)))
     @GetMapping("/types")
     public List<CarVo> carTrimInfo(@Parameter(description = "차종 ID") @RequestParam("cartype") int carType) {
         return service.getCarDtoByCarType(carType);
+    }
+
+    @Operation(summary = "차종 리스트를 조회하는 API", description = "팰리세이드, 베뉴 등 차종 리스트 및 이미지를 반환하는 API입니다.")
+    @ApiResponse(responseCode = "200", content = @Content(schema = @Schema(implementation = CarTypeDto.class)))
+    @GetMapping("/list")
+    public List<CarTypeDto> getCarTypeList() {
+        return service.getAllCarTypes();
     }
 
     @Operation(summary = "트림의 기본 정보를 조회하는 API", description = "트림의 기본 옵션, 기본 모델타입을 반환하는 API입니다.")

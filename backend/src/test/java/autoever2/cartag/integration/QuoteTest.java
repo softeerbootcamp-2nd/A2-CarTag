@@ -69,9 +69,9 @@ public class QuoteTest {
 
     @Test
     @DisplayName("/api/quote/bought/infos")
-    @Sql({"classpath:insert/insert-boughtinfo-h2.sql"})
+    @Sql({"classpath:insert/insert-carinfo-h2.sql"})
     void testBoughtInfo(){
-        List<BoughtCarDto> allHistorySum = quoteController.getAllHistorySum();
+        List<BoughtCarDto> allHistorySum = quoteController.getAllHistorySum(1);
 
         assertEquals(144, allHistorySum.size());
         assertEquals(228, allHistorySum.get(0).getCount());
