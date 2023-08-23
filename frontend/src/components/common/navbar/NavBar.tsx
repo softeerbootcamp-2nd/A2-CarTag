@@ -41,7 +41,7 @@ export default function NavBar() {
     <Wrapper>
       <NavContainer $menuVisible={menuVisible}>
         <Body>
-          <HyundaiLogo src={hyundaiLogo} alt="" onClick={() => handleNavItemClick(PATH.trim)} />
+          <HyundaiLogo src={hyundaiLogo} alt="" onClick={() => handleNavItemClick(PATH.home)} />
 
           <CarSelect onClick={handleCarSelectClick}>
             <span>펠리세이드</span>
