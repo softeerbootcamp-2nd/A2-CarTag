@@ -35,16 +35,23 @@ class CarControllerTest {
         //given
         int carType = 1;
         List<TrimDefaultOptionDto> trimDefaultOptionDtoList = new ArrayList<>();
-        trimDefaultOptionDtoList.add(TrimDefaultOptionDto.builder().optionName("안전 하차 보조").optionImage("image_1").optionDescription("좋은 보조 장치").OptionUsedCount(42).build());
-        trimDefaultOptionDtoList.add(TrimDefaultOptionDto.builder().optionName("후측방 충둘 경고").optionImage("image_2").optionDescription("좋은 보조 장치").OptionUsedCount(98).build());
-        trimDefaultOptionDtoList.add(TrimDefaultOptionDto.builder().optionName("후방 교차 충돌 보조 장치").optionImage("image_3").optionDescription("좋은 보조 장치").OptionUsedCount(41).build());
-        CarVo expected1 = CarVo.builder().carId(1).trim("Le Blanc").carDefaultPrice(123423).outerImage("image_1").innerImage("image_2").wheelImage("image_3").carDescription("Good").options(trimDefaultOptionDtoList).build();
-        CarVo expected2 = CarVo.builder().carId(2).trim("Exclusive").carDefaultPrice(123423).outerImage("image_a").innerImage("image_2").carDescription("Good").options(trimDefaultOptionDtoList).build();
+        trimDefaultOptionDtoList.add(TrimDefaultOptionDto.builder()
+                .optionName("안전 하차 보조").optionImage("image_1").optionDescription("좋은 보조 장치").OptionUsedCount(42).build());
+        trimDefaultOptionDtoList.add(TrimDefaultOptionDto.builder()
+                .optionName("후측방 충둘 경고").optionImage("image_2").optionDescription("좋은 보조 장치").OptionUsedCount(98).build());
+        trimDefaultOptionDtoList.add(TrimDefaultOptionDto.builder()
+                .optionName("후방 교차 충돌 보조 장치").optionImage("image_3").optionDescription("좋은 보조 장치").OptionUsedCount(41).build());
+
+        CarVo expected1 = CarVo.builder()
+                .carId(1).trim("Le Blanc").carDefaultPrice(123423).outerImage("image_1").innerImage("image_2").wheelImage("image_3").carDescription("Good").options(trimDefaultOptionDtoList).build();
+        CarVo expected2 = CarVo.builder()
+                .carId(2).trim("Exclusive").carDefaultPrice(123423).outerImage("image_a").innerImage("image_2").carDescription("Good").options(trimDefaultOptionDtoList).build();
 
         given(service.getCarDtoByCarType(carType)).willReturn(List.of(expected1, expected2));
 
         //when
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/types").param("cartype", String.valueOf(carType)));
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/api/cars/types")
+                .param("cartype", String.valueOf(carType)));
 
         //then
         resultActions.andExpect(status().isOk())
