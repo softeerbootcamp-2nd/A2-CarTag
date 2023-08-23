@@ -36,15 +36,30 @@ export default function CurveHistogram() {
   const histogramRef = useRef<HTMLDivElement>(null);
   const { totalPrice } = useContext(ItemContext);
 
-  const mycarPrice = Math.round(totalPrice / 10000) * 10000;
-  console.log(boughtInfoListData?.length);
-  const transformData = (boughtInfoData: IBoughtInfo[], sieve = 1000) => {
+  const transformData = (boughtInfoData: IBoughtInfo[], sieve = 10000) => {
     const transfromedBoughtInfoData: { [key: number]: number } = {};
     boughtInfoData.forEach((boughtInfo, idx) => {
-      if (idx % sieve == 0) transfromedBoughtInfoData[boughtInfo.totalPrice] = boughtInfo.count;
+      if (idx % sieve == 0) {
+        transfromedBoughtInfoData[boughtInfo.totalPrice] = boughtInfo.count;
+      }
     });
     return transfromedBoughtInfoData;
   };
+
+  const findNearMyPrice = useCallback(
+    (transformed: { [key: number]: number }) => {
+      let result = 0;
+      for (const priceStr of Object.keys(transformed)) {
+        const price = parseInt(priceStr);
+        if (price >= totalPrice) {
+          return (result = price);
+        }
+      }
+      return result;
+    },
+    [totalPrice]
+  );
+
   const initSvgSize = () => {
     if (!histogramRef.current) {
       return;
@@ -87,7 +102,7 @@ export default function CurveHistogram() {
   const drawCircle = useCallback(
     (mycarPrice: number) => {
       if (!boughtInfoListData) return;
-      const transformedBoughtInfoData = transformData(boughtInfoListData, 1);
+      const transformedBoughtInfoData = transformData(boughtInfoListData);
       const coords = getCoords(transformedBoughtInfoData);
       const boughtInfoKeys = Object.keys(transformedBoughtInfoData);
       const mycarIdx = boughtInfoKeys.findIndex((value) => value === mycarPrice.toString());
@@ -104,9 +119,10 @@ export default function CurveHistogram() {
   const drawHistogram = useCallback(() => {
     if (!boughtInfoListData) return;
     const transformedBoughtInfoData = transformData(boughtInfoListData);
+    const mycarPrice = findNearMyPrice(transformedBoughtInfoData);
     drawLine(transformedBoughtInfoData);
     drawCircle(mycarPrice);
-  }, [drawLine, drawCircle, boughtInfoListData, mycarPrice]);
+  }, [drawLine, drawCircle, boughtInfoListData, findNearMyPrice]);
 
   useEffect(initSvgSize, [histogramRef]);
   useEffect(drawHistogram, [svgSize, drawHistogram]);
@@ -135,7 +151,7 @@ export default function CurveHistogram() {
           {boughtInfoListLoading ? (
             <Loading />
           ) : (
-            <HistogramSvg viewBox="-20 -20  320 140 " strokeWidth={2}>
+            <HistogramSvg viewBox="-20 -10  320 160 " strokeWidth={2}>
               <path d={d} fill="none" strokeWidth="3" stroke={theme.color.gray200}></path>
               <Circle cx={circlePos.x} cy={circlePos.y} />
             </HistogramSvg>

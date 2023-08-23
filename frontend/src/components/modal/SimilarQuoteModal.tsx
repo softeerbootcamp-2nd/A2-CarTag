@@ -52,8 +52,6 @@ export default function SimilarQuoteModal({ ...props }: ISimilarQuoteModal) {
     setPage(page + 1);
   };
 
-  console.log(page);
-
   const handleOkButton = () => {
     setVisible(false);
   };
