@@ -70,7 +70,7 @@ const PriceBarWrapper = styled.div`
 const BudgetInfo = styled.div`
   ${BodyKrRegular3}
   position: absolute;
-  top: -25px;
+  top: -34px;
   right: 0px;
   background-color: black;
   opacity: 0.9;
