@@ -90,6 +90,7 @@ const Title = styled.p<{ $isOverflow: boolean }>`
   ${({ $isOverflow }) => {
     if ($isOverflow)
       return css`
+        z-index: 1;
         animation-play-state: paused;
         &:hover {
           cursor: pointer;

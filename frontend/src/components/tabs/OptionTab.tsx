@@ -119,6 +119,8 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
   );
 }
 const HoverCaption = styled.div`
+  z-index: 2;
+
   display: none;
   white-space: nowrap;
   left: 0;

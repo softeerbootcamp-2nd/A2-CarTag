@@ -180,6 +180,8 @@ export default function OptionBannerContainer({ isDefault }: IOptionBannerContai
   );
 }
 const HoverCaption = styled.div<{ $visible: boolean }>`
+  z-index: 2;
+
   white-space: pre-wrap;
   padding: 4px 12px;
   border-radius: 10px;
@@ -187,7 +189,6 @@ const HoverCaption = styled.div<{ $visible: boolean }>`
   color: ${({ theme }) => theme.color.gray50};
   opacity: 90%;
   margin-top: 10px;
-  z-index: 1;
   width: 448px;
   background-color: ${({ theme }) => theme.color.gray900};
   ${BodyKrRegular4}
