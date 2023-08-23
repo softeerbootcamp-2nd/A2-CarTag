@@ -41,7 +41,7 @@ export default function NavBar() {
     <Wrapper>
       <NavContainer $menuVisible={menuVisible}>
         <Body>
-          <HyundaiLogo src={hyundaiLogo} alt="" />
+          <HyundaiLogo src={hyundaiLogo} alt="" onClick={() => handleNavItemClick(PATH.trim)} />
 
           <CarSelect onClick={handleCarSelectClick}>
             <span>펠리세이드</span>
@@ -207,7 +207,7 @@ const HyundaiLogo = styled.img`
   bottom: 0;
   width: 39px;
   height: 22px;
-
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;
