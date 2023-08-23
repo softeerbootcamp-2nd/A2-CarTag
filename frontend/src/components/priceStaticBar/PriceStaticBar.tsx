@@ -14,7 +14,7 @@ interface IOffset {
   offsetY: string;
 }
 export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
-  const highestPrice = 80_000_000; //TODO : api 연동
+  const highestPrice = 80_000_000;
   const { totalPrice, selectedItem } = useContext(ItemContext);
   const { pathname } = useLocation();
   const theme = useTheme();
