@@ -37,7 +37,8 @@ export default function CurveHistogram() {
   const { totalPrice } = useContext(ItemContext);
 
   const mycarPrice = Math.round(totalPrice / 10000) * 10000;
-  const transformData = (boughtInfoData: IBoughtInfo[], sieve = 6000) => {
+  console.log(boughtInfoListData?.length);
+  const transformData = (boughtInfoData: IBoughtInfo[], sieve = 1000) => {
     const transfromedBoughtInfoData: { [key: number]: number } = {};
     boughtInfoData.forEach((boughtInfo, idx) => {
       if (idx % sieve == 0) transfromedBoughtInfoData[boughtInfo.totalPrice] = boughtInfo.count;
