@@ -43,7 +43,7 @@ export default function SimilarQuoteModal({ ...props }: ISimilarQuoteModal) {
               <br />내 견적과 해시태그 유사도가 높은 다른 사람들의 실제 출고 견적이에요.
             </DescText>
           </TextWrapper>
-          <SimilarPriceBar />
+          <SimilarPriceBar similarPrice={50_000_000} />
         </InfoWrapper>
         <CardWrapper>
           <CarInfo>

@@ -229,3 +229,19 @@ export function CopyIcon() {
     </svg>
   );
 }
+
+export function NorthWest({ active, ...props }: ISvg) {
+  const color = active ? theme.color.white : theme.color.gray200;
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="12"
+      height="12"
+      viewBox="0 0 12 12"
+      fill="none"
+      {...props}
+    >
+      <path d="M0 8H1.6V2.728L10.872 12L12 10.872L2.728 1.6H8V0H0V8Z" fill={color} />
+    </svg>
+  );
+}

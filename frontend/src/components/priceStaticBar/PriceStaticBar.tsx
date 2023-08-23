@@ -1,20 +1,18 @@
 import { ChangeEvent, useCallback, useContext, useEffect, useRef, useState } from 'react';
-import { css, styled, useTheme } from 'styled-components';
+import { styled, useTheme } from 'styled-components';
 import { BodyKrRegular4, HeadingKrMedium6 } from '../../styles/typefaces';
 import { ArrowUp, ArrowDown } from '../common/icons/Icons';
 import React from 'react';
 import { useLocation } from 'react-router-dom';
-import { PATH } from '../../utils/constants';
+import { HIGHEST_PRICE, PATH } from '../../utils/constants';
 import PriceStaticSlider from './PriceStaticSlider';
 import { ItemContext } from '../../context/ItemProvider';
-
 interface IPriceStaticBar extends React.HTMLAttributes<HTMLDivElement> {}
 interface IOffset {
   offsetX: string;
   offsetY: string;
 }
 export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
-  const highestPrice = 80_000_000; //TODO : api 연동
   const { totalPrice, selectedItem } = useContext(ItemContext);
   const { pathname } = useLocation();
   const theme = useTheme();
@@ -26,17 +24,14 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
   const [isOverBudget, setIsOverBudget] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const balance = ((isOverBudget ? -1 : 1) * (budget - totalPrice)).toLocaleString();
-
   const getBudgetStatus = useCallback(() => {
     const status = budget - totalPrice;
     status >= 0 ? setIsOverBudget(false) : setIsOverBudget(true);
   }, [budget, totalPrice]);
-
   const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
     const newValue = Number(event.target.value);
     setBudget(newValue);
   };
-
   const stopEvent = (event: React.MouseEvent) => {
     event.stopPropagation();
   };
@@ -45,7 +40,6 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
     const element = barRef.current!.getBoundingClientRect();
     setStartOffset({ startX: clientX - element.left, startY: clientY - element.top });
   };
-
   const handleMouseMove = (event: MouseEvent, startX: number, startY: number) => {
     if (!dragRef.current) {
       return;
@@ -59,24 +53,20 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
     event.preventDefault();
     setOffset({ offsetX: `${newLeft}px`, offsetY: `${newTop}px` });
   };
-
   const handleMouseUp = () => {
     dragRef.current = false;
   };
-
   useEffect(() => {
-    setBudget((selectedItem.trim.price + highestPrice) / 2);
+    setBudget((selectedItem.trim.price + HIGHEST_PRICE) / 2);
   }, [selectedItem.trim.price]);
   useEffect(() => {
     getBudgetStatus();
   }, [budget, getBudgetStatus]);
-
   useEffect(() => {
     window.addEventListener('mousemove', (event) =>
       handleMouseMove(event, startOffset.startX, startOffset.startY)
     );
     window.addEventListener('mouseup', handleMouseUp);
-
     return () => {
       window.removeEventListener('mousemove', (event) =>
         handleMouseMove(event, startOffset.startX, startOffset.startY)
@@ -84,11 +74,9 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
       window.removeEventListener('mouseup', handleMouseUp);
     };
   }, [startOffset]);
-
   if (pathname === PATH.home || pathname === PATH.trim) {
     return <></>;
   }
-
   return (
     <StatusBox
       ref={barRef}
@@ -105,15 +93,12 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
           <span>{balance}원</span>
           {isOverBudget ? ' 더 들었어요.' : ' 남았어요.'}
         </StatusDesc>
-
         <IconBtn onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <ArrowUp fill={theme.color.gray50} /> : <ArrowDown fill={theme.color.gray50} />}
         </IconBtn>
       </StatusText>
-
       <AnimatedSection $isopen={isOpen}>
         <PriceStaticSlider
-          highestPrice={highestPrice}
           budget={budget}
           isOverBudget={isOverBudget}
           handleChange={handleChange}
@@ -123,14 +108,6 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
     </StatusBox>
   );
 }
-
-const withinBudgetCss = css`
-  background: ${({ theme }) => theme.color.primaryColor700};
-`;
-
-const overBudgetCss = css`
-  background: rgba(0, 11, 25, 0.9);
-`;
 
 const StatusBox = styled.div.attrs<{
   $isover: boolean;
@@ -143,12 +120,11 @@ const StatusBox = styled.div.attrs<{
     transform: $offset.offsetX === '50%' ? 'translateX(-50%)' : 'none',
   },
 }))`
-  ${({ $isover }) => !$isover && withinBudgetCss}
-  ${({ $isover }) => $isover && overBudgetCss}
+  background: ${({ theme, $isover }) =>
+    $isover ? 'rgba(0, 11, 25, 0.9)' : theme.color.primaryColor700};
   position: fixed;
   min-width: 343px;
   z-index: 1000;
-
   padding: 0px 16px;
   border-radius: 10px;
   backdrop-filter: blur(3px);
@@ -161,7 +137,6 @@ const StatusBox = styled.div.attrs<{
   justify-content: space-between;
   cursor: pointer;
 `;
-
 const StatusText = styled.div`
   width: 100%;
   min-height: 40px;
@@ -169,12 +144,10 @@ const StatusText = styled.div`
   align-items: center;
   justify-content: space-between;
 `;
-
 const StatusTitle = styled.p`
   margin-right: 8px;
   ${HeadingKrMedium6}
 `;
-
 const StatusDesc = styled.p<{ $isover: boolean }>`
   ${BodyKrRegular4}
   flex:1;
@@ -188,5 +161,4 @@ const AnimatedSection = styled.div<{ $isopen: boolean }>`
   opacity: ${({ $isopen }) => ($isopen ? '1' : '0')};
   transition: opacity 0.5s ease;
 `;
-
 const IconBtn = styled.button``;
