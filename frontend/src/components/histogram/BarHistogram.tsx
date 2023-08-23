@@ -29,7 +29,10 @@ export default function BarHistogram() {
     loading: quoteListLoading,
   } = useQuoteListData<IQuote | null>(selectedItem);
 
-  if (quoteListError) return <ErrorModal message={quoteListError.message} />;
+  if (quoteListError) {
+    console.log('유사견적  에러처리');
+    return <ErrorModal message={quoteListError.message} />;
+  }
 
   const getMaxSoldCount = (quoteListData: IQuote) => {
     const soldCountList = [];
