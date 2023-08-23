@@ -44,7 +44,7 @@ class ModelRepositoryTest {
                 .modelId(1).modelName("디젤2.2").modelTypeId(1).modelTypeName("파워트레인").modelBoughtCount(800L).modelPrice(1480000L).maxPs("202/3800").maxKgfm("45.0/1750~2750").modelImage("/model/diesel2-2.jpg").build();
 
         ModelShortMappedDto sixthModel = ModelShortMappedDto.builder()
-                .modelId(6).modelName("8인승").modelTypeId(3).modelTypeName("바디타입").modelBoughtCount(1800L).modelPrice(0L).modelImage("/model/8seats.jpg").build();
+                .modelId(6).modelName("8인승").modelTypeId(3).modelTypeName("바디타입").modelBoughtCount(1000L).modelPrice(0L).modelImage("/model/8seats.jpg").build();
 
         List<ModelShortMappedDto> modelList = modelRepository.findAllModelTypeDataByCarId(carId);
 
