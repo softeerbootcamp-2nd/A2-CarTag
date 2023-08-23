@@ -221,8 +221,8 @@ export default function ItemProvider({ children }: IItemProvider) {
       type: 'SET_OPERATION',
       value: {
         id: data.operationId,
-        title: data.operationName,
-        name: data.operationImage,
+        title: data.operationTitle,
+        name: data.operationName,
         imgSrc: data.operationImage,
         price: data.operationPrice,
       },
