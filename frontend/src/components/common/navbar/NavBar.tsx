@@ -2,7 +2,7 @@ import React, { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { css, styled, useTheme } from 'styled-components';
 import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../../styles/typefaces';
-import { ArrowDown, CancelIcon } from '../icons/Icons';
+import { ArrowDown, ArrowUp, CancelIcon } from '../icons/Icons';
 import hyundaiLogo from '/images/logo.svg';
 import { MESSAGE, PATH } from '../../../utils/constants';
 import { CloseModalContext } from '../../../context/CloseModalProvider';
@@ -44,7 +44,11 @@ export default function NavBar() {
           <HyundaiLogo src={hyundaiLogo} alt="" />
           <CarSelect onClick={handleCarSelectClick}>
             <span>펠리세이드</span>
-            <ArrowDown fill={theme.color.gray800} />
+            {menuVisible ? (
+              <ArrowUp fill={theme.color.primaryColor800} width={20} height={20} />
+            ) : (
+              <ArrowDown fill={theme.color.primaryColor800} width={20} height={20} />
+            )}
           </CarSelect>
           <NavList>
             <NavItem
@@ -154,6 +158,7 @@ const CarSelect = styled.div`
   position: absolute;
   left: 0;
   bottom: 0;
+  gap: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
