@@ -13,9 +13,8 @@
 
 현대만의 데이터로 차량 견적을 산출할 수 있는 서비스를 개발하였습니다.<br>
  ### 👉🏻 [내 차 만들기 - A2 Cartag](http://www.a2cartag.com/) 👈🏻
-  ![ant](https://github.com/softeerbootcamp-2nd/A2-CarTag/assets/63107805/3e59ccd2-a9a4-4f32-9ecd-bd3355f8994e)<br>
+ <img width="300px" src="https://github.com/softeerbootcamp-2nd/A2-CarTag/assets/63107805/39cd4f27-e1d3-462f-b719-33c44078b1fc"/><br>
 🐜 저희 팀 `칼퇴`가 개발한 서비스로 **합리적인 내 차**를 만들어 보세요!
-
 
 
 ### 주요 기능
