@@ -3,7 +3,7 @@ import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular3, BodyKrRegular5 } from '../../styles/typefaces';
 import { ChangeEvent, useContext } from 'react';
 import { ItemContext } from '../../context/ItemProvider';
-import { HIGHEST_PRICE, TEN_THOUSAND_UNIT } from '../../utils/constants';
+import { HIGHEST_PRICE, HUNDRED_THOUSAND_UNIT, TEN_THOUSAND_UNIT } from '../../utils/constants';
 import { theme } from '../../styles/theme';
 interface ISlider extends React.HTMLAttributes<HTMLDivElement> {
   isOverBudget: boolean;
