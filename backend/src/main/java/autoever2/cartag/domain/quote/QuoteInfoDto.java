@@ -1,6 +1,6 @@
 package autoever2.cartag.domain.quote;
 
-import autoever2.cartag.domain.car.TrimInfoDto;
+import autoever2.cartag.cars.dto.TrimInfoDto;
 import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
 import autoever2.cartag.domain.model.ModelDefaultDto;

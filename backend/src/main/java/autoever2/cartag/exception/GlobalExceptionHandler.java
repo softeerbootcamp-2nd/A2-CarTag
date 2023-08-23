@@ -1,6 +1,7 @@
 package autoever2.cartag.exception;
 
 import lombok.extern.log4j.Log4j2;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
@@ -33,6 +34,15 @@ public class GlobalExceptionHandler {
         log.error("Server Error: " + errorCode.getMessage());
         return ResponseEntity.status(errorCode.getHttpStatus()).body(ErrorResponse.builder()
                 .code(errorCode.toString())
+                .build());
+    }
+
+    @ExceptionHandler(IncorrectResultSizeDataAccessException.class)
+    public ResponseEntity<ErrorResponse> handleQueryException(IncorrectResultSizeDataAccessException e) {
+        ErrorCode errorCode = ErrorCode.INTERNAL_SERVER_ERROR;
+        return ResponseEntity.status(errorCode.getHttpStatus()).body(ErrorResponse.builder()
+                .code(errorCode.toString())
+                .message(errorCode.getMessage())
                 .build());
     }
 }

@@ -1,7 +1,7 @@
 package autoever2.cartag.service;
 
 import autoever2.cartag.domain.option.*;
-import autoever2.cartag.repository.CarRepository;
+import autoever2.cartag.cars.CarRepository;
 import autoever2.cartag.repository.OptionRepository;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;

@@ -1,12 +1,7 @@
 package autoever2.cartag.controller;
 
-import autoever2.cartag.domain.car.BoughtCarDto;
+import autoever2.cartag.domain.quote.*;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
-import autoever2.cartag.domain.quote.HistoryRequestDto;
-import autoever2.cartag.domain.quote.HistoryShortDto;
-import autoever2.cartag.domain.quote.QuoteDataDto;
-import autoever2.cartag.domain.quote.QuoteInfoDto;
-import autoever2.cartag.service.CarService;
 import autoever2.cartag.service.QuoteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -15,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -25,7 +21,6 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class QuoteController {
 
-    private final CarService carService;
     private final QuoteService quoteService;
 
     @Operation(summary = "추천 견적 그래프 제공 API", description = "유사견적(최대 4개)와 판매횟수 제공")
@@ -47,8 +42,8 @@ public class QuoteController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = BoughtCarDto.class))),
     })
     @GetMapping("bought/infos")
-    public List<BoughtCarDto> getAllHistorySum() {
-        return carService.findAllBoughInfos();
+    public List<BoughtCarDto> getAllHistorySum(@RequestParam("carid") int carId) {
+        return quoteService.findAllBoughtInfos(carId);
     }
 
     @Operation(summary = "차량 공유하기를 위한 api", description = "차량 공유를 위한 정보 반환")
@@ -57,7 +52,7 @@ public class QuoteController {
     })
     @PostMapping("/infos/shares")
     public QuoteInfoDto getQuoteDetail(@Parameter(description = "선택한 id 리스트") @RequestBody QuoteDataDto idList) {
-        QuoteInfoDto data = carService.findShareInfoDto(idList);
+        QuoteInfoDto data = quoteService.getAllCarInfoByQuoteDataDto(idList);
         return data;
     }
 
