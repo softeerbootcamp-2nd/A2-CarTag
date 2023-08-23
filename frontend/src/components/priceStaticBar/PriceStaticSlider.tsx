@@ -95,7 +95,7 @@ const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
     },
     type: type,
     min: min,
-    max: HIGHEST_PRICE,
+    max: HIGHEST_PRICE + 100_000,
     value: value,
     onChange: onChange,
     step: step,
