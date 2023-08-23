@@ -1,5 +1,6 @@
 package autoever2.cartag.repository;
 
+import autoever2.cartag.domain.quote.HistoryTotalModelPriceDto;
 import autoever2.cartag.domain.quote.HistorySearchDto;
 import autoever2.cartag.domain.quote.HistoryShortDto;
 import autoever2.cartag.exception.EmptyDataException;
@@ -70,12 +71,30 @@ public class QuoteRepository {
     }
 
     private List<Integer> mapToList(String optionIds) {
-        StringTokenizer token = new StringTokenizer(",");
+        StringTokenizer token = new StringTokenizer(optionIds, ",");
         List<Integer> optionIdList = new ArrayList<>();
         while (token.hasMoreTokens()) {
             optionIdList.add(Integer.parseInt(token.nextToken()));
         }
 
         return optionIdList;
+    }
+
+    public List<HistoryTotalModelPriceDto> findHistoryTotalModelPriceByCarId(int carId) {
+        String sql = "select sh.sold_options_id, sh.sold_count, sum(m.model_price) as modelPrice " +
+                "from SalesHistory sh " +
+                "inner join HistoryModelMapper hm on sh.history_id = hm.history_id " +
+                "inner join Model m on hm.model_id = m.model_id " +
+                "where car_id = :carId " +
+                "group by sh.history_id";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("carId", carId);
+
+        return template.query(sql, param, carPriceRowMapper());
+    }
+
+    private RowMapper<HistoryTotalModelPriceDto> carPriceRowMapper() {
+        return BeanPropertyRowMapper.newInstance(HistoryTotalModelPriceDto.class);
     }
 }

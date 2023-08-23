@@ -54,7 +54,7 @@ def recByApriori(body):
         antecedents = set(row.antecedents)
         consequents = set(row.consequents)
 
-        if antecedents.issubset(input) and len(consequents) <= 2 and not antecedents.union(consequents).issubset(input):
+        if antecedents.isdisjoint(input) and len(consequents) <= 2 and antecedents.union(consequents).isdisjoint(input):
             key = tuple(consequents)
             if key not in matching_itemsets or confidence > matching_itemsets[key]:
                 matching_itemsets[key] = confidence
