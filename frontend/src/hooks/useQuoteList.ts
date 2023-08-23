@@ -8,15 +8,6 @@ export default function useQuoteListData<T>(selectedItem: ISelectedItem) {
   const [loading, setLoading] = useState<boolean>(true);
 
   useEffect(() => {
-    if (data !== null) {
-      console.log('최초 1회 실행, 이제 실행 안할꺼야');
-      return;
-    }
-    if (selectedItem.options.length === 0) {
-      console.log('옵션없다. fetch 안보냄');
-      return;
-    }
-
     const abortController = new AbortController();
 
     const optionIds = selectedItem.options.map((option) => option.id);
@@ -55,6 +46,8 @@ export default function useQuoteListData<T>(selectedItem: ISelectedItem) {
     fetchQuoteList();
     return () => abortController.abort();
   }, [selectedItem, data]);
+
+  useEffect(() => {}, []);
 
   return { data, loading, error };
 }

@@ -7,7 +7,7 @@ import {
   HeadingKrMedium7,
 } from '../../styles/typefaces';
 import { flexCenterCss } from '../../utils/commonStyle';
-import { useContext, useEffect } from 'react';
+import { useContext, useEffect, useRef } from 'react';
 import { SimilarQuoteModalContext } from '../../context/ModalProviders/SimilarQuoteModalProvider';
 import Loading from '../loading/Loading';
 import useQuoteListData from '../../hooks/useQuoteList';
@@ -23,12 +23,10 @@ export default function BarHistogram() {
   const { selectedItem } = useContext(ItemContext);
   const { setVisible: setSimilarQuoteModalVisible, setSimilarQuoteIdList } =
     useContext(SimilarQuoteModalContext);
-  const {
-    data: quoteListData,
-    error: quoteListError,
-    loading: quoteListLoading,
-  } = useQuoteListData<IQuote | null>(selectedItem);
-
+  const prevSelectedItem = useRef(selectedItem);
+  const { data: quoteListData, loading: quoteListLoading } = useQuoteListData<IQuote | null>(
+    prevSelectedItem.current
+  );
   const handleSimliarQuoteModal = () => {
     setSimilarQuoteModalVisible(true);
   };
@@ -79,9 +77,7 @@ export default function BarHistogram() {
       historyIds,
     });
   }, [quoteListData, setSimilarQuoteIdList, quoteListLoading]);
-  if (quoteListError) {
-    console.error(quoteListError);
-  }
+
   return (
     <HistogramWrapper>
       <HmgTag size="small" />
