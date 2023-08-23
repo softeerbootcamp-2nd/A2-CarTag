@@ -1,4 +1,4 @@
-package autoever2.cartag.domain.model;
+package autoever2.cartag.models.dto;
 
 import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;

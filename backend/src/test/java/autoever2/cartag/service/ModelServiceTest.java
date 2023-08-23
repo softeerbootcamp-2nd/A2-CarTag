@@ -1,12 +1,13 @@
 package autoever2.cartag.service;
 
-import autoever2.cartag.domain.model.ModelDetailMappedDto;
-import autoever2.cartag.domain.model.ModelEfficiencyDataDto;
-import autoever2.cartag.domain.model.ModelShortDataDto;
-import autoever2.cartag.domain.model.ModelShortMappedDto;
+import autoever2.cartag.models.ModelService;
+import autoever2.cartag.models.dto.ModelDetailMappedDto;
+import autoever2.cartag.models.dto.ModelEfficiencyDataDto;
+import autoever2.cartag.models.dto.ModelShortDataDto;
+import autoever2.cartag.models.dto.ModelShortMappedDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.cars.CarRepository;
-import autoever2.cartag.repository.ModelRepository;
+import autoever2.cartag.models.ModelRepository;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;

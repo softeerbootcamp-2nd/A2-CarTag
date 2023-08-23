@@ -1,6 +1,10 @@
-package autoever2.cartag.repository;
+package autoever2.cartag.models;
 
 import autoever2.cartag.domain.model.*;
+import autoever2.cartag.models.dto.ModelDefaultDto;
+import autoever2.cartag.models.dto.ModelDetailMappedDto;
+import autoever2.cartag.models.dto.ModelEfficiencyDataDto;
+import autoever2.cartag.models.dto.ModelShortMappedDto;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;

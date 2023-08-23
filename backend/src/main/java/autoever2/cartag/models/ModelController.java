@@ -1,9 +1,8 @@
-package autoever2.cartag.controller;
+package autoever2.cartag.models;
 
-import autoever2.cartag.domain.model.ModelDetailMappedDto;
-import autoever2.cartag.domain.model.ModelEfficiencyDataDto;
-import autoever2.cartag.domain.model.ModelShortDataDto;
-import autoever2.cartag.service.ModelService;
+import autoever2.cartag.models.dto.ModelDetailMappedDto;
+import autoever2.cartag.models.dto.ModelEfficiencyDataDto;
+import autoever2.cartag.models.dto.ModelShortDataDto;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.media.ArraySchema;

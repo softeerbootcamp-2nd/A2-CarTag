@@ -3,7 +3,7 @@ package autoever2.cartag.domain.quote;
 import autoever2.cartag.cars.dto.TrimInfoDto;
 import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
-import autoever2.cartag.domain.model.ModelDefaultDto;
+import autoever2.cartag.models.dto.ModelDefaultDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

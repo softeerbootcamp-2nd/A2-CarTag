@@ -1,12 +1,11 @@
 package autoever2.cartag.integration;
 
-import autoever2.cartag.controller.ModelController;
-import autoever2.cartag.domain.model.ModelDetailMappedDto;
-import autoever2.cartag.domain.model.ModelEfficiencyDataDto;
-import autoever2.cartag.domain.model.ModelShortDataDto;
-import autoever2.cartag.domain.model.PowerTrainDataDto;
+import autoever2.cartag.models.ModelController;
+import autoever2.cartag.models.dto.ModelDetailMappedDto;
+import autoever2.cartag.models.dto.ModelEfficiencyDataDto;
+import autoever2.cartag.models.dto.ModelShortDataDto;
+import autoever2.cartag.models.dto.PowerTrainDataDto;
 import autoever2.cartag.exception.EmptyDataException;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

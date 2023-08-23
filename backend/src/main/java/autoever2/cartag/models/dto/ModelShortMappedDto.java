@@ -1,4 +1,4 @@
-package autoever2.cartag.domain.model;
+package autoever2.cartag.models.dto;
 
 import lombok.*;
 
