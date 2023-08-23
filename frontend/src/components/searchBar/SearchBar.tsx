@@ -1,19 +1,68 @@
 import { styled } from 'styled-components';
 import { BodyKrRegular4 } from '../../styles/typefaces';
-import { SearchIcon } from '../common/icons/Icons';
+import { NorthWest, SearchIcon } from '../common/icons/Icons';
 import React, { Dispatch, useCallback, useEffect, useRef, useState } from 'react';
+import { flexCenterCss } from '../../utils/commonStyle';
 
 interface SearchBarProps extends React.HTMLAttributes<HTMLInputElement> {
   value: string;
   result: string[];
   setQuery: Dispatch<React.SetStateAction<string>>;
 }
+
+interface IKeyEvent {
+  [key: string]: () => void;
+}
 export default function SearchBar({ value, result, setQuery, ...props }: SearchBarProps) {
+  const [focusIndex, setFocusIndex] = useState(-1);
+  const listRef = useRef<HTMLUListElement>(null);
   const [visibleAutoBox, setVisibleAutoBox] = useState(true);
   const searchBarRef = useRef<HTMLDivElement>(null);
   const displayData = result.map((res, index) => (
-    <AutoSearchData key={index}>{res}</AutoSearchData>
+    <ListItem $focus={index === focusIndex}>
+      <AutoSearchData key={index}>{res}</AutoSearchData>
+      <IconBtn>
+        <NorthWest active={index === focusIndex} />
+      </IconBtn>
+    </ListItem>
   ));
+
+  const KeyEvent: IKeyEvent = {
+    Enter: () => {
+      focusIndex >= 0 ? setQuery(result[focusIndex]) : setQuery(value);
+      setVisibleAutoBox(false);
+    },
+    ArrowDown: () => {
+      if (result.length === 0) {
+        return;
+      }
+      if (listRef.current && listRef.current.childElementCount === focusIndex + 1) {
+        setFocusIndex(() => 0);
+        return;
+      }
+      setFocusIndex((index) => index + 1);
+    },
+    ArrowUp: () => {
+      if (focusIndex === -1) {
+        return;
+      }
+      if (focusIndex === 0) {
+        setFocusIndex((index) => index - 1);
+        return;
+      }
+      setFocusIndex((index) => index - 1);
+    },
+    Escape: () => {
+      setFocusIndex(-1);
+    },
+  };
+
+  const handleKeyUp = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    setVisibleAutoBox(true);
+    if (KeyEvent[e.key]) {
+      KeyEvent[e.key]();
+    }
+  };
 
   const handleClick = useCallback(
     (event: MouseEvent) => {
@@ -28,6 +77,7 @@ export default function SearchBar({ value, result, setQuery, ...props }: SearchB
     },
     [setQuery]
   );
+
   useEffect(() => {
     window.addEventListener('click', (e) => handleClick(e));
     return () => {
@@ -35,19 +85,25 @@ export default function SearchBar({ value, result, setQuery, ...props }: SearchB
     };
   }, [handleClick]);
 
+  useEffect(() => {}, [focusIndex]);
+
   useEffect(() => {
-    if (!value) return;
-    setVisibleAutoBox(true);
-  }, [value]);
+    if (!value) {
+      setVisibleAutoBox(false);
+      return;
+    }
+
+    setFocusIndex(-1);
+  }, [value, visibleAutoBox, result]);
 
   return (
     <Wrapper ref={searchBarRef}>
-      <Input value={value} {...props} />
+      <Input value={value} onKeyUp={(e) => handleKeyUp(e)} {...props} />
       <Button>
         <SearchIcon width={18} height={18} />
       </Button>
       <AutoSearchContainer $visible={result.length > 0 && visibleAutoBox}>
-        <AutoSearchWrapper>{displayData}</AutoSearchWrapper>
+        <AutoSearchWrapper ref={listRef}>{displayData}</AutoSearchWrapper>
       </AutoSearchContainer>
     </Wrapper>
   );
@@ -73,11 +129,6 @@ const AutoSearchWrapper = styled.ul``;
 const AutoSearchData = styled.li`
   padding: 8px 16px;
   width: 100%;
-  &:hover {
-    background-color: ${({ theme }) => theme.color.activeBlue2};
-    color: ${({ theme }) => theme.color.white};
-    cursor: pointer;
-  }
 `;
 const Wrapper = styled.div`
   position: relative;
@@ -106,9 +157,23 @@ const Input = styled.input.attrs(({ value }) => ({
     color: ${({ theme }) => theme.color.gray600};
   }
 `;
-
+const ListItem = styled.div<{ $focus: boolean }>`
+  ${flexCenterCss}
+  background-color: ${({ $focus, theme }) => ($focus ? theme.color.activeBlue2 : 'transparent')};
+  color: ${({ $focus, theme }) => ($focus ? theme.color.white : theme.color.gray900)};
+  &:hover {
+    background-color: ${({ theme }) => theme.color.activeBlue2};
+    color: ${({ theme }) => theme.color.white};
+    opacity: 0.5;
+    cursor: pointer;
+  }
+`;
 const Button = styled.button`
   width: 67px;
   height: 100%;
   background-color: ${({ theme }) => theme.color.gray100};
+`;
+
+const IconBtn = styled.button`
+  padding: 8px 16px;
 `;
