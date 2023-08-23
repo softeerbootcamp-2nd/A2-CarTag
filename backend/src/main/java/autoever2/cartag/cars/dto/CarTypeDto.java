@@ -1,14 +1,11 @@
 package autoever2.cartag.cars.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Schema(description = "차종 ID와, 차종의 대표이미지, 차종명을 반환")
 public class CarTypeDto {
 

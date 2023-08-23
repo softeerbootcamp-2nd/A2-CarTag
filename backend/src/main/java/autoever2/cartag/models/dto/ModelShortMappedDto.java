@@ -4,7 +4,7 @@ import lombok.*;
 
 @Getter
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class ModelShortMappedDto {
 
     private int modelId;

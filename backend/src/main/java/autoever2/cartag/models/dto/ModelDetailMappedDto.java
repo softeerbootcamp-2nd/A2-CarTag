@@ -1,13 +1,10 @@
 package autoever2.cartag.models.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
 @Schema(description = "모델의 타입, 이름, 설명, 사진을 반환")
 public class ModelDetailMappedDto {
