@@ -133,14 +133,26 @@ export default function ItemProvider({ children }: IItemProvider) {
   const [totalPrice, setTotalPrice] = useState<number>(0);
 
   useEffect(() => {
-    const { price: trimPrice } = selectedItem.trim;
-    const { price: outerColorPrice } = selectedItem.outerColor;
-    const { price: innerColorPrice } = selectedItem.innerColor;
+    const { id: trimId, price: trimPrice } = selectedItem.trim;
+    const { id: outerColorId, price: outerColorPrice } = selectedItem.outerColor;
+    const { id: innerColorId, price: innerColorPrice } = selectedItem.innerColor;
     const { powerTrain, bodyType, operation } = selectedItem.modelType;
     const modelTypePrice = powerTrain.price + bodyType.price + operation.price;
     const optionsPrice = selectedItem.options.reduce((acc, option) => acc + option.price, 0);
     const total = trimPrice + modelTypePrice + outerColorPrice + innerColorPrice + optionsPrice;
     setTotalPrice(total);
+    const savedId = {
+      trimId: trimId,
+      modelTypeId: {
+        powerTrain: powerTrain.id,
+        bodyType: bodyType.id,
+        operation: operation.id,
+      },
+      outerColorId: outerColorId,
+      innerColorId: innerColorId,
+      optionId: selectedItem.options.map((option) => option.id),
+    };
+    localStorage.setItem('selectedItem', JSON.stringify(savedId));
   }, [selectedItem]);
 
   return (
