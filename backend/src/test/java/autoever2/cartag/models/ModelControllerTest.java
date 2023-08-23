@@ -37,12 +37,12 @@ class ModelControllerTest {
 
         PowerTrainDataDto expectedHmg1 = PowerTrainDataDto.builder().maxPs("202/3800").maxKgfm("45.0/1750~2750").ratioPs(1.0).ratioKgfm(1.0).build();
         modelTypeData.add(ModelShortDataDto.builder()
-                .modelId(1).modelName("디젤 2.2").modelPrice(1480000L).modelTypeName("파워트레인").percentage(40).modelImage("/model/diesel2-2.jpg").hmgData(expectedHmg1).build());
+                .modelId(1).modelName("디젤2.2").modelPrice(1480000L).modelTypeName("파워트레인").percentage(40).modelImage("/model/diesel2-2.jpg").hmgData(expectedHmg1).build());
 
         PowerTrainDataDto expectedHmg2 = PowerTrainDataDto.builder()
                 .maxPs("295/6000").maxKgfm("36.2/5200").ratioPs(0.9249174917491748).ratioKgfm(0.34807692307692306).build();
         modelTypeData.add(ModelShortDataDto.builder()
-                .modelId(2).modelName("가솔린 3.8").modelPrice(280000L).modelTypeName("파워트레인").percentage(60).modelImage("/model/gasoline3-8.jpg").hmgData(expectedHmg2).build());
+                .modelId(2).modelName("가솔린3.8").modelPrice(280000L).modelTypeName("파워트레인").percentage(60).modelImage("/model/gasoline3-8.jpg").hmgData(expectedHmg2).build());
 
         modelTypeData.add(ModelShortDataDto.builder()
                 .modelId(3).modelName("2WD").modelPrice(0L).modelTypeName("구동방식").percentage(25).modelImage("/model/2wd.png").build());
@@ -61,7 +61,7 @@ class ModelControllerTest {
 
         resultActions.andExpect(status().isOk())
                 .andExpect(jsonPath("$[0].modelId").value(1))
-                .andExpect(jsonPath("$[1].modelName").value("가솔린 3.8"))
+                .andExpect(jsonPath("$[1].modelName").value("가솔린3.8"))
                 .andExpect(jsonPath("$[2].modelImage").value("/model/2wd.png"))
                 .andExpect(jsonPath("$[3].modelPrice").value(237000))
                 .andExpect(jsonPath("$[4].percentage").value(50))
