@@ -114,7 +114,11 @@ export default function OuterColorBannerContainer() {
 
   return (
     <>
-      <OuterColorBanner onMouseUp={handleMouseup} subtitle={'외장색상'} title={'어비스블랙펄'}>
+      <OuterColorBanner
+        onMouseUp={handleMouseup}
+        subtitle={'외장색상'}
+        title={selectedItem.outerColor.name}
+      >
         <FlexCenterWrapper>
           <ImgWrapper onMouseMove={handleMousemove} onMouseDown={handleMousedown}>
             <CarShadow>

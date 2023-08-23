@@ -41,11 +41,15 @@ export default function OuterColorPage() {
   }
   return (
     <>
-      <Wrapper>
-        <OuterColorBannerContainer />
-        <OuterColorSelectContainer />
-      </Wrapper>
-      <OuterColorFooterContainer />
+      {outerColorData && (
+        <>
+          <Wrapper>
+            <OuterColorBannerContainer />
+            <OuterColorSelectContainer />
+          </Wrapper>
+          <OuterColorFooterContainer />
+        </>
+      )}
     </>
   );
 }

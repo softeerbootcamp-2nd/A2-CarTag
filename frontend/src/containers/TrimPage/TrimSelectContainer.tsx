@@ -79,6 +79,10 @@ export default function TrimSelectContainer() {
         imgSrc: defaultInfo.innerColor.imgSrc,
       },
     });
+    setSelectedItem({
+      type: 'SET_OPTIONS',
+      value: [],
+    });
   }, [defaultInfo, setSelectedItem]);
 
   const handleSelectedIdx = (idx: number) => {
