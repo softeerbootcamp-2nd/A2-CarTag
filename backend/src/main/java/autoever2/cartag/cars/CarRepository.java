@@ -53,7 +53,7 @@ public class CarRepository {
         return template.query(sql, carTypeDtoRowMapper());
     }
 
-    public Optional<TrimInfoDto> findTrimInfoByCarId(int carId){
+    public Optional<TrimInfoDto> findTrimInfoByCarId(int carId) {
         String sql = "select car_id, trim, car_default_price " +
                 "from Car " +
                 "where car_id = :carId";

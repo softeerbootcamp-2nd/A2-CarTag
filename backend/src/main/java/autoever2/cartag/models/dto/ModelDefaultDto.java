@@ -1,11 +1,11 @@
 package autoever2.cartag.models.dto;
 
-import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 public class ModelDefaultDto {
     private int modelId;
@@ -13,13 +13,4 @@ public class ModelDefaultDto {
     private Long modelPrice;
     private String modelImage;
     private String modelTitle;
-
-    @Builder
-    public ModelDefaultDto(int modelId, String modelName, Long modelPrice, String modelImage, String modelTitle) {
-        this.modelId = modelId;
-        this.modelName = modelName;
-        this.modelPrice = modelPrice;
-        this.modelImage = modelImage;
-        this.modelTitle = modelTitle;
-    }
 }
