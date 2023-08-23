@@ -1,4 +1,4 @@
-package autoever2.cartag.repository;
+package autoever2.cartag.models;
 
 import autoever2.cartag.models.ModelRepository;
 import autoever2.cartag.models.dto.ModelDefaultDto;

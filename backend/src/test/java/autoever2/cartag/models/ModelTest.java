@@ -1,4 +1,4 @@
-package autoever2.cartag.integration;
+package autoever2.cartag.models;
 
 import autoever2.cartag.models.ModelController;
 import autoever2.cartag.models.dto.ModelDetailMappedDto;
