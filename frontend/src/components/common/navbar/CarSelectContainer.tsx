@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 import CenterWrapper from '../layout/CenterWrapper';
 import { useFetch } from '../../../hooks/useFetch';
 import { CAR_LIST_API, IMG_URL } from '../../../utils/apis';
-import { useState } from 'react';
+import { Dispatch, useState } from 'react';
 import { flexCenterCss } from '../../../utils/commonStyle';
 import { BodyKrMedium3, BodyKrMedium4 } from '../../../styles/typefaces';
 import DefaultCardStyle from '../card/DefaultCardStyle';
@@ -16,15 +16,19 @@ interface ICar {
 
 interface ICarSelectContainer {
   visible: boolean;
+  setMenuVisible: Dispatch<React.SetStateAction<boolean>>;
 }
 
-export default function CarSelectContainer({ visible }: ICarSelectContainer) {
+export default function CarSelectContainer({ visible, setMenuVisible }: ICarSelectContainer) {
   const { data } = useFetch<ICar[]>(CAR_LIST_API);
   const [active, setActive] = useState(3); // 3: SUV
   const categoryList = ['수소/전기차', 'N', '승용', 'SUV', 'MVP', '소형트럭/택시', '트럭', '버스'];
 
   const handleCategoryClick = (idx: number) => {
     setActive(idx);
+  };
+  const handleDimmedClick = () => {
+    setMenuVisible((cur) => !cur);
   };
   const isActive = (idx: number) => idx === active;
 
@@ -51,7 +55,7 @@ export default function CarSelectContainer({ visible }: ICarSelectContainer) {
           <CarListWrapper>{carItemComponents}</CarListWrapper>
         </CetnerWrapper>
       </Wrapper>
-      <CarSelectDimmedBackground $displayDimmed={visible} />
+      <CarSelectDimmedBackground $displayDimmed={visible} onClick={handleDimmedClick} />
     </>
   );
 }
@@ -65,10 +69,7 @@ const Wrapper = styled.div<{ $visible: boolean }>`
   display: block;
   opacity: ${({ $visible }) => ($visible ? '1' : '0')};
   overflow: hidden;
-  visibility: ${({ $visible }) => ($visible ? 'visible' : 'hidden')};
-  transition:
-    height 0.5s ease,
-    opacity 0.5s ease;
+  transition: height 0.5s ease;
 `;
 
 const CetnerWrapper = styled(CenterWrapper)``;

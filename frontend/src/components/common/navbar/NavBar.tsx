@@ -91,7 +91,7 @@ export default function NavBar() {
         </Body>
       </NavContainer>
 
-      <CarSelectContainer visible={menuVisible} />
+      <CarSelectContainer visible={menuVisible} setMenuVisible={setMenuVisible} />
     </Wrapper>
   );
 }
