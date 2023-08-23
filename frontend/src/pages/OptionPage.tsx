@@ -11,6 +11,8 @@ import {
   IDefaultOption,
 } from '../context/PageProviders/DefaultOptionProvider';
 import ErrorModal from '../components/modal/ErrorModal';
+import { CAR_TYPE } from '../utils/constants';
+import Loading from '../components/loading/Loading';
 
 interface IOptionDetail {
   categoryName: string;
@@ -77,7 +79,7 @@ export default function OptionPage() {
   ]);
 
   const { data: optionDetail, loading: optionDetailLoading } = useFetch<IOptionDetail>(
-    `${OPTION_API}/${optionType}/detail/?carid=${1}&optionid=${currentOptionIdx}`
+    `${OPTION_API}/${optionType}/detail/?carid=${CAR_TYPE}&optionid=${currentOptionIdx}`
   );
 
   if (subOptionError) {
@@ -86,24 +88,28 @@ export default function OptionPage() {
     return <ErrorModal message={defaultOptionError.message} />;
   }
   return (
-    <>
-      {optionDetail && !optionDetailLoading && (
+    <Wrapper>
+      {subOption && !subOptionLoading && optionDetail && !optionDetailLoading ? (
         <>
-          <Wrapper>
+          <ContentWrapper>
             <OptionBannerContainer
               optionDetail={optionDetail}
               optionDetailLoading={optionDetailLoading}
             />
             <OptionSelectContainer isDefault={isDefault} handleTabItemClick={handleTabItemClick} />
-          </Wrapper>
+          </ContentWrapper>
           <OptionFooterContainer />
         </>
+      ) : (
+        <Loading />
       )}
-    </>
+    </Wrapper>
   );
 }
-
 const Wrapper = styled.div`
-  height: 100%;
+  height: 100vh;
+  width: 100vw;
   padding-bottom: 120px;
 `;
+
+const ContentWrapper = styled.div``;

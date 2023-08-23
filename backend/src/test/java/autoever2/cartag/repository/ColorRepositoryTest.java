@@ -25,7 +25,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @ActiveProfiles("test")
 @Sql(scripts = {"classpath:/insert/insertColor-h2.sql"})
 class ColorRepositoryTest {
-
     private final ColorRepository repository;
 
     @Autowired

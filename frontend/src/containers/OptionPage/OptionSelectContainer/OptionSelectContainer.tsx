@@ -4,7 +4,11 @@ import { BodyKrMedium1 } from '../../../styles/typefaces';
 import SearchBar from '../../../components/searchBar/SearchBar';
 import DefaultOptionContainer from './DefaultOptionContainer';
 import SubOptionContainer from './SubOptionContainer';
-import React, { useState } from 'react';
+import React, { useCallback, useContext, useEffect, useState } from 'react';
+import { IMG_URL } from '../../../utils/apis';
+import { SubOptionContext } from '../../../context/PageProviders/SubOptionProvider';
+import Loading from '../../../components/loading/Loading';
+import { DefaultOptionContext } from '../../../context/PageProviders/DefaultOptionProvider';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
   active: boolean;
@@ -19,10 +23,101 @@ export default function OptionSelectContainer({
   isDefault,
   handleTabItemClick,
 }: IOptionSelectContainer) {
+  const [imgLoading, setImgLoading] = useState(true);
   const [query, setQuery] = useState('');
   const [result, setResult] = useState<string[]>([]);
   const handleInputChange = (query: string) => {
     setQuery(query);
+  };
+  const [imgBlobUrl, setImgBlobUrl] = useState<{ [key: string]: string }>({});
+  const { subOption, subOptionLoading } = useContext(SubOptionContext);
+  const { defaultOption, defaultOptionLoading } = useContext(DefaultOptionContext);
+
+  const isLoaded = useCallback(
+    (urls: string[]) => {
+      for (const url of urls) {
+        if (!imgBlobUrl[url]) {
+          return false;
+        }
+      }
+      return true;
+    },
+    [imgBlobUrl]
+  );
+
+  const downloadAndSaveImages = useCallback(
+    async (urls: string[], abortController: AbortController) => {
+      if (isLoaded(urls)) {
+        setImgLoading(false);
+        return;
+      }
+      setImgLoading(true);
+      const newImgBlobUrl: { [key: string]: string } = {};
+      await Promise.all(
+        urls.map(async (url, idx) => {
+          const fetchImgUrl = IMG_URL + url + `?${idx}`;
+
+          const res = await fetch(fetchImgUrl, {
+            signal: abortController.signal,
+          });
+          const imgBlob = await res.blob();
+          const key = url;
+          newImgBlobUrl[key] = URL.createObjectURL(imgBlob);
+
+          return imgBlob;
+        })
+      );
+      setImgBlobUrl((cur) => {
+        return { ...cur, ...newImgBlobUrl };
+      });
+      setImgLoading(false);
+    },
+
+    [isLoaded]
+  );
+
+  useEffect(() => {
+    const options = isDefault ? defaultOption : subOption;
+    if (!options) return;
+    const optionImages = options.map((option) => option.optionImage);
+    const abortController = new AbortController();
+
+    downloadAndSaveImages(optionImages, abortController);
+    return () => {
+      abortController.abort();
+    };
+  }, [
+    subOption,
+    defaultOption,
+    subOptionLoading,
+    defaultOptionLoading,
+    downloadAndSaveImages,
+    isDefault,
+  ]);
+
+  useEffect(() => {}, [imgLoading]);
+
+  const displayDataList = () => {
+    if (imgLoading) return;
+    return (
+      <>
+        {isDefault ? (
+          <DefaultOptionContainer
+            query={query}
+            setQuery={setQuery}
+            setResult={setResult}
+            imgBlobUrl={imgBlobUrl}
+          />
+        ) : (
+          <SubOptionContainer
+            query={query}
+            setQuery={setQuery}
+            setResult={setResult}
+            imgBlobUrl={imgBlobUrl}
+          />
+        )}
+      </>
+    );
   };
 
   return (
@@ -48,13 +143,10 @@ export default function OptionSelectContainer({
         />
       </Header>
 
-      {isDefault ? (
-        <DefaultOptionContainer query={query} setQuery={setQuery} setResult={setResult} />
-      ) : (
-        <SubOptionContainer query={query} setQuery={setQuery} setResult={setResult} />
-      )}
+      {imgLoading ? <Loading /> : displayDataList()}
     </Wrapper>
   );
+  2;
 }
 
 function CategoryItem({ active, ...props }: INavItem) {

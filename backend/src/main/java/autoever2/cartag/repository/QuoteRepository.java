@@ -2,6 +2,9 @@ package autoever2.cartag.repository;
 
 import autoever2.cartag.domain.quote.HistorySearchDto;
 import autoever2.cartag.domain.quote.HistoryShortDto;
+import autoever2.cartag.exception.EmptyDataException;
+import autoever2.cartag.exception.ErrorCode;
+import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -11,7 +14,10 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.StringTokenizer;
 
 @Repository
 public class QuoteRepository {
@@ -42,5 +48,34 @@ public class QuoteRepository {
 
     private RowMapper<HistoryShortDto> historyShortRowMapper() {
         return BeanPropertyRowMapper.newInstance(HistoryShortDto.class);
+    }
+
+    public List<Integer> findOptionListFromHistoryId(Long historyId) {
+        String sql = "select sold_options_id " +
+                "from SalesHistory " +
+                "where history_id = :historyId";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("historyId", historyId);
+
+        String optionIds = null;
+        try {
+            optionIds = template.queryForObject(sql, param, String.class);
+        } catch (DataAccessException e) {
+            throw new EmptyDataException(ErrorCode.INVALID_PARAMETER);
+        }
+
+        return mapToList(optionIds);
+
+    }
+
+    private List<Integer> mapToList(String optionIds) {
+        StringTokenizer token = new StringTokenizer(",");
+        List<Integer> optionIdList = new ArrayList<>();
+        while (token.hasMoreTokens()) {
+            optionIdList.add(Integer.parseInt(token.nextToken()));
+        }
+
+        return optionIdList;
     }
 }
