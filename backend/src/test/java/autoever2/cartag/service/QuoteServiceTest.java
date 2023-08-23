@@ -181,10 +181,10 @@ class QuoteServiceTest {
         when(carRepository.findTrimInfoByCarId(carId)).thenReturn(Optional.of(trimInfo));
 
         List<ModelDefaultDto> modelList = new ArrayList<>();
-        modelList.add(ModelDefaultDto.builder().modelId(1).modelName("디젤2.2").modelImage("/model/diesel2-2.jpg").modelTitle("파워트레인").modelPrice(12999L).build());
-        modelList.add(ModelDefaultDto.builder().modelId(3).modelName("2WD").modelImage("/model/2wd.png").modelTitle("구동방식").modelPrice(0L).build());
-        modelList.add(ModelDefaultDto.builder().modelId(5).modelName("7인승").modelImage("/model/7seats.jpg").modelTitle("바디 타입").modelPrice(9999L).build());
-        when(modelRepository.findModelListByModelId(1, 3, 5)).thenReturn(modelList);
+        modelList.add(ModelDefaultDto.builder().modelId(1).modelName("디젤2.2").modelImage("/model/diesel2-2.jpg").modelTypeName("파워트레인").modelPrice(12999L).build());
+        modelList.add(ModelDefaultDto.builder().modelId(3).modelName("2WD").modelImage("/model/2wd.png").modelTypeName("구동방식").modelPrice(0L).build());
+        modelList.add(ModelDefaultDto.builder().modelId(5).modelName("7인승").modelImage("/model/7seats.jpg").modelTypeName("바디 타입").modelPrice(9999L).build());
+        when(modelRepository.findAllModelListByModel(1, 3, 5)).thenReturn(modelList);
 
         OuterColorDto outerColor = OuterColorDto.builder().colorId(4).colorCarImage("red_*.jpg").colorPrice(1500L).colorImage("퍼플 펄").build();
 

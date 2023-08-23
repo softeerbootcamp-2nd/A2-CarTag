@@ -18,7 +18,7 @@ public class ModelService {
     private final CarRepository carRepository;
 
     public List<ModelShortDataDto> getModelTypeData(int carId) {
-        List<ModelShortMappedDto> modelData = modelRepository.findAllModelTypeData(carId);
+        List<ModelShortMappedDto> modelData = modelRepository.findAllModelTypeDataByCarId(carId);
         if (modelData.isEmpty()) {
             throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
         }
@@ -97,7 +97,7 @@ public class ModelService {
     }
 
     public ModelDetailMappedDto getModelDetail(int modelId) {
-        return modelRepository.findModelDetailData(modelId).orElseThrow(() -> new EmptyDataException(ErrorCode.DATA_NOT_EXISTS));
+        return modelRepository.findModelDetailDataMyModelId(modelId).orElseThrow(() -> new EmptyDataException(ErrorCode.DATA_NOT_EXISTS));
     }
 
     public ModelEfficiencyDataDto getEfficiencyData(int powerTrainId, int operationId) {

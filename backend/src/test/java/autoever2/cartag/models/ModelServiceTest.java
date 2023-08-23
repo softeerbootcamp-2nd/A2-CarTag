@@ -49,7 +49,6 @@ class ModelServiceTest {
                 .modelName("디젤 2.2")
                 .modelTypeId(1)
                 .modelPrice(0L)
-                .isDefaultModel(true)
                 .modelTypeName("파워트레인")
                 .modelBoughtCount(1800L)
                         .maxPs("202/3800")
@@ -62,7 +61,6 @@ class ModelServiceTest {
                 .modelName("가솔린 3.8")
                 .modelTypeId(1)
                 .modelPrice(280000L)
-                .isDefaultModel(false)
                 .modelTypeName("파워트레인")
                 .modelBoughtCount(1900L)
                 .maxKgfm("36.2/5200")
@@ -75,7 +73,6 @@ class ModelServiceTest {
                 .modelName("7인승")
                 .modelTypeId(3)
                 .modelPrice(0L)
-                .isDefaultModel(true)
                 .modelTypeName("바디타입")
                 .modelBoughtCount(900L)
                 .build());
@@ -86,7 +83,6 @@ class ModelServiceTest {
                 .modelName("8인승")
                 .modelTypeId(3)
                 .modelPrice(130000L)
-                .isDefaultModel(false)
                 .modelTypeName("바디타입")
                 .modelBoughtCount(800L)
                 .build());
@@ -97,7 +93,6 @@ class ModelServiceTest {
                 .modelName("2WD")
                 .modelTypeId(2)
                 .modelPrice(0L)
-                .isDefaultModel(true)
                 .modelTypeName("구동방식")
                 .modelBoughtCount(1200L)
                 .build());
@@ -108,7 +103,6 @@ class ModelServiceTest {
                 .modelName("4WD")
                 .modelTypeId(2)
                 .modelPrice(237000L)
-                .isDefaultModel(false)
                 .modelTypeName("구동방식")
                 .modelBoughtCount(200L)
                 .build());
@@ -116,7 +110,7 @@ class ModelServiceTest {
 
         int carId = 1;
         Long boughtCount = 2000L;
-        when(modelRepository.findAllModelTypeData(carId)).thenReturn(trimModelList);
+        when(modelRepository.findAllModelTypeDataByCarId(carId)).thenReturn(trimModelList);
         when(carRepository.findCarBoughtCountByCarId(carId)).thenReturn(Optional.of(2000L));
 
         //when
@@ -145,7 +139,7 @@ class ModelServiceTest {
 
         int modelId2 = 4;
 
-        when(modelRepository.findModelDetailData(modelId1)).thenReturn(Optional.of(model1));
+        when(modelRepository.findModelDetailDataMyModelId(modelId1)).thenReturn(Optional.of(model1));
 
         ModelDetailMappedDto result1 = modelService.getModelDetail(modelId1);
 

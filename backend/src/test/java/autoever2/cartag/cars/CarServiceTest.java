@@ -108,7 +108,7 @@ class CarServiceTest {
 
         softAssertions.assertThatThrownBy(() -> carService.getCarDefaultDtoByCarId(carId)).isInstanceOf(EmptyDataException.class);
 
-        when(modelRepository.findModelDefaultDtoByCarId(carId)).thenReturn(List.of(powerTrain, operation, bodyType));
+        when(modelRepository.findDefaultModelListByCarId(carId)).thenReturn(List.of(powerTrain, operation, bodyType));
 
         softAssertions.assertThat(carService.getCarDefaultDtoByCarId(carId)).usingRecursiveComparison().isEqualTo(expected);
     }

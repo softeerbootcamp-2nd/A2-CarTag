@@ -46,7 +46,7 @@ public class CarService {
     public CarDefaultDto getCarDefaultDtoByCarId(int carId) {
         List<OuterColorDto> outerColorList = colorRepository.findOuterColorCarByCarId(carId);
         List<InnerColorDto> innerColorList = colorRepository.findInnerColorCarByCarId(carId);
-        List<ModelDefaultDto> modelList = modelRepository.findModelDefaultDtoByCarId(carId);
+        List<ModelDefaultDto> modelList = modelRepository.findDefaultModelListByCarId(carId);
         if (outerColorList.isEmpty() || innerColorList.isEmpty() || modelList.isEmpty()) {
             throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
         }

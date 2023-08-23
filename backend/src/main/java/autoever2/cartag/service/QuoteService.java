@@ -142,7 +142,7 @@ public class QuoteService {
         List<Integer> optionIdList = quoteDataDto.getOptionIdList();
 
         Optional<TrimInfoDto> trimInfo = carRepository.findTrimInfoByCarId(carId);
-        List<ModelDefaultDto> modelInfos = modelRepository.findModelListByModelId(powerTrainId, bodyTypeId, operationId);
+        List<ModelDefaultDto> modelInfos = modelRepository.findAllModelListByModel(powerTrainId, operationId, bodyTypeId);
         Optional<InnerColorDto> innerColorInfo = colorRepository.findInnerColorByColorId(innerColorId);
         Optional<OuterColorDto> outerColorInfo = colorRepository.findOuterColorByColorId(outerColorId);
         List<QuoteSubOptionDto> optionInfos = new ArrayList<>();
