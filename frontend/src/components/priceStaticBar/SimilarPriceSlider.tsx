@@ -2,7 +2,7 @@ import { styled } from 'styled-components';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular3, BodyKrRegular5 } from '../../styles/typefaces';
 import { ChangeEvent, useContext } from 'react';
-import { HIGHEST_PRICE, TEN_THOUSAND_UNIT } from '../../utils/constants';
+import { HIGHEST_PRICE, HUNDRED_THOUSAND_UNIT, TEN_THOUSAND_UNIT } from '../../utils/constants';
 import { ItemContext } from '../../context/ItemProvider';
 interface ISimilarPriceSlider extends React.HTMLAttributes<HTMLDivElement> {
   isOverBudget: boolean;
@@ -32,7 +32,7 @@ export default function SimilarPriceSlider({
           min={selectedItem.trim.price}
           value={budget}
           onChange={handleChange}
-          step={100_000}
+          step={HUNDRED_THOUSAND_UNIT}
           $percent={percent}
           $isover={isOverBudget}
         />
