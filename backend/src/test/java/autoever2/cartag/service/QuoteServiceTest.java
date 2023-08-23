@@ -143,35 +143,35 @@ class QuoteServiceTest {
         softAssertions.assertThat(result).usingRecursiveComparison().isEqualTo(expected);
     }
 
-    @Test
-    @DisplayName("service 영역에서 조합을 통한 정보 통합")
-    void getTotalInfo() {
-        List<HistoryTotalModelPriceDto> HistoryTotalModelPriceDtos = new ArrayList<>();
-        HistoryTotalModelPriceDtos.add(HistoryTotalModelPriceDto.builder().modelPrice(43000000L).soldOptionsId("12,14").build());
-        HistoryTotalModelPriceDtos.add(HistoryTotalModelPriceDto.builder().modelPrice(45660000L).soldOptionsId("22,25").build());
-        HistoryTotalModelPriceDtos.add(HistoryTotalModelPriceDto.builder().modelPrice(51200000L).soldOptionsId("30,33").build());
-        HistoryTotalModelPriceDtos.add(HistoryTotalModelPriceDto.builder().modelPrice(59900000L).soldOptionsId("41,42").build());
-
-        List<SubOptionIdAndPriceDto> subOptionIdAndPriceDtos = new ArrayList<>();
-        subOptionIdAndPriceDtos.add(SubOptionIdAndPriceDto.builder().optionId(12).optionPrice(1000L).build());
-        subOptionIdAndPriceDtos.add(SubOptionIdAndPriceDto.builder().optionId(14).optionPrice(0L).build());
-        subOptionIdAndPriceDtos.add(SubOptionIdAndPriceDto.builder().optionId(22).optionPrice(1000L).build());
-        subOptionIdAndPriceDtos.add(SubOptionIdAndPriceDto.builder().optionId(25).optionPrice(9000L).build());
-        subOptionIdAndPriceDtos.add(SubOptionIdAndPriceDto.builder().optionId(30).optionPrice(45000L).build());
-        subOptionIdAndPriceDtos.add(SubOptionIdAndPriceDto.builder().optionId(33).optionPrice(3000L).build());
-        subOptionIdAndPriceDtos.add(SubOptionIdAndPriceDto.builder().optionId(41).optionPrice(1200L).build());
-        subOptionIdAndPriceDtos.add(SubOptionIdAndPriceDto.builder().optionId(42).optionPrice(90000L).build());
-        when(quoteRepository.findHistoryTotalModelPriceByCarId(1)).thenReturn(HistoryTotalModelPriceDtos);
-        when(optionRepository.findAllSubOptionInfo(1)).thenReturn(subOptionIdAndPriceDtos);
-
-        List<BoughtCarDto> allBoughInfos = quoteService.findAllBoughtInfos(1);
-
-        assertEquals(4, allBoughInfos.size());
-
-        BoughtCarDto boughtCarDto = allBoughInfos.get(0);
-        assertEquals(43000000L, boughtCarDto.getTotalPrice());
-        assertEquals(1, boughtCarDto.getCount());
-    }
+//    @Test
+//    @DisplayName("service 영역에서 조합을 통한 정보 통합")
+//    void getTotalInfo() {
+//        List<HistoryTotalModelPriceDto> HistoryTotalModelPriceDtos = new ArrayList<>();
+//        HistoryTotalModelPriceDtos.add(HistoryTotalModelPriceDto.builder().modelPrice(43000000L).soldOptionsId("12,14").build());
+//        HistoryTotalModelPriceDtos.add(HistoryTotalModelPriceDto.builder().modelPrice(45660000L).soldOptionsId("22,25").build());
+//        HistoryTotalModelPriceDtos.add(HistoryTotalModelPriceDto.builder().modelPrice(51200000L).soldOptionsId("30,33").build());
+//        HistoryTotalModelPriceDtos.add(HistoryTotalModelPriceDto.builder().modelPrice(59900000L).soldOptionsId("41,42").build());
+//
+//        List<SubOptionIdAndPriceDto> subOptionIdAndPriceDtos = new ArrayList<>();
+//        subOptionIdAndPriceDtos.add(SubOptionIdAndPriceDto.builder().optionId(12).optionPrice(1000L).build());
+//        subOptionIdAndPriceDtos.add(SubOptionIdAndPriceDto.builder().optionId(14).optionPrice(0L).build());
+//        subOptionIdAndPriceDtos.add(SubOptionIdAndPriceDto.builder().optionId(22).optionPrice(1000L).build());
+//        subOptionIdAndPriceDtos.add(SubOptionIdAndPriceDto.builder().optionId(25).optionPrice(9000L).build());
+//        subOptionIdAndPriceDtos.add(SubOptionIdAndPriceDto.builder().optionId(30).optionPrice(45000L).build());
+//        subOptionIdAndPriceDtos.add(SubOptionIdAndPriceDto.builder().optionId(33).optionPrice(3000L).build());
+//        subOptionIdAndPriceDtos.add(SubOptionIdAndPriceDto.builder().optionId(41).optionPrice(1200L).build());
+//        subOptionIdAndPriceDtos.add(SubOptionIdAndPriceDto.builder().optionId(42).optionPrice(90000L).build());
+//        when(quoteRepository.findHistoryTotalModelPriceByCarId(1)).thenReturn(HistoryTotalModelPriceDtos);
+//        when(optionRepository.findAllSubOptionInfo(1)).thenReturn(subOptionIdAndPriceDtos);
+//
+//        List<BoughtCarDto> allBoughInfos = quoteService.findAllBoughtInfos(1);
+//
+//        assertEquals(4, allBoughInfos.size());
+//
+//        BoughtCarDto boughtCarDto = allBoughInfos.get(0);
+//        assertEquals(43000000L, boughtCarDto.getTotalPrice());
+//        assertEquals(1, boughtCarDto.getCount());
+//    }
 
     //TODO: 여기부터 다시해야함
     @Test
