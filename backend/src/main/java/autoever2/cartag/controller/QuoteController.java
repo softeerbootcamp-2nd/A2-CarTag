@@ -2,7 +2,6 @@ package autoever2.cartag.controller;
 
 import autoever2.cartag.domain.quote.*;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
-import autoever2.cartag.cars.CarService;
 import autoever2.cartag.service.QuoteService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -43,7 +42,6 @@ public class QuoteController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = BoughtCarDto.class))),
     })
     @GetMapping("bought/infos")
-    @Cacheable(value = "boughtlist")
     public List<BoughtCarDto> getAllHistorySum(@RequestParam("carid") int carId) {
         return quoteService.findAllBoughtInfos(carId);
     }
