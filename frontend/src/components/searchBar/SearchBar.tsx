@@ -8,12 +8,19 @@ interface SearchBarProps extends React.HTMLAttributes<HTMLInputElement> {
   value: string;
   result: string[];
   setQuery: Dispatch<React.SetStateAction<string>>;
+  setResult: Dispatch<React.SetStateAction<string[]>>;
 }
 
 interface IKeyEvent {
   [key: string]: () => void;
 }
-export default function SearchBar({ value, result, setQuery, ...props }: SearchBarProps) {
+export default function SearchBar({
+  value,
+  result,
+  setQuery,
+  setResult,
+  ...props
+}: SearchBarProps) {
   const [focusIndex, setFocusIndex] = useState(-1);
   const listRef = useRef<HTMLUListElement>(null);
   const [visibleAutoBox, setVisibleAutoBox] = useState(true);
@@ -89,12 +96,12 @@ export default function SearchBar({ value, result, setQuery, ...props }: SearchB
 
   useEffect(() => {
     if (!value) {
+      setResult([]);
       setVisibleAutoBox(false);
       return;
     }
-
     setFocusIndex(-1);
-  }, [value, visibleAutoBox, result]);
+  }, [value, visibleAutoBox, result, setResult]);
 
   return (
     <Wrapper ref={searchBarRef}>

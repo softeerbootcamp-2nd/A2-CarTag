@@ -110,7 +110,6 @@ export default function SubOptionContainer({
   useEffect(() => {
     if (!filteredByCategory || !query) {
       setDisplayData(filteredByCategory);
-
       return;
     }
 
