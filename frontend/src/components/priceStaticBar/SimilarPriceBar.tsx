@@ -66,12 +66,15 @@ const PriceInfo = styled.span``;
 
 const StatusBox = styled.div<{ $isover: boolean }>`
   background: ${({ theme, $isover }) =>
-    $isover ? theme.color.primaryColor700 : 'rgba(0, 11, 25, 0.9)'};
+    $isover ? 'rgba(0, 11, 25, 0.9)' : theme.color.primaryColor700};
   min-width: 343px;
   padding: 8px 16px;
   border-radius: 10px;
   backdrop-filter: blur(3px);
   color: ${({ theme }) => theme.color.gray50};
+  ${PriceInfo} {
+    color: ${({ theme, $isover }) => ($isover ? theme.color.sand : theme.color.activeBlue2)};
+  }
   ${PriceInfo} {
     color: ${({ theme, $isover }) => ($isover ? theme.color.sand : theme.color.activeBlue2)};
   }
@@ -104,24 +107,23 @@ const InfoCaption = styled.div<{ $isover?: boolean }>`
   gap: 16px;
   color: ${({ theme, $isover }) => ($isover ? theme.color.sand : theme.color.activeBlue2)};
   ${BodyKrMedium5}
-  &:last-child {
-    color: white;
-  }
-`;
-
-const Info = styled.span`
-  display: flex;
-  gap: 4px;
 `;
 
 const Ellipse = styled.div<{ $isover: boolean }>`
   width: 8px;
   height: 8px;
   border-radius: 50%;
-
   background-color: ${({ theme, $isover }) =>
     $isover ? theme.color.sand : theme.color.activeBlue2};
+`;
+
+const Info = styled.span`
+  ${flexCenterCss}
+  gap: 4px;
   &:last-child {
-    background-color: white;
+    color: white;
+    ${Ellipse} {
+      background-color: white;
+    }
   }
 `;

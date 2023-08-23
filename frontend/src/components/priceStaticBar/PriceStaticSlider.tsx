@@ -3,9 +3,8 @@ import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular3, BodyKrRegular5 } from '../../styles/typefaces';
 import { ChangeEvent, useContext } from 'react';
 import { ItemContext } from '../../context/ItemProvider';
-import { HIGHEST_PRICE, TEN_THOUSAND_UNIT } from '../../utils/constants';
+import { HIGHEST_PRICE, HUNDRED_THOUSAND_UNIT, TEN_THOUSAND_UNIT } from '../../utils/constants';
 import { theme } from '../../styles/theme';
-
 interface ISlider extends React.HTMLAttributes<HTMLDivElement> {
   isOverBudget: boolean;
   budget: number;
@@ -33,7 +32,7 @@ export default function Slider({
           value={budget}
           onChange={handleChange}
           onMouseDown={stopEvent}
-          step={100_000}
+          step={HUNDRED_THOUSAND_UNIT}
           $percent={
             ((budget - selectedItem.trim.price) / (HIGHEST_PRICE - selectedItem.trim.price)) * 100
           }
@@ -56,7 +55,6 @@ export default function Slider({
     </PriceBarWrapper>
   );
 }
-
 const PriceBarWrapper = styled.div`
   padding-top: 28px;
   padding-bottom: 4px;
@@ -75,7 +73,6 @@ const MarkerSvgWrapper = styled.div`
   height: 100%;
   position: relative;
 `;
-
 const MarkerSvg = styled.svg<{ $isover: boolean; $percent: number }>`
   pointer-events: none;
   position: absolute;
@@ -86,7 +83,6 @@ const MarkerSvg = styled.svg<{ $isover: boolean; $percent: number }>`
   left: ${({ $percent }) => $percent}%;
   transform: translate(-50%, -50%);
 `;
-
 const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
   ({ type, min, value, onChange, step, $percent, $isover }) => ({
     style: {
@@ -100,7 +96,7 @@ const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
     },
     type: type,
     min: min,
-    max: HIGHEST_PRICE,
+    max: HIGHEST_PRICE + HUNDRED_THOUSAND_UNIT,
     value: value,
     onChange: onChange,
     step: step,
@@ -114,14 +110,12 @@ const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
   width: 100%;
   height: 6px;
   border-radius: 4px;
-
   &::-webkit-slider-runnable-track {
     cursor: pointer;
     width: 100%;
     height: 6px;
     border-radius: 4px;
   }
-
   &::-webkit-slider-thumb {
     cursor: pointer;
     width: 20px;
@@ -137,7 +131,6 @@ const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
 const BlueText = styled.span<{ $isover: boolean }>`
   color: ${({ theme, $isover }) => ($isover ? theme.color.sand : theme.color.activeBlue2)};
 `;
-
 const PriceInfo = styled.div<{ $isover: boolean }>`
   ${flexCenterCss};
   justify-content: space-between;

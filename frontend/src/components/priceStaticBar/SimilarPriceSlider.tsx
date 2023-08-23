@@ -2,9 +2,8 @@ import { styled } from 'styled-components';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular3, BodyKrRegular5 } from '../../styles/typefaces';
 import { ChangeEvent, useContext } from 'react';
-import { HIGHEST_PRICE, TEN_THOUSAND_UNIT } from '../../utils/constants';
+import { HIGHEST_PRICE, HUNDRED_THOUSAND_UNIT, TEN_THOUSAND_UNIT } from '../../utils/constants';
 import { ItemContext } from '../../context/ItemProvider';
-
 interface ISimilarPriceSlider extends React.HTMLAttributes<HTMLDivElement> {
   isOverBudget: boolean;
   budget: number;
@@ -33,7 +32,7 @@ export default function SimilarPriceSlider({
           min={selectedItem.trim.price}
           value={budget}
           onChange={handleChange}
-          step={100_000}
+          step={HUNDRED_THOUSAND_UNIT}
           $percent={percent}
           $isover={isOverBudget}
         />
@@ -58,21 +57,20 @@ export default function SimilarPriceSlider({
       <PriceInfo>
         <span>{selectedItem.trim.price / TEN_THOUSAND_UNIT}만원</span>
         <span>{HIGHEST_PRICE / TEN_THOUSAND_UNIT}만원</span>
+        <span>{selectedItem.trim.price / TEN_THOUSAND_UNIT}만원</span>
+        <span>{HIGHEST_PRICE / TEN_THOUSAND_UNIT}만원</span>
       </PriceInfo>
     </PriceBarWrapper>
   );
 }
-
 const PriceBarWrapper = styled.div`
   margin: 0px 4px;
   padding-top: 34px;
   padding-bottom: 8px;
 `;
-
 const BlueText = styled.span<{ $isover: boolean }>`
   color: ${({ theme, $isover }) => ($isover ? theme.color.sand : theme.color.activeBlue2)};
 `;
-
 const BudgetInfo = styled.div`
   ${BodyKrRegular3}
   position: absolute;
@@ -81,12 +79,10 @@ const BudgetInfo = styled.div`
   background-color: black;
   opacity: 0.9;
 `;
-
 const MarkerSvgWrapper = styled.div`
   height: 100%;
   position: relative;
 `;
-
 const MarkerSvg = styled.svg<{ $isover?: boolean; $percent: number }>`
   pointer-events: none;
   position: absolute;
@@ -97,11 +93,9 @@ const MarkerSvg = styled.svg<{ $isover?: boolean; $percent: number }>`
   left: ${({ $percent }) => $percent}%;
   transform: translate(-50%, -50%);
 `;
-
 const SimilarMarkerSvg = styled(MarkerSvg)`
   fill: white;
 `;
-
 const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
   ({ type, min, value, onChange, step }) => ({
     type: type,
@@ -120,15 +114,12 @@ const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
   width: 100%;
   height: 6px;
   border-radius: 4px;
-
   &::-webkit-slider-runnable-track {
-    cursor: pointer;
     width: 100%;
     height: 6px;
     border-radius: 4px;
   }
 `;
-
 const PriceInfo = styled.div`
   ${flexCenterCss};
   justify-content: space-between;
