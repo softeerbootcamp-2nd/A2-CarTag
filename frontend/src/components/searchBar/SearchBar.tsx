@@ -26,8 +26,8 @@ export default function SearchBar({
   const [visibleAutoBox, setVisibleAutoBox] = useState(true);
   const searchBarRef = useRef<HTMLDivElement>(null);
   const displayData = result.map((res, index) => (
-    <ListItem $focus={index === focusIndex}>
-      <AutoSearchData key={index}>{res}</AutoSearchData>
+    <ListItem key={index} $focus={index === focusIndex}>
+      <AutoSearchData>{res}</AutoSearchData>
       <IconBtn>
         <NorthWest active={index === focusIndex} />
       </IconBtn>
@@ -37,6 +37,7 @@ export default function SearchBar({
   const KeyEvent: IKeyEvent = {
     Enter: () => {
       focusIndex >= 0 ? setQuery(result[focusIndex]) : setQuery(value);
+      setResult([]);
       setVisibleAutoBox(false);
     },
     ArrowDown: () => {
@@ -101,7 +102,7 @@ export default function SearchBar({
       return;
     }
     setFocusIndex(-1);
-  }, [value, visibleAutoBox, result, setResult]);
+  }, [value, visibleAutoBox, setResult]);
 
   return (
     <Wrapper ref={searchBarRef}>
