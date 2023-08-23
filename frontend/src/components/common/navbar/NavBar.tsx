@@ -42,6 +42,7 @@ export default function NavBar() {
       <NavContainer $menuVisible={menuVisible}>
         <Body>
           <HyundaiLogo src={hyundaiLogo} alt="" />
+
           <CarSelect onClick={handleCarSelectClick}>
             <span>펠리세이드</span>
             {menuVisible ? (
@@ -50,6 +51,7 @@ export default function NavBar() {
               <ArrowDown fill={theme.color.primaryColor800} width={20} height={20} />
             )}
           </CarSelect>
+
           <NavList>
             <NavItem
               onClick={() => handleNavItemClick(PATH.trim)}
@@ -88,6 +90,7 @@ export default function NavBar() {
           </CancelButton>
         </Body>
       </NavContainer>
+
       <CarSelectContainer visible={menuVisible} />
     </Wrapper>
   );

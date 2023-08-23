@@ -55,15 +55,20 @@ export default function CarSelectContainer({ visible }: ICarSelectContainer) {
     </>
   );
 }
-
 const Wrapper = styled.div<{ $visible: boolean }>`
-  display: ${({ $visible }) => ($visible ? 'block' : 'none')};
   position: fixed;
   top: 60px;
   z-index: 99999999;
-  height: 220px;
+  height: ${({ $visible }) => ($visible ? '220px' : '0')};
   width: 100%;
   background-color: ${({ theme }) => theme.color.white};
+  display: block;
+  opacity: ${({ $visible }) => ($visible ? '1' : '0')};
+  overflow: hidden;
+  visibility: ${({ $visible }) => ($visible ? 'visible' : 'hidden')};
+  transition:
+    height 0.5s ease,
+    opacity 0.5s ease;
 `;
 
 const CetnerWrapper = styled(CenterWrapper)``;
