@@ -1,6 +1,5 @@
 package autoever2.cartag.repository;
 
-import autoever2.cartag.domain.model.*;
 import autoever2.cartag.models.ModelRepository;
 import autoever2.cartag.models.dto.ModelDefaultDto;
 import autoever2.cartag.models.dto.ModelDetailMappedDto;
