@@ -23,7 +23,10 @@ export default function Slider({
   return (
     <PriceBarWrapper {...props}>
       <MarkerSvgWrapper>
-        <Budget>예산: {budget / TEN_THOUSAND_UNIT}만</Budget>
+        <BudgetInfo>
+          내가 설정한 예산은&nbsp;
+          <BlueText $isover={isOverBudget}>{budget / TEN_THOUSAND_UNIT}만원</BlueText>이에요.
+        </BudgetInfo>
         <PriceBar
           type="range"
           min={selectedItem.trim.price}
@@ -59,11 +62,13 @@ const PriceBarWrapper = styled.div`
   padding-bottom: 4px;
   position: relative;
 `;
-const Budget = styled.span`
+const BudgetInfo = styled.div`
   ${BodyKrRegular3}
   position: absolute;
-  top: -25px;
+  top: -34px;
   right: 0px;
+  background-color: black;
+  opacity: 0.9;
 `;
 
 const MarkerSvgWrapper = styled.div`
@@ -128,6 +133,9 @@ const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
     border: 1px solid #fff;
     margin-top: -6px;
   }
+`;
+const BlueText = styled.span<{ $isover: boolean }>`
+  color: ${({ theme, $isover }) => ($isover ? theme.color.sand : theme.color.activeBlue2)};
 `;
 
 const PriceInfo = styled.div<{ $isover: boolean }>`

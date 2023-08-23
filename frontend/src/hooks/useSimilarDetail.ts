@@ -16,7 +16,9 @@ export default function useSimilarDetail(params: ISimilarQuoteIdList | null) {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    if (params === null) return;
+    if (params === null) {
+      return;
+    }
 
     const abortController = new AbortController();
     const fetchData = async (abortController: AbortController) => {

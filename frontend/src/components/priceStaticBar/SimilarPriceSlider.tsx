@@ -1,28 +1,33 @@
 import { styled } from 'styled-components';
 import { flexCenterCss } from '../../utils/commonStyle';
-import { BodyKrRegular5 } from '../../styles/typefaces';
+import { BodyKrRegular3, BodyKrRegular5 } from '../../styles/typefaces';
 import { ChangeEvent, useContext } from 'react';
 import { HIGHEST_PRICE, TEN_THOUSAND_UNIT } from '../../utils/constants';
 import { ItemContext } from '../../context/ItemProvider';
 
-interface INonameS extends React.HTMLAttributes<HTMLDivElement> {
+interface ISimilarPriceSlider extends React.HTMLAttributes<HTMLDivElement> {
   isOverBudget: boolean;
   budget: number;
+  similarPrice: number;
   percent: number;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 export default function SimilarPriceSlider({
   isOverBudget,
   budget,
+  similarPrice,
   percent,
   handleChange,
   ...props
-}: INonameS) {
+}: ISimilarPriceSlider) {
   const { totalPrice, selectedItem } = useContext(ItemContext);
-
   return (
     <PriceBarWrapper {...props}>
       <MarkerSvgWrapper>
+        <BudgetInfo>
+          내 차의 견적은 총&nbsp;
+          <BlueText $isover={isOverBudget}>{totalPrice / TEN_THOUSAND_UNIT}만원</BlueText>이에요.
+        </BudgetInfo>
         <PriceBar
           type="range"
           min={selectedItem.trim.price}
@@ -32,7 +37,12 @@ export default function SimilarPriceSlider({
           $percent={percent}
           $isover={isOverBudget}
         />
-        <SimilarMarkerSvg $percent={10}>
+        <SimilarMarkerSvg
+          $percent={
+            ((similarPrice - selectedItem.trim.price) / (HIGHEST_PRICE - selectedItem.trim.price)) *
+            100
+          }
+        >
           <path d="M3.625 22C3.625 22.4142 3.96079 22.75 4.375 22.75C4.78921 22.75 5.125 22.4142 5.125 22L3.625 22ZM4.375 8C6.58414 8 8.375 6.20914 8.375 4C8.375 1.79086 6.58414 0 4.375 0C2.16586 0 0.374999 1.79086 0.374999 4C0.374999 6.20914 2.16586 8 4.375 8ZM5.125 22L5.125 4L3.625 4L3.625 22L5.125 22Z" />
         </SimilarMarkerSvg>
         <MarkerSvg
@@ -57,6 +67,19 @@ const PriceBarWrapper = styled.div`
   margin: 0px 4px;
   padding-top: 34px;
   padding-bottom: 8px;
+`;
+
+const BlueText = styled.span<{ $isover: boolean }>`
+  color: ${({ theme, $isover }) => ($isover ? theme.color.sand : theme.color.activeBlue2)};
+`;
+
+const BudgetInfo = styled.div`
+  ${BodyKrRegular3}
+  position: absolute;
+  top: -34px;
+  right: 0px;
+  background-color: black;
+  opacity: 0.9;
 `;
 
 const MarkerSvgWrapper = styled.div`

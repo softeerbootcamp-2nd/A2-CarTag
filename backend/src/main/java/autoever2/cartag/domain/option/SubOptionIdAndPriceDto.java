@@ -9,8 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 public class SubOptionIdAndPriceDto {
+
     private int optionId;
     private Long optionPrice;
+
     @Builder
     public SubOptionIdAndPriceDto(int optionId, Long optionPrice) {
         this.optionId = optionId;

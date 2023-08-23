@@ -2,7 +2,7 @@ import { useSearchParams } from 'react-router-dom';
 import { SHARE_INFO_API } from '../utils/apis';
 import { useCallback, useEffect, useState } from 'react';
 
-interface ISharedInfo {
+export interface ISharedInfo {
   carId: number;
   trim: string;
   carDefaultPrice: number;

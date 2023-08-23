@@ -1,7 +1,7 @@
 package autoever2.cartag.integration;
 
-import autoever2.cartag.controller.CarController;
-import autoever2.cartag.domain.car.CarDefaultDto;
+import autoever2.cartag.cars.CarController;
+import autoever2.cartag.cars.dto.CarDefaultDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

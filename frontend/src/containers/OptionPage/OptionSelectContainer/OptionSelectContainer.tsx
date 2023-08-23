@@ -136,6 +136,7 @@ export default function OptionSelectContainer({
           value={query}
           result={result}
           setQuery={setQuery}
+          setResult={setResult}
           onChange={(e) => {
             handleInputChange(e.currentTarget.value);
           }}

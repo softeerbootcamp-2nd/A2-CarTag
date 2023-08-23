@@ -26,9 +26,13 @@ export default function ModelTypePage() {
 
   return (
     <>
-      <ModelBannerContainer />
-      <ModelSelectContainer />
-      <ModelFooterContainer />
+      {modelTypeData && !modelTypeLoading && (
+        <>
+          <ModelBannerContainer />
+          <ModelSelectContainer />
+          <ModelFooterContainer />
+        </>
+      )}
     </>
   );
 }

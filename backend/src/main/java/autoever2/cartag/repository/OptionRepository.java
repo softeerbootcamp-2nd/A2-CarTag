@@ -1,6 +1,6 @@
 package autoever2.cartag.repository;
 
-import autoever2.cartag.domain.car.TrimDefaultOptionDto;
+import autoever2.cartag.domain.option.TrimDefaultOptionDto;
 import autoever2.cartag.domain.option.OptionDetailMappedDto;
 import autoever2.cartag.domain.option.OptionShortMappedDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
@@ -135,9 +135,15 @@ public class OptionRepository {
         }
     }
 
-    public List<SubOptionIdAndPriceDto> findAllSubOptionInfo() {
-        String sql = "select option_id, option_price from SubOptionData";
-        return template.query(sql, subOptionIdAndPriceRowMapper());
+    public List<SubOptionIdAndPriceDto> findAllSubOptionInfo(int carId) {
+        String sql = "select option_id, option_price " +
+                "from SubOptionData " +
+                "where car_id = :carId";
+
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("carId", carId);
+
+        return template.query(sql, param, subOptionIdAndPriceRowMapper());
     }
 
     private RowMapper<SubOptionIdAndPriceDto> subOptionIdAndPriceRowMapper() {

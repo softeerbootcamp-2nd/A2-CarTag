@@ -127,7 +127,7 @@ export default function SimilarQuoteModal({ ...props }: ISimilarQuoteModal) {
               <br />내 견적과 해시태그 유사도가 높은 다른 사람들의 실제 출고 견적이에요.
             </DescText>
           </TextWrapper>
-          <SimilarPriceBar />
+          <SimilarPriceBar similarPrice={50_000_000} />
         </InfoWrapper>
         <CardWrapper>
           <LeftButton onClick={handlePrevPage}>
@@ -160,9 +160,9 @@ export default function SimilarQuoteModal({ ...props }: ISimilarQuoteModal) {
             <ArrowRight fill={theme.color.gray200} />
           </RightButton>
         </CardWrapper>
-        <OkButtn type={'price'} onClick={handleOkButton}>
+        <OkButton type={'price'} onClick={handleOkButton}>
           옵션 선택하기
-        </OkButtn>
+        </OkButton>
       </Modal>
     </DimmedBackground>
   );
@@ -223,8 +223,7 @@ const CardWrapper = styled.div`
   margin-top: 25px;
   border: 1px solid ${({ theme }) => theme.color.skyBlue};
   border-radius: 2px;
-  padding-left: 30px;
-  padding-right: 30px;
+  padding-left: 0 30px;
 `;
 
 const CarInfo = styled.div`
@@ -318,7 +317,7 @@ const ImgWrapper = styled.img`
   height: 156px;
 `;
 
-const OkButtn = styled(RectButton)`
+const OkButton = styled(RectButton)`
   position: absolute;
   bottom: 0;
   left: 0;

@@ -14,7 +14,7 @@ export default function GuideModal({ ...props }: IGuideModal) {
   const hmgDataBgRef = useRef<HTMLDivElement>(null);
   const { visible, setVisible } = useContext(GuideModalContext);
   const { pathname } = useLocation();
-
+  const isSelectedTrim = localStorage.getItem('isSelectedTrim');
   const stopEvent: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation();
   };
@@ -23,7 +23,10 @@ export default function GuideModal({ ...props }: IGuideModal) {
     if (!(pathname === PATH.home || pathname === PATH.trim)) {
       setVisible(false);
     }
-  }, [pathname, setVisible]);
+    if (isSelectedTrim && isSelectedTrim === 'true') {
+      setVisible(false);
+    }
+  }, [pathname, setVisible, isSelectedTrim]);
 
   return (
     <DimmedBackground $displayDimmed={visible} {...props}>

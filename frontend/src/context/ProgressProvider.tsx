@@ -1,4 +1,4 @@
-import { Dispatch, ReactNode, SetStateAction, createContext, useState } from 'react';
+import { Dispatch, ReactNode, SetStateAction, createContext, useEffect, useState } from 'react';
 
 interface IProgressProvider {
   children: ReactNode;
@@ -23,6 +23,12 @@ export default function TrimProvider({ children }: IProgressProvider) {
     nextStepAvailable,
     setNextStepAvailable,
   };
-
+  useEffect(() => {
+    const isSelectedTrim = localStorage.getItem('isSelectedTrim');
+    if (isSelectedTrim && isSelectedTrim === 'true') setNextStepAvailable(true);
+  }, []);
+  useEffect(() => {
+    localStorage.setItem('isSelectedTrim', nextStepAvailable.toString());
+  }, [nextStepAvailable]);
   return <ProgressContext.Provider value={providerValue}>{children}</ProgressContext.Provider>;
 }

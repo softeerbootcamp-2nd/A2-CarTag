@@ -62,7 +62,7 @@ const InfoWrapper = styled.div`
   position: absolute;
   top: 72px;
   width: 448px;
-  overflow-x: hidden;
+  overflow: hidden;
 `;
 
 const SubTitle = styled.p`

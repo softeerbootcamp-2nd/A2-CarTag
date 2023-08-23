@@ -1,11 +1,14 @@
-package autoever2.cartag.integration;
+package autoever2.cartag.cars;
 
-import autoever2.cartag.controller.CarController;
-import autoever2.cartag.domain.car.CarDto;
-import autoever2.cartag.domain.car.CarTypeDto;
+import autoever2.cartag.cars.dto.CarVo;
+import autoever2.cartag.cars.dto.CarTypeDto;
 import autoever2.cartag.exception.EmptyDataException;
+import org.assertj.core.api.SoftAssertions;
+import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
+import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
@@ -22,21 +25,24 @@ import static org.junit.jupiter.api.Assertions.*;
 @Transactional
 @ActiveProfiles("test")
 @Sql(scripts = {"classpath:/insert/insertCar-h2.sql"})
+@DisplayName("Integration: Car")
+@ExtendWith(SoftAssertionsExtension.class)
 public class CarTest {
     @Autowired
     CarController controller;
 
+    @InjectSoftAssertions
+    private SoftAssertions softAssertions;
+
     @Test
     @DisplayName("/api/cars/types?cartype=1 통합테스트")
     void testCarTypes() {
-        List<CarDto> cars = controller.carTrimInfo(1);
-        assertEquals("Le Blanc", cars.get(0).getTrim());
-        assertEquals(40000000, cars.get(1).getCarDefaultPrice());
-        assertEquals("image_1", cars.get(2).getOuterImage());
-        assertEquals("image_2", cars.get(3).getInnerImage());
-        assertThrows(EmptyDataException.class, () -> {
-            controller.carTrimInfo(100);
-        });
+        List<CarVo> cars = controller.carTrimInfo(1);
+        softAssertions.assertThat(cars.get(0).getTrim()).isEqualTo("Le Blanc");
+        softAssertions.assertThat(cars.get(1).getCarDefaultPrice()).isEqualTo(40000000);
+        softAssertions.assertThat(cars.get(2).getOuterImage()).isEqualTo("image_1");
+        softAssertions.assertThat(cars.get(3).getInnerImage()).isEqualTo("image_2");
+        softAssertions.assertThatThrownBy(() -> controller.carTrimInfo(100)).isInstanceOf(EmptyDataException.class);
     }
 
     @Test

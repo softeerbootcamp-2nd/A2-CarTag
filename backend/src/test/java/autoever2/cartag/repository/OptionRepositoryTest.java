@@ -1,6 +1,6 @@
 package autoever2.cartag.repository;
 
-import autoever2.cartag.domain.car.TrimDefaultOptionDto;
+import autoever2.cartag.domain.option.TrimDefaultOptionDto;
 import autoever2.cartag.domain.option.OptionDetailMappedDto;
 import autoever2.cartag.domain.option.OptionShortMappedDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
@@ -261,7 +261,7 @@ class OptionRepositoryTest {
     @Test
     @DisplayName("모든 subOptionData를 추출")
     void findAllSubOptionInfos(){
-        List<SubOptionIdAndPriceDto> allSubOptionInfo = optionRepository.findAllSubOptionInfo();
+        List<SubOptionIdAndPriceDto> allSubOptionInfo = optionRepository.findAllSubOptionInfo(1);
         assertEquals(6, allSubOptionInfo.size());
 
         SubOptionIdAndPriceDto subOptionIdAndPriceDto = allSubOptionInfo.get(0);

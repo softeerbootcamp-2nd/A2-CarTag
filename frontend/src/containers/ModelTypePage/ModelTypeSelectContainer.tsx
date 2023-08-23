@@ -93,14 +93,14 @@ export default function ModelTypelSelectContainer() {
               <TypeTitle>{modelType[2].modelTypeName}</TypeTitle>
               <ModelTypeSection>
                 <ModelTypeCardWrapper>
-                  {[modelType[2], modelType[3]].map((bodyType) => (
+                  {[modelType[2], modelType[3]].map((operation) => (
                     <ModelTypeCard
-                      key={bodyType.modelId}
-                      onClick={() => handleSelectedOperation(bodyType.modelId)}
-                      active={isActive(bodyType.modelTypeName, bodyType.modelId)}
-                      percentage={bodyType.percentage}
-                      title={bodyType.modelName}
-                      price={bodyType.modelPrice}
+                      key={operation.modelId}
+                      onClick={() => handleSelectedOperation(operation.modelId)}
+                      active={isActive(operation.modelTypeName, operation.modelId)}
+                      percentage={operation.percentage}
+                      title={operation.modelName}
+                      price={operation.modelPrice}
                     />
                   ))}
                 </ModelTypeCardWrapper>
@@ -111,14 +111,14 @@ export default function ModelTypelSelectContainer() {
               <TypeTitle>{modelType[4].modelTypeName}</TypeTitle>
               <ModelTypeSection>
                 <ModelTypeCardWrapper>
-                  {[modelType[4], modelType[5]].map((operation) => (
+                  {[modelType[4], modelType[5]].map((bodyType) => (
                     <ModelTypeCard
-                      key={operation.modelId}
-                      onClick={() => handleSelectedBodyType(operation.modelId)}
-                      active={isActive(operation.modelTypeName, operation.modelId)}
-                      percentage={operation.percentage}
-                      title={operation.modelName}
-                      price={operation.modelPrice}
+                      key={bodyType.modelId}
+                      onClick={() => handleSelectedBodyType(bodyType.modelId)}
+                      active={isActive(bodyType.modelTypeName, bodyType.modelId)}
+                      percentage={bodyType.percentage}
+                      title={bodyType.modelName}
+                      price={bodyType.modelPrice}
                     />
                   ))}
                 </ModelTypeCardWrapper>

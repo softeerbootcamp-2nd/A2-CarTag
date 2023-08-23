@@ -125,9 +125,9 @@ export default function QuoteSummaryModal({ ...props }: IQuoteSummaryModal) {
 function Detail({ title, name, price }: IDetail) {
   return (
     <DetailWrapper>
-      <DetailTitle>{title}</DetailTitle>
-      <DetailName>{name}</DetailName>
-      <DetailPrice>+ {price.toLocaleString()} 원</DetailPrice>
+      {title && <DetailTitle>{title}</DetailTitle>}
+      {name && <DetailName>{name}</DetailName>}
+      {price && <DetailPrice>+ {price.toLocaleString()} 원</DetailPrice>}
     </DetailWrapper>
   );
 }
