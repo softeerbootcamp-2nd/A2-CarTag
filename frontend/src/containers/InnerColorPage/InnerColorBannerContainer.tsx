@@ -1,27 +1,19 @@
 import { styled } from 'styled-components';
 import Banner from '../../components/common/banner/Banner';
 import { useContext } from 'react';
-import { InnerColorContext } from '../../context/InnerColorProvider';
 import { IMG_URL } from '../../utils/apis';
-import Loading from '../../components/loading/Loading';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { ItemContext } from '../../context/ItemProvider';
 
 export default function InnerColorBannerContainer() {
-  const { data: innerColorData } = useContext(InnerColorContext);
   const { selectedItem } = useContext(ItemContext);
-  const idx = selectedItem.innerColor.id - 1;
-  const imgSrc = innerColorData && innerColorData[idx].colorCarImage;
+  const imgSrc = selectedItem.innerColor.carImgSrc;
 
   return (
     <Wrapper>
-      {innerColorData ? (
-        <InnerColorBanner subtitle={'내장색상'} title={innerColorData[idx].colorName}>
-          <Img src={`${IMG_URL}${imgSrc}`} />
-        </InnerColorBanner>
-      ) : (
-        <Loading />
-      )}
+      <InnerColorBanner subtitle={'내장색상'} title={selectedItem.innerColor.name}>
+        <Img src={`${IMG_URL}${imgSrc}`} />
+      </InnerColorBanner>
     </Wrapper>
   );
 }

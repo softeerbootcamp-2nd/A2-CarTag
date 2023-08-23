@@ -22,11 +22,15 @@ export default function InnerColorPage() {
 
   return (
     <>
-      <Wrapper>
-        <InnerColorBannerContainer />
-        <InnerColorSelectContainer />
-      </Wrapper>
-      <InnerColorFooterContainer />
+      {innerColorData && (
+        <>
+          <Wrapper>
+            <InnerColorBannerContainer />
+            <InnerColorSelectContainer />
+          </Wrapper>
+          <InnerColorFooterContainer />s
+        </>
+      )}
     </>
   );
 }
