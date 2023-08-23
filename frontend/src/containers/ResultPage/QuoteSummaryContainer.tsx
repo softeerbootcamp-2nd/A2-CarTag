@@ -1,11 +1,28 @@
 import { styled } from 'styled-components';
 import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import { BodyKrMedium3, BodyKrRegular4, HeadingKrBold1 } from '../../styles/typefaces';
-import { useContext } from 'react';
+import { useContext, useEffect } from 'react';
 import { ItemContext } from '../../context/ItemProvider';
+import { useEfficiencyData } from '../../hooks/useEfficiencyData';
 
 export default function QuoteSummaryContainer() {
-  const { selectedItem } = useContext(ItemContext);
+  const { selectedItem, setSelectedItem } = useContext(ItemContext);
+
+  const { data, loading } = useEfficiencyData({
+    powerTrainId: selectedItem.modelType.powerTrain.id,
+    operationId: selectedItem.modelType.operation.id,
+  });
+
+  useEffect(() => {
+    if (!data || loading) return;
+    setSelectedItem({
+      type: 'SET_EFFICIENCY',
+      value: {
+        averageFuel: data.averageFuel,
+        displacement: data.displacement,
+      },
+    });
+  }, [data, loading, setSelectedItem]);
 
   return (
     <Wrapper>
