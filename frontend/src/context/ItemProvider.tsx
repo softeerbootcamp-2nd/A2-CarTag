@@ -1,4 +1,4 @@
-import { ReactNode, createContext, useCallback, useEffect, useReducer, useState } from 'react';
+import { ReactNode, createContext, useEffect, useReducer, useState } from 'react';
 import itemReducer, { actionType } from '../reducer/itemReducer';
 import { OUTER_COLOR_FIRST_IDX } from '../utils/constants';
 import { SHARE_INFO_API } from '../utils/apis';
@@ -133,25 +133,11 @@ export default function ItemProvider({ children }: IItemProvider) {
   const [data, setData] = useState<ISharedInfo | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
-  const isSelectedTrim = localStorage.getItem('isSelectedTrim');
-  const savedItem = localStorage.getItem('selectedItem');
-  const getParams = useCallback(() => {
-    if (!isSelectedTrim || !savedItem || isSelectedTrim === 'false') return;
-    const params = {
-      carId: JSON.parse(savedItem).trimId,
-      powerTrainId: JSON.parse(savedItem).modelTypeId.powerTrain,
-      bodyTypeId: JSON.parse(savedItem).modelTypeId.bodyType,
-      operationId: JSON.parse(savedItem).modelTypeId.operation,
-      outerColorId: JSON.parse(savedItem).outerColorId,
-      innerColorId: JSON.parse(savedItem).innerColorId,
-      optionIdList: JSON.parse(savedItem).optionId ? JSON.parse(savedItem).optionId : [],
-    };
-    return params;
-  }, [isSelectedTrim, savedItem]);
 
   useEffect(() => {
-    if (!isSelectedTrim || !savedItem || isSelectedTrim === 'false') return;
-    const params = getParams();
+    const isSelectedTrim = localStorage.getItem('isSelectedTrim');
+    const params = localStorage.getItem('params');
+    if (!isSelectedTrim || !params || isSelectedTrim === 'false') return;
     const fetchData = async () => {
       try {
         const res = await fetch(SHARE_INFO_API, {
@@ -159,9 +145,10 @@ export default function ItemProvider({ children }: IItemProvider) {
           headers: {
             'Content-Type': 'application/json',
           },
-          body: JSON.stringify(params),
+          body: params,
         });
         const jsonData = await res.json();
+
         setData(jsonData);
       } catch (e) {
         setError(e as Error);
@@ -170,7 +157,7 @@ export default function ItemProvider({ children }: IItemProvider) {
       }
     };
     fetchData();
-  }, [getParams, isSelectedTrim, savedItem]);
+  }, []);
 
   const [selectedItem, setSelectedItem] = useReducer(itemReducer, initialSelectedItem);
   const [totalPrice, setTotalPrice] = useState<number>(0);
@@ -184,18 +171,20 @@ export default function ItemProvider({ children }: IItemProvider) {
     const optionsPrice = selectedItem.options.reduce((acc, option) => acc + option.price, 0);
     const total = trimPrice + modelTypePrice + outerColorPrice + innerColorPrice + optionsPrice;
     setTotalPrice(total);
+    const powerTrainId = powerTrain.id;
+    const bodyTypeId = bodyType.id;
+    const operationId = operation.id;
+    const optionIds = selectedItem.options.map((option) => option.id);
     const savedId = {
-      trimId: trimId,
-      modelTypeId: {
-        powerTrain: powerTrain.id,
-        bodyType: bodyType.id,
-        operation: operation.id,
-      },
+      carId: trimId,
+      powerTrainId,
+      bodyTypeId,
+      operationId,
       outerColorId: outerColorId,
       innerColorId: innerColorId,
-      optionId: selectedItem.options.map((option) => option.id),
+      optionIdList: optionIds ? optionIds : [],
     };
-    localStorage.setItem('selectedItem', JSON.stringify(savedId));
+    localStorage.setItem('params', JSON.stringify(savedId));
   }, [selectedItem]);
 
   useEffect(() => {
@@ -277,6 +266,7 @@ export default function ItemProvider({ children }: IItemProvider) {
       value: options,
     });
   }, [data, error, loading]);
+
   return (
     <ItemContext.Provider
       value={{
