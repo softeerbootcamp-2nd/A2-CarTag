@@ -6,7 +6,7 @@ import autoever2.cartag.domain.color.OuterColorDto;
 import autoever2.cartag.domain.color.OuterColorPercentDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.exception.ErrorCode;
-import autoever2.cartag.repository.CarRepository;
+import autoever2.cartag.cars.CarRepository;
 import autoever2.cartag.repository.ColorRepository;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
