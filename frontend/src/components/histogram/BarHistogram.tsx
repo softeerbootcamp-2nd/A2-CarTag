@@ -29,11 +29,6 @@ export default function BarHistogram() {
     loading: quoteListLoading,
   } = useQuoteListData<IQuote | null>(selectedItem);
 
-  if (quoteListError) {
-    console.log('유사견적  에러처리');
-    return <ErrorModal message={quoteListError.message} />;
-  }
-
   const getMaxSoldCount = (quoteListData: IQuote) => {
     const soldCountList = [];
     soldCountList.push(quoteListData.soldCount);
@@ -54,6 +49,7 @@ export default function BarHistogram() {
     const { historyId, soldCount } = quote;
     const maxSoldCount = getMaxSoldCount(quoteListData);
     const percentage = (soldCount / maxSoldCount) * 100;
+
     return (
       <BarItem key={historyId}>
         <BarValue>{soldCount}대</BarValue>
@@ -64,6 +60,11 @@ export default function BarHistogram() {
   });
 
   const hasSimilarQuote = !similarQuote?.every((quote) => quote === undefined);
+  console.log('2');
+
+  if (quoteListError) {
+    return <ErrorModal message={quoteListError.message} />;
+  }
 
   return (
     <HistogramWrapper>
@@ -83,7 +84,7 @@ export default function BarHistogram() {
         ) : (
           <BarChart>
             <BarItem $active={true}>
-              <BarValue>{myQuoteSoldCount}</BarValue>
+              <BarValue>{myQuoteSoldCount}대</BarValue>
               <Bar $height={`${myQuoteSoldPercent}%`} $active={true}></Bar>
               <BarItemName>내 견적</BarItemName>
             </BarItem>

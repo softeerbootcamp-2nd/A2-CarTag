@@ -90,7 +90,9 @@ export default function useSharedInfo() {
           },
           body: JSON.stringify(params),
         });
-
+        if (!res.ok) {
+          throw new Error(`Server response was not ok: ${res.status}`);
+        }
         const jsonData = await res.json();
         setData(jsonData);
       } catch (e) {

@@ -37,9 +37,13 @@ export default function useQuoteListData<T>(selectedItem: ISelectedItem) {
           body: JSON.stringify(params),
           signal: abortController.signal,
         });
+        if (!res.ok) {
+          throw new Error(`Server response was not ok: ${res.status}`);
+        }
         const data = await res.json();
         setData(data);
       } catch (err) {
+        console.log('에러 발생했는데?');
         setError(err as Error);
       } finally {
         setLoading(false);
