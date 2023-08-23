@@ -30,7 +30,7 @@ public class ModelController {
     @ApiResponse(responseCode = "200", description = "성공", content = {
                     @Content(array = @ArraySchema(schema = @Schema(implementation = ModelShortDataDto.class)))})
     @GetMapping("/list")
-    public List<ModelShortDataDto> getTrimModelType(@Parameter(description = "트림 ID") @RequestParam("carid") int carId) {
+    public List<ModelShortDataDto> getModelList(@Parameter(description = "트림 ID") @RequestParam("carid") int carId) {
         return modelTypeService.getModelTypeData(carId);
     }
 
@@ -44,7 +44,7 @@ public class ModelController {
     @Operation(summary = "효율 HMG 데이터를 조회하는 API", description = "파워트레인과 구동방식이 선택되었을 때 효율(연비 등) HMG 데이터를 반환하는 API입니다.")
     @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = ModelEfficiencyDataDto.class)))
     @GetMapping("/hmg-efficiency")
-    public ModelEfficiencyDataDto getPowerTrainData(@Parameter(description = "파워트레인 ID") @RequestParam("powertrain") int powerTrainId, @Parameter(description = "구동방식 ID") @RequestParam("operation") int operationId) {
+    public ModelEfficiencyDataDto getEfficiencyHmgData(@Parameter(description = "파워트레인 ID") @RequestParam("powertrain") int powerTrainId, @Parameter(description = "구동방식 ID") @RequestParam("operation") int operationId) {
         return modelTypeService.getEfficiencyData(powerTrainId, operationId);
     }
 }

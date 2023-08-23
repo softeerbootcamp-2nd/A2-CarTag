@@ -1,5 +1,5 @@
 insert into CarType (car_type_id, car_type_image, car_type_name) values (1, '/cartype/palisade/palisade-thumbnail.png',	'팰리세이드');
-insert into Car values (1, 1, '르블랑', 41980000, '/cartype/palisade/leblanc-outer.png', '/cartype/palisade/palisade-inner.png', '/cartype/palisade/leblanc-wheel.png', 150000, '합리적인 조합의 절정');
+insert into Car values (1, 1, '르블랑', 40000000, '/cartype/palisade/leblanc-outer.png', '/cartype/palisade/palisade-inner.png', '/cartype/palisade/leblanc-wheel.png', 2000, '합리적인 조합의 절정');
 
 insert into ModelType (model_type_id, model_type_name) VALUES (1, '파워트레인');
 insert into ModelType (model_type_id, model_type_name) VALUES (2, '구동방식');
