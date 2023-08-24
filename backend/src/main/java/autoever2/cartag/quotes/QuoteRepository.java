@@ -1,11 +1,10 @@
 package autoever2.cartag.quotes;
 
-import autoever2.cartag.quotes.dtos.HistoryTotalModelPriceDto;
-import autoever2.cartag.quotes.dtos.HistorySearchDto;
+import autoever2.cartag.quotes.dtos.QuoteModelPriceDto;
+import autoever2.cartag.quotes.dtos.QuoteSearchDto;
 import autoever2.cartag.quotes.dtos.HistoryShortDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.exception.ErrorCode;
-import org.springframework.dao.DataAccessException;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -15,10 +14,10 @@ import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.stereotype.Repository;
 
 import javax.sql.DataSource;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.StringTokenizer;
+
+import static autoever2.cartag.parser.OptionStringParser.parseOptionId;
 
 @Repository
 public class QuoteRepository {
@@ -29,11 +28,10 @@ public class QuoteRepository {
         this.template = new NamedParameterJdbcTemplate(dataSource);
     }
 
-    public Optional<HistoryShortDto> findShortData(HistorySearchDto historySearchDto) {
+    public Optional<HistoryShortDto> findShortQuoteDataBySearchDto(QuoteSearchDto historySearchDto) {
         String sql = "select sh.history_id, sh.sold_count, sh.sold_options_id " +
                 "from SalesHistory sh " +
-                "inner join HistoryModelMapper hm " +
-                "on hm.history_id = sh.history_id " +
+                "inner join HistoryModelMapper hm on hm.history_id = sh.history_id " +
                 "where sh.car_id = :carId and sh.sold_options_id = :optionIds and hm.model_id in (:powerTrainId, :bodyTypeId, :operationId) " +
                 "group by sh.history_id having count(hm.model_id) = 3";
 
@@ -47,40 +45,7 @@ public class QuoteRepository {
         return Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, historyShortRowMapper())));
     }
 
-    private RowMapper<HistoryShortDto> historyShortRowMapper() {
-        return BeanPropertyRowMapper.newInstance(HistoryShortDto.class);
-    }
-
-    public List<Integer> findOptionListFromHistoryId(Long historyId) {
-        String sql = "select sold_options_id " +
-                "from SalesHistory " +
-                "where history_id = :historyId";
-
-        SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("historyId", historyId);
-
-        String optionIds = null;
-        try {
-            optionIds = template.queryForObject(sql, param, String.class);
-        } catch (DataAccessException e) {
-            throw new EmptyDataException(ErrorCode.INVALID_PARAMETER);
-        }
-
-        return mapToList(optionIds);
-
-    }
-
-    private List<Integer> mapToList(String optionIds) {
-        StringTokenizer token = new StringTokenizer(optionIds, ",");
-        List<Integer> optionIdList = new ArrayList<>();
-        while (token.hasMoreTokens()) {
-            optionIdList.add(Integer.parseInt(token.nextToken()));
-        }
-
-        return optionIdList;
-    }
-
-    public List<HistoryTotalModelPriceDto> findHistoryTotalModelPriceByCarId(int carId) {
+    public List<QuoteModelPriceDto> findQuoteTotalModelPriceByCarId(int carId) {
         String sql = "select sh.sold_options_id, sh.sold_count, sum(m.model_price) as modelPrice " +
                 "from SalesHistory sh " +
                 "inner join HistoryModelMapper hm on sh.history_id = hm.history_id " +
@@ -88,13 +53,28 @@ public class QuoteRepository {
                 "where car_id = :carId " +
                 "group by sh.history_id";
 
-        SqlParameterSource param = new MapSqlParameterSource()
-                .addValue("carId", carId);
+        SqlParameterSource param = new MapSqlParameterSource().addValue("carId", carId);
 
         return template.query(sql, param, carPriceRowMapper());
     }
 
-    private RowMapper<HistoryTotalModelPriceDto> carPriceRowMapper() {
-        return BeanPropertyRowMapper.newInstance(HistoryTotalModelPriceDto.class);
+    public List<Integer> findOptionListFromHistoryId(Long historyId) {
+        String sql = "select sold_options_id " +
+                "from SalesHistory " +
+                "where history_id = :historyId";
+
+        SqlParameterSource param = new MapSqlParameterSource().addValue("historyId", historyId);
+
+        Optional<String> result = Optional.ofNullable(DataAccessUtils.singleResult(template.query(sql, param, (rs, idx) -> rs.getString("sold_options_id"))));
+
+        return parseOptionId(result.orElseThrow(() -> new EmptyDataException(ErrorCode.INVALID_PARAMETER)));
+    }
+
+    private RowMapper<HistoryShortDto> historyShortRowMapper() {
+        return BeanPropertyRowMapper.newInstance(HistoryShortDto.class);
+    }
+
+    private RowMapper<QuoteModelPriceDto> carPriceRowMapper() {
+        return BeanPropertyRowMapper.newInstance(QuoteModelPriceDto.class);
     }
 }
