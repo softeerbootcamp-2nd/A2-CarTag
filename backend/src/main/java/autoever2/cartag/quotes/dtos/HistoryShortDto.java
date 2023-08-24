@@ -21,7 +21,6 @@ public class HistoryShortDto {
     List<HistoryShortDto> histories;
 
     @Builder
-    @ConstructorProperties({"historyId", "soldCount", "histories"})
     public HistoryShortDto(Long historyId, int soldCount, List<HistoryShortDto> histories) {
         this.historyId = historyId;
         this.soldCount = soldCount;

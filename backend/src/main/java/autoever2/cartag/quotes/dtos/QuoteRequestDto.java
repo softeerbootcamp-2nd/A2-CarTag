@@ -3,6 +3,7 @@ package autoever2.cartag.quotes.dtos;
 import lombok.*;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Getter
@@ -27,5 +28,18 @@ public class QuoteRequestDto {
         this.innerColorId = innerColorId;
         this.optionIdList = new ArrayList<>();
         this.optionIdList.addAll(optionIdList);
+    }
+
+    @Override
+    public String toString() {
+        return "QuoteRequestDto{" +
+                "carId=" + carId +
+                ", powerTrainId=" + powerTrainId +
+                ", bodyTypeId=" + bodyTypeId +
+                ", operationId=" + operationId +
+                ", outerColorId=" + outerColorId +
+                ", innerColorId=" + innerColorId +
+                ", optionIdList=" + Arrays.toString(optionIdList.toArray()) +
+                '}';
     }
 }
