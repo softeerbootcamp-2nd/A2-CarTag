@@ -44,7 +44,7 @@ const Item = styled.li`
 const Img = styled.img`
   width: 77px;
   height: 55px;
-  object-fit: cover;
+  object-fit: contain;
 `;
 const InfoWrapper = styled.div`
   display: flex;

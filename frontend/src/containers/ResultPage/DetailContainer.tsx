@@ -61,7 +61,7 @@ export default function DetailContainer() {
       handleModifyClick={() => navigate(PATH.modelType)}
     />
   ));
-  const colorSummaryItems = [selectedItem.innerColor, selectedItem.outerColor].map((color, idx) => {
+  const colorSummaryItems = [selectedItem.outerColor, selectedItem.innerColor].map((color, idx) => {
     return (
       <SummaryItem
         key={idx}
