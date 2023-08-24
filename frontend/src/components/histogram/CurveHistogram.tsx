@@ -7,8 +7,6 @@ import { BOUGHT_INFO_API } from '../../utils/apis';
 import { ItemContext } from '../../context/ItemProvider';
 import Loading from '../loading/Loading';
 
-// 임시 데이터
-
 interface ICarData {
   [key: string]: number;
 }
@@ -36,12 +34,10 @@ export default function CurveHistogram() {
   const histogramRef = useRef<HTMLDivElement>(null);
   const { totalPrice } = useContext(ItemContext);
 
-  const transformData = (boughtInfoData: IBoughtInfo[], sieve = 10000) => {
+  const transformData = (boughtInfoData: IBoughtInfo[]) => {
     const transfromedBoughtInfoData: { [key: number]: number } = {};
-    boughtInfoData.forEach((boughtInfo, idx) => {
-      if (idx % sieve == 0) {
-        transfromedBoughtInfoData[boughtInfo.totalPrice] = boughtInfo.count;
-      }
+    boughtInfoData.forEach((boughtInfo) => {
+      transfromedBoughtInfoData[boughtInfo.totalPrice] = boughtInfo.count;
     });
     return transfromedBoughtInfoData;
   };
@@ -107,7 +103,6 @@ export default function CurveHistogram() {
       const boughtInfoKeys = Object.keys(transformedBoughtInfoData);
       const mycarIdx = boughtInfoKeys.findIndex((value) => value === mycarPrice.toString());
       if (mycarIdx === -1) {
-        // alert('price와 일치하는 데이터 없음');
         return;
       }
       const [mycarX, myCarY] = coords[mycarIdx];
@@ -151,7 +146,7 @@ export default function CurveHistogram() {
           {boughtInfoListLoading ? (
             <Loading />
           ) : (
-            <HistogramSvg viewBox="-20 -10  320 160 " strokeWidth={2}>
+            <HistogramSvg viewBox="-20 -10 320 160 " strokeWidth={2}>
               <path d={d} fill="none" strokeWidth="3" stroke={theme.color.gray200}></path>
               <Circle cx={circlePos.x} cy={circlePos.y} />
             </HistogramSvg>
