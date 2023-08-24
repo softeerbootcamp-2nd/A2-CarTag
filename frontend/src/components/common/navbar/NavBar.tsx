@@ -1,4 +1,4 @@
-import React, { useContext, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { css, styled, useTheme } from 'styled-components';
 import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../../styles/typefaces';
@@ -36,7 +36,9 @@ export default function NavBar() {
   const handleCarSelectClick = () => {
     setMenuVisible((cur) => !cur);
   };
-
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentPath]);
   return (
     <Wrapper>
       <NavContainer $menuVisible={menuVisible}>

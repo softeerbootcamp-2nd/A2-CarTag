@@ -1,11 +1,11 @@
 export const MAX_PAGE = 3;
 export const NUM_IN_A_PAGE = 4;
-export const DEBOUNCE_TIME = 200;
+export const DEBOUNCE_TIME = 300;
 export const TEN_THOUSAND_UNIT = 10_000;
 export const HUNDRED_THOUSAND_UNIT = 100_000;
 export const PERCENTAGE_LIMIT_VALUE = 5;
 export const MAX_TEXT_CNT = 16;
-export const HIGHEST_PRICE = 80_000_000;
+export const HIGHEST_PRICE = 66_420_000;
 export const PATH = {
   home: '/',
   trim: '/trim',

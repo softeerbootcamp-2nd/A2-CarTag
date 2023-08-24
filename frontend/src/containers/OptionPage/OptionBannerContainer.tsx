@@ -105,7 +105,7 @@ export default function OptionBannerContainer({ isDefault }: IOptionBannerContai
     <>
       {optionDetail && !optionDetailLoading && (
         <Wrapper $isBannerVisible={isBannerVisible}>
-          <OptionBanner subtitle={bannerInfo.categoryName} title={optionDetail.optionName}>
+          <OptionBanner subtitle={optionDetail.categoryName} title={optionDetail.optionName}>
             <ContainerWrapper>
               <Container>
                 <InfoWrapper>
