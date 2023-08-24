@@ -1,12 +1,13 @@
-package autoever2.cartag.controller;
+package autoever2.cartag.quotes;
 
-import autoever2.cartag.domain.quote.BoughtCarDto;
+import autoever2.cartag.cars.dto.TrimDataDto;
+import autoever2.cartag.domain.color.ColorDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
-import autoever2.cartag.domain.quote.HistoryShortDto;
-import autoever2.cartag.domain.quote.QuoteDataDto;
-import autoever2.cartag.domain.quote.QuoteInfoDto;
+import autoever2.cartag.models.dto.ModelDefaultDto;
+import autoever2.cartag.quotes.dtos.HistoryShortDto;
+import autoever2.cartag.quotes.dtos.QuoteRequestDto;
+import autoever2.cartag.quotes.dtos.QuoteInfoDto;
 import autoever2.cartag.cars.CarService;
-import autoever2.cartag.service.QuoteService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -44,7 +45,7 @@ public class QuoteControllerTest {
     @DisplayName("유사견적 간략 데이터 제공 API 테스트")
     void getRecommendedList() throws Exception {
         //given
-        QuoteDataDto quoteDataDto = QuoteDataDto.builder()
+        QuoteRequestDto quoteRequestDto = QuoteRequestDto.builder()
                 .carId(1)
                 .powerTrainId(1)
                 .bodyTypeId(3)
@@ -75,9 +76,9 @@ public class QuoteControllerTest {
                 .soldCount(110)
                 .build();
 
-        String content = objectMapper.writeValueAsString(quoteDataDto);
-        given(quoteService.findTopHistory(quoteDataDto)).willReturn(expected);
-        given(quoteService.findMyQuote(quoteDataDto)).willReturn(myQuote);
+        String content = objectMapper.writeValueAsString(quoteRequestDto);
+        given(quoteService.getSuggestedQuoteShortData(quoteRequestDto)).willReturn(expected);
+        given(quoteService.getMyQuoteShortData(quoteRequestDto)).willReturn(myQuote);
         //when
         ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/api/quote/list").content(content)
                 .contentType(MediaType.APPLICATION_JSON));
@@ -129,7 +130,7 @@ public class QuoteControllerTest {
         optionIds.add(69);
         optionIds.add(70);
         optionIds.add(71);
-        QuoteDataDto quoteIdList = QuoteDataDto
+        QuoteRequestDto quoteIdList = QuoteRequestDto
                 .builder()
                 .carId(1)
                 .powerTrainId(1)
@@ -142,36 +143,48 @@ public class QuoteControllerTest {
 
         QuoteInfoDto quoteInfoDto = QuoteInfoDto
                 .builder()
-                .carId(1)
-                .trim("Le Blanc")
-                .carDefaultPrice(40000000)
-                .powerTrainId(1)
-                .powerTrainTitle("파워트레인")
-                .powerTrainImage("image_1.jpg")
-                .powerTrainName("디젤2.2")
-                .powerTrainPrice(0L)
-                .bodyTypeId(5)
-                .bodyTypeTitle("바디타입")
-                .bodyTypeImage("image_2.jpg")
-                .bodyTypeName("7인승")
-                .bodyTypePrice(1500L)
-                .operationTitle("구동방식")
-                .operationId(3)
-                .operationImage("image_3.jpg")
-                .operationName("2WD")
-                .operationPrice(8900L)
-                .colorOuterTitle("외장색상")
-                .colorOuterId(4)
-                .colorOuterImage("red_1.jpg")
-                .colorOuterPrice(1500L)
-                .colorOuterImageName("퍼플 펄")
-                .colorCarOuterImage("outer_red.jpg")
-                .colorInnerTitle("내장색상")
-                .colorInnerId(1)
-                .colorInnerImage("blue_1.jpg")
-                .colorInnerPrice(1220L)
-                .colorInnerImageName("퀄팅 천연(파랑)")
-                .colorCarInnerImage("inner_red.jpg")
+                .trimData(TrimDataDto.builder()
+                        .carId(1)
+                        .trim("Le Blanc")
+                        .carDefaultPrice(40000000)
+                        .build())
+                .powertrainData(ModelDefaultDto.builder()
+                    .modelId(1)
+                    .modelTypeName("파워트레인")
+                    .modelImage("image_1.jpg")
+                    .modelName("디젤2.2")
+                    .modelPrice(0L)
+                    .build())
+                .operationData(ModelDefaultDto.builder()
+                    .modelId(3)
+                    .modelTypeName("구동방식")
+                    .modelImage("image_3.jpg")
+                    .modelName("2WD")
+                    .modelPrice(8900L)
+                    .build())
+                .bodyTypeData(ModelDefaultDto.builder()
+                    .modelId(5)
+                    .modelTypeName("바디타입")
+                    .modelImage("image_2.jpg")
+                    .modelName("7인승")
+                    .modelPrice(1500L)
+                    .build())
+                .outerColor(ColorDto.builder()
+                    .colorId(4)
+                    .colorType("외장색상")
+                    .colorImage("red_1.jpg")
+                    .colorPrice(1500L)
+                    .colorName("퍼플 펄")
+                    .colorCarImage("outer_red.jpg")
+                    .build())
+                .innerColor(ColorDto.builder()
+                    .colorId(1)
+                    .colorType("내장색상")
+                    .colorImage("blue_1.jpg")
+                    .colorPrice(1220L)
+                    .colorName("퀄팅 천연(파랑)")
+                    .colorCarImage("inner_red.jpg")
+                    .build())
                 .optionList(quoteSubOptionDtoList)
                 .build();
 

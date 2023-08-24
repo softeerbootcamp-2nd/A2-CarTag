@@ -28,7 +28,7 @@ public class InnerColorPercentDto {
         this.colorCarImage = colorCarImage;
     }
 
-    public static InnerColorPercentDto toPercent(InnerColorDto innerColorDto, int colorBoughtPercent) {
+    public static InnerColorPercentDto toPercent(ColorDto innerColorDto, int colorBoughtPercent) {
         return InnerColorPercentDto.builder()
                 .colorId(innerColorDto.getColorId())
                 .colorName(innerColorDto.getColorName())

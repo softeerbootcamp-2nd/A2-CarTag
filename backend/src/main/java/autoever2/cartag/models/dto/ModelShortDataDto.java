@@ -7,7 +7,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-@Schema(description = "모델의 ID, 이름, 타입명, 추가금액, 퍼센트, 이미지를 반환")
+@Schema(description = "모델의 ID, 이름, 타입명, 추가금액, 퍼센트, 이미지, HMG데이터를 반환")
 public class ModelShortDataDto {
 
     @Schema(description = "모델 ID", example = "1")

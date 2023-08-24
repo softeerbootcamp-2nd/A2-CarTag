@@ -1,8 +1,7 @@
 package autoever2.cartag.cars;
 
 import autoever2.cartag.cars.dto.*;
-import autoever2.cartag.domain.color.InnerColorDto;
-import autoever2.cartag.domain.color.OuterColorDto;
+import autoever2.cartag.domain.color.ColorDto;
 import autoever2.cartag.models.dto.ModelDefaultDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.exception.ErrorCode;
@@ -44,8 +43,8 @@ public class CarService {
     }
 
     public CarDefaultDto getCarDefaultDtoByCarId(int carId) {
-        List<OuterColorDto> outerColorList = colorRepository.findOuterColorCarByCarId(carId);
-        List<InnerColorDto> innerColorList = colorRepository.findInnerColorCarByCarId(carId);
+        List<ColorDto> outerColorList = colorRepository.findOuterColorCarByCarId(carId);
+        List<ColorDto> innerColorList = colorRepository.findInnerColorCarByCarId(carId);
         List<ModelDefaultDto> modelList = modelRepository.findDefaultModelListByCarId(carId);
         if (outerColorList.isEmpty() || innerColorList.isEmpty() || modelList.isEmpty()) {
             throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);

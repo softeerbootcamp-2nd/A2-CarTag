@@ -135,7 +135,7 @@ public class OptionRepository {
         }
     }
 
-    public List<SubOptionIdAndPriceDto> findAllSubOptionInfo(int carId) {
+    public List<SubOptionIdAndPriceDto> findAllSubOptionPriceByCarId(int carId) {
         String sql = "select option_id, option_price " +
                 "from SubOptionData " +
                 "where car_id = :carId";
@@ -146,15 +146,7 @@ public class OptionRepository {
         return template.query(sql, param, subOptionIdAndPriceRowMapper());
     }
 
-    private RowMapper<SubOptionIdAndPriceDto> subOptionIdAndPriceRowMapper() {
-        return BeanPropertyRowMapper.newInstance(SubOptionIdAndPriceDto.class);
-    }
-
-    private RowMapper<QuoteSubOptionDto> shareSubOptionRowMapper() {
-        return BeanPropertyRowMapper.newInstance(QuoteSubOptionDto.class);
-    }
-
-    public Long countExistOptions(int carId, List<Integer> optionIds) {
+    public Long countExistingOptionsByOptionIds(int carId, List<Integer> optionIds) {
         String sql = "select count(*) as totalCount " +
                 "from SubOptionData " +
                 "where car_id = :carId and option_id IN (:optionIds)";
@@ -164,5 +156,13 @@ public class OptionRepository {
                 .addValue("optionIds", optionIds);
 
         return template.queryForObject(sql, param, Long.class);
+    }
+
+    private RowMapper<SubOptionIdAndPriceDto> subOptionIdAndPriceRowMapper() {
+        return BeanPropertyRowMapper.newInstance(SubOptionIdAndPriceDto.class);
+    }
+
+    private RowMapper<QuoteSubOptionDto> shareSubOptionRowMapper() {
+        return BeanPropertyRowMapper.newInstance(QuoteSubOptionDto.class);
     }
 }

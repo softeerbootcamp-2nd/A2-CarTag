@@ -1,17 +1,15 @@
-package autoever2.cartag.domain.quote;
+package autoever2.cartag.quotes.dtos;
 
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 
-@NoArgsConstructor
 @Getter
-public class HistorySearchDto {
+public class QuoteSearchDto {
 
     private int carId;
     private int powerTrainId;
@@ -20,7 +18,7 @@ public class HistorySearchDto {
     private List<Integer> optionIds;
 
     @Builder
-    public HistorySearchDto(int carId, int powerTrainId, int bodyTypeId, int operationId, List<Integer> optionIds) {
+    public QuoteSearchDto(int carId, int powerTrainId, int bodyTypeId, int operationId, List<Integer> optionIds) {
         this.carId = carId;
         this.powerTrainId = powerTrainId;
         this.bodyTypeId = bodyTypeId;
@@ -53,7 +51,7 @@ public class HistorySearchDto {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        HistorySearchDto that = (HistorySearchDto) o;
+        QuoteSearchDto that = (QuoteSearchDto) o;
         return carId == that.carId && powerTrainId == that.powerTrainId && bodyTypeId == that.bodyTypeId && operationId == that.operationId && Objects.equals(optionIds, that.optionIds);
     }
 }
