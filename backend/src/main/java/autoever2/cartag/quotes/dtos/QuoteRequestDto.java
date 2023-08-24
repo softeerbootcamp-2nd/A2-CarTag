@@ -12,8 +12,8 @@ import java.util.List;
 public class QuoteRequestDto {
     private int carId;
     private int powerTrainId;
-    private int bodyTypeId;
     private int operationId;
+    private int bodyTypeId;
     private int outerColorId;
     private int innerColorId;
     private List<Integer> optionIdList = new ArrayList<>();
