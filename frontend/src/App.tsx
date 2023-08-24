@@ -22,6 +22,7 @@ function App() {
     ItemProvider,
     ProgressProvider,
   ];
+
   return (
     <Providers contexts={globalProviders}>
       <BrowserRouter>
