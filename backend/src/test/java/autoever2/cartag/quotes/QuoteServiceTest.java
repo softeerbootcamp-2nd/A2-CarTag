@@ -1,9 +1,9 @@
 package autoever2.cartag.quotes;
 
 import autoever2.cartag.cars.CarRepository;
-import autoever2.cartag.quotes.dtos.HistorySearchDto;
+import autoever2.cartag.quotes.dtos.QuoteSearchDto;
 import autoever2.cartag.quotes.dtos.HistoryShortDto;
-import autoever2.cartag.quotes.dtos.QuoteDataDto;
+import autoever2.cartag.quotes.dtos.QuoteRequestDto;
 import autoever2.cartag.recommend.RecommendConnector;
 import autoever2.cartag.repository.ColorRepository;
 import autoever2.cartag.models.ModelRepository;
@@ -48,7 +48,7 @@ class QuoteServiceTest {
     @Test
     void findTopHistory() {
         //given
-        QuoteDataDto quoteDataDto = QuoteDataDto.builder()
+        QuoteRequestDto quoteRequestDto = QuoteRequestDto.builder()
                 .carId(1)
                 .powerTrainId(1)
                 .bodyTypeId(3)
@@ -81,10 +81,10 @@ class QuoteServiceTest {
                 .build());
 
 
-        when(optionRepository.countExistOptions(quoteDataDto.getCarId(), quoteDataDto.getOptionIdList())).thenReturn(1L);
-        when(recommendConnector.request(quoteDataDto)).thenReturn(response);
+        when(optionRepository.countExistingOptionsByOptionIds(quoteRequestDto.getCarId(), quoteRequestDto.getOptionIdList())).thenReturn(1L);
+        when(recommendConnector.request(quoteRequestDto)).thenReturn(response);
 
-        when(quoteRepository.findShortData(HistorySearchDto.builder()
+        when(quoteRepository.findShortQuoteDataBySearchDto(QuoteSearchDto.builder()
                 .carId(1)
                 .powerTrainId(1)
                 .bodyTypeId(3)
@@ -95,7 +95,7 @@ class QuoteServiceTest {
                         .historyId(129L)
                         .soldCount(155)
                         .build()));
-        when(quoteRepository.findShortData(HistorySearchDto.builder()
+        when(quoteRepository.findShortQuoteDataBySearchDto(QuoteSearchDto.builder()
                 .carId(1)
                 .powerTrainId(1)
                 .bodyTypeId(3)
@@ -106,7 +106,7 @@ class QuoteServiceTest {
                         .historyId(161L)
                         .soldCount(140)
                         .build()));
-        when(quoteRepository.findShortData(HistorySearchDto.builder()
+        when(quoteRepository.findShortQuoteDataBySearchDto(QuoteSearchDto.builder()
                 .carId(1)
                 .powerTrainId(1)
                 .bodyTypeId(3)
@@ -117,7 +117,7 @@ class QuoteServiceTest {
                         .historyId(137L)
                         .soldCount(162)
                         .build()));
-        when(quoteRepository.findShortData(HistorySearchDto.builder()
+        when(quoteRepository.findShortQuoteDataBySearchDto(QuoteSearchDto.builder()
                 .carId(1)
                 .powerTrainId(1)
                 .bodyTypeId(3)
@@ -130,7 +130,7 @@ class QuoteServiceTest {
                         .build()));
 
         //when
-        List<HistoryShortDto> result = quoteService.findTopHistory(quoteDataDto);
+        List<HistoryShortDto> result = quoteService.getSuggestedQuoteShortData(quoteRequestDto);
 
         //then
         softAssertions.assertThat(result).usingRecursiveComparison().isEqualTo(expected);

@@ -1,10 +1,9 @@
 package autoever2.cartag.cars;
 
 import autoever2.cartag.cars.dto.*;
-import autoever2.cartag.domain.color.InnerColorDto;
+import autoever2.cartag.domain.color.ColorDto;
 import autoever2.cartag.models.dto.ModelDefaultDto;
 import autoever2.cartag.domain.option.TrimDefaultOptionDto;
-import autoever2.cartag.domain.color.OuterColorDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.repository.ColorRepository;
 import autoever2.cartag.models.ModelRepository;
@@ -90,11 +89,11 @@ class CarServiceTest {
     @DisplayName("차량의 기본 옵션 데이터를 반환")
     void getDefaultOptionData() {
         int carId = 1;
-        OuterColorDto outer1 = OuterColorDto.builder().colorId(3).colorName("어비스 블랙 펄").colorImage("/color/outer/abyss-black.png").colorBoughtCount(38974L).colorCarImage("/color/outer/leblanc/abyss/image*.webp").build();
-        OuterColorDto outer2 = OuterColorDto.builder().colorId(4).colorName("쉬머링 실버 메탈릭").colorImage("/color/outer/silver-metalic.png").colorBoughtCount(19364L).colorCarImage("/color/outer/leblanc/silver/image*.webp").build();
+        ColorDto outer1 = ColorDto.builder().colorId(3).colorName("어비스 블랙 펄").colorImage("/color/outer/abyss-black.png").colorBoughtCount(38974L).colorCarImage("/color/outer/leblanc/abyss/image*.webp").build();
+        ColorDto outer2 = ColorDto.builder().colorId(4).colorName("쉬머링 실버 메탈릭").colorImage("/color/outer/silver-metalic.png").colorBoughtCount(19364L).colorCarImage("/color/outer/leblanc/silver/image*.webp").build();
 
-        InnerColorDto inner1 = InnerColorDto.builder().colorId(1).colorName("퀄팅천연(블랙)").colorImage("/color/inner/quilting-natural.png").colorBoughtCount(82065L).colorCarImage("/cartype/palisade/palisade-inner.png").build();
-        InnerColorDto inner2 = InnerColorDto.builder().colorId(2).colorName("쿨그레이").colorImage("/color/inner/cool-gray.png").colorBoughtCount(67935L).colorCarImage("/color/inner/leblanc/cool-gray.png").build();
+        ColorDto inner1 = ColorDto.builder().colorId(1).colorName("퀄팅천연(블랙)").colorImage("/color/inner/quilting-natural.png").colorBoughtCount(82065L).colorCarImage("/cartype/palisade/palisade-inner.png").build();
+        ColorDto inner2 = ColorDto.builder().colorId(2).colorName("쿨그레이").colorImage("/color/inner/cool-gray.png").colorBoughtCount(67935L).colorCarImage("/color/inner/leblanc/cool-gray.png").build();
 
         ModelDefaultDto powerTrain = ModelDefaultDto.builder().modelId(1).modelName("디젤2.2").modelPrice(1480000L).modelImage("/model/diesel2-2.png").build();
         ModelDefaultDto operation = ModelDefaultDto.builder().modelId(3).modelName("2WD").modelImage("/model/2wd.png").build();

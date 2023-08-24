@@ -1,7 +1,6 @@
 package autoever2.cartag.quotes;
 
-import autoever2.cartag.quotes.QuoteRepository;
-import autoever2.cartag.quotes.dtos.HistorySearchDto;
+import autoever2.cartag.quotes.dtos.QuoteSearchDto;
 import autoever2.cartag.quotes.dtos.HistoryShortDto;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
@@ -38,14 +37,14 @@ class QuoteRepositoryTest {
 
     @Test
     void findShortData() {
-        HistorySearchDto search1 = HistorySearchDto.builder()
+        QuoteSearchDto search1 = QuoteSearchDto.builder()
                         .carId(1)
                         .powerTrainId(1)
                         .bodyTypeId(3)
                         .operationId(5)
                         .optionIds(List.of(69, 70))
                         .build();
-        HistorySearchDto search2 = HistorySearchDto.builder()
+        QuoteSearchDto search2 = QuoteSearchDto.builder()
                 .carId(1)
                 .powerTrainId(1)
                 .bodyTypeId(3)
@@ -62,10 +61,10 @@ class QuoteRepositoryTest {
                 .soldCount(140)
                 .build();
 
-        assertTrue(quoteRepository.findShortData(search1).isPresent());
-        assertTrue(quoteRepository.findShortData(search2).isPresent());
-        softAssertions.assertThat(quoteRepository.findShortData(search1).get()).usingRecursiveComparison().isEqualTo(expected1);
-        softAssertions.assertThat(quoteRepository.findShortData(search2).get()).usingRecursiveComparison().isEqualTo(expected2);
+        assertTrue(quoteRepository.findShortQuoteDataBySearchDto(search1).isPresent());
+        assertTrue(quoteRepository.findShortQuoteDataBySearchDto(search2).isPresent());
+        softAssertions.assertThat(quoteRepository.findShortQuoteDataBySearchDto(search1).get()).usingRecursiveComparison().isEqualTo(expected1);
+        softAssertions.assertThat(quoteRepository.findShortQuoteDataBySearchDto(search2).get()).usingRecursiveComparison().isEqualTo(expected2);
     }
 
 

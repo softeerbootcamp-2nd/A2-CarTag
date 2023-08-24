@@ -1,6 +1,6 @@
 package autoever2.cartag.recommend;
 
-import autoever2.cartag.quotes.dtos.QuoteDataDto;
+import autoever2.cartag.quotes.dtos.QuoteRequestDto;
 import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.exception.ServerException;
 import org.json.simple.JSONArray;
@@ -24,13 +24,13 @@ public class RecommendConnector {
     @Value("${python.url}")
     private String requestURL;
 
-    public List<List<Integer>> request(QuoteDataDto quoteDataDto) {
+    public List<List<Integer>> request(QuoteRequestDto quoteRequestDto) {
 
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
                 .uri(URI.create(requestURL))
                 .header("Content-Type", "application/json")
-                .POST(HttpRequest.BodyPublishers.ofString(getJsonFromEstimate(quoteDataDto))).build();
+                .POST(HttpRequest.BodyPublishers.ofString(getJsonFromEstimate(quoteRequestDto))).build();
 
         HttpResponse<String> response = null;
         try {
@@ -45,13 +45,13 @@ public class RecommendConnector {
     }
 
 
-    private String getJsonFromEstimate(QuoteDataDto quoteDataDto) {
+    private String getJsonFromEstimate(QuoteRequestDto quoteRequestDto) {
         JSONObject jsonObject = new JSONObject();
-        jsonObject.put("carId", quoteDataDto.getCarId());
-        jsonObject.put("powerTrain", quoteDataDto.getPowerTrainId());
-        jsonObject.put("bodyType", quoteDataDto.getBodyTypeId());
-        jsonObject.put("operation", quoteDataDto.getOperationId());
-        jsonObject.put("options", quoteDataDto.getOptionIdList());
+        jsonObject.put("carId", quoteRequestDto.getCarId());
+        jsonObject.put("powerTrain", quoteRequestDto.getPowerTrainId());
+        jsonObject.put("bodyType", quoteRequestDto.getBodyTypeId());
+        jsonObject.put("operation", quoteRequestDto.getOperationId());
+        jsonObject.put("options", quoteRequestDto.getOptionIdList());
 
         return jsonObject.toJSONString();
     }
