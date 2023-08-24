@@ -148,7 +148,6 @@ export default function ItemProvider({ children }: IItemProvider) {
           body: params,
         });
         const jsonData = await res.json();
-
         setData(jsonData);
       } catch (e) {
         setError(e as Error);
@@ -189,65 +188,66 @@ export default function ItemProvider({ children }: IItemProvider) {
 
   useEffect(() => {
     if (!data || loading || error) return;
+
     setSelectedItem({
       type: 'SET_TRIM',
       value: {
-        id: data.carId,
-        name: data.trim,
-        price: data.carDefaultPrice,
+        id: data.trimData.carId,
+        name: data.trimData.trim,
+        price: data.trimData.carDefaultPrice,
       },
     });
     setSelectedItem({
       type: 'SET_POWER_TRAIN',
       value: {
-        id: data.powerTrainId,
-        title: data.powerTrainTitle,
-        name: data.powerTrainName,
-        imgSrc: data.powerTrainImage,
-        price: data.powerTrainPrice,
+        id: data.powertrainData.modelId,
+        title: data.powertrainData.modelTypeName,
+        name: data.powertrainData.modelName,
+        imgSrc: data.powertrainData.modelImage,
+        price: data.powertrainData.modelPrice,
       },
     });
     setSelectedItem({
       type: 'SET_BODY_TYPE',
       value: {
-        id: data.bodyTypeId,
-        title: data.bodyTypeTitle,
-        name: data.bodyTypeName,
-        imgSrc: data.bodyTypeImage,
-        price: data.bodyTypePrice,
+        id: data.bodyTypeData.modelId,
+        title: data.bodyTypeData.modelTypeName,
+        name: data.bodyTypeData.modelName,
+        imgSrc: data.bodyTypeData.modelImage,
+        price: data.bodyTypeData.modelPrice,
       },
     });
     setSelectedItem({
       type: 'SET_OPERATION',
       value: {
-        id: data.operationId,
-        title: data.operationTitle,
-        name: data.operationName,
-        imgSrc: data.operationImage,
-        price: data.operationPrice,
+        id: data.operationData.modelId,
+        title: data.operationData.modelTypeName,
+        name: data.operationData.modelName,
+        imgSrc: data.operationData.modelImage,
+        price: data.operationData.modelPrice,
       },
     });
 
     setSelectedItem({
       type: 'SET_OUTER_COLOR',
       value: {
-        id: data.colorOuterId,
-        name: data.colorOuterImageName,
-        title: data.colorOuterTitle,
-        price: data.colorOuterPrice,
-        carImgSrc: data.colorCarOuterImage,
-        imgSrc: data.colorOuterImage,
+        id: data.outerColor.colorId,
+        name: data.outerColor.colorName,
+        title: data.outerColor.colorType,
+        price: data.outerColor.colorPrice,
+        carImgSrc: data.outerColor.colorCarImage,
+        imgSrc: data.outerColor.colorImage,
       },
     });
     setSelectedItem({
       type: 'SET_INNER_COLOR',
       value: {
-        id: data.colorInnerId,
-        name: data.colorInnerImageName,
-        title: data.colorInnerTitle,
-        price: data.colorInnerPrice,
-        carImgSrc: data.colorCarInnerImage,
-        imgSrc: data.colorInnerImage,
+        id: data.innerColor.colorId,
+        name: data.innerColor.colorName,
+        title: data.innerColor.colorType,
+        price: data.innerColor.colorPrice,
+        carImgSrc: data.innerColor.colorCarImage,
+        imgSrc: data.innerColor.colorImage,
       },
     });
 
