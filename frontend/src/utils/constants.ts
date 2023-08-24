@@ -5,7 +5,7 @@ export const TEN_THOUSAND_UNIT = 10_000;
 export const HUNDRED_THOUSAND_UNIT = 100_000;
 export const PERCENTAGE_LIMIT_VALUE = 5;
 export const MAX_TEXT_CNT = 16;
-export const HIGHEST_PRICE = 56_770_000;
+export const HIGHEST_PRICE = 66_420_000;
 export const PATH = {
   home: '/',
   trim: '/trim',
