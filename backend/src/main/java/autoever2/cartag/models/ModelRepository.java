@@ -79,7 +79,8 @@ public class ModelRepository {
         String sql = "select model_id, model_name, model_price, model_image, model_type_name " +
                 "from Model " +
                 "inner join ModelType on Model.model_type_id = ModelType.model_type_id " +
-                "where model_id in (:powerTrainId, :bodyTypeId, :operationId)";
+                "where model_id in (:powerTrainId, :bodyTypeId, :operationId) " +
+                "order by model_id";
 
         SqlParameterSource param = new MapSqlParameterSource()
                 .addValue("powerTrainId", powerTrainId)
