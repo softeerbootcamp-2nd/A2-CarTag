@@ -12,7 +12,6 @@ import java.beans.ConstructorProperties;
 @Getter
 @Setter
 @NoArgsConstructor
-//@RedisHash(value = "test")
 @Schema(description = "구매된 차량의 가격과 그에 따른 갯수 반환 DTO")
 public class BoughtCarDto {
     private Long totalPrice;

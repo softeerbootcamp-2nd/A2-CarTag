@@ -2,7 +2,7 @@ package autoever2.cartag.cars.dto;
 
 import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
-import autoever2.cartag.domain.model.ModelDefaultDto;
+import autoever2.cartag.models.dto.ModelDefaultDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;

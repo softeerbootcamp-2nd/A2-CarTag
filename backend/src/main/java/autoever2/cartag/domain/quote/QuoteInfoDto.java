@@ -3,7 +3,7 @@ package autoever2.cartag.domain.quote;
 import autoever2.cartag.cars.dto.TrimInfoDto;
 import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
-import autoever2.cartag.domain.model.ModelDefaultDto;
+import autoever2.cartag.models.dto.ModelDefaultDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
@@ -92,17 +92,17 @@ public class QuoteInfoDto {
                 .powerTrainName(modelDefaultDto.get(0).getModelName())
                 .powerTrainImage(modelDefaultDto.get(0).getModelImage())
                 .powerTrainPrice(modelDefaultDto.get(0).getModelPrice())
-                .powerTrainTitle(modelDefaultDto.get(0).getModelTitle())
+                .powerTrainTitle(modelDefaultDto.get(0).getModelTypeName())
                 .operationId(modelDefaultDto.get(1).getModelId())
                 .operationName(modelDefaultDto.get(1).getModelName())
                 .operationImage(modelDefaultDto.get(1).getModelImage())
                 .operationPrice(modelDefaultDto.get(1).getModelPrice())
-                .operationTitle(modelDefaultDto.get(1).getModelTitle())
+                .operationTitle(modelDefaultDto.get(1).getModelTypeName())
                 .bodyTypeId(modelDefaultDto.get(2).getModelId())
                 .bodyTypeName(modelDefaultDto.get(2).getModelName())
                 .bodyTypeImage(modelDefaultDto.get(2).getModelImage())
                 .bodyTypePrice(modelDefaultDto.get(2).getModelPrice())
-                .bodyTypeTitle(modelDefaultDto.get(2).getModelTitle())
+                .bodyTypeTitle(modelDefaultDto.get(2).getModelTypeName())
                 .colorOuterId(outerColorDto.getColorId())
                 .colorOuterImage(outerColorDto.getColorImage())
                 .colorCarOuterImage(colorCarOuterImage)

@@ -1,15 +1,12 @@
-package autoever2.cartag.domain.model;
+package autoever2.cartag.models.dto;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 @Setter
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Getter
-@Schema(description = "파워트레인과 모델타입의 조합으로 나온 HMG 데이터")
+@Schema(description = "파워트레인과 모델타입의 조합으로 나온 HMG 데이터를 반환")
 public class ModelEfficiencyDataDto {
 
     @Schema(description = "연비", example = "12.16km/s")

@@ -6,7 +6,7 @@ import autoever2.cartag.cars.dto.TrimInfoDto;
 import autoever2.cartag.domain.quote.HistoryTotalModelPriceDto;
 import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.OuterColorDto;
-import autoever2.cartag.domain.model.ModelDefaultDto;
+import autoever2.cartag.models.dto.ModelDefaultDto;
 import autoever2.cartag.domain.option.QuoteSubOptionDto;
 import autoever2.cartag.domain.option.SubOptionIdAndPriceDto;
 import autoever2.cartag.domain.quote.HistorySearchDto;
@@ -18,7 +18,7 @@ import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.exception.InvalidDataException;
 import autoever2.cartag.recommend.RecommendConnector;
 import autoever2.cartag.repository.ColorRepository;
-import autoever2.cartag.repository.ModelRepository;
+import autoever2.cartag.models.ModelRepository;
 import autoever2.cartag.repository.OptionRepository;
 import autoever2.cartag.repository.QuoteRepository;
 import lombok.RequiredArgsConstructor;
@@ -142,10 +142,14 @@ public class QuoteService {
         List<Integer> optionIdList = quoteDataDto.getOptionIdList();
 
         Optional<TrimInfoDto> trimInfo = carRepository.findTrimInfoByCarId(carId);
-        List<ModelDefaultDto> modelInfos = modelRepository.findModelListByModelId(powerTrainId, bodyTypeId, operationId);
+        List<ModelDefaultDto> modelInfos = modelRepository.findAllModelListByModel(powerTrainId, operationId, bodyTypeId);
         Optional<InnerColorDto> innerColorInfo = colorRepository.findInnerColorByColorId(innerColorId);
         Optional<OuterColorDto> outerColorInfo = colorRepository.findOuterColorByColorId(outerColorId);
         List<QuoteSubOptionDto> optionInfos = new ArrayList<>();
+        if(modelInfos.isEmpty()) {
+            throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
+        }
+
         if(!optionIdList.isEmpty()) {
             for (Integer id : optionIdList) {
                 Optional<QuoteSubOptionDto> optionInfo = optionRepository.findSubOptionByOptionId(id);
@@ -156,9 +160,9 @@ public class QuoteService {
                 throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
             }
         }
-        OuterColorDto outerColorDto = outerColorInfo.get();
+        OuterColorDto outerColorDto = outerColorInfo.orElseThrow(() -> new EmptyDataException(ErrorCode.DATA_NOT_EXISTS));
         String imageUrl = changeUrl(outerColorDto.getColorCarImage());
-        return QuoteInfoDto.toInfoDto(trimInfo.get(), outerColorDto, innerColorInfo.get(), modelInfos, optionInfos, imageUrl);
+        return QuoteInfoDto.toInfoDto(trimInfo.orElseThrow(() -> new EmptyDataException(ErrorCode.DATA_NOT_EXISTS)), outerColorDto, innerColorInfo.orElseThrow(() -> new EmptyDataException(ErrorCode.DATA_NOT_EXISTS)), modelInfos, optionInfos, imageUrl);
 
     }
 }

@@ -1,5 +1,5 @@
 insert into CarType (car_type_id, car_type_image, car_type_name) values (1, '/cartype/palisade/palisade-thumbnail.png',	'팰리세이드');
-insert into Car values (1, 1, '르블랑', 41980000, '/cartype/palisade/leblanc-outer.png', '/cartype/palisade/palisade-inner.png', '/cartype/palisade/leblanc-wheel.png', 150000, '합리적인 조합의 절정');
+insert into Car values (1, 1, '르블랑', 40000000, '/cartype/palisade/leblanc-outer.png', '/cartype/palisade/palisade-inner.png', '/cartype/palisade/leblanc-wheel.png', 2000, '합리적인 조합의 절정');
 
 insert into ModelType (model_type_id, model_type_name) VALUES (1, '파워트레인');
 insert into ModelType (model_type_id, model_type_name) VALUES (2, '구동방식');
@@ -13,11 +13,11 @@ INSERT INTO Model VALUES (5,'7인승',3,'기존 8인승 시트(1열 2명, 2열 3
 INSERT INTO Model VALUES (6,'8인승',3,'1열 2명, 2열 3명, 3열 3명이 탑승할 수 있는 구조로, 많은 인원이 탑승할 수 있도록 배려하였습니다',0,'/model/8seats.jpg');
 
 insert into ModelCarMapper (model_car_mapper_id, car_id, model_id, model_bought_count, is_default_model) VALUES (1, 1, 1, 800, 1);
-insert into ModelCarMapper (model_car_mapper_id, car_id, model_id, model_bought_count, is_default_model) VALUES (2, 1, 2, 1300, 0);
+insert into ModelCarMapper (model_car_mapper_id, car_id, model_id, model_bought_count, is_default_model) VALUES (2, 1, 2, 1200, 0);
 insert into ModelCarMapper (model_car_mapper_id, car_id, model_id, model_bought_count, is_default_model) VALUES (3, 1, 3, 500, 1);
 insert into ModelCarMapper (model_car_mapper_id, car_id, model_id, model_bought_count, is_default_model) VALUES (4, 1, 4, 1500, 0);
-insert into ModelCarMapper (model_car_mapper_id, car_id, model_id, model_bought_count, is_default_model) VALUES (5, 1, 5, 2300, 1);
-insert into ModelCarMapper (model_car_mapper_id, car_id, model_id, model_bought_count, is_default_model) VALUES (6, 1, 6, 1800, 0);
+insert into ModelCarMapper (model_car_mapper_id, car_id, model_id, model_bought_count, is_default_model) VALUES (5, 1, 5, 1000, 1);
+insert into ModelCarMapper (model_car_mapper_id, car_id, model_id, model_bought_count, is_default_model) VALUES (6, 1, 6, 1000, 0);
 
 insert into PowerTrainData values (1, '202/3800', '45.0/1750~2750');
 insert into PowerTrainData values (2, '295/6000', '36.2/5200');

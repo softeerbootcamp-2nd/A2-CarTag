@@ -42,6 +42,7 @@ public class QuoteController {
             @ApiResponse(responseCode = "200", description = "조회 성공", content = @Content(schema = @Schema(implementation = BoughtCarDto.class))),
     })
     @GetMapping("bought/infos")
+    @Cacheable(value = "boughtList")
     public List<BoughtCarDto> getAllHistorySum(@RequestParam("carid") int carId) {
         return quoteService.findAllBoughtInfos(carId);
     }
