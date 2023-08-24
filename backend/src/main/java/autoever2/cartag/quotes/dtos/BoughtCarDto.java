@@ -1,19 +1,19 @@
 package autoever2.cartag.quotes.dtos;
 
 import io.swagger.v3.oas.annotations.media.Schema;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.beans.ConstructorProperties;
 
 @Getter
 @Setter
-@NoArgsConstructor
-@Schema(description = "구매된 차량의 가격과 그에 따른 갯수 반환 DTO")
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+@Schema(description = "판매된 견적의 금액, 해당 금액의 판매량을 반환")
 public class BoughtCarDto {
+
+    @Schema(description = "판매된 견적의 금액", example = "45830000")
     private Long totalPrice;
+    @Schema(description = "해당 견적의 판매 횟수, 동일한 금액이면 합산한 횟수", example = "91")
     private int count;
 
     @Builder
@@ -21,12 +21,5 @@ public class BoughtCarDto {
     public BoughtCarDto(Long totalPrice, int count) {
         this.totalPrice = totalPrice;
         this.count = count;
-    }
-
-    public static BoughtCarDto toBoughtCarDto(Long totalPrice, int count) {
-        return BoughtCarDto.builder()
-                .totalPrice(totalPrice)
-                .count(count)
-                .build();
     }
 }
