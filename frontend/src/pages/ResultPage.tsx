@@ -17,8 +17,8 @@ export default function ResultPage() {
   const { setSelectedItem } = useContext(ItemContext);
   const { data: sharedInfo } = useSharedInfo();
   const { data: efficiencyData } = useEfficiencyData({
-    powerTrainId: sharedInfo?.powerTrainId,
-    operationId: sharedInfo?.operationId,
+    powerTrainId: sharedInfo?.powertrainData.modelId,
+    operationId: sharedInfo?.operationData.modelId,
   });
   const { setNextStepAvailable } = useContext(ProgressContext);
 
@@ -37,9 +37,9 @@ export default function ResultPage() {
     if (!sharedInfo) return;
 
     const sharedTrim = {
-      id: sharedInfo.carId,
-      name: sharedInfo.trim,
-      price: sharedInfo.carDefaultPrice,
+      id: sharedInfo.trimData.carId,
+      name: sharedInfo.trimData.trim,
+      price: sharedInfo.trimData.carDefaultPrice,
     };
     const sharedOptions = sharedInfo.optionList.map((option) => {
       return {
@@ -51,42 +51,42 @@ export default function ResultPage() {
       };
     });
     const sharedPowerTrain = {
-      id: sharedInfo.powerTrainId,
-      name: sharedInfo.powerTrainName,
-      title: sharedInfo.powerTrainTitle,
-      imgSrc: sharedInfo.powerTrainImage,
-      price: sharedInfo.powerTrainPrice,
+      id: sharedInfo.powertrainData.modelId,
+      name: sharedInfo.powertrainData.modelName,
+      title: sharedInfo.powertrainData.modelTypeName,
+      imgSrc: sharedInfo.powertrainData.modelImage,
+      price: sharedInfo.powertrainData.modelPrice,
     };
     const shraedBodyType = {
-      id: sharedInfo.bodyTypeId,
-      name: sharedInfo.bodyTypeName,
-      title: sharedInfo.bodyTypeTitle,
-      imgSrc: sharedInfo.bodyTypeImage,
-      price: sharedInfo.bodyTypePrice,
+      id: sharedInfo.bodyTypeData.modelId,
+      name: sharedInfo.bodyTypeData.modelName,
+      title: sharedInfo.bodyTypeData.modelTypeName,
+      imgSrc: sharedInfo.bodyTypeData.modelImage,
+      price: sharedInfo.bodyTypeData.modelPrice,
     };
     const sharedOperation = {
-      id: sharedInfo.operationId,
-      name: sharedInfo.operationName,
-      title: sharedInfo.operationTitle,
-      imgSrc: sharedInfo.operationImage,
-      price: sharedInfo.operationPrice,
+      id: sharedInfo.operationData.modelId,
+      name: sharedInfo.operationData.modelName,
+      title: sharedInfo.operationData.modelTypeName,
+      imgSrc: sharedInfo.operationData.modelImage,
+      price: sharedInfo.operationData.modelPrice,
     };
     const sharedOuterColor = {
-      id: sharedInfo.colorOuterId,
-      name: sharedInfo.colorOuterImageName,
-      title: sharedInfo.colorOuterTitle,
-      imgSrc: sharedInfo.colorOuterImage,
-      price: sharedInfo.colorOuterPrice,
-      carImgSrc: sharedInfo.colorCarOuterImage,
+      id: sharedInfo.outerColor.colorId,
+      name: sharedInfo.outerColor.colorName,
+      title: sharedInfo.outerColor.colorType,
+      imgSrc: sharedInfo.outerColor.colorImage,
+      price: sharedInfo.outerColor.colorPrice,
+      carImgSrc: sharedInfo.outerColor.colorCarImage,
     };
 
     const sharedInnerColor = {
-      id: sharedInfo.colorInnerId,
-      name: sharedInfo.colorInnerImageName,
-      title: sharedInfo.colorInnerTitle,
-      imgSrc: sharedInfo.colorInnerImage,
-      price: sharedInfo.colorInnerPrice,
-      carImgSrc: sharedInfo.colorCarInnerImage,
+      id: sharedInfo.innerColor.colorId,
+      name: sharedInfo.innerColor.colorName,
+      title: sharedInfo.innerColor.colorType,
+      imgSrc: sharedInfo.innerColor.colorImage,
+      price: sharedInfo.innerColor.colorPrice,
+      carImgSrc: sharedInfo.innerColor.colorCarImage,
     };
     setSelectedItem({
       type: 'SET_TRIM',
