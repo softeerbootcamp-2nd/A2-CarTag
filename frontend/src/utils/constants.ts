@@ -32,11 +32,9 @@ export const OUTER_COLOR_FIRST_IDX = 3;
 
 export const HYUNDAI_URL = 'https://www.hyundai.com/kr/ko/e';
 export const PAGE_ANIMATION_DURATION = 500;
-export const CAR_TYPE = 1; // 팰리세이드
 
 Object.freeze({
   MAX_PAGE,
-  CAR_TYPE,
   NUM_IN_A_PAGE,
   HYUNDAI_URL,
   PATH,
