@@ -89,7 +89,8 @@ export default function OptionPage() {
 const Wrapper = styled.div`
   height: 100vh;
   width: 100vw;
-  padding-bottom: 120px;
 `;
 
-const ContentWrapper = styled.div``;
+const ContentWrapper = styled.div`
+  padding-bottom: 120px;
+`;

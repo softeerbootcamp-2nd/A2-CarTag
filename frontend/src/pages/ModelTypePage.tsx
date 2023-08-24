@@ -5,15 +5,16 @@ import ModelSelectContainer from '../containers/ModelTypePage/ModelTypeSelectCon
 import { useFetch } from '../hooks/useFetch';
 import { MODEL_TYPE_API } from '../utils/apis';
 import { IModelType, ModelTypeContext } from '../context/PageProviders/ModelTypeProvider';
-import { CAR_TYPE } from '../utils/constants';
 import ErrorModal from '../components/modal/ErrorModal';
+import { ItemContext } from '../context/ItemProvider';
 
 export default function ModelTypePage() {
+  const { selectedItem } = useContext(ItemContext);
   const {
     data: modelTypeData,
     loading: modelTypeLoading,
     error: modelTypeError,
-  } = useFetch<IModelType[]>(`${MODEL_TYPE_API}/list?carid=${CAR_TYPE}`);
+  } = useFetch<IModelType[]>(`${MODEL_TYPE_API}/list?carid=${selectedItem.trim.id}`);
 
   const { setModelType, setLoading } = useContext(ModelTypeContext);
 

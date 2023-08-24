@@ -61,7 +61,7 @@ export default function DetailContainer() {
       handleModifyClick={() => navigate(PATH.modelType)}
     />
   ));
-  const colorSummaryItems = [selectedItem.innerColor, selectedItem.outerColor].map((color, idx) => {
+  const colorSummaryItems = [selectedItem.outerColor, selectedItem.innerColor].map((color, idx) => {
     return (
       <SummaryItem
         key={idx}
@@ -113,7 +113,7 @@ export default function DetailContainer() {
       >
         <DetailsItemList open={isOpen[2]}>{optionSummaryItems}</DetailsItemList>
       </Details>
-      <Details desc="-0 원" title="탁송" open={isOpen[3]} onClick={() => setOpenedIdx(3)}></Details>
+      <Details desc="+0 원" title="탁송" open={isOpen[3]} onClick={() => setOpenedIdx(3)}></Details>
       <Details
         desc="-0 원"
         title="할인 및 포인트"

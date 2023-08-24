@@ -71,11 +71,7 @@ export default function QuoteSummaryModal({ ...props }: IQuoteSummaryModal) {
             </ImgSection>
             <DetailSection>
               <Detail title="모델" name="팰리세이드" price={0} />
-              <Detail
-                title={'트림'}
-                name={selectedItem.trim.name}
-                price={selectedItem.trim.price}
-              />
+              <Detail title="트림" name={selectedItem.trim.name} price={selectedItem.trim.price} />
               <Hr />
               <Detail
                 title="파워트레인"
@@ -127,7 +123,7 @@ function Detail({ title, name, price }: IDetail) {
     <DetailWrapper>
       {title && <DetailTitle>{title}</DetailTitle>}
       {name && <DetailName>{name}</DetailName>}
-      {price && <DetailPrice>+ {price.toLocaleString()} 원</DetailPrice>}
+      <DetailPrice>+ {price ? price.toLocaleString() : 0} 원</DetailPrice>
     </DetailWrapper>
   );
 }
@@ -181,7 +177,6 @@ const DetailSection = styled.div`
 
 const DetailWrapper = styled.div`
   display: flex;
-  justify-content: space-between;
   ${BodyKrRegular3}
 `;
 const DetailTitle = styled.div`

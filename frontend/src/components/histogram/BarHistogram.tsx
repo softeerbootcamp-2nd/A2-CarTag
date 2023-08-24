@@ -54,8 +54,8 @@ export default function BarHistogram() {
     return (
       <BarItem key={historyId}>
         <Bar $height={`${percentage}%`}>
-          <BarValue>{soldCount}대</BarValue>
-          <BarItemName>내 견적</BarItemName>
+          <BarValue>{soldCount.toLocaleString()}대</BarValue>
+          <BarItemName>유사견적</BarItemName>
         </Bar>
       </BarItem>
     );
@@ -87,7 +87,8 @@ export default function BarHistogram() {
             들을 확인하고 비교해보세요.
           </Caption>
           <CaptionDesc>
-            유사 출고 견적이란, 내 견적과 해시태그 유사도가 높은 다른 사람들의 실제 출고 견적이에요.
+            유사 출고 견적이란, 판매량 및 내 견적과 선택 옵션 유사도가 높은 다른 사람들의 실제 출고
+            견적이에요.
           </CaptionDesc>
         </CaptionWrapper>
         {quoteListLoading || !hasSimilarQuote || !quoteListData ? (
@@ -147,7 +148,7 @@ const CaptionWrapper = styled.div`
   margin-bottom: 20px;
 `;
 const Caption = styled.div`
-  width: 200px;
+  word-break: keep-all;
 `;
 const BlueText = styled.span`
   color: ${({ theme }) => theme.color.activeBlue};

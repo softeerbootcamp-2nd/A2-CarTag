@@ -3,6 +3,7 @@ import {
   MouseEventHandler,
   useCallback,
   useContext,
+  useEffect,
   useRef,
   useState,
 } from 'react';
@@ -35,20 +36,22 @@ export default function SimilarQuoteModal({ ...props }: ISimilarQuoteModal) {
   const { totalPrice, selectedItem, setSelectedItem } = useContext(ItemContext);
   const { visible, setVisible, similarQuoteIdList } = useContext(SimilarQuoteModalContext);
   const [page, setPage] = useState(0);
-  const prevPrice = useRef(totalPrice);
+  const { data: similarQuoteData } = useSimilarDetail(similarQuoteIdList);
+  const CARD_SLIDE_MAX_PAGE = similarQuoteData ? similarQuoteData.length : 0;
+  const arrowLeftColor = page <= 0 ? theme.color.gray200 : theme.color.gray600;
+  const arrowRightColor =
+    page >= CARD_SLIDE_MAX_PAGE - 1 ? theme.color.gray200 : theme.color.gray600;
 
   const stopEvent: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation();
   };
 
-  const { data: similarQuoteData } = useSimilarDetail(similarQuoteIdList);
   const handlePrevPage = () => {
-    const prevPage = page <= 0 ? 0 : page - 1;
-    setPage(prevPage);
+    if (page - 1 < 0) return;
+    setPage(page - 1);
   };
   const handleNextPage = () => {
-    const maxPage = similarQuoteData ? similarQuoteData.length : 0;
-    if (page >= maxPage - 1) return;
+    if (page + 1 >= CARD_SLIDE_MAX_PAGE) return;
     setPage(page + 1);
   };
 
@@ -111,91 +114,107 @@ export default function SimilarQuoteModal({ ...props }: ISimilarQuoteModal) {
   );
 
   const difference =
-    similarQuoteData && similarQuoteData[page].reduce((acc, option) => acc + option.optionPrice, 0);
+    similarQuoteData && similarQuoteData?.length !== 0
+      ? similarQuoteData[page].reduce((acc, option) => acc + option.optionPrice, 0)
+      : 0;
 
+  const prevPrice = useRef(totalPrice);
+
+  useEffect(() => {
+    prevPrice.current = totalPrice;
+  }, [prevPrice, totalPrice]);
   return (
     <DimmedBackground $displayDimmed={visible} {...props}>
       <Modal onClick={stopEvent}>
-        {similarQuoteData ? (
-          <>
-            <Header>
-              <CloseBtn onClick={() => setVisible(false)}>
-                <CloseIcon />
-              </CloseBtn>
-            </Header>
-            <InfoWrapper>
-              <TextWrapper>
-                <TitleText>
-                  <BlueText>내 견적과 비슷한 실제 출고 견적</BlueText>들을 확인하고 비교해보세요.
-                </TitleText>
-                <DescText>
-                  *유사 출고 견적이란,
-                  <br />내 견적의 판매량과 선택 옵션 유사도가 높은 다른 사람들의 실제 출고
-                  견적이에요.
-                </DescText>
-              </TextWrapper>
-              <SimilarPriceBar similarPrice={50_000_000} />
-            </InfoWrapper>
-            <CardWrapper>
-              <LeftButton onClick={handlePrevPage}>
-                <ArrowLeft fill={theme.color.gray200} />
-              </LeftButton>
-              <CarInfo>
-                <InfoSection>
-                  <OrderInfo>유사견적서</OrderInfo>
-                  <TrimTitle>Le Blanc</TrimTitle>
-                  <TypeTagWrapper>
-                    <TypeTag>{selectedItem.modelType.powerTrain.name}</TypeTag>
-                    <TypeTag>{selectedItem.modelType.bodyType.name}</TypeTag>
-                    <TypeTag>{selectedItem.modelType.operation.name}</TypeTag>
-                  </TypeTagWrapper>
-                  <TotalPrice>{prevPrice.current.toLocaleString()}원</TotalPrice>
-                  <Difference>+ {difference?.toLocaleString()}원</Difference>
-                </InfoSection>
-                <ImgWrapper src={IMG_URL + selectedItem.outerColor.carImgSrc} />
-              </CarInfo>
-              <OptionInfo>
-                <HmgTagWrapper>
-                  <HmgTag size="small" />
-                </HmgTagWrapper>
-                <OptionSection>
-                  <p>내 견적에 없는 옵션이에요.</p>
-                  <OptionCardWrapper>{displayCards(page)}</OptionCardWrapper>
-                </OptionSection>
-              </OptionInfo>
-              <RightButton onClick={handleNextPage}>
-                <ArrowRight fill={theme.color.gray200} />
-              </RightButton>
-            </CardWrapper>
-            <OkButton type={'price'} onClick={handleOkButton}>
-              옵션 선택하기
-            </OkButton>
-          </>
-        ) : (
-          <Loading />
-        )}
+        <Wrapper>
+          <Header>
+            <CloseBtn onClick={() => setVisible(false)}>
+              <CloseIcon />
+            </CloseBtn>
+          </Header>
+          {similarQuoteData ? (
+            <>
+              <InfoWrapper>
+                <TextWrapper>
+                  <TitleText>
+                    <BlueText>내 견적과 비슷한 실제 출고 견적</BlueText>들을 확인하고 비교해보세요.
+                  </TitleText>
+                  <DescText>
+                    *유사 출고 견적이란,
+                    <br />내 견적의 판매량과 선택 옵션 유사도가 높은 다른 사람들의 실제 출고
+                    견적이에요.
+                  </DescText>
+                </TextWrapper>
+                <SimilarPriceBar similarPrice={prevPrice.current + difference} />
+              </InfoWrapper>
+              <CardWrapper>
+                <LeftButton
+                  onClick={handlePrevPage}
+                  style={{ cursor: page <= 0 ? 'default' : 'pointer' }}
+                >
+                  <ArrowLeft fill={arrowLeftColor} />
+                </LeftButton>
+                <CarInfo>
+                  <InfoSection>
+                    <OrderInfo>유사견적서</OrderInfo>
+                    <TrimTitle>{selectedItem.trim.name}</TrimTitle>
+                    <TypeTagWrapper>
+                      <TypeTag>{selectedItem.modelType.powerTrain.name}</TypeTag>
+                      <TypeTag>{selectedItem.modelType.bodyType.name}</TypeTag>
+                      <TypeTag>{selectedItem.modelType.operation.name}</TypeTag>
+                    </TypeTagWrapper>
+                    <TotalPrice>{(prevPrice.current + difference!).toLocaleString()}원</TotalPrice>
+                    <Difference>+ {difference?.toLocaleString()}원</Difference>
+                  </InfoSection>
+                  <ImgWrapper src={IMG_URL + selectedItem.outerColor.carImgSrc} />
+                </CarInfo>
+                <OptionInfo>
+                  <HmgTagWrapper>
+                    <HmgTag size="small" />
+                  </HmgTagWrapper>
+                  <OptionSection>
+                    <p>내 견적에 없는 옵션이에요.</p>
+                    <OptionCardWrapper>{displayCards(page)}</OptionCardWrapper>
+                  </OptionSection>
+                </OptionInfo>
+                <RightButton
+                  onClick={handleNextPage}
+                  style={{ cursor: page >= CARD_SLIDE_MAX_PAGE - 1 ? 'default' : 'pointer' }}
+                >
+                  <ArrowRight fill={arrowRightColor} />
+                </RightButton>
+              </CardWrapper>
+            </>
+          ) : (
+            <Loading />
+          )}
+        </Wrapper>
+        <OkButton type={'price'} onClick={handleOkButton}>
+          옵션 선택하기
+        </OkButton>
       </Modal>
     </DimmedBackground>
   );
 }
 
 const Modal = styled.div`
-  position: relative;
-  display: flex;
+  background: ${({ theme }) => theme.color.white};
+  width: 850px;
+  height: 520px;
+  position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-
-  width: 850px;
-  height: 520px;
   border-radius: 8px;
-  background: ${({ theme }) => theme.color.white};
-
-  padding: 20px 20px 72px 20px;
-  display: flex;
-  flex-direction: column;
 `;
 
+const Wrapper = styled.div`
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  position: relative;
+  padding: 20px 20px 72px 20px;
+`;
 const Header = styled.div`
   display: flex;
   justify-content: flex-end;
@@ -210,8 +229,7 @@ const InfoWrapper = styled.div`
 const TextWrapper = styled.div`
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  width: 367px;
+  justify-content: space-around;
   gap: 15px;
 `;
 const TitleText = styled.div`
@@ -306,6 +324,7 @@ const TypeTagWrapper = styled.div`
   display: flex;
   gap: 10px;
   height: 16px;
+  margin-bottom: 4px;
 `;
 const TypeTag = styled.div`
   ${flexCenterCss}

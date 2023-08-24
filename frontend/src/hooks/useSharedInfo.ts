@@ -16,7 +16,7 @@ interface IColorInfo {
   colorImage: string;
   colorType: string;
   colorPrice: number;
-  colorBoughtCount: number | null;
+  colorBoughtCount: number;
   colorCarImage: string;
 }
 export interface ISharedInfo {

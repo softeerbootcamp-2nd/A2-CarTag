@@ -147,10 +147,10 @@ const TrimSection = styled.div`
 `;
 
 const TrimCard = styled(DefaultCardStyle)`
+  width: 25%;
   padding: 20px 16px 12px 16px;
   height: 158px;
   box-sizing: border-box;
-  width: 100%;
 `;
 
 const TrimTitle = styled.div`

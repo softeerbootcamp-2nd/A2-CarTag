@@ -96,13 +96,6 @@ export default function OuterColorBannerContainer() {
     [selectedItem, isLoaded]
   );
 
-  const displayCar360Components = useCallback(() => {
-    return car360UrlsData?.map((url, idx) => {
-      const imgSrc = imgBlobUrl[url];
-      return <CarImg key={idx} src={imgSrc} $visible={imgState.visibleIdx === idx} />;
-    });
-  }, [car360UrlsData, imgBlobUrl, imgState]);
-
   useEffect(() => {
     if (!car360UrlsData || loading) return;
     const abortController = new AbortController();
@@ -111,6 +104,8 @@ export default function OuterColorBannerContainer() {
       abortController.abort();
     };
   }, [downloadAndSaveImages, car360UrlsData, loading]);
+
+  const imgSrc = car360UrlsData ? imgBlobUrl[car360UrlsData[imgState.visibleIdx]] : '';
 
   return (
     <>
@@ -124,7 +119,7 @@ export default function OuterColorBannerContainer() {
             <CarShadow>
               <DegreeCaption>360°</DegreeCaption>
             </CarShadow>
-            {imgState.imgLoading ? <Loading /> : displayCar360Components()}
+            {imgState.imgLoading || !car360UrlsData ? <Loading /> : <CarImg src={imgSrc} />}
           </ImgWrapper>
         </FlexCenterWrapper>
       </OuterColorBanner>
@@ -135,8 +130,7 @@ export default function OuterColorBannerContainer() {
 const OuterColorBanner = styled(Banner)`
   background: ${({ theme }) => theme.color.blueBg};
 `;
-const CarImg = styled.img<{ $visible: boolean }>`
-  display: ${({ $visible }) => ($visible ? 'block' : 'none')};
+const CarImg = styled.img`
   position: absolute;
   right: 0;
   width: 592px;
