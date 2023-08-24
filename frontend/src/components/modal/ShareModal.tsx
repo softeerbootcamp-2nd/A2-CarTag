@@ -1,4 +1,4 @@
-import { HTMLAttributes, useContext, useState } from 'react';
+import { HTMLAttributes, useContext, useRef, useState } from 'react';
 import { DimmedBackground } from './DimmedBackground';
 import WhiteModal from './WhiteModal';
 import { styled } from 'styled-components';
@@ -18,10 +18,24 @@ export default function ShareModal({ ...props }: IShareModal) {
   const { visible, setVisible } = useContext(ShareModalContext);
   const { selectedItem } = useContext(ItemContext);
   const [copyAlertVisible, setCopyAlertVisible] = useState(false);
+  const copyTarget = useRef<HTMLParagraphElement>(null);
+
+  function unsecuredCopyToClipboard(text: string) {
+    const textArea = document.createElement('textarea');
+    textArea.value = text;
+    document.body.appendChild(textArea);
+    textArea.select();
+    try {
+      document.execCommand('copy');
+    } catch (err) {
+      console.error('Unable to copy to clipboard', err);
+    }
+    document.body.removeChild(textArea);
+  }
 
   const handleCopyClick = async () => {
     try {
-      await navigator.clipboard.writeText(shareUrl);
+      unsecuredCopyToClipboard(shareUrl);
       setCopyAlertVisible(true);
       setTimeout(() => {
         setCopyAlertVisible(false);
@@ -109,7 +123,7 @@ export default function ShareModal({ ...props }: IShareModal) {
           <Desc>내 견적서 링크를 복사해 견적을 다시 확인해보세요.</Desc>
         </div>
         <LinkWrapper>
-          <UrlText>{shareUrl}</UrlText>
+          <UrlText ref={copyTarget}>{shareUrl}</UrlText>
           <ButtonContainer>
             <CopyButton onClick={handleCopyClick}>
               <Alert $visible={copyAlertVisible}>copied!</Alert>
