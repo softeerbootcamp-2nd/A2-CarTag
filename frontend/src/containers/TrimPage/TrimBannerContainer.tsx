@@ -39,8 +39,8 @@ export default function TrimBannerContainer() {
 
   const downloadAndSaveImages = useCallback(async () => {
     const imageBlobs = await Promise.all(
-      imageUrls.current.map(async (url) => {
-        const response = await fetch(url);
+      imageUrls.current.map(async (url, idx) => {
+        const response = await fetch(url + `?${idx}`);
         const blob = await response.blob();
         return blob;
       })
@@ -54,6 +54,7 @@ export default function TrimBannerContainer() {
 
   const setImages = useCallback(() => {
     if (!trimData) return;
+    setImagesLoading(true);
     imageUrls.current = [];
     filterImageUrls(trimData);
     downloadAndSaveImages();

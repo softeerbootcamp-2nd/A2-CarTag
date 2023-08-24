@@ -21,6 +21,7 @@ export interface IEfficiencyType {
   displacement: string;
 }
 export interface ISelectedItem {
+  cartype: defaultItemType;
   trim: defaultItemType;
   modelType: {
     powerTrain: detailItemType;
@@ -70,6 +71,11 @@ interface IItemProvider {
 }
 
 const initialSelectedItem = {
+  cartype: {
+    id: 1,
+    name: '팰리세이드',
+    price: 0,
+  },
   trim: {
     id: 1,
     name: '',
@@ -188,7 +194,6 @@ export default function ItemProvider({ children }: IItemProvider) {
 
   useEffect(() => {
     if (!data || loading || error) return;
-
     setSelectedItem({
       type: 'SET_TRIM',
       value: {
