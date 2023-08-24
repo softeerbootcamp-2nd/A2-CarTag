@@ -6,7 +6,7 @@ import { IMG_URL } from '../../utils/apis';
 import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
-import { ICartype, TrimContext } from '../../context/TrimProvider';
+import { ICartype, TrimContext } from '../../context/PageProviders/TrimProvider';
 import Loading from '../../components/loading/Loading';
 import { ItemContext } from '../../context/ItemProvider';
 

@@ -1,17 +1,23 @@
 import { styled } from 'styled-components';
-import { BodyKrMedium5, HeadingKrMedium7 } from '../../styles/typefaces';
+import { BodyKrMedium5 } from '../../styles/typefaces';
 import { CheckIcon } from '../common/icons/Icons';
 import DefaultCardStyle from '../common/card/DefaultCardStyle';
 import { HTMLAttributes } from 'react';
 
-interface ISubOptionCard extends HTMLAttributes<HTMLDivElement> {
+interface ISummaryOptionCard extends HTMLAttributes<HTMLDivElement> {
   active: boolean;
   title: string;
   price: number;
   imgSrc: string;
 }
 
-export default function SubOptionCard({ active, title, price, imgSrc, ...props }: ISubOptionCard) {
+export default function SummaryOptionCard({
+  active,
+  title,
+  price,
+  imgSrc,
+  ...props
+}: ISummaryOptionCard) {
   return (
     <Card active={active} {...props}>
       <OptionImg src={imgSrc} />
@@ -20,7 +26,7 @@ export default function SubOptionCard({ active, title, price, imgSrc, ...props }
           <OptionTitle>{title}</OptionTitle>
         </div>
         <OptionPrice>
-          +{price} 원 <CheckIcon active={active} />
+          +{price.toLocaleString()} 원 <CheckIcon active={active} />
         </OptionPrice>
       </OptionCardInfo>
     </Card>
@@ -49,7 +55,7 @@ const OptionCardInfo = styled.div`
 `;
 
 const OptionTitle = styled.div`
-  ${HeadingKrMedium7}
+  ${BodyKrMedium5}
 `;
 const OptionPrice = styled.div`
   ${BodyKrMedium5}

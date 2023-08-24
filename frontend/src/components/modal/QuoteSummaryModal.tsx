@@ -1,7 +1,7 @@
 import { HTMLAttributes, useContext, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { styled } from 'styled-components';
-import { QuoteSummaryModalContext } from '../../context/QuoteSummaryModalProvider';
+import { QuoteSummaryModalContext } from '../../context/ModalProviders/QuoteSummaryModalProvider';
 import { PATH } from '../../utils/constants';
 import { ItemContext } from '../../context/ItemProvider';
 import RectButton from '../common/buttons/RectButton';

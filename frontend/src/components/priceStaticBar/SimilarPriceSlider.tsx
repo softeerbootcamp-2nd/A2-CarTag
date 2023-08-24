@@ -57,6 +57,8 @@ export default function SimilarPriceSlider({
       <PriceInfo>
         <span>{selectedItem.trim.price / TEN_THOUSAND_UNIT}만원</span>
         <span>{HIGHEST_PRICE / TEN_THOUSAND_UNIT}만원</span>
+        <span>{selectedItem.trim.price / TEN_THOUSAND_UNIT}만원</span>
+        <span>{HIGHEST_PRICE / TEN_THOUSAND_UNIT}만원</span>
       </PriceInfo>
     </PriceBarWrapper>
   );

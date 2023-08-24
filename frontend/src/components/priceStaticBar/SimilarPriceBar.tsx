@@ -75,6 +75,9 @@ const StatusBox = styled.div<{ $isover: boolean }>`
   ${PriceInfo} {
     color: ${({ theme, $isover }) => ($isover ? theme.color.sand : theme.color.activeBlue2)};
   }
+  ${PriceInfo} {
+    color: ${({ theme, $isover }) => ($isover ? theme.color.sand : theme.color.activeBlue2)};
+  }
 `;
 
 const StatusText = styled.div`

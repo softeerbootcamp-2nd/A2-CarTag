@@ -4,7 +4,7 @@ import ModelFooterContainer from '../containers/ModelTypePage/ModelTypeFooterCon
 import ModelSelectContainer from '../containers/ModelTypePage/ModelTypeSelectContainer';
 import { useFetch } from '../hooks/useFetch';
 import { MODEL_TYPE_API } from '../utils/apis';
-import { IModelType, ModelTypeContext } from '../context/ModelTypeProvider';
+import { IModelType, ModelTypeContext } from '../context/PageProviders/ModelTypeProvider';
 import { CAR_TYPE } from '../utils/constants';
 import ErrorModal from '../components/modal/ErrorModal';
 

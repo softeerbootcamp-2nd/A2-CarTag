@@ -1,4 +1,11 @@
-import { HTMLAttributes, MouseEventHandler, useContext } from 'react';
+import {
+  HTMLAttributes,
+  MouseEventHandler,
+  useCallback,
+  useContext,
+  useRef,
+  useState,
+} from 'react';
 import { styled, useTheme } from 'styled-components';
 import { ArrowLeft, ArrowRight, CloseIcon } from '../common/icons/Icons';
 import {
@@ -13,83 +20,160 @@ import { flexCenterCss } from '../../utils/commonStyle';
 import HmgTag from '../common/hmgTag/HmgTag';
 import RectButton from '../common/buttons/RectButton';
 import { DimmedBackground } from './DimmedBackground';
-import { SimilarQuoteModalContext } from '../../context/SimilarQuoteModalProvider';
+import { SimilarQuoteModalContext } from '../../context/ModalProviders/SimilarQuoteModalProvider';
 import SimilarPriceBar from '../priceStaticBar/SimilarPriceBar';
-import SubOptionCard from '../cards/SubOptionCard';
+import { IMG_URL } from '../../utils/apis';
+import useSimilarDetail, { ISimilarQuoteOption } from '../../hooks/useSimilarDetail';
+import { ItemContext, detailItemType } from '../../context/ItemProvider';
+import SummaryOptionCard from '../cards/SummaryOptionCard';
+import Loading from '../loading/Loading';
 
 interface ISimilarQuoteModal extends HTMLAttributes<HTMLDivElement> {}
 
 export default function SimilarQuoteModal({ ...props }: ISimilarQuoteModal) {
   const theme = useTheme();
-  const { visible, setVisible } = useContext(SimilarQuoteModalContext);
+  const { totalPrice, selectedItem, setSelectedItem } = useContext(ItemContext);
+  const { visible, setVisible, similarQuoteIdList } = useContext(SimilarQuoteModalContext);
+  const [page, setPage] = useState(0);
+  const prevPrice = useRef(totalPrice);
+
   const stopEvent: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation();
   };
+
+  const { data: similarQuoteData } = useSimilarDetail(similarQuoteIdList);
+  const handlePrevPage = () => {
+    const prevPage = page <= 0 ? 0 : page - 1;
+    setPage(prevPage);
+  };
+  const handleNextPage = () => {
+    const maxPage = similarQuoteData ? similarQuoteData.length : 0;
+    if (page >= maxPage - 1) return;
+    setPage(page + 1);
+  };
+
+  const handleOkButton = () => {
+    setVisible(false);
+  };
+
+  const isActive = useCallback(
+    (id: number) => {
+      return !!selectedItem.options.find((selectedOption) => selectedOption.id === id);
+    },
+    [selectedItem]
+  );
+
+  const handleCardClick = useCallback(
+    (option: ISimilarQuoteOption) => {
+      if (isActive(option.optionId)) {
+        const filteredOptions = selectedItem.options.filter(
+          (selectedOption) => selectedOption.id !== option.optionId
+        );
+        setSelectedItem({ type: 'SET_OPTIONS', value: filteredOptions });
+      } else {
+        const newOption: detailItemType = {
+          id: option.optionId,
+          imgSrc: option.optionImage,
+          name: option.optionName,
+          title: option.optionTitle,
+          price: option.optionPrice,
+        };
+
+        const newOptions = Array.from(new Set([...selectedItem.options, newOption]));
+        setSelectedItem({ type: 'SET_OPTIONS', value: newOptions });
+      }
+    },
+    [isActive, setSelectedItem, selectedItem.options]
+  );
+
+  const displayCards = useCallback(
+    (page: number) => {
+      if (similarQuoteData === null) return;
+
+      const optionCards = similarQuoteData[page]?.map((option, idx) => {
+        if (option === null) return;
+
+        return (
+          <SummaryOptionCard
+            key={idx}
+            active={isActive(option.optionId)}
+            imgSrc={IMG_URL + option.optionImage}
+            title={option.optionName}
+            price={option.optionPrice}
+            onClick={() => handleCardClick(option)}
+          />
+        );
+      });
+
+      return optionCards;
+    },
+    [similarQuoteData, handleCardClick, isActive]
+  );
+
+  const difference =
+    similarQuoteData && similarQuoteData[page].reduce((acc, option) => acc + option.optionPrice, 0);
+
   return (
     <DimmedBackground $displayDimmed={visible} {...props}>
       <Modal onClick={stopEvent}>
-        <Header>
-          <CloseBtn onClick={() => setVisible(false)}>
-            <CloseIcon />
-          </CloseBtn>
-        </Header>
-        <InfoWrapper>
-          <TextWrapper>
-            <TitleText>
-              <BlueText>내 견적과 비슷한 실제 출고 견적</BlueText>들을 확인하고 비교해보세요.
-            </TitleText>
-            <DescText>
-              *유사 출고 견적이란,
-              <br />내 견적과 해시태그 유사도가 높은 다른 사람들의 실제 출고 견적이에요.
-            </DescText>
-          </TextWrapper>
-          <SimilarPriceBar similarPrice={50_000_000} />
-        </InfoWrapper>
-        <CardWrapper>
-          <CarInfo>
-            <IconBtn>
-              <ArrowLeft fill={theme.color.gray200} />
-            </IconBtn>
-            <InfoSection>
-              <OrderInfo>첫번째 유사견적서</OrderInfo>
-              <TrimTitle>Le Blanc</TrimTitle>
-              <TypeTagWrapper>
-                <TypeTag>디젤 2.2</TypeTag>
-                <TypeTag>7인승</TypeTag>
-                <TypeTag>2WD</TypeTag>
-              </TypeTagWrapper>
-              <TotalPrice>41,980,000 원</TotalPrice>
-              <Difference>+ 560,000원</Difference>
-            </InfoSection>
-            <ImgWrapper></ImgWrapper>
-          </CarInfo>
-          <OptionInfo>
-            <HmgTagWrapper>
-              <HmgTag size="small" />
-            </HmgTagWrapper>
-            <OptionSection>
-              <p>내 견적에 없는 옵션이에요.</p>
-              <OptionCardWrapper>
-                <SubOptionCard
-                  active={false}
-                  title="디젤 2.2"
-                  price={0}
-                  onClick={() => null}
-                ></SubOptionCard>
-                <SubOptionCard
-                  active={false}
-                  title="디젤 2.2"
-                  price={0}
-                  onClick={() => null}
-                ></SubOptionCard>
-              </OptionCardWrapper>
-            </OptionSection>
-            <IconBtn>
-              <ArrowRight fill={theme.color.gray200} />
-            </IconBtn>
-          </OptionInfo>
-        </CardWrapper>
-        <TmpBtn type={'price'}>옵션을 선택해 추가해보세요.</TmpBtn>
+        {similarQuoteData ? (
+          <>
+            <Header>
+              <CloseBtn onClick={() => setVisible(false)}>
+                <CloseIcon />
+              </CloseBtn>
+            </Header>
+            <InfoWrapper>
+              <TextWrapper>
+                <TitleText>
+                  <BlueText>내 견적과 비슷한 실제 출고 견적</BlueText>들을 확인하고 비교해보세요.
+                </TitleText>
+                <DescText>
+                  *유사 출고 견적이란,
+                  <br />내 견적의 판매량과 선택 옵션 유사도가 높은 다른 사람들의 실제 출고
+                  견적이에요.
+                </DescText>
+              </TextWrapper>
+              <SimilarPriceBar similarPrice={50_000_000} />
+            </InfoWrapper>
+            <CardWrapper>
+              <LeftButton onClick={handlePrevPage}>
+                <ArrowLeft fill={theme.color.gray200} />
+              </LeftButton>
+              <CarInfo>
+                <InfoSection>
+                  <OrderInfo>유사견적서</OrderInfo>
+                  <TrimTitle>Le Blanc</TrimTitle>
+                  <TypeTagWrapper>
+                    <TypeTag>{selectedItem.modelType.powerTrain.name}</TypeTag>
+                    <TypeTag>{selectedItem.modelType.bodyType.name}</TypeTag>
+                    <TypeTag>{selectedItem.modelType.operation.name}</TypeTag>
+                  </TypeTagWrapper>
+                  <TotalPrice>{prevPrice.current.toLocaleString()}원</TotalPrice>
+                  <Difference>+ {difference?.toLocaleString()}원</Difference>
+                </InfoSection>
+                <ImgWrapper src={IMG_URL + selectedItem.outerColor.carImgSrc} />
+              </CarInfo>
+              <OptionInfo>
+                <HmgTagWrapper>
+                  <HmgTag size="small" />
+                </HmgTagWrapper>
+                <OptionSection>
+                  <p>내 견적에 없는 옵션이에요.</p>
+                  <OptionCardWrapper>{displayCards(page)}</OptionCardWrapper>
+                </OptionSection>
+              </OptionInfo>
+              <RightButton onClick={handleNextPage}>
+                <ArrowRight fill={theme.color.gray200} />
+              </RightButton>
+            </CardWrapper>
+            <OkButton type={'price'} onClick={handleOkButton}>
+              옵션 선택하기
+            </OkButton>
+          </>
+        ) : (
+          <Loading />
+        )}
       </Modal>
     </DimmedBackground>
   );
@@ -150,6 +234,7 @@ const CardWrapper = styled.div`
   margin-top: 25px;
   border: 1px solid ${({ theme }) => theme.color.skyBlue};
   border-radius: 2px;
+  padding: 0 30px;
 `;
 
 const CarInfo = styled.div`
@@ -189,8 +274,19 @@ const OptionCardWrapper = styled.div`
   gap: 8px;
 `;
 
-const IconBtn = styled.button`
+const LeftButton = styled.button`
   padding: 8px;
+  position: absolute;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+`;
+const RightButton = styled.button`
+  padding: 8px;
+  position: absolute;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
 `;
 
 const InfoSection = styled.div`
@@ -227,16 +323,12 @@ const Difference = styled.span`
   ${BodyKrRegular5};
 `;
 
-const ImgWrapper = styled.div`
+const ImgWrapper = styled.img`
   width: 274px;
   height: 156px;
-  background-image: url('images/similar_quote/similar1.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
 `;
 
-const TmpBtn = styled(RectButton)`
+const OkButton = styled(RectButton)`
   position: absolute;
   bottom: 0;
   left: 0;

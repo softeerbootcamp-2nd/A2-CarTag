@@ -68,6 +68,7 @@ const BudgetInfo = styled.div`
   background-color: black;
   opacity: 0.9;
 `;
+
 const MarkerSvgWrapper = styled.div`
   height: 100%;
   position: relative;

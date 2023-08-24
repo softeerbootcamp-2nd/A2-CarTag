@@ -11,8 +11,8 @@ import HmgTag from '../../components/common/hmgTag/HmgTag';
 import OptionTab from '../../components/tabs/OptionTab';
 import { useContext, useEffect, useState } from 'react';
 import { IMG_URL, OPTION_API } from '../../utils/apis';
-import { DefaultOptionContext } from '../../context/DefaultOptionProvider';
-import { SubOptionContext } from '../../context/SubOptionProvider';
+import { DefaultOptionContext } from '../../context/PageProviders/DefaultOptionProvider';
+import { SubOptionContext } from '../../context/PageProviders/SubOptionProvider';
 import { CAR_TYPE } from '../../utils/constants';
 import { useFetch } from '../../hooks/useFetch';
 

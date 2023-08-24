@@ -4,7 +4,7 @@ import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import InnerColorCard from '../../components/cards/InnerColorCard';
 import CardSlider from '../../components/cardSlider/CardSlider';
 import { NUM_IN_A_PAGE } from '../../utils/constants';
-import { IInnerColor, InnerColorContext } from '../../context/InnerColorProvider';
+import { IInnerColor, InnerColorContext } from '../../context/PageProviders/InnerColorProvider';
 import { IMG_URL } from '../../utils/apis';
 import { ItemContext } from '../../context/ItemProvider';
 

@@ -8,13 +8,13 @@ import ResultPage from '../../pages/ResultPage';
 import TrimPage from '../../pages/TrimPage';
 import ModelTypePage from '../../pages/ModelTypePage';
 import { PATH } from '../../utils/constants';
-import TrimProvider from '../../context/TrimProvider';
-import ModelTypeProvider from '../../context/ModelTypeProvider';
-import OuterColorProvider from '../../context/OuterColorProvider';
-import SubOptionProvider from '../../context/SubOptionProvider';
-import DefaultOptionProvider from '../../context/DefaultOptionProvider';
+import TrimProvider from '../../context/PageProviders/TrimProvider';
+import ModelTypeProvider from '../../context/PageProviders/ModelTypeProvider';
+import OuterColorProvider from '../../context/PageProviders/OuterColorProvider';
+import SubOptionProvider from '../../context/PageProviders/SubOptionProvider';
+import DefaultOptionProvider from '../../context/PageProviders/DefaultOptionProvider';
 import Providers from '../contextProviders/Providers';
-import InnerColorProvider from '../../context/InnerColorProvider';
+import InnerColorProvider from '../../context/PageProviders/InnerColorProvider';
 
 export default function CustomRouter() {
   const optionProviders = [SubOptionProvider, DefaultOptionProvider];

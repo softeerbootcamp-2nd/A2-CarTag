@@ -1,20 +1,19 @@
 import { styled, useTheme } from 'styled-components';
 import HmgTag from '../common/hmgTag/HmgTag';
 import { BodyKrMedium2, BodyKrRegular2, HeadingKrMedium5 } from '../../styles/typefaces';
-import { useCallback, useEffect, useRef, useState } from 'react';
-
-// 임시 데이터
-const carData = {
-  4300: 0,
-  4400: 100,
-  4500: 300,
-  4600: 100,
-  4700: 0,
-};
-const mycarPrice = 4400;
+import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useFetch } from '../../hooks/useFetch';
+import { BOUGHT_INFO_API } from '../../utils/apis';
+import { ItemContext } from '../../context/ItemProvider';
+import Loading from '../loading/Loading';
 
 interface ICarData {
   [key: string]: number;
+}
+
+interface IBoughtInfo {
+  totalPrice: number;
+  count: number;
 }
 
 interface ICircle {
@@ -25,18 +24,44 @@ interface ICircle {
 type CoordType = [number, number];
 
 export default function CurveHistogram() {
-  const theme = useTheme();
-  const histogramRef = useRef<SVGSVGElement>(null);
   const [svgSize, setSvgSize] = useState({ width: 0, height: 0 });
-  const [d, setD] = useState('');
   const [circlePos, setCirclePos] = useState({ x: 0, y: 0 });
+  const [priceRange, setPriceRange] = useState({ max: 0, min: 0 });
+  const [d, setD] = useState('');
+  const { data: boughtInfoListData, loading: boughtInfoListLoading } =
+    useFetch<IBoughtInfo[]>(BOUGHT_INFO_API);
+  const theme = useTheme();
+  const histogramRef = useRef<HTMLDivElement>(null);
+  const { totalPrice } = useContext(ItemContext);
+
+  const transformData = (boughtInfoData: IBoughtInfo[]) => {
+    const transfromedBoughtInfoData: { [key: number]: number } = {};
+    boughtInfoData.forEach((boughtInfo) => {
+      transfromedBoughtInfoData[boughtInfo.totalPrice] = boughtInfo.count;
+    });
+    return transfromedBoughtInfoData;
+  };
+
+  const findNearMyPrice = useCallback(
+    (transformed: { [key: number]: number }) => {
+      let result = 0;
+      for (const priceStr of Object.keys(transformed)) {
+        const price = parseInt(priceStr);
+        if (price >= totalPrice) {
+          return (result = price);
+        }
+      }
+      return result;
+    },
+    [totalPrice]
+  );
 
   const initSvgSize = () => {
     if (!histogramRef.current) {
       return;
     }
     const { width, height } = histogramRef.current.getBoundingClientRect();
-    setSvgSize({ width, height: height - 20 });
+    setSvgSize({ width, height: height - 10 });
   };
 
   const getCoords = useCallback(
@@ -72,26 +97,38 @@ export default function CurveHistogram() {
 
   const drawCircle = useCallback(
     (mycarPrice: number) => {
-      const coords = getCoords(carData);
-      const carDataKeys = Object.keys(carData);
-      const mycarIdx = carDataKeys.findIndex((value) => value === mycarPrice.toString());
+      if (!boughtInfoListData) return;
+      const transformedBoughtInfoData = transformData(boughtInfoListData);
+      const coords = getCoords(transformedBoughtInfoData);
+      const boughtInfoKeys = Object.keys(transformedBoughtInfoData);
+      const mycarIdx = boughtInfoKeys.findIndex((value) => value === mycarPrice.toString());
       if (mycarIdx === -1) {
-        alert('price와 일치하는 데이터 없음');
         return;
       }
       const [mycarX, myCarY] = coords[mycarIdx];
       setCirclePos({ x: mycarX, y: myCarY });
     },
-    [getCoords]
+    [getCoords, boughtInfoListData]
   );
 
   const drawHistogram = useCallback(() => {
-    drawLine(carData);
+    if (!boughtInfoListData) return;
+    const transformedBoughtInfoData = transformData(boughtInfoListData);
+    const mycarPrice = findNearMyPrice(transformedBoughtInfoData);
+    drawLine(transformedBoughtInfoData);
     drawCircle(mycarPrice);
-  }, [drawLine, drawCircle]);
+  }, [drawLine, drawCircle, boughtInfoListData, findNearMyPrice]);
 
   useEffect(initSvgSize, [histogramRef]);
   useEffect(drawHistogram, [svgSize, drawHistogram]);
+  useEffect(() => {
+    if (!boughtInfoListData) return;
+    const transformedBoughtInfoData = transformData(boughtInfoListData);
+    const priceList = Object.keys(transformedBoughtInfoData).map(Number);
+    const minPrice = Math.min(...priceList);
+    const maxPrice = Math.max(...priceList);
+    setPriceRange({ max: maxPrice, min: minPrice });
+  }, [boughtInfoListData]);
 
   return (
     <HistogramWrapper>
@@ -104,18 +141,26 @@ export default function CurveHistogram() {
             입니다.
           </Caption>
         </CaptionWrapper>
-        <HistogramSvg viewBox="-20 -20  320 140 " strokeWidth={2} ref={histogramRef}>
-          <path d={d} fill="none" strokeWidth="3" stroke={theme.color.gray200}></path>
-          <Circle cx={circlePos.x} cy={circlePos.y} />
-        </HistogramSvg>
+
+        <HistogramSection ref={histogramRef}>
+          {boughtInfoListLoading ? (
+            <Loading />
+          ) : (
+            <HistogramSvg viewBox="-20 -10 320 160 " strokeWidth={2}>
+              <path d={d} fill="none" strokeWidth="3" stroke={theme.color.gray200}></path>
+              <Circle cx={circlePos.x} cy={circlePos.y} />
+            </HistogramSvg>
+          )}
+        </HistogramSection>
+
         <XCaptionWrapper>
           <MinXCaption>
             <XTitle>최소</XTitle>
-            <XValue>43,000,000원</XValue>
+            <XValue>{priceRange.min.toLocaleString()}원</XValue>
           </MinXCaption>
           <MaxXCaption>
             <XTitle>최대</XTitle>
-            <XValue>43,000,000원</XValue>
+            <XValue>{priceRange.max.toLocaleString()}원</XValue>
           </MaxXCaption>
         </XCaptionWrapper>
       </PaddingWrapper>
@@ -159,7 +204,7 @@ const getControllPoint = (
   next: CoordType,
   isEndPoint?: boolean
 ) => {
-  const smooth = 0.2;
+  const smooth = 0.1;
   const p = prev || cur;
   const n = next || cur;
   const { length, angle } = getOpossedLine(p, n);
@@ -218,3 +263,4 @@ const XTitle = styled.div`
 const XValue = styled.div`
   ${BodyKrRegular2}
 `;
+const HistogramSection = styled.div``;

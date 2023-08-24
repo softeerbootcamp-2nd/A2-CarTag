@@ -10,3 +10,6 @@ export const INNER_COLOR_API = `${BASE_API_URL}/api/cars/colors/inner`;
 export const DEFAULT_INFO_API = `${BASE_API_URL}/api/cars/infos/defaults`;
 export const SHARE_INFO_API = `${BASE_API_URL}/api/quote/infos/shares`;
 export const CAR_LIST_API = `${BASE_API_URL}/api/cars/list`;
+export const QUOTE_LIST_API = `${BASE_API_URL}/api/quote/list`;
+export const BOUGHT_INFO_API = `${BASE_API_URL}/api/quote/bought/infos?carid=1`;
+export const HISTORIES_API = `${BASE_API_URL}/api/quote/histories/detail`;

@@ -3,7 +3,7 @@ import TrimBannerContainer from '../containers/TrimPage/TrimBannerContainer';
 import TrimSelectContainer from '../containers/TrimPage/TrimSelectContainer';
 import { useFetch } from '../hooks/useFetch';
 import { TRIM_API } from '../utils/apis';
-import { ICartype, TrimContext } from '../context/TrimProvider';
+import { ICartype, TrimContext } from '../context/PageProviders/TrimProvider';
 import ErrorModal from '../components/modal/ErrorModal';
 
 export default function TrimPage() {

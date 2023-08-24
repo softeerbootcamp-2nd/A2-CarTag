@@ -5,7 +5,7 @@ import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { IMG_URL } from '../../utils/apis';
 import Loading from '../../components/loading/Loading';
-import { OuterColorContext } from '../../context/OuterColorProvider';
+import { OuterColorContext } from '../../context/PageProviders/OuterColorProvider';
 import car360Reducer from '../../reducer/car360Reducer';
 import { ItemContext } from '../../context/ItemProvider';
 

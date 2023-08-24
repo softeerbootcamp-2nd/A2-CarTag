@@ -5,8 +5,8 @@ import DefaultCardStyle from '../common/card/DefaultCardStyle';
 import { HTMLAttributes, useContext } from 'react';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { ItemContext } from '../../context/ItemProvider';
-import { IDefaultOption } from '../../context/DefaultOptionProvider';
-import { ISubOption } from '../../context/SubOptionProvider';
+import { IDefaultOption } from '../../context/PageProviders/DefaultOptionProvider';
+import { ISubOption } from '../../context/PageProviders/SubOptionProvider';
 import { PERCENTAGE_LIMIT_VALUE } from '../../utils/constants';
 interface IOptionCard extends HTMLAttributes<HTMLDivElement> {
   type: 'default' | 'sub';

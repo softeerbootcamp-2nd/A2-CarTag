@@ -8,7 +8,7 @@ import {
   HeadingEn2,
   HeadingKrMedium5,
 } from '../../styles/typefaces';
-import { ShareModalContext } from '../../context/ShareModalProvider';
+import { ShareModalContext } from '../../context/ModalProviders/ShareModalProvider';
 import { CloseIcon, CopyIcon } from '../common/icons/Icons';
 import { ItemContext } from '../../context/ItemProvider';
 import { PATH } from '../../utils/constants';

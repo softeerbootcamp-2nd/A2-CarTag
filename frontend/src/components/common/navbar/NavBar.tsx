@@ -5,7 +5,7 @@ import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../../styles
 import { ArrowDown, ArrowUp, CancelIcon } from '../icons/Icons';
 import hyundaiLogo from '/images/logo.svg';
 import { MESSAGE, PATH } from '../../../utils/constants';
-import { CloseModalContext } from '../../../context/CloseModalProvider';
+import { CloseModalContext } from '../../../context/ModalProviders/CloseModalProvider';
 import { ProgressContext } from '../../../context/ProgressProvider';
 import CarSelectContainer from './CarSelectContainer';
 
