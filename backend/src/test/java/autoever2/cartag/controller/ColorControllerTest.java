@@ -1,8 +1,6 @@
 package autoever2.cartag.controller;
 
-import autoever2.cartag.domain.color.InnerColorDto;
 import autoever2.cartag.domain.color.InnerColorPercentDto;
-import autoever2.cartag.domain.color.OuterColorDto;
 import autoever2.cartag.domain.color.OuterColorPercentDto;
 import autoever2.cartag.service.ColorService;
 import org.junit.jupiter.api.BeforeEach;
