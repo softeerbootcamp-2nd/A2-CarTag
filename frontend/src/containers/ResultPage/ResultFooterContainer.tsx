@@ -4,7 +4,7 @@ import { BodyKrRegular3, HeadingKrMedium2 } from '../../styles/typefaces';
 import RectButton from '../../components/common/buttons/RectButton';
 import { HTMLAttributes, useContext } from 'react';
 import { ItemContext } from '../../context/ItemProvider';
-import { ShareModalContext } from '../../context/ShareModalProvider';
+import { ShareModalContext } from '../../context/ModalProviders/ShareModalProvider';
 import { flexCenterCss } from '../../utils/commonStyle';
 
 interface IResultFooterContainer extends HTMLAttributes<HTMLDivElement> {

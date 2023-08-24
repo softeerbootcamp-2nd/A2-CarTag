@@ -8,12 +8,13 @@ interface ISubOptionCard extends HTMLAttributes<HTMLDivElement> {
   active: boolean;
   title: string;
   price: number;
+  imgSrc: string;
 }
 
-export default function SubOptionCard({ active, title, price, ...props }: ISubOptionCard) {
+export default function SubOptionCard({ active, title, price, imgSrc, ...props }: ISubOptionCard) {
   return (
     <Card active={active} {...props}>
-      <OptionImg />
+      <OptionImg src={imgSrc} />
       <OptionCardInfo>
         <div>
           <OptionTitle>{title}</OptionTitle>
@@ -33,14 +34,10 @@ const Card = styled(DefaultCardStyle)`
   border-radius: 2px;
 `;
 
-const OptionImg = styled.div`
+const OptionImg = styled.img`
   border-radius: 1px 1px 0px 0px;
   width: 100%;
   height: 49px;
-  background-image: url('/images/extra_option/roa.png');
-  background-size: cover;
-  background-repeat: no-repeat;
-  background-position: center;
   background-color: rgba(211, 211, 211, 0.5);
 `;
 const OptionCardInfo = styled.div`

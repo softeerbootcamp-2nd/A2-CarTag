@@ -1,4 +1,4 @@
-import { Dispatch, HTMLAttributes, SetStateAction, useEffect, useRef, useState } from 'react';
+import { Dispatch, HTMLAttributes, SetStateAction, useEffect, useState } from 'react';
 import { BodyKrMedium3, BodyKrRegular3, BodyKrRegular4 } from '../../styles/typefaces';
 import styled, { css, useTheme } from 'styled-components';
 import { ArrowLeft, ArrowRight } from '../common/icons/Icons';
@@ -17,8 +17,6 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
   const [page, setPage] = useState(0);
   const arrowLeftColor = page <= 0 ? theme.color.gray200 : theme.color.gray600;
   const arrowRightColor = page >= TAB_MAX_PAGE - 1 ? theme.color.gray200 : theme.color.gray600;
-  const tabDivisionRef = useRef<HTMLDivElement>(null);
-  const [tabDivisionWidth, setTabDivisionWidth] = useState(0);
 
   const displayUnderline = (groupIndex: number, index: number) => {
     return page === groupIndex && index === selectedIdx ? (
@@ -72,13 +70,6 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
     setPage(0);
   }, [options]);
 
-  useEffect(() => {
-    if (tabDivisionRef.current) {
-      const tabDivisionWidth = tabDivisionRef.current.offsetWidth;
-      setTabDivisionWidth(tabDivisionWidth);
-    }
-  }, [tabDivisionRef]);
-
   return (
     <>
       <TabWrapper>
@@ -88,8 +79,8 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
         >
           <ArrowLeft fill={arrowLeftColor} />
         </BtnWrapper>
-        <TabWrapperInner ref={tabDivisionRef}>
-          <Tab $offset={page * -tabDivisionWidth}>
+        <TabWrapperInner>
+          <>
             {chunkedOptions.map((optionGroup: ISubOptionList[], groupIndex) => (
               <TabDivision key={groupIndex} $display={page === groupIndex}>
                 {optionGroup.map((option: ISubOptionList, index: number) => (
@@ -106,7 +97,7 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
                 ))}
               </TabDivision>
             ))}
-          </Tab>
+          </>
         </TabWrapperInner>
         <BtnWrapper
           onClick={handleOffsetNext}
@@ -119,6 +110,8 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
   );
 }
 const HoverCaption = styled.div`
+  z-index: 2;
+
   display: none;
   white-space: nowrap;
   left: 0;
@@ -153,13 +146,7 @@ const TabWrapper = styled.div`
 const BtnWrapper = styled.button`
   z-index: 10;
 `;
-const Tab = styled.div<{ $offset: number }>`
-  /* display: flex; */
-  /* transition: transform 0.4s ease; */
-  /* transform: translateX(${({ $offset }) => $offset}px); */
-`;
 const TabWrapperInner = styled.div`
-  /* overflow: hidden; */
   width: 408px;
   height: 100%;
 `;

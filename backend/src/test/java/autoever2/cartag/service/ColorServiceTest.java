@@ -1,8 +1,7 @@
 package autoever2.cartag.service;
 
-import autoever2.cartag.domain.color.InnerColorDto;
+import autoever2.cartag.domain.color.ColorDto;
 import autoever2.cartag.domain.color.InnerColorPercentDto;
-import autoever2.cartag.domain.color.OuterColorDto;
 import autoever2.cartag.domain.color.OuterColorPercentDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.exception.ErrorCode;
@@ -34,14 +33,14 @@ class ColorServiceTest {
     @Mock
     private CarRepository carRepository;
     private List<String> images = new ArrayList<>();
-    private List<InnerColorDto> innerColors;
+    private List<ColorDto> innerColors;
 
-    private List<OuterColorDto> outerColors;
+    private List<ColorDto> outerColors;
 
     @BeforeEach
     void setUp() {
         outerColors = new ArrayList<>();
-        outerColors.add(OuterColorDto.builder()
+        outerColors.add(ColorDto.builder()
                 .colorName("어비스 블랙펄")
                 .colorImage("color_image_1")
                 .colorPrice(100000L)
@@ -49,7 +48,7 @@ class ColorServiceTest {
                 .colorCarImage("car_image_*.jpg")
                 .build());
 
-        outerColors.add(OuterColorDto.builder()
+        outerColors.add(ColorDto.builder()
                 .colorName("그라 파이트 그레이")
                 .colorImage("color_image_2")
                 .colorPrice(100000L)
@@ -57,7 +56,7 @@ class ColorServiceTest {
                 .colorCarImage("car_image_*.jpg")
                 .build());
 
-        outerColors.add(OuterColorDto.builder()
+        outerColors.add(ColorDto.builder()
                 .colorName("쉬머링 실버 메탈릭")
                 .colorImage("color_image_3")
                 .colorPrice(1234440L)
@@ -65,7 +64,7 @@ class ColorServiceTest {
                 .colorCarImage("car_image_*.jpg")
                 .build());
 
-        outerColors.add(OuterColorDto.builder()
+        outerColors.add(ColorDto.builder()
                 .colorName("크리미 화이트 펄")
                 .colorImage("color_image_4")
                 .colorPrice(100000L)
@@ -73,7 +72,7 @@ class ColorServiceTest {
                 .colorCarImage("car_image_*.jpg")
                 .build());
 
-        outerColors.add(OuterColorDto.builder()
+        outerColors.add(ColorDto.builder()
                 .colorName("퍼플 펄")
                 .colorImage("color_image_5")
                 .colorPrice(100000L)
@@ -82,7 +81,7 @@ class ColorServiceTest {
                 .build());
 
         innerColors = new ArrayList<>();
-        innerColors.add(InnerColorDto.builder()
+        innerColors.add(ColorDto.builder()
                 .colorName("퀄팅 천연(블랙)")
                 .colorImage("color_image_1")
                 .colorPrice(100000L)
@@ -90,7 +89,7 @@ class ColorServiceTest {
                 .colorCarImage("car_image_*.jpg")
                 .build());
 
-        innerColors.add(InnerColorDto.builder()
+        innerColors.add(ColorDto.builder()
                 .colorName("퀄팅 천연(그레이)")
                 .colorImage("color_image_2")
                 .colorPrice(100000L)
@@ -98,7 +97,7 @@ class ColorServiceTest {
                 .colorCarImage("car_image_*.jpg")
                 .build());
 
-        innerColors.add(InnerColorDto.builder()
+        innerColors.add(ColorDto.builder()
                 .colorName("퀄팅 천연(메탈릭)")
                 .colorImage("color_image_3")
                 .colorPrice(1234440L)
@@ -106,7 +105,7 @@ class ColorServiceTest {
                 .colorCarImage("car_image_*.jpg")
                 .build());
 
-        innerColors.add(InnerColorDto.builder()
+        innerColors.add(ColorDto.builder()
                 .colorName("퀄팅 천연(화이트)")
                 .colorImage("color_image_4")
                 .colorPrice(100000L)
@@ -114,7 +113,7 @@ class ColorServiceTest {
                 .colorCarImage("car_image_*.jpg")
                 .build());
 
-        innerColors.add(InnerColorDto.builder()
+        innerColors.add(ColorDto.builder()
                 .colorName("퀄팅 천연(퍼플)")
                 .colorImage("color_image_5")
                 .colorPrice(100000L)

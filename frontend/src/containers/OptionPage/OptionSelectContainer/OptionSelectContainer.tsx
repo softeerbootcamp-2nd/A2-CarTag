@@ -6,9 +6,9 @@ import DefaultOptionContainer from './DefaultOptionContainer';
 import SubOptionContainer from './SubOptionContainer';
 import React, { useCallback, useContext, useEffect, useState } from 'react';
 import { IMG_URL } from '../../../utils/apis';
-import { SubOptionContext } from '../../../context/SubOptionProvider';
+import { SubOptionContext } from '../../../context/PageProviders/SubOptionProvider';
 import Loading from '../../../components/loading/Loading';
-import { DefaultOptionContext } from '../../../context/DefaultOptionProvider';
+import { DefaultOptionContext } from '../../../context/PageProviders/DefaultOptionProvider';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
   active: boolean;
@@ -136,6 +136,7 @@ export default function OptionSelectContainer({
           value={query}
           result={result}
           setQuery={setQuery}
+          setResult={setResult}
           onChange={(e) => {
             handleInputChange(e.currentTarget.value);
           }}

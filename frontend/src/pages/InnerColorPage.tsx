@@ -3,7 +3,7 @@ import InnerColorBannerContainer from '../containers/InnerColorPage/InnerColorBa
 import InnerColorSelectContainer from '../containers/InnerColorPage/InnerColorSelectContainer';
 import { useFetch } from '../hooks/useFetch';
 import { INNER_COLOR_API } from '../utils/apis';
-import { IInnerColor, InnerColorContext } from '../context/InnerColorProvider';
+import { IInnerColor, InnerColorContext } from '../context/PageProviders/InnerColorProvider';
 import ErrorModal from '../components/modal/ErrorModal';
 import InnerColorFooterContainer from '../containers/InnerColorPage/InnerColorFooterContainer';
 import { styled } from 'styled-components';
@@ -22,11 +22,15 @@ export default function InnerColorPage() {
 
   return (
     <>
-      <Wrapper>
-        <InnerColorBannerContainer />
-        <InnerColorSelectContainer />
-      </Wrapper>
-      <InnerColorFooterContainer />
+      {innerColorData && (
+        <>
+          <Wrapper>
+            <InnerColorBannerContainer />
+            <InnerColorSelectContainer />
+          </Wrapper>
+          <InnerColorFooterContainer />s
+        </>
+      )}
     </>
   );
 }

@@ -1,8 +1,7 @@
 package autoever2.cartag.service;
 
-import autoever2.cartag.domain.color.InnerColorDto;
+import autoever2.cartag.domain.color.ColorDto;
 import autoever2.cartag.domain.color.InnerColorPercentDto;
-import autoever2.cartag.domain.color.OuterColorDto;
 import autoever2.cartag.domain.color.OuterColorPercentDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.exception.ErrorCode;
@@ -41,7 +40,7 @@ public class ColorService {
     }
 
     public List<OuterColorPercentDto> findOuterColorByCarId(int carId) {
-        List<OuterColorDto> outerColors = colorRepository.findOuterColorCarByCarId(carId);
+        List<ColorDto> outerColors = colorRepository.findOuterColorCarByCarId(carId);
         if (outerColors.isEmpty()) {
             throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
         }
@@ -53,7 +52,7 @@ public class ColorService {
     }
 
     public List<InnerColorPercentDto> findInnerColorByCarId(int carId) {
-        List<InnerColorDto> innerColors = colorRepository.findInnerColorCarByCarId(carId);
+        List<ColorDto> innerColors = colorRepository.findInnerColorCarByCarId(carId);
         if (innerColors.isEmpty()) {
             throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
         }

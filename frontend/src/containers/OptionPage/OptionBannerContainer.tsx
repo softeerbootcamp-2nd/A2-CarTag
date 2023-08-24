@@ -9,18 +9,13 @@ import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
 import OptionTab from '../../components/tabs/OptionTab';
-import { useEffect, useState } from 'react';
-import { IMG_URL } from '../../utils/apis';
+import { useContext, useEffect, useState } from 'react';
+import { IMG_URL, OPTION_API } from '../../utils/apis';
+import { DefaultOptionContext } from '../../context/PageProviders/DefaultOptionProvider';
+import { SubOptionContext } from '../../context/PageProviders/SubOptionProvider';
+import { CAR_TYPE } from '../../utils/constants';
+import { useFetch } from '../../hooks/useFetch';
 
-export interface IOptionDetail {
-  categoryName: string;
-  optionName: string;
-  optionDescription: string;
-  optionImage: string;
-  hmgData: IHmgData | null;
-  subOptionList: ISubOptionList[] | null;
-  package: boolean;
-}
 interface IHmgData {
   optionBoughtCount: number;
   optionUsedCount: number;
@@ -37,15 +32,29 @@ export interface ISubOptionList {
   subOptionList: null;
 }
 
-interface IOptionBannerContainer {
-  optionDetail: IOptionDetail;
-  optionDetailLoading: boolean;
+export interface IOptionDetail {
+  categoryName: string;
+  optionName: string;
+  optionDescription: string;
+  optionImage: string;
+  hmgData: IHmgData | null;
+  subOptionList: ISubOptionList[] | null;
+  package: boolean;
 }
 
-export default function OptionBannerContainer({
-  optionDetail,
-  optionDetailLoading,
-}: IOptionBannerContainer) {
+interface IOptionBannerContainer {
+  isDefault: boolean;
+}
+export default function OptionBannerContainer({ isDefault }: IOptionBannerContainer) {
+  const defaultOptionContext = useContext(DefaultOptionContext);
+  const subOptionContext = useContext(SubOptionContext);
+  const { currentOptionIdx } = isDefault ? defaultOptionContext : subOptionContext;
+  const optionType = isDefault ? 'default' : 'sub';
+
+  const { data: optionDetail, loading: optionDetailLoading } = useFetch<IOptionDetail>(
+    `${OPTION_API}/${optionType}/detail/?carid=${CAR_TYPE}&optionid=${currentOptionIdx}`
+  );
+
   const [bannerInfo, setBannerInfo] = useState<IOptionDetail>({
     categoryName: '',
     hmgData: null,
@@ -68,6 +77,9 @@ export default function OptionBannerContainer({
   const handleDescVisibility = (visible: boolean) => {
     setVisibleDesc(visible);
   };
+  const hasHmgData =
+    bannerInfo.hmgData &&
+    (bannerInfo.hmgData.optionBoughtCount || bannerInfo.hmgData.optionUsedCount);
   useEffect(() => {
     window.addEventListener('scroll', handleScroll);
     return () => {
@@ -76,6 +88,7 @@ export default function OptionBannerContainer({
   }, []);
 
   useEffect(() => {
+    if (!optionDetail) return;
     const target = optionDetail.subOptionList ? optionDetail.subOptionList[0] : optionDetail;
     setBannerInfo({
       categoryName: target.categoryName,
@@ -115,28 +128,28 @@ export default function OptionBannerContainer({
                     </Description>
                   )}
 
-                  {bannerInfo.hmgData && (
+                  {hasHmgData && (
                     <HmgDataSection>
                       <HmgTag size="small" />
                       <DataList>
-                        {bannerInfo.hmgData.optionBoughtCount !== null && (
+                        {bannerInfo.hmgData!.optionBoughtCount !== null && (
                           <Data>
                             <DataTitle>
-                              {bannerInfo.hmgData.overHalf
+                              {bannerInfo.hmgData!.overHalf
                                 ? '구매자의 절반 이상이 선택했어요.'
                                 : '구매자가 이 옵션을 이만큼 선택했어요.'}
                             </DataTitle>
                             <DataInfo>
-                              {Number(bannerInfo.hmgData.optionBoughtCount).toLocaleString()}개
+                              {Number(bannerInfo.hmgData!.optionBoughtCount).toLocaleString()}개
                               <DataCaption>최근 90일 동안</DataCaption>
                             </DataInfo>
                           </Data>
                         )}
-                        {bannerInfo.hmgData.optionUsedCount !== null && (
+                        {bannerInfo.hmgData!.optionUsedCount !== null && (
                           <Data>
                             <DataTitle>주행 중 실제로 이만큼 사용해요.</DataTitle>
                             <DataInfo>
-                              {bannerInfo.hmgData.optionUsedCount}번
+                              {bannerInfo.hmgData!.optionUsedCount}번
                               <DataCaption>1.5만km 당</DataCaption>
                             </DataInfo>
                           </Data>
@@ -167,6 +180,8 @@ export default function OptionBannerContainer({
   );
 }
 const HoverCaption = styled.div<{ $visible: boolean }>`
+  z-index: 2;
+
   white-space: pre-wrap;
   padding: 4px 12px;
   border-radius: 10px;
@@ -174,7 +189,6 @@ const HoverCaption = styled.div<{ $visible: boolean }>`
   color: ${({ theme }) => theme.color.gray50};
   opacity: 90%;
   margin-top: 10px;
-  z-index: 1;
   width: 448px;
   background-color: ${({ theme }) => theme.color.gray900};
   ${BodyKrRegular4}

@@ -11,7 +11,7 @@ import { PATH } from '../../utils/constants';
 import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import DefaultCardStyle from '../../components/common/card/DefaultCardStyle';
 import RectButton from '../../components/common/buttons/RectButton';
-import { TrimContext } from '../../context/TrimProvider';
+import { TrimContext } from '../../context/PageProviders/TrimProvider';
 import { ItemContext } from '../../context/ItemProvider';
 import useDefaultInfo from '../../hooks/useDefaultInfo';
 import { ProgressContext } from '../../context/ProgressProvider';
@@ -78,6 +78,10 @@ export default function TrimSelectContainer() {
         carImgSrc: defaultInfo.innerColor.carImgSrc,
         imgSrc: defaultInfo.innerColor.imgSrc,
       },
+    });
+    setSelectedItem({
+      type: 'SET_OPTIONS',
+      value: [],
     });
   }, [defaultInfo, setSelectedItem]);
 

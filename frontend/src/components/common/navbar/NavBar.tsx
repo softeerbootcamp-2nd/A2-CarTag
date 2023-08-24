@@ -2,10 +2,10 @@ import React, { useContext, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { css, styled, useTheme } from 'styled-components';
 import { BodyKrMedium3, BodyKrRegular3, HeadingKrMedium6 } from '../../../styles/typefaces';
-import { ArrowDown, CancelIcon } from '../icons/Icons';
+import { ArrowDown, ArrowUp, CancelIcon } from '../icons/Icons';
 import hyundaiLogo from '/images/logo.svg';
 import { MESSAGE, PATH } from '../../../utils/constants';
-import { CloseModalContext } from '../../../context/CloseModalProvider';
+import { CloseModalContext } from '../../../context/ModalProviders/CloseModalProvider';
 import { ProgressContext } from '../../../context/ProgressProvider';
 import CarSelectContainer from './CarSelectContainer';
 
@@ -41,50 +41,71 @@ export default function NavBar() {
     <Wrapper>
       <NavContainer $menuVisible={menuVisible}>
         <Body>
-          <HyundaiLogo src={hyundaiLogo} alt="" />
+          <HyundaiLogo src={hyundaiLogo} alt="" onClick={() => handleNavItemClick(PATH.home)} />
+
           <CarSelect onClick={handleCarSelectClick}>
             <span>펠리세이드</span>
-            <ArrowDown fill={theme.color.gray800} />
+            {menuVisible ? (
+              <ArrowUp fill={theme.color.primaryColor800} width={20} height={20} />
+            ) : (
+              <ArrowDown fill={theme.color.primaryColor800} width={20} height={20} />
+            )}
           </CarSelect>
-          <NavList>
-            <NavItem
-              onClick={() => handleNavItemClick(PATH.trim)}
-              active={isActive(PATH.trim) || isActive(PATH.home)}
-            >
-              트림
-            </NavItem>
-            <NavItem
-              onClick={() => handleNavItemClick(PATH.modelType)}
-              active={isActive(PATH.modelType)}
-            >
-              타입
-            </NavItem>
-            <NavItem
-              onClick={() => handleNavItemClick(PATH.outerColor)}
-              active={isActive(PATH.outerColor)}
-            >
-              외장
-            </NavItem>
-            <NavItem
-              onClick={() => handleNavItemClick(PATH.innerColor)}
-              active={isActive(PATH.innerColor)}
-            >
-              내장
-            </NavItem>
-            <NavItem onClick={() => handleNavItemClick(PATH.option)} active={isActive(PATH.option)}>
-              옵션
-            </NavItem>
-            <NavItem onClick={() => handleNavItemClick(PATH.result)} active={isActive(PATH.result)}>
-              완료
-            </NavItem>
-          </NavList>
-          <CancelButton onClick={handleCloseButtonClick}>
-            <Span>종료</Span>
-            <CancelIcon width={12} height={12} />
-          </CancelButton>
+
+          {!menuVisible && (
+            <NavList>
+              <NavItem
+                onClick={() => handleNavItemClick(PATH.trim)}
+                active={isActive(PATH.trim) || isActive(PATH.home)}
+              >
+                트림
+              </NavItem>
+              <NavItem
+                onClick={() => handleNavItemClick(PATH.modelType)}
+                active={isActive(PATH.modelType)}
+              >
+                타입
+              </NavItem>
+              <NavItem
+                onClick={() => handleNavItemClick(PATH.outerColor)}
+                active={isActive(PATH.outerColor)}
+              >
+                외장
+              </NavItem>
+              <NavItem
+                onClick={() => handleNavItemClick(PATH.innerColor)}
+                active={isActive(PATH.innerColor)}
+              >
+                내장
+              </NavItem>
+              <NavItem
+                onClick={() => handleNavItemClick(PATH.option)}
+                active={isActive(PATH.option)}
+              >
+                옵션
+              </NavItem>
+              <NavItem
+                onClick={() => handleNavItemClick(PATH.result)}
+                active={isActive(PATH.result)}
+              >
+                완료
+              </NavItem>
+            </NavList>
+          )}
+          {!menuVisible ? (
+            <CancelButton onClick={handleCloseButtonClick}>
+              <Span>종료</Span>
+              <CancelIcon width={12} height={12} />
+            </CancelButton>
+          ) : (
+            <CancelButton onClick={handleCarSelectClick}>
+              <CancelIcon width={12} height={12} />
+            </CancelButton>
+          )}
         </Body>
       </NavContainer>
-      <CarSelectContainer visible={menuVisible} />
+
+      <CarSelectContainer visible={menuVisible} setMenuVisible={setMenuVisible} />
     </Wrapper>
   );
 }
@@ -154,6 +175,7 @@ const CarSelect = styled.div`
   position: absolute;
   left: 0;
   bottom: 0;
+  gap: 4px;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -185,7 +207,7 @@ const HyundaiLogo = styled.img`
   bottom: 0;
   width: 39px;
   height: 22px;
-
+  cursor: pointer;
   display: flex;
   justify-content: center;
   align-items: center;

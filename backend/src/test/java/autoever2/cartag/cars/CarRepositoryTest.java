@@ -2,7 +2,7 @@ package autoever2.cartag.cars;
 
 import autoever2.cartag.cars.dto.CarInfoDto;
 import autoever2.cartag.cars.dto.CarTypeDto;
-import autoever2.cartag.cars.dto.TrimInfoDto;
+import autoever2.cartag.cars.dto.TrimDataDto;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
@@ -72,8 +72,8 @@ class CarRepositoryTest {
     @Test
     @DisplayName("차량 트림 정보를 반환")
     void getTrimInfo() {
-        TrimInfoDto expected = TrimInfoDto.builder().carId(1).trim("Le Blanc").carDefaultPrice(40000000).build();
-        Optional<TrimInfoDto> trimInfo = carRepository.findTrimInfoByCarId(1);
+        TrimDataDto expected = TrimDataDto.builder().carId(1).trim("Le Blanc").carDefaultPrice(40000000).build();
+        Optional<TrimDataDto> trimInfo = carRepository.findTrimInfoByCarId(1);
         softAssertions.assertThat(trimInfo).isPresent();
         softAssertions.assertThat(trimInfo.get()).usingRecursiveComparison().isEqualTo(expected);
         softAssertions.assertThat(carRepository.findTrimInfoByCarId(7)).isNotPresent();

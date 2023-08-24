@@ -2,7 +2,7 @@ import { Dispatch, useCallback, useContext, useEffect, useRef, useState } from '
 import { styled } from 'styled-components';
 import RoundButton from '../../../components/common/buttons/RoundButton';
 import OptionCard from '../../../components/cards/OptionCard';
-import { ISubOption, SubOptionContext } from '../../../context/SubOptionProvider';
+import { ISubOption, SubOptionContext } from '../../../context/PageProviders/SubOptionProvider';
 import HmgTag from '../../../components/common/hmgTag/HmgTag';
 import { ItemContext } from '../../../context/ItemProvider';
 import { DEBOUNCE_TIME } from '../../../utils/constants';
@@ -110,7 +110,6 @@ export default function SubOptionContainer({
   useEffect(() => {
     if (!filteredByCategory || !query) {
       setDisplayData(filteredByCategory);
-
       return;
     }
 

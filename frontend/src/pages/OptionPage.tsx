@@ -5,21 +5,14 @@ import { useFetch } from '../hooks/useFetch';
 import OptionBannerContainer from '../containers/OptionPage/OptionBannerContainer';
 import OptionSelectContainer from '../containers/OptionPage/OptionSelectContainer/OptionSelectContainer';
 import OptionFooterContainer from '../containers/OptionPage/OptionFooterContainer';
-import { ISubOption, SubOptionContext } from '../context/SubOptionProvider';
-import { DefaultOptionContext, IDefaultOption } from '../context/DefaultOptionProvider';
+import { ISubOption, SubOptionContext } from '../context/PageProviders/SubOptionProvider';
+import {
+  DefaultOptionContext,
+  IDefaultOption,
+} from '../context/PageProviders/DefaultOptionProvider';
 import ErrorModal from '../components/modal/ErrorModal';
-import { CAR_TYPE } from '../utils/constants';
 import Loading from '../components/loading/Loading';
 
-interface IOptionDetail {
-  categoryName: string;
-  optionName: string;
-  optionDescription: string;
-  optionImage: string;
-  hmgData: IHmgData | null;
-  subOptionList: ISubOptionList[] | null;
-  package: boolean;
-}
 interface IHmgData {
   optionBoughtCount: number;
   optionUsedCount: number;
@@ -37,13 +30,10 @@ export interface ISubOptionList {
 }
 
 export default function OptionPage() {
-  const defaultOptionContext = useContext(DefaultOptionContext);
-  const subOptionContext = useContext(SubOptionContext);
   const [isDefault, setIsDefault] = useState(false);
   const handleTabItemClick = (isDefault: boolean) => {
     setIsDefault(isDefault);
   };
-  const { currentOptionIdx } = isDefault ? defaultOptionContext : subOptionContext;
 
   const {
     data: subOption,
@@ -57,7 +47,6 @@ export default function OptionPage() {
   } = useFetch<IDefaultOption[]>(`${OPTION_API}/defaultlist?carid=${1}`);
   const { setSubOption, setSubOptionLoading } = useContext(SubOptionContext);
   const { setDefaultOption, setDefaultOptionLoading } = useContext(DefaultOptionContext);
-  const optionType = isDefault ? 'default' : 'sub';
 
   useEffect(() => {
     setSubOption(subOption);
@@ -75,24 +64,18 @@ export default function OptionPage() {
     setDefaultOptionLoading,
   ]);
 
-  const { data: optionDetail, loading: optionDetailLoading } = useFetch<IOptionDetail>(
-    `${OPTION_API}/${optionType}/detail/?carid=${CAR_TYPE}&optionid=${currentOptionIdx}`
-  );
-
   if (subOptionError) {
     return <ErrorModal message={subOptionError.message} />;
   } else if (defaultOptionError) {
     return <ErrorModal message={defaultOptionError.message} />;
   }
+
   return (
     <Wrapper>
-      {subOption && !subOptionLoading && optionDetail && !optionDetailLoading ? (
+      {subOption && !subOptionLoading ? (
         <>
           <ContentWrapper>
-            <OptionBannerContainer
-              optionDetail={optionDetail}
-              optionDetailLoading={optionDetailLoading}
-            />
+            <OptionBannerContainer isDefault={isDefault} />
             <OptionSelectContainer isDefault={isDefault} handleTabItemClick={handleTabItemClick} />
           </ContentWrapper>
           <OptionFooterContainer />

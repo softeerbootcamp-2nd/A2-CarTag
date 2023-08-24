@@ -2,7 +2,7 @@ package autoever2.cartag.cars;
 
 import autoever2.cartag.cars.dto.CarInfoDto;
 import autoever2.cartag.cars.dto.CarTypeDto;
-import autoever2.cartag.cars.dto.TrimInfoDto;
+import autoever2.cartag.cars.dto.TrimDataDto;
 import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
@@ -53,7 +53,7 @@ public class CarRepository {
         return template.query(sql, carTypeDtoRowMapper());
     }
 
-    public Optional<TrimInfoDto> findTrimInfoByCarId(int carId){
+    public Optional<TrimDataDto> findTrimInfoByCarId(int carId) {
         String sql = "select car_id, trim, car_default_price " +
                 "from Car " +
                 "where car_id = :carId";
@@ -91,8 +91,8 @@ public class CarRepository {
         return (rs, rowNum) -> rs.getInt("car_default_price");
     }
 
-    private RowMapper<TrimInfoDto> trimInfoRowMapper() {
-        return BeanPropertyRowMapper.newInstance(TrimInfoDto.class);
+    private RowMapper<TrimDataDto> trimInfoRowMapper() {
+        return BeanPropertyRowMapper.newInstance(TrimDataDto.class);
     }
 
 }

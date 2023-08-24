@@ -6,7 +6,7 @@ import Banner from '../../components/common/banner/Banner';
 import HmgTag from '../../components/common/hmgTag/HmgTag';
 import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import PowerTrainData from '../../components/powerTrainData/PowerTrainData';
-import { IHmgData, ModelTypeContext } from '../../context/ModelTypeProvider';
+import { IHmgData, ModelTypeContext } from '../../context/PageProviders/ModelTypeProvider';
 import { MODEL_TYPE_API, IMG_URL } from '../../utils/apis';
 import ErrorModal from '../../components/modal/ErrorModal';
 
@@ -86,11 +86,12 @@ export default function ModelTypePage() {
 }
 
 const OptionDesc = styled.p`
-  width: 300px;
+  width: 400px;
   color: ${({ theme }) => theme.color.gray800};
   ${BodyKrRegular4}
   padding-top: 150px;
   word-break: keep-all;
+  white-space: pre-wrap;
 `;
 
 const HmgDataSection = styled.div`
@@ -116,8 +117,8 @@ const ImgSection = styled.img`
   position: absolute;
   top: 0;
   right: 0;
-  width: 632px;
+  min-width: 632px;
   height: 360px;
-  object-fit: cover;
+  object-fit: contain;
   object-position: center;
 `;

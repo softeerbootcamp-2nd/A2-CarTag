@@ -3,8 +3,6 @@ package autoever2.cartag.domain.color;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Getter
 @Schema(description = "차량 외부 색상 반환 DTO")
@@ -32,7 +30,7 @@ public class OuterColorPercentDto {
         this.colorCarImage = colorCarImage;
     }
 
-    public static OuterColorPercentDto toPercent(OuterColorDto outerColorDto, int colorBoughtPercent, String imageUrl) {
+    public static OuterColorPercentDto toPercent(ColorDto outerColorDto, int colorBoughtPercent, String imageUrl) {
         return OuterColorPercentDto.builder()
                 .colorId(outerColorDto.getColorId())
                 .colorName(outerColorDto.getColorName())

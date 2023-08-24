@@ -3,18 +3,15 @@ import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular3, BodyKrRegular5 } from '../../styles/typefaces';
 import { ChangeEvent, useContext } from 'react';
 import { ItemContext } from '../../context/ItemProvider';
-import { TEN_THOUSAND_UNIT } from '../../utils/constants';
+import { HIGHEST_PRICE, HUNDRED_THOUSAND_UNIT, TEN_THOUSAND_UNIT } from '../../utils/constants';
 import { theme } from '../../styles/theme';
-
 interface ISlider extends React.HTMLAttributes<HTMLDivElement> {
-  highestPrice: number;
   isOverBudget: boolean;
   budget: number;
   handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
   stopEvent: (event: React.MouseEvent) => void;
 }
 export default function Slider({
-  highestPrice,
   isOverBudget,
   budget,
   handleChange,
@@ -25,24 +22,26 @@ export default function Slider({
   return (
     <PriceBarWrapper {...props}>
       <MarkerSvgWrapper>
-        <Budget>예산: {budget / TEN_THOUSAND_UNIT}만</Budget>
+        <BudgetInfo>
+          내가 설정한 예산은&nbsp;
+          <BlueText $isover={isOverBudget}>{budget / TEN_THOUSAND_UNIT}만원</BlueText>이에요.
+        </BudgetInfo>
         <PriceBar
           type="range"
           min={selectedItem.trim.price}
-          max={highestPrice}
           value={budget}
           onChange={handleChange}
           onMouseDown={stopEvent}
-          step={100_000}
+          step={HUNDRED_THOUSAND_UNIT}
           $percent={
-            ((budget - selectedItem.trim.price) / (highestPrice - selectedItem.trim.price)) * 100
+            ((budget - selectedItem.trim.price) / (HIGHEST_PRICE - selectedItem.trim.price)) * 100
           }
           $isover={isOverBudget}
         />
         <MarkerSvg
           $isover={isOverBudget}
           $percent={
-            ((totalPrice - selectedItem.trim.price) / (highestPrice - selectedItem.trim.price)) *
+            ((totalPrice - selectedItem.trim.price) / (HIGHEST_PRICE - selectedItem.trim.price)) *
             100
           }
         >
@@ -51,29 +50,29 @@ export default function Slider({
       </MarkerSvgWrapper>
       <PriceInfo $isover={isOverBudget}>
         <span>{selectedItem.trim.price / TEN_THOUSAND_UNIT}만원</span>
-        <span>{highestPrice / TEN_THOUSAND_UNIT}만원</span>
+        <span>{HIGHEST_PRICE / TEN_THOUSAND_UNIT}만원</span>
       </PriceInfo>
     </PriceBarWrapper>
   );
 }
-
 const PriceBarWrapper = styled.div`
   padding-top: 28px;
   padding-bottom: 4px;
   position: relative;
 `;
-const Budget = styled.span`
+const BudgetInfo = styled.div`
   ${BodyKrRegular3}
   position: absolute;
-  top: -25px;
+  top: -34px;
   right: 0px;
+  background-color: black;
+  opacity: 0.9;
 `;
 
 const MarkerSvgWrapper = styled.div`
   height: 100%;
   position: relative;
 `;
-
 const MarkerSvg = styled.svg<{ $isover: boolean; $percent: number }>`
   pointer-events: none;
   position: absolute;
@@ -84,9 +83,8 @@ const MarkerSvg = styled.svg<{ $isover: boolean; $percent: number }>`
   left: ${({ $percent }) => $percent}%;
   transform: translate(-50%, -50%);
 `;
-
 const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
-  ({ type, min, max, value, onChange, step, $percent, $isover }) => ({
+  ({ type, min, value, onChange, step, $percent, $isover }) => ({
     style: {
       background: `linear-gradient(
         to right,
@@ -98,7 +96,7 @@ const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
     },
     type: type,
     min: min,
-    max: max,
+    max: HIGHEST_PRICE + HUNDRED_THOUSAND_UNIT,
     value: value,
     onChange: onChange,
     step: step,
@@ -112,14 +110,12 @@ const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
   width: 100%;
   height: 6px;
   border-radius: 4px;
-
   &::-webkit-slider-runnable-track {
     cursor: pointer;
     width: 100%;
     height: 6px;
     border-radius: 4px;
   }
-
   &::-webkit-slider-thumb {
     cursor: pointer;
     width: 20px;
@@ -132,7 +128,9 @@ const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
     margin-top: -6px;
   }
 `;
-
+const BlueText = styled.span<{ $isover: boolean }>`
+  color: ${({ theme, $isover }) => ($isover ? theme.color.sand : theme.color.activeBlue2)};
+`;
 const PriceInfo = styled.div<{ $isover: boolean }>`
   ${flexCenterCss};
   justify-content: space-between;

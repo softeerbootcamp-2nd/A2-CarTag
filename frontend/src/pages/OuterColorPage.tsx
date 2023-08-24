@@ -1,7 +1,7 @@
 import { useContext, useEffect } from 'react';
 import OuterColorSelectContainer from '../containers/OuterColorPage/OuterColorSelectContainer';
 import OuterColorBannerContainer from '../containers/OuterColorPage/OuterColorBannerContainer';
-import { IOuterColor, OuterColorContext } from '../context/OuterColorProvider';
+import { IOuterColor, OuterColorContext } from '../context/PageProviders/OuterColorProvider';
 import { useFetch } from '../hooks/useFetch';
 import { OUTER_COLOR_API, OUTER_IMG_API } from '../utils/apis';
 import ErrorModal from '../components/modal/ErrorModal';
@@ -41,11 +41,15 @@ export default function OuterColorPage() {
   }
   return (
     <>
-      <Wrapper>
-        <OuterColorBannerContainer />
-        <OuterColorSelectContainer />
-      </Wrapper>
-      <OuterColorFooterContainer />
+      {outerColorData && (
+        <>
+          <Wrapper>
+            <OuterColorBannerContainer />
+            <OuterColorSelectContainer />
+          </Wrapper>
+          <OuterColorFooterContainer />
+        </>
+      )}
     </>
   );
 }

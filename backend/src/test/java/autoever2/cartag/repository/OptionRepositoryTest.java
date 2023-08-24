@@ -255,13 +255,13 @@ class OptionRepositoryTest {
         int carId = 1;
         List<Integer> optionIds = List.of(69);
 
-        assertEquals(1, optionRepository.countExistOptions(carId, optionIds));
+        assertEquals(1, optionRepository.countExistingOptionsByOptionIds(carId, optionIds));
     }
 
     @Test
     @DisplayName("모든 subOptionData를 추출")
     void findAllSubOptionInfos(){
-        List<SubOptionIdAndPriceDto> allSubOptionInfo = optionRepository.findAllSubOptionInfo(1);
+        List<SubOptionIdAndPriceDto> allSubOptionInfo = optionRepository.findAllSubOptionPriceByCarId(1);
         assertEquals(6, allSubOptionInfo.size());
 
         SubOptionIdAndPriceDto subOptionIdAndPriceDto = allSubOptionInfo.get(0);

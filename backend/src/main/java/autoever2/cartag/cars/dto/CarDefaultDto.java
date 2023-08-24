@@ -1,8 +1,7 @@
 package autoever2.cartag.cars.dto;
 
-import autoever2.cartag.domain.color.InnerColorDto;
-import autoever2.cartag.domain.color.OuterColorDto;
-import autoever2.cartag.domain.model.ModelDefaultDto;
+import autoever2.cartag.domain.color.ColorDto;
+import autoever2.cartag.models.dto.ModelDefaultDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;
@@ -61,7 +60,7 @@ public class CarDefaultDto {
     @Schema(description = "기본 내장색상 이름")
     private String colorInnerImageName;
 
-    public static CarDefaultDto toDefault(OuterColorDto outerColorDto, InnerColorDto innerColorDto, List<ModelDefaultDto> modelDefaultDto, String colorCarOuterImage) {
+    public static CarDefaultDto toDefault(ColorDto outerColorDto, ColorDto innerColorDto, List<ModelDefaultDto> modelDefaultDto, String colorCarOuterImage) {
         return CarDefaultDto.builder()
                 .powerTrainId(modelDefaultDto.get(0).getModelId())
                 .powerTrainName(modelDefaultDto.get(0).getModelName())

@@ -1,13 +1,12 @@
 package autoever2.cartag.cars;
 
 import autoever2.cartag.cars.dto.*;
-import autoever2.cartag.domain.color.InnerColorDto;
-import autoever2.cartag.domain.color.OuterColorDto;
-import autoever2.cartag.domain.model.ModelDefaultDto;
+import autoever2.cartag.domain.color.ColorDto;
+import autoever2.cartag.models.dto.ModelDefaultDto;
 import autoever2.cartag.exception.EmptyDataException;
 import autoever2.cartag.exception.ErrorCode;
 import autoever2.cartag.repository.ColorRepository;
-import autoever2.cartag.repository.ModelRepository;
+import autoever2.cartag.models.ModelRepository;
 import autoever2.cartag.repository.OptionRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,9 +43,9 @@ public class CarService {
     }
 
     public CarDefaultDto getCarDefaultDtoByCarId(int carId) {
-        List<OuterColorDto> outerColorList = colorRepository.findOuterColorCarByCarId(carId);
-        List<InnerColorDto> innerColorList = colorRepository.findInnerColorCarByCarId(carId);
-        List<ModelDefaultDto> modelList = modelRepository.findModelDefaultDtoByCarId(carId);
+        List<ColorDto> outerColorList = colorRepository.findOuterColorCarByCarId(carId);
+        List<ColorDto> innerColorList = colorRepository.findInnerColorCarByCarId(carId);
+        List<ModelDefaultDto> modelList = modelRepository.findDefaultModelListByCarId(carId);
         if (outerColorList.isEmpty() || innerColorList.isEmpty() || modelList.isEmpty()) {
             throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
         }
