@@ -148,7 +148,7 @@ const CaptionWrapper = styled.div`
   margin-bottom: 20px;
 `;
 const Caption = styled.div`
-  width: 200px;
+  word-break: keep-all;
 `;
 const BlueText = styled.span`
   color: ${({ theme }) => theme.color.activeBlue};

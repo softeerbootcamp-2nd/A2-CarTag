@@ -36,19 +36,22 @@ export default function SimilarQuoteModal({ ...props }: ISimilarQuoteModal) {
   const { totalPrice, selectedItem, setSelectedItem } = useContext(ItemContext);
   const { visible, setVisible, similarQuoteIdList } = useContext(SimilarQuoteModalContext);
   const [page, setPage] = useState(0);
+  const { data: similarQuoteData } = useSimilarDetail(similarQuoteIdList);
+  const CARD_SLIDE_MAX_PAGE = similarQuoteData ? similarQuoteData.length : 0;
+  const arrowLeftColor = page <= 0 ? theme.color.gray200 : theme.color.gray600;
+  const arrowRightColor =
+    page >= CARD_SLIDE_MAX_PAGE - 1 ? theme.color.gray200 : theme.color.gray600;
 
   const stopEvent: MouseEventHandler<HTMLDivElement> = (e) => {
     e.stopPropagation();
   };
 
-  const { data: similarQuoteData } = useSimilarDetail(similarQuoteIdList);
   const handlePrevPage = () => {
-    const prevPage = page <= 0 ? 0 : page - 1;
-    setPage(prevPage);
+    if (page - 1 < 0) return;
+    setPage(page - 1);
   };
   const handleNextPage = () => {
-    const maxPage = similarQuoteData ? similarQuoteData.length : 0;
-    if (page >= maxPage - 1) return;
+    if (page + 1 >= CARD_SLIDE_MAX_PAGE) return;
     setPage(page + 1);
   };
 
@@ -145,8 +148,11 @@ export default function SimilarQuoteModal({ ...props }: ISimilarQuoteModal) {
                 <SimilarPriceBar similarPrice={prevPrice.current + difference} />
               </InfoWrapper>
               <CardWrapper>
-                <LeftButton onClick={handlePrevPage}>
-                  <ArrowLeft fill={theme.color.gray200} />
+                <LeftButton
+                  onClick={handlePrevPage}
+                  style={{ cursor: page <= 0 ? 'default' : 'pointer' }}
+                >
+                  <ArrowLeft fill={arrowLeftColor} />
                 </LeftButton>
                 <CarInfo>
                   <InfoSection>
@@ -171,8 +177,11 @@ export default function SimilarQuoteModal({ ...props }: ISimilarQuoteModal) {
                     <OptionCardWrapper>{displayCards(page)}</OptionCardWrapper>
                   </OptionSection>
                 </OptionInfo>
-                <RightButton onClick={handleNextPage}>
-                  <ArrowRight fill={theme.color.gray200} />
+                <RightButton
+                  onClick={handleNextPage}
+                  style={{ cursor: page >= CARD_SLIDE_MAX_PAGE - 1 ? 'default' : 'pointer' }}
+                >
+                  <ArrowRight fill={arrowRightColor} />
                 </RightButton>
               </CardWrapper>
             </>
