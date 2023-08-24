@@ -2,11 +2,12 @@ import { styled } from 'styled-components';
 import CenterWrapper from '../layout/CenterWrapper';
 import { useFetch } from '../../../hooks/useFetch';
 import { CAR_LIST_API, IMG_URL } from '../../../utils/apis';
-import { Dispatch, useState } from 'react';
+import { Dispatch, useContext, useState } from 'react';
 import { flexCenterCss } from '../../../utils/commonStyle';
 import { BodyKrMedium3, BodyKrMedium4 } from '../../../styles/typefaces';
 import DefaultCardStyle from '../card/DefaultCardStyle';
 import { DimmedBackground } from '../../modal/DimmedBackground';
+import { ItemContext } from '../../../context/ItemProvider';
 
 interface ICar {
   carTypeId: number;
@@ -21,9 +22,16 @@ interface ICarSelectContainer {
 
 export default function CarSelectContainer({ visible, setMenuVisible }: ICarSelectContainer) {
   const { data } = useFetch<ICar[]>(CAR_LIST_API);
+  const { selectedItem, setSelectedItem } = useContext(ItemContext);
   const [active, setActive] = useState(3); // 3: SUV
   const categoryList = ['수소/전기차', 'N', '승용', 'SUV', 'MVP', '소형트럭/택시', '트럭', '버스'];
 
+  const handleCarClick = (car: ICar) => {
+    setSelectedItem({
+      type: 'SET_CAR',
+      value: { id: car.carTypeId, name: car.carTypeName, price: 0 },
+    });
+  };
   const handleCategoryClick = (idx: number) => {
     setActive(idx);
   };
@@ -31,7 +39,6 @@ export default function CarSelectContainer({ visible, setMenuVisible }: ICarSele
     setMenuVisible((cur) => !cur);
   };
   const isActive = (idx: number) => idx === active;
-
   const categoryItemComponents = categoryList?.map((category, idx) => {
     return (
       <CategoryItem $active={isActive(idx)} onClick={() => handleCategoryClick(idx)} key={idx}>
@@ -41,7 +48,11 @@ export default function CarSelectContainer({ visible, setMenuVisible }: ICarSele
   });
 
   const carItemComponents = data?.map((car, idx) => (
-    <CarItem key={idx}>
+    <CarItem
+      active={selectedItem.cartype.id === car.carTypeId}
+      onClick={() => handleCarClick(car)}
+      key={idx}
+    >
       <CarImg src={IMG_URL + car.carTypeImage} />
       <CarName>{car.carTypeName}</CarName>
     </CarItem>
@@ -99,6 +110,9 @@ const CarListWrapper = styled.div`
   margin-top: 20px;
   overflow: scroll;
   gap: 8px;
+  &::-webkit-scrollbar {
+    display: none;
+  }
 `;
 const CarItem = styled(DefaultCardStyle)`
   ${flexCenterCss}

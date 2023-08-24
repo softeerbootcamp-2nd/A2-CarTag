@@ -7,6 +7,7 @@ import {
 } from '../context/ItemProvider';
 
 export type actionType =
+  | { type: 'SET_CAR'; value: defaultItemType }
   | { type: 'SET_TRIM'; value: defaultItemType }
   | { type: 'SET_POWER_TRAIN'; value: detailItemType }
   | { type: 'SET_OPERATION'; value: detailItemType }
@@ -18,6 +19,8 @@ export type actionType =
 
 export default function itemReducer(state: ISelectedItem, action: actionType): ISelectedItem {
   switch (action.type) {
+    case 'SET_CAR':
+      return { ...state, cartype: action.value };
     case 'SET_TRIM':
       return { ...state, trim: action.value };
     case 'SET_POWER_TRAIN':

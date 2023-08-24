@@ -8,6 +8,7 @@ import { MESSAGE, PATH } from '../../../utils/constants';
 import { CloseModalContext } from '../../../context/ModalProviders/CloseModalProvider';
 import { ProgressContext } from '../../../context/ProgressProvider';
 import CarSelectContainer from './CarSelectContainer';
+import { ItemContext } from '../../../context/ItemProvider';
 
 interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
   active: boolean;
@@ -15,6 +16,7 @@ interface INavItem extends React.HTMLAttributes<HTMLLIElement> {
 export default function NavBar() {
   const navigate = useNavigate();
   const { nextStepAvailable } = useContext(ProgressContext);
+  const { selectedItem } = useContext(ItemContext);
   const { pathname: currentPath } = useLocation();
   const { setVisible: setCloseModalVisible } = useContext(CloseModalContext);
   const [menuVisible, setMenuVisible] = useState<boolean>(false);
@@ -39,6 +41,7 @@ export default function NavBar() {
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentPath]);
+
   return (
     <Wrapper>
       <NavContainer $menuVisible={menuVisible}>
@@ -46,7 +49,7 @@ export default function NavBar() {
           <HyundaiLogo src={hyundaiLogo} alt="" onClick={() => handleNavItemClick(PATH.home)} />
 
           <CarSelect onClick={handleCarSelectClick}>
-            <span>펠리세이드</span>
+            <span>{selectedItem.cartype.name}</span>
             {menuVisible ? (
               <ArrowUp fill={theme.color.primaryColor800} width={20} height={20} />
             ) : (

@@ -13,8 +13,8 @@ import { useContext, useEffect, useState } from 'react';
 import { IMG_URL, OPTION_API } from '../../utils/apis';
 import { DefaultOptionContext } from '../../context/PageProviders/DefaultOptionProvider';
 import { SubOptionContext } from '../../context/PageProviders/SubOptionProvider';
-import { CAR_TYPE } from '../../utils/constants';
 import { useFetch } from '../../hooks/useFetch';
+import { ItemContext } from '../../context/ItemProvider';
 
 interface IHmgData {
   optionBoughtCount: number;
@@ -48,11 +48,12 @@ interface IOptionBannerContainer {
 export default function OptionBannerContainer({ isDefault }: IOptionBannerContainer) {
   const defaultOptionContext = useContext(DefaultOptionContext);
   const subOptionContext = useContext(SubOptionContext);
+  const { selectedItem } = useContext(ItemContext);
   const { currentOptionIdx } = isDefault ? defaultOptionContext : subOptionContext;
   const optionType = isDefault ? 'default' : 'sub';
 
   const { data: optionDetail, loading: optionDetailLoading } = useFetch<IOptionDetail>(
-    `${OPTION_API}/${optionType}/detail/?carid=${CAR_TYPE}&optionid=${currentOptionIdx}`
+    `${OPTION_API}/${optionType}/detail/?carid=${selectedItem.trim.id}&optionid=${currentOptionIdx}`
   );
 
   const [bannerInfo, setBannerInfo] = useState<IOptionDetail>({
