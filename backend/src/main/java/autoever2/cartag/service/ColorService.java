@@ -66,7 +66,7 @@ public class ColorService {
         if (count.isEmpty()) {
             return 0;
         }
-        return boughtCount.intValue() * 100 / count.get().intValue();
+        return (int) (boughtCount * 100 / count.get());
     }
 
     public String changeUrl(String value, int index) {
