@@ -108,6 +108,10 @@ public class QuoteService {
         ColorDto innerColor = colorRepository.findColorDataByColorId(innerColorId, false).orElseThrow(() -> new EmptyDataException(ErrorCode.DATA_NOT_EXISTS));
         ColorDto outerColor = colorRepository.findColorDataByColorId(outerColorId, true).orElseThrow(() -> new EmptyDataException(ErrorCode.DATA_NOT_EXISTS));
         List<QuoteSubOptionDto> optionList = new ArrayList<>();
+
+        innerColor.setColorType("내장 색상");
+        outerColor.setColorType("외장 색상");
+
         if (modelInfos.size() != 3) {
             throw new EmptyDataException(ErrorCode.DATA_NOT_EXISTS);
         }

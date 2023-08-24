@@ -2,37 +2,34 @@ import { useSearchParams } from 'react-router-dom';
 import { SHARE_INFO_API } from '../utils/apis';
 import { useCallback, useEffect, useState } from 'react';
 
+interface IModelTypeInfo {
+  modelId: number;
+  modelName: string;
+  modelPrice: number;
+  modelImage: string;
+  modelTypeName: string;
+}
+
+interface IColorInfo {
+  colorId: number;
+  colorName: string;
+  colorImage: string;
+  colorType: string;
+  colorPrice: number;
+  colorBoughtCount: number | null;
+  colorCarImage: string;
+}
 export interface ISharedInfo {
-  carId: number;
-  trim: string;
-  carDefaultPrice: number;
-  powerTrainId: number;
-  powerTrainTitle: string;
-  powerTrainName: string;
-  powerTrainImage: string;
-  powerTrainPrice: number;
-  bodyTypeId: number;
-  bodyTypeTitle: string;
-  bodyTypeName: string;
-  bodyTypeImage: string;
-  bodyTypePrice: number;
-  operationId: number;
-  operationTitle: string;
-  operationName: string;
-  operationImage: string;
-  operationPrice: number;
-  colorOuterId: number;
-  colorOuterImage: string;
-  colorCarOuterImage: string;
-  colorOuterPrice: number;
-  colorOuterImageName: string;
-  colorOuterTitle: string;
-  colorInnerId: number;
-  colorInnerImage: string;
-  colorCarInnerImage: string;
-  colorInnerPrice: number;
-  colorInnerImageName: string;
-  colorInnerTitle: string;
+  trimData: {
+    carId: number;
+    trim: string;
+    carDefaultPrice: number;
+  };
+  powertrainData: IModelTypeInfo;
+  operationData: IModelTypeInfo;
+  bodyTypeData: IModelTypeInfo;
+  outerColor: IColorInfo;
+  innerColor: IColorInfo;
   optionList: [
     {
       optionId: number;

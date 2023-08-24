@@ -3,6 +3,7 @@ package autoever2.cartag.repository;
 import autoever2.cartag.domain.color.ColorDto;
 import org.springframework.dao.DataAccessException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.dao.support.DataAccessUtils;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -57,7 +58,7 @@ public class ColorRepository {
 
     public Optional<ColorDto> findColorDataByColorId(int colorId, boolean isOuterColor) {
         StringBuilder query = new StringBuilder();
-        query.append("select c.color_id, color_name, color_image, color_car_image, color_price " +
+        query.append("select c.color_id, color_name, color_image, color_car_image, color_price, cm.color_bought_count " +
                 "from ColorCarMapper as cm inner join Color as c " +
                 "on cm.color_id = c.color_id where c.color_id = :colorId ");
 
@@ -68,13 +69,10 @@ public class ColorRepository {
             query.append("and c.is_outer_color = 0");
         }
 
-        try {
-            SqlParameterSource param = new MapSqlParameterSource()
-                    .addValue("colorId", colorId);
-            return Optional.of(template.queryForObject(query.toString(), param, outerColorCarMapper()));
-        } catch (DataAccessException e) {
-            return Optional.empty();
-        }
+        SqlParameterSource param = new MapSqlParameterSource()
+                .addValue("colorId", colorId);
+
+        return Optional.ofNullable(DataAccessUtils.singleResult(template.query(query.toString(), param, outerColorCarMapper())));
     }
 
     private RowMapper<ColorDto> outerColorCarMapper() {
