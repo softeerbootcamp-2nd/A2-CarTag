@@ -1,22 +1,18 @@
 import { styled } from 'styled-components';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrRegular3, BodyKrRegular5 } from '../../styles/typefaces';
-import { ChangeEvent, useContext } from 'react';
+import { useContext } from 'react';
 import { HIGHEST_PRICE, HUNDRED_THOUSAND_UNIT, TEN_THOUSAND_UNIT } from '../../utils/constants';
 import { ItemContext } from '../../context/ItemProvider';
 interface ISimilarPriceSlider extends React.HTMLAttributes<HTMLDivElement> {
   isOverBudget: boolean;
-  budget: number;
   similarPrice: number;
   percent: number;
-  handleChange: (event: ChangeEvent<HTMLInputElement>) => void;
 }
 export default function SimilarPriceSlider({
   isOverBudget,
-  budget,
   similarPrice,
   percent,
-  handleChange,
   ...props
 }: ISimilarPriceSlider) {
   const { totalPrice, selectedItem } = useContext(ItemContext);
@@ -30,8 +26,6 @@ export default function SimilarPriceSlider({
         <PriceBar
           type="range"
           min={selectedItem.trim.price}
-          value={budget}
-          onChange={handleChange}
           step={HUNDRED_THOUSAND_UNIT}
           $percent={percent}
           $isover={isOverBudget}
@@ -95,12 +89,10 @@ const SimilarMarkerSvg = styled(MarkerSvg)`
   fill: white;
 `;
 const PriceBar = styled.input.attrs<{ $percent: number; $isover: boolean }>(
-  ({ type, min, value, onChange, step }) => ({
+  ({ type, min, step }) => ({
     type: type,
     min: min,
     max: HIGHEST_PRICE,
-    value: value,
-    onChange: onChange,
     step: step,
   })
 )`

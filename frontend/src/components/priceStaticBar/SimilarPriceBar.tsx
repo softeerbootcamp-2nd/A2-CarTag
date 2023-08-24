@@ -1,4 +1,4 @@
-import { ChangeEvent, useCallback, useContext, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import { styled } from 'styled-components';
 import { flexCenterCss } from '../../utils/commonStyle';
 import { BodyKrMedium5, BodyKrRegular4, HeadingKrMedium6 } from '../../styles/typefaces';
@@ -13,21 +13,16 @@ interface ISimilarPriceBar extends React.HTMLAttributes<HTMLDivElement> {
 
 export default function SimilarPriceBar({ similarPrice, ...props }: ISimilarPriceBar) {
   const { totalPrice, selectedItem } = useContext(ItemContext);
-
-  const [budget, setBudget] = useState((selectedItem.trim.price + HIGHEST_PRICE) / 2);
   const [isOverBudget, setIsOverBudget] = useState(false);
-  const balance = ((isOverBudget ? -1 : 1) * (budget - totalPrice)).toLocaleString();
+  const balance = ((isOverBudget ? -1 : 1) * (totalPrice - similarPrice)).toLocaleString();
   const getBudgetStatus = useCallback(() => {
-    const status = budget - totalPrice;
+    const status = totalPrice - similarPrice;
     status >= 0 ? setIsOverBudget(false) : setIsOverBudget(true);
-  }, [budget, totalPrice]);
-  const handleChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const newValue = Number(event.target.value);
-    setBudget(newValue);
-  };
+  }, [similarPrice, totalPrice]);
+
   useEffect(() => {
     getBudgetStatus();
-  }, [budget, getBudgetStatus]);
+  }, [similarPrice, getBudgetStatus]);
   return (
     <StatusBox {...props} $isover={isOverBudget}>
       <StatusText>
@@ -39,13 +34,11 @@ export default function SimilarPriceBar({ similarPrice, ...props }: ISimilarPric
         </StatusDesc>
       </StatusText>
       <SimilarPriceSlider
-        budget={budget}
         isOverBudget={isOverBudget}
         similarPrice={similarPrice}
         percent={
-          ((budget - selectedItem.trim.price) / (HIGHEST_PRICE - selectedItem.trim.price)) * 100
+          ((totalPrice - selectedItem.trim.price) / (HIGHEST_PRICE - selectedItem.trim.price)) * 100
         }
-        handleChange={handleChange}
       />
       <InfoWrapper>
         <InfoCaption $isover={isOverBudget}>
