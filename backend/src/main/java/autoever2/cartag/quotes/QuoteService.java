@@ -63,15 +63,15 @@ public class QuoteService {
         List<List<Integer>> responseFromRecommend = recommendConnector.request(quoteRequestDto);
 
         List<QuoteSearchDto> quoteSearchList = responseFromRecommend.stream().map(options -> {
-            QuoteSearchDto historyData = QuoteSearchDto.builder()
+            QuoteSearchDto quoteSearchDto = QuoteSearchDto.builder()
                     .carId(quoteRequestDto.getCarId()).powerTrainId(quoteRequestDto.getPowerTrainId()).bodyTypeId(quoteRequestDto.getBodyTypeId()).operationId(quoteRequestDto.getOperationId()).optionIds(optionIds).build();
-            historyData.addAllOption(options);
+            quoteSearchDto.addAllOption(options);
 
-            return historyData;
+            return quoteSearchDto;
         }).collect(Collectors.toList());
 
         return quoteSearchList.stream()
-                .map(historySearchDto -> quoteRepository.findShortQuoteDataBySearchDto(historySearchDto).orElse(null)).filter(Objects::nonNull).collect(Collectors.toList());
+                .map(quoteSearchDto -> quoteRepository.findShortQuoteDataBySearchDto(quoteSearchDto).orElse(null)).filter(Objects::nonNull).collect(Collectors.toList());
     }
 
     public List<BoughtCarDto> getPriceDistribution(int carId) {
@@ -94,6 +94,8 @@ public class QuoteService {
         List<BoughtCarDto> result = new ArrayList<>();
         allQuotePrice.stream()
                 .collect(Collectors.groupingBy(BoughtCarDto::getTotalPrice, Collectors.summingInt(BoughtCarDto::getCount))).forEach((key, data) -> result.add(BoughtCarDto.builder().totalPrice(key).count(data).build()));
+
+        result.sort(Comparator.comparing(BoughtCarDto::getTotalPrice));
 
         return result;
     }
@@ -126,13 +128,11 @@ public class QuoteService {
                 .trimData(trimData).powertrainData(modelInfos.get(0)).operationData(modelInfos.get(1)).bodyTypeData(modelInfos.get(2)).outerColor(outerColor).innerColor(innerColor).optionList(optionList).build();
     }
 
-    public List<Integer> getHistoryById(Long historyId) {
-        return quoteRepository.findOptionListFromHistoryId(historyId);
-    }
+    public List<QuoteSubOptionDto> getOptionDifference(Long myQuoteId, Long quoteIdToCompare) {
+        List<Integer> myQuoteOptions = quoteRepository.findOptionListFromHistoryId(myQuoteId);
+        List<Integer> historyOptions = quoteRepository.findOptionListFromHistoryId(quoteIdToCompare);
 
-    public List<QuoteSubOptionDto> getOptionDifference(List<Integer> optionsToCompare, Long historyId) {
-        List<Integer> historyOptions = quoteRepository.findOptionListFromHistoryId(historyId);
-        historyOptions = historyOptions.stream().filter(id -> !optionsToCompare.contains(id)).collect(Collectors.toList());
+        historyOptions = historyOptions.stream().filter(id -> !myQuoteOptions.contains(id)).collect(Collectors.toList());
 
         return historyOptions.stream()
                 .map(id -> optionRepository.findSubOptionByOptionId(id).orElseThrow(() -> new EmptyDataException(ErrorCode.INTERNAL_SERVER_ERROR))).collect(Collectors.toList());

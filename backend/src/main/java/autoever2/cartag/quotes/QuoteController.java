@@ -54,9 +54,9 @@ public class QuoteController {
     @Operation(summary = "유사견적 상세 데이터 제공 API", description = "유사 견적 ID 제공 시 상세 데이터 제공")
     @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = HistoryShortDto.class)))
     @PostMapping("/histories/detail")
-    public List<List<QuoteSubOptionDto>> getRecommendedOptions(@RequestBody QuoteOptionRequestDto historyRequestDto) {
-        List<Integer> myOptionIds = quoteService.getHistoryById(historyRequestDto.getQuoteId());
+    public List<List<QuoteSubOptionDto>> getRecommendedOptions(@RequestBody QuoteOptionRequestDto quoteOptionRequestDto) {
+        Long myQuoteId = quoteOptionRequestDto.getQuoteId();
 
-        return historyRequestDto.getHistoryIds().stream().map(historyId -> quoteService.getOptionDifference(myOptionIds, historyId)).collect(Collectors.toList());
+        return quoteOptionRequestDto.getHistoryIds().stream().map(historyId -> quoteService.getOptionDifference(myQuoteId, historyId)).collect(Collectors.toList());
     }
 }

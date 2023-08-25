@@ -1,7 +1,19 @@
 SET REFERENTIAL_INTEGRITY FALSE;
 
+INSERT INTO Model VALUES (1,'디젤2.2',1,'높은 토크로 파워풀한 드라이빙이 가능하며, 차급대비 연비 효율이 우수합니다',1480000,'/model/diesel2-2.jpg');
+INSERT INTO Model VALUES (2,'가솔린3.8',1,'고마력의 우수한 가속 성능을 확보하여, 넉넉하고 안정감 있는 주행이 가능합니다.' || CHR(10) || '엔진의 진동이 적어 편안하고 조용한 드라이빙 감성을 제공합니다.',0,'/model/gasoline3-8.jpg');
+INSERT INTO Model VALUES (3,'2WD',2,'엔진에서 전달되는 동력이 전/후륜 바퀴 중 한쪽으로만 전달되어 차량을 움직이는 방식입니다.' || CHR(10) || '차체가 가벼워 연료 효율이 높습니다.',0,'/model/2wd.png');
+INSERT INTO Model VALUES (4,'4WD',2,'전자식 상시 4륜 구동 시스템 입니다.' || CHR(10) || '도로의 상황이나 주행 환경에 맞춰 전후륜 구동력을 자동배분하여 주행 안전성을 높여줍니다',2370000,'/model/4wd.png');
+INSERT INTO Model VALUES (5,'7인승',3,'기존 8인승 시트(1열 2명, 2열 3명, 3열 3명)에서 2열 가운데 시트를 없애 2열 탑승객의 편의는 물론, 3열 탑승객의 승하차가 편리합니다',0,'/model/7seats.jpg');
+INSERT INTO Model VALUES (6,'8인승',3,'1열 2명, 2열 3명, 3열 3명이 탑승할 수 있는 구조로, 많은 인원이 탑승할 수 있도록 배려하였습니다',0,'/model/8seats.jpg');
+
 INSERT INTO SubOptionData (sub_option_data_id, car_id, option_id, option_bought_count, option_price) VALUES (1, 1, 69, 48015, 1090000);
 INSERT INTO SubOptionData (sub_option_data_id, car_id, option_id, option_bought_count, option_price) VALUES (2, 1, 70, 121380, 790000);
+INSERT INTO SubOptionData (sub_option_data_id, car_id, option_id, option_bought_count, option_price) VALUES (3, 1, 71, 29707154, 690000);
+INSERT INTO SubOptionData (sub_option_data_id, car_id, option_id, option_bought_count, option_price) VALUES (4, 1, 72, 29703805, 690000);
+INSERT INTO SubOptionData (sub_option_data_id, car_id, option_id, option_bought_count, option_price) VALUES (5, 1, 73, 29704678, 890000);
+INSERT INTO SubOptionData (sub_option_data_id, car_id, option_id, option_bought_count, option_price) VALUES (6, 1, 74, 29708365, 400000);
+INSERT INTO SubOptionData (sub_option_data_id, car_id, option_id, option_bought_count, option_price) VALUES (7, 1, 84, 29706549, 840000);
 
 INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (129, 1, 155, '69,70');
 INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (130, 1, 165, '69,70');
@@ -50,7 +62,6 @@ INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUE
 INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (173, 1, 162, '69,84');
 INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (174, 1, 151, '69,84');
 INSERT INTO SalesHistory (history_id, car_id, sold_count, sold_options_id) VALUES (175, 1, 149, '69,84');
-
 
 INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (384, 1, 129);
 INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (385, 3, 129);
@@ -175,3 +186,21 @@ INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) V
 INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (504, 1, 169);
 INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (505, 3, 169);
 INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (506, 5, 169);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (507, 1, 170);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (508, 3, 170);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (509, 6, 170);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (510, 1, 171);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (511, 4, 171);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (512, 5, 171);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (513, 1, 172);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (514, 4, 172);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (515, 6, 172);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (516, 2, 173);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (517, 3, 173);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (518, 5, 173);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (519, 2, 174);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (520, 3, 174);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (521, 6, 174);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (522, 2, 175);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (523, 4, 175);
+INSERT INTO HistoryModelMapper (history_model_mapper_id, model_id, history_id) VALUES (524, 5, 175);

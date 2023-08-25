@@ -6,8 +6,6 @@ import lombok.*;
 import java.beans.ConstructorProperties;
 
 @Getter
-@Setter
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Schema(description = "판매된 견적의 금액, 해당 금액의 판매량을 반환")
 public class BoughtCarDto {
 
