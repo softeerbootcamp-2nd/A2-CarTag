@@ -25,6 +25,7 @@ export default function NavBar() {
   const handleNavItemClick = (path: string) => {
     if (path !== PATH.trim && !nextStepAvailable) {
       alert(MESSAGE.trimSelectRequired);
+      navigate(PATH.trim);
       return;
     }
     navigate(path);
@@ -46,7 +47,12 @@ export default function NavBar() {
     <Wrapper>
       <NavContainer $menuVisible={menuVisible}>
         <Body>
-          <HyundaiLogo src={hyundaiLogo} alt="" onClick={() => handleNavItemClick(PATH.home)} />
+          <HyundaiLogo
+            src={hyundaiLogo}
+            loading="lazy"
+            alt="현대 로고"
+            onClick={() => handleNavItemClick(PATH.home)}
+          />
 
           <CarSelect onClick={handleCarSelectClick}>
             <span>{selectedItem.cartype.name}</span>
@@ -98,12 +104,12 @@ export default function NavBar() {
             </NavList>
           )}
           {!menuVisible ? (
-            <CancelButton onClick={handleCloseButtonClick}>
+            <CancelButton aria-label="close-btn" onClick={handleCloseButtonClick}>
               <Span>종료</Span>
               <CancelIcon width={12} height={12} />
             </CancelButton>
           ) : (
-            <CancelButton onClick={handleCarSelectClick}>
+            <CancelButton aria-label="close-btn" onClick={handleCarSelectClick}>
               <CancelIcon width={12} height={12} />
             </CancelButton>
           )}

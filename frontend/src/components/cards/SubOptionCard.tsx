@@ -14,7 +14,7 @@ interface ISubOptionCard extends HTMLAttributes<HTMLDivElement> {
 export default function SubOptionCard({ active, title, price, imgSrc, ...props }: ISubOptionCard) {
   return (
     <Card active={active} {...props}>
-      <OptionImg src={imgSrc} />
+      <OptionImg src={imgSrc} loading="lazy" alt={`${title} 옵션 이미지`} />
       <OptionCardInfo>
         <div>
           <OptionTitle>{title}</OptionTitle>

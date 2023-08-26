@@ -41,7 +41,7 @@ export default function GuideModal({ ...props }: IGuideModal) {
                 제공하는 <BlueText>실활용 데이터</BlueText>로<br />
                 합리적인 차량을 만들어 보세요.
               </GuideTitle>
-              <CloseBtn onClick={() => setVisible(false)}>
+              <CloseBtn aria-label="close-btn" onClick={() => setVisible(false)}>
                 <CloseIcon />
               </CloseBtn>
             </Header>

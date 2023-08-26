@@ -104,7 +104,9 @@ export default function BarHistogram() {
             {similarQuote}
           </BarChart>
         )}
-        <Button onClick={handleSimliarQuoteModal}>유사 출고 견적 확인하기</Button>
+        <Button aria-label="similar-quote-btn" onClick={handleSimliarQuoteModal}>
+          유사 출고 견적 확인하기
+        </Button>
       </PaddingWrapper>
     </HistogramWrapper>
   );

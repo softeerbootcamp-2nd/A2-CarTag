@@ -82,7 +82,7 @@ export default function TrimBannerContainer() {
       if (!imgSrc) return;
       return (
         <ImgWrapper key={idx} $selected={selectedImgIdx === idx}>
-          <Img $src={imgSrc} onClick={() => handleSelectImg(idx)} />
+          <Img src={imgSrc} loading="lazy" alt="트림 이미지" onClick={() => handleSelectImg(idx)} />
         </ImgWrapper>
       );
     });
@@ -188,10 +188,12 @@ const ImgWrapper = styled.div<{ $selected?: boolean }>`
     if ($selected)
       return css`
         width: 504px;
+        height: 100%;
       `;
     else {
       return css`
         width: 71px;
+        height: 100%;
         &:hover {
           filter: brightness(0.6);
         }
@@ -214,10 +216,9 @@ const ImgWrapper = styled.div<{ $selected?: boolean }>`
   transition: all 0.2s;
 `;
 
-const Img = styled.div<{ $src: string }>`
+const Img = styled.img`
   height: 100%;
   width: 700px;
-  background-image: url(${({ $src }) => $src});
-  background-position: center;
-  background-size: cover;
+  object-fit: cover;
+  object-position: center;
 `;

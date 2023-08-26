@@ -114,7 +114,7 @@ export default function ShareModal({ ...props }: IShareModal) {
     <DimmedBackground $displayDimmed={visible} {...props}>
       <Modal onClick={(e) => e.stopPropagation()}>
         <Header>
-          <CloseButton onClick={handleCloseButton}>
+          <CloseButton aria-label="close-btn" onClick={handleCloseButton}>
             <CloseIcon />
           </CloseButton>
         </Header>
@@ -125,7 +125,7 @@ export default function ShareModal({ ...props }: IShareModal) {
         <LinkWrapper>
           <UrlText ref={copyTarget}>{shareUrl}</UrlText>
           <ButtonContainer>
-            <CopyButton onClick={handleCopyClick}>
+            <CopyButton aria-label="copy-btn" onClick={handleCopyClick}>
               <Alert $visible={copyAlertVisible}>copied!</Alert>
               <CopyIcon />
             </CopyButton>
