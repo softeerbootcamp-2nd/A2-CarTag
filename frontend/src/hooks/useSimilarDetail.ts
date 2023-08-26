@@ -27,6 +27,7 @@ export default function useSimilarDetail(params: ISimilarQuoteIdList | null) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Accept-Encoding': 'gzip',
           },
           body: JSON.stringify(params),
           signal: abortController.signal,

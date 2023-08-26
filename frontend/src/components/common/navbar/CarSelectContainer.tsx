@@ -122,6 +122,7 @@ const CarItem = styled(DefaultCardStyle)`
 `;
 const CarImg = styled.img`
   width: 160px;
+  height: 100%;
 `;
 const CarName = styled.div`
   margin-top: 10px;

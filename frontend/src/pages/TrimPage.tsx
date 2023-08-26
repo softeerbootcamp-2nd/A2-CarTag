@@ -6,6 +6,7 @@ import { TRIM_API } from '../utils/apis';
 import { ICartype, TrimContext } from '../context/PageProviders/TrimProvider';
 import ErrorModal from '../components/modal/ErrorModal';
 import { ItemContext } from '../context/ItemProvider';
+import Loading from '../components/loading/Loading';
 
 export default function TrimPage() {
   const { selectedItem } = useContext(ItemContext);
@@ -23,8 +24,14 @@ export default function TrimPage() {
   }
   return (
     <>
-      <TrimBannerContainer />
-      <TrimSelectContainer />
+      {data && !loading ? (
+        <>
+          <TrimBannerContainer />
+          <TrimSelectContainer />
+        </>
+      ) : (
+        <Loading />
+      )}
     </>
   );
 }
