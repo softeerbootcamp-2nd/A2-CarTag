@@ -12,7 +12,7 @@ export default function InnerColorBannerContainer() {
   return (
     <Wrapper>
       <InnerColorBanner subtitle={'내장색상'} title={selectedItem.innerColor.name}>
-        <Img src={`${IMG_URL}${imgSrc}`} />
+        <Img src={`${IMG_URL}${imgSrc}`} loading="lazy" alt="차 내부 이미지" />
       </InnerColorBanner>
     </Wrapper>
   );

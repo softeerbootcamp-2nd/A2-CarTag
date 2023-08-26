@@ -77,7 +77,11 @@ export default function ModelTypePage() {
                 </DataList>
               </HmgDataSection>
             ) : null}
-            <ImgSection src={`${IMG_URL}${modelTypeDetail.modelImage}`} />
+            <ImgSection
+              src={`${IMG_URL}${modelTypeDetail.modelImage}`}
+              loading="lazy"
+              alt="모델타입 이미지"
+            />
           </CenterWrapper>
         </Banner>
       )}

@@ -161,6 +161,7 @@ export default function OptionBannerContainer({ isDefault }: IOptionBannerContai
                 </InfoWrapper>
 
                 <ToastPopup
+                  aria-label="toast-popup-btn"
                   $offsetY={winY}
                   $isBannerVisible={isBannerVisible}
                   onClick={handleBannerVisibility}
@@ -169,9 +170,17 @@ export default function OptionBannerContainer({ isDefault }: IOptionBannerContai
                 </ToastPopup>
               </Container>
               {bannerInfo.optionImage ? (
-                <ImgSection src={`${IMG_URL}${bannerInfo.optionImage}`} />
+                <ImgSection
+                  src={`${IMG_URL}${bannerInfo.optionImage}`}
+                  loading="lazy"
+                  alt="옵션 이미지"
+                />
               ) : (
-                <ImgSection src={`${IMG_URL}${optionDetail.optionImage}`} />
+                <ImgSection
+                  src={`${IMG_URL}${optionDetail.optionImage}`}
+                  loading="lazy"
+                  alt="옵션 이미지"
+                />
               )}
             </ContainerWrapper>
           </OptionBanner>

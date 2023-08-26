@@ -37,13 +37,13 @@ export default function CardSlider({ title, cardList, maxPage }: ICardSlider) {
         <PageButtonWrapper>
           {maxPage > 1 && (
             <>
-              <PageButton onClick={handlePagePrev}>
+              <PageButton aria-label="prev-page-btn" onClick={handlePagePrev}>
                 <ArrowLeft fill={arrowLeftColor} />
               </PageButton>
               <Page>
                 {page + 1}/{maxPage}
               </Page>
-              <PageButton onClick={handlePageNext}>
+              <PageButton aria-label="next-page-btn" onClick={handlePageNext}>
                 <ArrowRight fill={arrowRightColor} />
               </PageButton>
             </>

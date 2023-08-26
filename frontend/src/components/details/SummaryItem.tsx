@@ -19,14 +19,16 @@ export default function SummaryItem({
 }: ISummaryItem) {
   return (
     <Item>
-      <Img src={IMG_URL + imgSrc} alt="" />
+      <Img src={IMG_URL + imgSrc} alt="요약" />
       <InfoWrapper>
         <LeftInfo>
           <ItemName>{itemName}</ItemName>
           <SelectedName>{selectedName}</SelectedName>
         </LeftInfo>
         <RightInfo>
-          <ModifyButton onClick={handleModifyClick}>수정하기</ModifyButton>
+          <ModifyButton aria-label="modify-btn" onClick={handleModifyClick}>
+            수정하기
+          </ModifyButton>
           <Price>+ {price.toLocaleString()}원</Price>
         </RightInfo>
       </InfoWrapper>

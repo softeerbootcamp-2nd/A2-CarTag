@@ -93,7 +93,7 @@ export default function PriceStaticBar({ ...props }: IPriceStaticBar) {
           <span>{balance}원</span>
           {isOverBudget ? ' 더 들었어요.' : ' 남았어요.'}
         </StatusDesc>
-        <IconBtn onClick={() => setIsOpen(!isOpen)}>
+        <IconBtn aria-label="arrow-btn" onClick={() => setIsOpen(!isOpen)}>
           {isOpen ? <ArrowUp fill={theme.color.gray50} /> : <ArrowDown fill={theme.color.gray50} />}
         </IconBtn>
       </StatusText>
