@@ -15,7 +15,6 @@ export default function TrimPage() {
   const { setData, setLoading } = useContext(TrimContext);
   useEffect(() => {
     setData(data);
-
     setLoading(loading);
   }, [data, loading, setData, setLoading]);
 

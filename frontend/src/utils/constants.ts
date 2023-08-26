@@ -20,6 +20,8 @@ export const MESSAGE = {
   trimSelectRequired: '트림을 선택해 주세요.',
 };
 
+export const PALISADE = 1;
+export const LE_BLANC = 1;
 export const modelTypeToEn: {
   [key: string]: 'powerTrain' | 'bodyType' | 'operation';
 } = {
@@ -47,4 +49,6 @@ Object.freeze({
   PERCENTAGE_LIMIT_VALUE,
   MAX_TEXT_CNT,
   HIGHEST_PRICE,
+  PALISADE,
+  LE_BLANC,
 });
