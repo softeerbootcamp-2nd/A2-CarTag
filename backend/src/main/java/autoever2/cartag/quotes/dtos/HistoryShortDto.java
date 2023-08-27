@@ -4,7 +4,6 @@ import io.swagger.v3.oas.annotations.media.ArraySchema;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.*;
 
-import java.beans.ConstructorProperties;
 import java.util.List;
 
 @Schema(description = "판매 견적의 ID, 판매수를 반환")

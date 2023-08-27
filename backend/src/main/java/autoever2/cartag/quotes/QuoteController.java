@@ -1,6 +1,6 @@
 package autoever2.cartag.quotes;
 
-import autoever2.cartag.domain.option.QuoteSubOptionDto;
+import autoever2.cartag.options.dto.QuoteSubOptionDto;
 import autoever2.cartag.quotes.dtos.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -36,7 +36,7 @@ public class QuoteController {
         return myQuote;
     }
 
-    @Operation(summary = "실제 판매량 분포를 제공하는 API", description = "각 금액 별 판매금액과 판매량을 반환하는 API입니다.")
+    @Operation(summary = "실제 판매데이터의 금액 분포를 제공하는 API", description = "각 금액 별 판매금액과 판매량을 반환하는 API입니다.")
     @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = BoughtCarDto.class)))
     @GetMapping("bought/infos")
     @Cacheable(value = "boughtList")
@@ -54,9 +54,10 @@ public class QuoteController {
     @Operation(summary = "유사견적 상세 데이터 제공 API", description = "유사 견적 ID 제공 시 상세 데이터 제공")
     @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = HistoryShortDto.class)))
     @PostMapping("/histories/detail")
-    public List<List<QuoteSubOptionDto>> getRecommendedOptions(@RequestBody QuoteOptionRequestDto historyRequestDto) {
-        List<Integer> myOptionIds = quoteService.getHistoryById(historyRequestDto.getQuoteId());
+    public List<List<QuoteSubOptionDto>> getRecommendedOptions(@RequestBody QuoteOptionRequestDto quoteOptionRequestDto) {
+        Long myQuoteId = quoteOptionRequestDto.getQuoteId();
 
-        return historyRequestDto.getHistoryIds().stream().map(historyId -> quoteService.getOptionDifference(myOptionIds, historyId)).collect(Collectors.toList());
+        List<List<QuoteSubOptionDto>> result = quoteOptionRequestDto.getHistoryIds().stream().map(historyId -> quoteService.getOptionDifference(myQuoteId, historyId)).collect(Collectors.toList());
+        return result;
     }
 }
