@@ -150,6 +150,7 @@ export default function ItemProvider({ children }: IItemProvider) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Accept-Encoding': 'gzip',
           },
           body: params,
         });

@@ -74,6 +74,7 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
     <>
       <TabWrapper>
         <BtnWrapper
+          aria-label="prev-page-btn"
           onClick={handleOffsetPrev}
           style={{ cursor: page <= 0 ? 'default' : 'pointer' }}
         >
@@ -100,6 +101,7 @@ export default function OptionTab({ options, setBannerInfo }: ISubOptionTab) {
           </>
         </TabWrapperInner>
         <BtnWrapper
+          aria-label="next-page-btn"
           onClick={handleOffsetNext}
           style={{ cursor: page >= TAB_MAX_PAGE - 1 ? 'default' : 'pointer' }}
         >

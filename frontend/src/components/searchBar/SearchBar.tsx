@@ -28,7 +28,7 @@ export default function SearchBar({
   const displayData = result.map((res, index) => (
     <ListItem key={index} $focus={index === focusIndex}>
       <AutoSearchData>{res}</AutoSearchData>
-      <IconBtn>
+      <IconBtn aria-label="northwest-btn">
         <NorthWest active={index === focusIndex} />
       </IconBtn>
     </ListItem>
@@ -107,7 +107,7 @@ export default function SearchBar({
   return (
     <Wrapper ref={searchBarRef}>
       <Input value={value} onKeyUp={(e) => handleKeyUp(e)} {...props} />
-      <Button>
+      <Button aria-label="search-btn">
         <SearchIcon width={18} height={18} />
       </Button>
       <AutoSearchContainer $visible={result.length > 0 && visibleAutoBox}>

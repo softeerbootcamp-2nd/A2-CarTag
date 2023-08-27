@@ -12,8 +12,12 @@ interface IToggleButtons extends HTMLAttributes<HTMLDivElement> {
 export default function ToggleButtons({ mode, ...props }: IToggleButtons) {
   return (
     <ToggleButtonContainer {...props}>
-      <Button $active={mode === 'outerColor'}>외장</Button>
-      <Button $active={mode === 'innerColor'}>내장</Button>
+      <Button aria-label="outer-btn" $active={mode === 'outerColor'}>
+        외장
+      </Button>
+      <Button aria-label="inner-btn" $active={mode === 'innerColor'}>
+        내장
+      </Button>
     </ToggleButtonContainer>
   );
 }

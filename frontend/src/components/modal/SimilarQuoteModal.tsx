@@ -128,7 +128,7 @@ export default function SimilarQuoteModal({ ...props }: ISimilarQuoteModal) {
       <Modal onClick={stopEvent}>
         <Wrapper>
           <Header>
-            <CloseBtn onClick={() => setVisible(false)}>
+            <CloseBtn aria-label="close-btn" onClick={() => setVisible(false)}>
               <CloseIcon />
             </CloseBtn>
           </Header>
@@ -149,6 +149,7 @@ export default function SimilarQuoteModal({ ...props }: ISimilarQuoteModal) {
               </InfoWrapper>
               <CardWrapper>
                 <LeftButton
+                  aria-label="prev-page-btn"
                   onClick={handlePrevPage}
                   style={{ cursor: page <= 0 ? 'default' : 'pointer' }}
                 >
@@ -166,7 +167,11 @@ export default function SimilarQuoteModal({ ...props }: ISimilarQuoteModal) {
                     <TotalPrice>{(prevPrice.current + difference!).toLocaleString()}원</TotalPrice>
                     <Difference>+ {difference?.toLocaleString()}원</Difference>
                   </InfoSection>
-                  <ImgWrapper src={IMG_URL + selectedItem.outerColor.carImgSrc} />
+                  <ImgWrapper
+                    src={IMG_URL + selectedItem.outerColor.carImgSrc}
+                    loading="lazy"
+                    alt="차 외장 이미지"
+                  />
                 </CarInfo>
                 <OptionInfo>
                   <HmgTagWrapper>
@@ -178,6 +183,7 @@ export default function SimilarQuoteModal({ ...props }: ISimilarQuoteModal) {
                   </OptionSection>
                 </OptionInfo>
                 <RightButton
+                  aria-label="next-page-btn"
                   onClick={handleNextPage}
                   style={{ cursor: page >= CARD_SLIDE_MAX_PAGE - 1 ? 'default' : 'pointer' }}
                 >

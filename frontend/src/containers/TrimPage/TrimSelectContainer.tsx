@@ -7,7 +7,7 @@ import {
   HeadingKrMedium6,
   HeadingKrMedium7,
 } from '../../styles/typefaces';
-import { PATH } from '../../utils/constants';
+import { LE_BLANC, PALISADE, PATH } from '../../utils/constants';
 import CenterWrapper from '../../components/common/layout/CenterWrapper';
 import DefaultCardStyle from '../../components/common/card/DefaultCardStyle';
 import RectButton from '../../components/common/buttons/RectButton';
@@ -21,7 +21,7 @@ export default function TrimSelectContainer() {
   const { selectedItem, setSelectedItem } = useContext(ItemContext);
   const { setNextStepAvailable } = useContext(ProgressContext);
   const navigate = useNavigate();
-  const { defaultInfo } = useDefaultInfo(1);
+  const { defaultInfo } = useDefaultInfo(PALISADE);
 
   const initDefaultInfo = useCallback(() => {
     if (!defaultInfo) return;
@@ -96,25 +96,29 @@ export default function TrimSelectContainer() {
         price: trimData[idx].carDefaultPrice,
       },
     });
-    setNextStepAvailable(true);
-    initDefaultInfo();
   };
-  const isAcitve = (idx: number) => selectedItem.trim.id - 1 === idx;
+  const isAcitve = (idx: number) => selectedItem.trim.id === idx;
   const handleNextButtonClick = (idx: number) => {
     if (!isAcitve(idx)) return;
-    navigate(PATH.modelType);
+    const hasData = selectedItem.cartype.id === PALISADE && selectedItem.trim.id === LE_BLANC;
+    if (hasData) {
+      initDefaultInfo();
+      setNextStepAvailable(true);
+      navigate(PATH.modelType);
+      return;
+    }
+    setNextStepAvailable(false);
   };
 
   const displayTrimCards = () => {
     if (!(trimData && !loading)) return <></>;
 
-    const cardIndices = Array.from({ length: trimData.length }, (_, index) => index);
-    return cardIndices.map((idx) => (
-      <TrimCard key={idx} onClick={() => handleSelectedIdx(idx)} active={isAcitve(idx)}>
+    return trimData.map((trim, idx) => (
+      <TrimCard key={idx} onClick={() => handleSelectedIdx(idx)} active={isAcitve(trim.carId)}>
         <TrimDesc>{trimData[idx].carDescription}</TrimDesc>
         <TrimTitle>{trimData[idx].trim}</TrimTitle>
         <TrimPrice>{trimData[idx].carDefaultPrice.toLocaleString()} 원</TrimPrice>
-        <TrimButton type={'trim'} onClick={() => handleNextButtonClick(idx)}>
+        <TrimButton type={'trim'} onClick={() => handleNextButtonClick(trim.carId)}>
           선택하기
         </TrimButton>
       </TrimCard>

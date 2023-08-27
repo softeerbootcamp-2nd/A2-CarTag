@@ -20,7 +20,7 @@ export default function SummaryOptionCard({
 }: ISummaryOptionCard) {
   return (
     <Card active={active} {...props}>
-      <OptionImg src={imgSrc} />
+      <OptionImg src={imgSrc} loading="lazy" alt="옵션 이미지" />
       <OptionCardInfo>
         <OptionTitle>{title}</OptionTitle>
         <OptionPrice>

@@ -26,7 +26,11 @@ export default function ResultBannerContainer() {
     <>
       <ResultBanner>
         <Title>{selectedItem.trim.name}</Title>
-        <CarImg src={imgMode === 'innerColor' ? innerCarSrc : outerCarSrc}></CarImg>
+        <CarImg
+          loading="lazy"
+          alt="차 이미지"
+          src={imgMode === 'innerColor' ? innerCarSrc : outerCarSrc}
+        ></CarImg>
         <ToggleButtonContainer mode={imgMode} onClick={toggle} />
       </ResultBanner>
     </>

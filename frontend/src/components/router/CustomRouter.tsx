@@ -15,7 +15,6 @@ import SubOptionProvider from '../../context/PageProviders/SubOptionProvider';
 import DefaultOptionProvider from '../../context/PageProviders/DefaultOptionProvider';
 import Providers from '../contextProviders/Providers';
 import InnerColorProvider from '../../context/PageProviders/InnerColorProvider';
-
 export default function CustomRouter() {
   const optionProviders = [SubOptionProvider, DefaultOptionProvider];
 

@@ -59,14 +59,18 @@ export default function QuoteSummaryModal({ ...props }: IQuoteSummaryModal) {
       <QuoteModal onClick={(e) => e.stopPropagation()}>
         <Header>
           <ModalTitle>견적요약</ModalTitle>
-          <CloseButton onClick={handleCloseButtonClicke}>
+          <CloseButton aria-label="close-btn" onClick={handleCloseButtonClicke}>
             <CloseIcon />
           </CloseButton>
         </Header>
         <Body>
           <Row>
             <ImgSection>
-              <CarImg src={imgMode === 'innerColor' ? innerCarImgSrc : outerCarImgSrc}></CarImg>
+              <CarImg
+                loading="lazy"
+                alt="차 이미지"
+                src={imgMode === 'innerColor' ? innerCarImgSrc : outerCarImgSrc}
+              ></CarImg>
               <ToggleButtons mode={imgMode} onClick={toggle} />
             </ImgSection>
             <DetailSection>

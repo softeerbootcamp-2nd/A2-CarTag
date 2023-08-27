@@ -46,7 +46,7 @@ export default function OptionCard({
   return (
     <Card active={active} {...props}>
       <ImgWrapper>
-        <OptionImg src={`${imgBlobUrl[option.optionImage]}`} loading="lazy" alt="" />
+        <OptionImg src={`${imgBlobUrl[option.optionImage]}`} loading="lazy" alt="옵션 이미지" />
         <HashTagWrapper>{displayHashTag}</HashTagWrapper>
       </ImgWrapper>
       <OptionCardInfo>

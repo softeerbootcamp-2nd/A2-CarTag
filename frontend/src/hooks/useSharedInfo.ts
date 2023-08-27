@@ -88,6 +88,7 @@ export default function useSharedInfo() {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
+            'Accept-Encoding': 'gzip',
           },
           body: JSON.stringify(params),
         });

@@ -22,13 +22,15 @@ export default function ResultFooterContainer({ handlePrint }: IResultFooterCont
           <Price>{totalPrice.toLocaleString()} 원</Price>
         </PriceSection>
         <ButtonSection>
-          <Button type={'price'} onClick={() => setShareModalVisible(true)}>
+          <Button aria-label="share-btn" type={'price'} onClick={() => setShareModalVisible(true)}>
             공유하기
           </Button>
-          <Button type={'price'} onClick={handlePrint}>
+          <Button aria-label="pdf-btn" type={'price'} onClick={handlePrint}>
             PDF 다운로드
           </Button>
-          <Button type={'price'}>상담신청</Button>
+          <Button aria-label="consult-btn" type={'price'}>
+            상담신청
+          </Button>
         </ButtonSection>
       </Footer>
     </Wrapper>

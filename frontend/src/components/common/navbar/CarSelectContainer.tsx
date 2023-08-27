@@ -53,7 +53,7 @@ export default function CarSelectContainer({ visible, setMenuVisible }: ICarSele
       onClick={() => handleCarClick(car)}
       key={idx}
     >
-      <CarImg src={IMG_URL + car.carTypeImage} />
+      <CarImg loading="lazy" alt="차 이미지" src={IMG_URL + car.carTypeImage} />
       <CarName>{car.carTypeName}</CarName>
     </CarItem>
   ));
@@ -122,6 +122,7 @@ const CarItem = styled(DefaultCardStyle)`
 `;
 const CarImg = styled.img`
   width: 160px;
+  height: 100%;
 `;
 const CarName = styled.div`
   margin-top: 10px;
