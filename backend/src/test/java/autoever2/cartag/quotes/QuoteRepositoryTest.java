@@ -1,10 +1,13 @@
 package autoever2.cartag.quotes;
 
+import autoever2.cartag.exception.EmptyDataException;
+import autoever2.cartag.quotes.dtos.QuoteModelPriceDto;
 import autoever2.cartag.quotes.dtos.QuoteSearchDto;
 import autoever2.cartag.quotes.dtos.HistoryShortDto;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,13 +19,13 @@ import javax.sql.DataSource;
 
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ActiveProfiles("test")
 @JdbcTest
 @Sql({"classpath:insert/insert-sales-h2.sql"})
 @ExtendWith(SoftAssertionsExtension.class)
+@DisplayName("UnitTest: QuoteRepository")
 class QuoteRepositoryTest {
 
     @InjectSoftAssertions
@@ -36,7 +39,8 @@ class QuoteRepositoryTest {
     }
 
     @Test
-    void findShortData() {
+    @DisplayName("견적의 요약 정보를 반환")
+    void findShortQuoteDataBySearchDto() {
         QuoteSearchDto search1 = QuoteSearchDto.builder()
                         .carId(1)
                         .powerTrainId(1)
@@ -68,19 +72,35 @@ class QuoteRepositoryTest {
     }
 
 
-//    @Test
-//    @DisplayName("차량 가격 정보와 optionIdList를 반환하는 로직")
-//    void getPriceAndOptionList(){
-//        List<HistoryTotalModelPriceDto> totalInfo = quoteRepository.findHistoryTotalModelPriceByCarId();
-//
-//        assertEquals(11, totalInfo.size());
-//        assertEquals(41480000L, totalInfo.get(0).getPrice());
-//
-//        String emptyOptionList = totalInfo.get(0).getOptionList();
-//        assertTrue(emptyOptionList.isEmpty());
-//
-//        String optionList = totalInfo.get(10).getOptionList();
-//        assertTrue(!optionList.isEmpty());
-//        assertEquals(69, Integer.parseInt(optionList));
-//    }
+    @Test
+    @DisplayName("판매 견적의 모든 가격 분포를 반환")
+    void findQuoteTotalModelPriceByCarId(){
+        int carId = 1;
+        List<QuoteModelPriceDto> totalInfo = quoteRepository.findQuoteTotalModelPriceByCarId(carId);
+
+        QuoteModelPriceDto expected0 = QuoteModelPriceDto.builder()
+                .soldOptionsId("69,70")
+                .soldCount(155)
+                .modelPrice(1480000L)
+                .build();
+        QuoteModelPriceDto expected46 = QuoteModelPriceDto.builder()
+                .soldOptionsId("69,84")
+                .soldCount(149)
+                .modelPrice(2370000L)
+                .build();
+
+        softAssertions.assertThat(totalInfo.size()).isEqualTo(47);
+        softAssertions.assertThat(totalInfo.get(0)).usingRecursiveComparison().isEqualTo(expected0);
+        softAssertions.assertThat(totalInfo.get(46)).usingRecursiveComparison().isEqualTo(expected46);
+    }
+
+    @Test
+    @DisplayName("견적의 옵션 리스트를 반환")
+    void findOptionListFromHistoryId() {
+        Long historyId = 129L;
+        Long invalidId = 500L;
+
+        softAssertions.assertThat(quoteRepository.findOptionListFromHistoryId(historyId)).usingRecursiveComparison().isEqualTo(List.of(69, 70));
+        softAssertions.assertThatThrownBy(() -> quoteRepository.findOptionListFromHistoryId(invalidId)).isInstanceOf(EmptyDataException.class);
+    }
 }

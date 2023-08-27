@@ -5,6 +5,7 @@ import lombok.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 @Getter
 @Setter
@@ -41,5 +42,13 @@ public class QuoteRequestDto {
                 ", innerColorId=" + innerColorId +
                 ", optionIdList=" + Arrays.toString(optionIdList.toArray()) +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        QuoteRequestDto that = (QuoteRequestDto) o;
+        return carId == that.carId && powerTrainId == that.powerTrainId && operationId == that.operationId && bodyTypeId == that.bodyTypeId && outerColorId == that.outerColorId && innerColorId == that.innerColorId && Objects.equals(optionIdList, that.optionIdList);
     }
 }

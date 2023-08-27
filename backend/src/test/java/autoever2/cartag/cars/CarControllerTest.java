@@ -2,7 +2,7 @@ package autoever2.cartag.cars;
 
 import autoever2.cartag.cars.dto.CarVo;
 import autoever2.cartag.cars.dto.CarTypeDto;
-import autoever2.cartag.domain.option.TrimDefaultOptionDto;
+import autoever2.cartag.options.dto.TrimDefaultOptionDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

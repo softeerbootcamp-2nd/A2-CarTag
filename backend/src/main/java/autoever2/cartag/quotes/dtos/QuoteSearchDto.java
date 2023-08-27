@@ -1,20 +1,18 @@
 package autoever2.cartag.quotes.dtos;
 
-import lombok.Builder;
-import lombok.Getter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.Objects;
 
 @Getter
 public class QuoteSearchDto {
 
     private int carId;
     private int powerTrainId;
-    private int bodyTypeId;
     private int operationId;
+    private int bodyTypeId;
     private List<Integer> optionIds;
 
     @Builder
@@ -52,6 +50,7 @@ public class QuoteSearchDto {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         QuoteSearchDto that = (QuoteSearchDto) o;
-        return carId == that.carId && powerTrainId == that.powerTrainId && bodyTypeId == that.bodyTypeId && operationId == that.operationId && Objects.equals(optionIds, that.optionIds);
+        return carId == that.carId && powerTrainId == that.powerTrainId && bodyTypeId == that.bodyTypeId && operationId == that.operationId &&
+                optionIds.equals(that.optionIds);
     }
 }
