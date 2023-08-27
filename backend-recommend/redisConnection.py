@@ -19,4 +19,4 @@ def redis_setData(df):
         df.to_pickle(buffer)
         buffer.seek(0)
         bytes_object = buffer.read()
-        conn.set('rec_dataframe', bytes_object, 60*60*24)
+        conn.set('rec_dataframe', bytes_object, 60*60*24*7)
