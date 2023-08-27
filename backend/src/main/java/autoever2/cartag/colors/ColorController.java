@@ -21,7 +21,7 @@ import java.util.List;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("api/cars")
-@Tag(name = "ColorController", description = "색상 반환 api")
+@Tag(name = "색상 정보 관련 API", description = "색상 반환 api")
 public class ColorController {
 
     private final ColorService service;
