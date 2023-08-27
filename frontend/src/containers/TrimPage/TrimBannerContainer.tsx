@@ -13,7 +13,8 @@ import { ItemContext } from '../../context/ItemProvider';
 export default function TrimBannerContainer() {
   const { selectedItem, setSelectedItem } = useContext(ItemContext);
   const { data: trimData, loading, selectedImgIdx, setSelectedImgIdx } = useContext(TrimContext);
-  const [selectedData, setSelectedData] = useState<ICartype | null>(null);
+  const selectedData =
+    trimData && (trimData.find((item) => item.carId === selectedItem.trim.id) || trimData[0]);
   const imageUrls = useRef<string[]>([]);
   const [imagesLoading, setImagesLoading] = useState(true);
   const handleSelectImg = useCallback(
@@ -50,29 +51,30 @@ export default function TrimBannerContainer() {
     setImagesLoading(false);
   }, [imageUrls, setImagesLoading]);
 
-  const setImages = useCallback(() => {
-    if (!trimData) return;
-    setImagesLoading(true);
-    const data = trimData.find((item) => item.carId === selectedItem.trim.id) || trimData[0];
-
+  useEffect(() => {
+    if (!selectedData) return;
     setSelectedItem({
       type: 'SET_TRIM',
       value: {
-        id: data.carId,
-        name: data.trim,
-        price: data.carDefaultPrice,
+        id: selectedData.carId,
+        name: selectedData.trim,
+        price: selectedData.carDefaultPrice,
       },
     });
+  }, [trimData, selectedData, setSelectedItem]);
 
-    setSelectedData(data);
+  const setImages = useCallback(() => {
+    if (!trimData) return;
+    setImagesLoading(true);
     setSelectedImgIdx(0);
     imageUrls.current = [];
     filterImageUrls(trimData);
     downloadAndSaveImages();
-  }, [trimData, selectedItem.trim.id, setSelectedImgIdx, setSelectedItem, downloadAndSaveImages]);
+  }, [trimData, setSelectedImgIdx, downloadAndSaveImages]);
 
   const displayImages = useCallback(() => {
-    if (!selectedData) return;
+    if (!selectedData || imagesLoading) return;
+
     const outerUrl = `${IMG_URL}${selectedData.outerImage}`;
     const innerUrl = `${IMG_URL}${selectedData.innerImage}`;
     const wheelUrl = `${IMG_URL}${selectedData.wheelImage}`;
@@ -80,6 +82,7 @@ export default function TrimBannerContainer() {
     const imageComponents = imageUrls.map((url, idx) => {
       const imgSrc = localStorage.getItem(url);
       if (!imgSrc) return;
+
       return (
         <ImgWrapper key={idx} $selected={selectedImgIdx === idx}>
           <Img src={imgSrc} loading="lazy" alt="트림 이미지" onClick={() => handleSelectImg(idx)} />
@@ -88,7 +91,7 @@ export default function TrimBannerContainer() {
     });
 
     return imageComponents;
-  }, [selectedImgIdx, selectedData, handleSelectImg]);
+  }, [imagesLoading, selectedImgIdx, selectedData, handleSelectImg]);
 
   useEffect(setImages, [setImages]);
 
