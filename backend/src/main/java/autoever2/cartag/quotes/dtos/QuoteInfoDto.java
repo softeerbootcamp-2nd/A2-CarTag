@@ -1,8 +1,8 @@
 package autoever2.cartag.quotes.dtos;
 
 import autoever2.cartag.cars.dto.TrimDataDto;
-import autoever2.cartag.domain.color.ColorDto;
-import autoever2.cartag.domain.option.QuoteSubOptionDto;
+import autoever2.cartag.colors.dto.ColorDto;
+import autoever2.cartag.options.dto.QuoteSubOptionDto;
 import autoever2.cartag.models.dto.ModelDefaultDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;

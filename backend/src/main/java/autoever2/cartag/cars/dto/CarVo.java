@@ -1,6 +1,6 @@
 package autoever2.cartag.cars.dto;
 
-import autoever2.cartag.domain.option.TrimDefaultOptionDto;
+import autoever2.cartag.options.dto.TrimDefaultOptionDto;
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Builder;
 import lombok.Getter;

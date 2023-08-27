@@ -12,12 +12,12 @@ INSERT INTO Model VALUES (4,'4WD',2,'전자식 상시 4륜 구동 시스템 입�
 INSERT INTO Model VALUES (5,'7인승',3,'기존 8인승 시트(1열 2명, 2열 3명, 3열 3명)에서 2열 가운데 시트를 없애 2열 탑승객의 편의는 물론, 3열 탑승객의 승하차가 편리합니다',0,'/model/7seats.jpg');
 INSERT INTO Model VALUES (6,'8인승',3,'1열 2명, 2열 3명, 3열 3명이 탑승할 수 있는 구조로, 많은 인원이 탑승할 수 있도록 배려하였습니다',0,'/model/8seats.jpg');
 
-insert into Color values(1, '천연 퀄팅(블랙)', 'image_1', 1);
-insert into Color values(2, '천연 퀄팅(화이트)', 'image_2', 1);
-insert into Color values(3, '퍼플 그레이 펄', 'image_3', 0);
-insert into Color values(4, '코발트 블루', 'image_4', 0);
+insert into Color values(1, '천연 퀄팅(블랙)', 'image_1', 0);
+insert into Color values(2, '천연 퀄팅(화이트)', 'image_2', 0);
+insert into Color values(3, '퍼플 그레이 펄', 'image_3', 1);
+insert into Color values(4, '코발트 블루', 'image_4', 1);
 
-insert into ColorCarMapper values(1, 1, 1, 'red_image_*.jpg', 1234, 12348);
+insert into ColorCarMapper values(1, 1, 1, 'red_image.jpg', 1234, 12348);
 insert into ColorCarMapper values(2, 1, 2, 'white_image_*.jpg', 555, 12346);
 insert into ColorCarMapper values(3, 1, 3, 'black_image_*.jpg', 154, 12354);
 insert into ColorCarMapper values(4, 1, 4, 'blue_image_*.jpg', 1734, 1234);

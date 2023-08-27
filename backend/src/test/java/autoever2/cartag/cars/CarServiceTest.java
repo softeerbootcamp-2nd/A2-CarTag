@@ -1,13 +1,13 @@
 package autoever2.cartag.cars;
 
 import autoever2.cartag.cars.dto.*;
-import autoever2.cartag.domain.color.ColorDto;
+import autoever2.cartag.colors.dto.ColorDto;
 import autoever2.cartag.models.dto.ModelDefaultDto;
-import autoever2.cartag.domain.option.TrimDefaultOptionDto;
+import autoever2.cartag.options.dto.TrimDefaultOptionDto;
 import autoever2.cartag.exception.EmptyDataException;
-import autoever2.cartag.repository.ColorRepository;
+import autoever2.cartag.colors.ColorRepository;
 import autoever2.cartag.models.ModelRepository;
-import autoever2.cartag.repository.OptionRepository;
+import autoever2.cartag.options.OptionRepository;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.api.junit.jupiter.InjectSoftAssertions;
 import org.assertj.core.api.junit.jupiter.SoftAssertionsExtension;

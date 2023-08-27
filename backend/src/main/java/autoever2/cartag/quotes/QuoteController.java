@@ -1,6 +1,6 @@
 package autoever2.cartag.quotes;
 
-import autoever2.cartag.domain.option.QuoteSubOptionDto;
+import autoever2.cartag.options.dto.QuoteSubOptionDto;
 import autoever2.cartag.quotes.dtos.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -36,7 +36,7 @@ public class QuoteController {
         return myQuote;
     }
 
-    @Operation(summary = "실제 판매량 분포를 제공하는 API", description = "각 금액 별 판매금액과 판매량을 반환하는 API입니다.")
+    @Operation(summary = "실제 판매데이터의 금액 분포를 제공하는 API", description = "각 금액 별 판매금액과 판매량을 반환하는 API입니다.")
     @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = BoughtCarDto.class)))
     @GetMapping("bought/infos")
     @Cacheable(value = "boughtList")
@@ -57,6 +57,7 @@ public class QuoteController {
     public List<List<QuoteSubOptionDto>> getRecommendedOptions(@RequestBody QuoteOptionRequestDto quoteOptionRequestDto) {
         Long myQuoteId = quoteOptionRequestDto.getQuoteId();
 
-        return quoteOptionRequestDto.getHistoryIds().stream().map(historyId -> quoteService.getOptionDifference(myQuoteId, historyId)).collect(Collectors.toList());
+        List<List<QuoteSubOptionDto>> result = quoteOptionRequestDto.getHistoryIds().stream().map(historyId -> quoteService.getOptionDifference(myQuoteId, historyId)).collect(Collectors.toList());
+        return result;
     }
 }
