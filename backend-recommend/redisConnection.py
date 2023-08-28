@@ -3,7 +3,7 @@ import redis
 import pandas as pd
 import os
 
-redis_pool = redis.ConnectionPool(host='3.37.253.113', port=6379, password=1234, db=0)
+redis_pool = redis.ConnectionPool(host=os.getenv('redis_host'), port=6379, password=os.getenv('redis_password'), db=0)
 
 def redis_getData():
     with redis.StrictRedis(connection_pool=redis_pool) as conn:
