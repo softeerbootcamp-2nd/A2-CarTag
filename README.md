@@ -45,15 +45,15 @@
 <img width="500" alt="image" src="https://github.com/softeerbootcamp-2nd/A2-CarTag/assets/63107805/3f038d2e-09c9-4336-b7c7-9d391ff07366">
 
 ### 공유하기 기능
-<img width="500" alt="image" src="https://github.com/softeerbootcamp-2nd/A2-CarTag/assets/63107805/32cb6a45-a41f-41a7-ad8d-453c370ce118"/>
-
 - 견적 완료 페이지에서 공유하기를 누르면 링크 복사
 - 복사된 링크를 통해 선택한 차량 공유 가능
 
-### PDF 다운로드 기능
-<img width="500" alt="image" src="https://github.com/softeerbootcamp-2nd/A2-CarTag/assets/63107805/516df2ef-efc8-466d-b0a4-e95a71149f7f"/>
+<img width="500" alt="image" src="https://github.com/softeerbootcamp-2nd/A2-CarTag/assets/63107805/32cb6a45-a41f-41a7-ad8d-453c370ce118"/>
 
+
+### PDF 다운로드 기능
 - 견적 완료 페이지에서 PDF 다운로드 가능
+<img width="500" alt="image" src="https://github.com/softeerbootcamp-2nd/A2-CarTag/assets/63107805/516df2ef-efc8-466d-b0a4-e95a71149f7f"/>
 
 
 ## Preview
