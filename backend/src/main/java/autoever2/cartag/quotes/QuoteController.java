@@ -26,7 +26,7 @@ public class QuoteController {
     @Operation(summary = "추천 견적 그래프 데이터를 제공하는 API", description = "현재 내 견적과 비교하여 유사한 견적(최대 4개)의 ID와 판매량을 반환하는 API입니다.")
     @ApiResponse(responseCode = "200", description = "성공", content = @Content(schema = @Schema(implementation = HistoryShortDto.class)))
     @PostMapping("/list")
-//    @Cacheable(value = "recommendList")
+    @Cacheable(value = "recommendList")
     public HistoryShortDto getRecommendedList(@RequestBody QuoteRequestDto quoteRequestDto) {
         HistoryShortDto myQuote = quoteService.getMyQuoteShortData(quoteRequestDto);
         List<HistoryShortDto> subList = quoteService.getSuggestedQuoteShortData(quoteRequestDto);
