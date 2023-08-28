@@ -1,5 +1,10 @@
 import { styled } from 'styled-components';
-import { BodyKrRegular4, HeadingKrMedium6, HeadingKrMedium7 } from '../../styles/typefaces';
+import {
+  BodyKrMedium3,
+  BodyKrRegular4,
+  HeadingKrMedium6,
+  HeadingKrMedium7,
+} from '../../styles/typefaces';
 import { CheckIcon } from '../common/icons/Icons';
 import DefaultCardStyle from '../common/card/DefaultCardStyle';
 import { HTMLAttributes, useContext } from 'react';
@@ -124,6 +129,7 @@ const OptionPrice = styled.div`
 
 const DefaultInfo = styled.div`
   color: ${({ theme }) => theme.color.gray500};
+  ${BodyKrMedium3}
 `;
 const BlueText = styled.span<{ $active: boolean }>`
   color: ${({ $active, theme }) => $active && theme.color.activeBlue};
