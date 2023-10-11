@@ -3,7 +3,7 @@ os: linux
 files:
   - source:  /
     destination: /home/ubuntu/cicdproject # 배포될 위치
-    overwrite: yes
+    overwrite: true
 
 permissions:
   - object: /
